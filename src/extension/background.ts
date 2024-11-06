@@ -5,9 +5,9 @@ const search = 'https://www.youtube.com/results'
 
 console.log("background works!");
 
-chrome.action.onClicked.addListener(() => {
-    console.log("click");
-});
+// chrome.action.onClicked.addListener(() => {
+//     console.log("click");
+// });
 
 // chrome.action.onClicked.addListener(async (tab) => {
 //     // let queryOptions = { url: 'chrome-extension://mpnfelmoifonibdccihkjlkhialilnjf/settings/settings.html' };

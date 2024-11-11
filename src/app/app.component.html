@@ -1,1 +1,7 @@
-<h3>hello world</h3>
+<!-- appcomponent was opened by fullscreen settings -->
+<app-settings *ngIf="currentTab$ | async as currentTab; else popup"></app-settings>
+
+<!-- appcomponent was opened by popup -->
+<ng-template #popup>
+    <app-popup></app-popup>
+</ng-template>

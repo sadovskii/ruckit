@@ -3,11 +3,14 @@
   "description": "This extension is made for demonstration purposes",
   "version": "1.0",
   "manifest_version": 3,
+  "permissions": [
+    "storage", 
+    "activeTab",
+    "scripting",
+    "tabs",
+    "webNavigation"
+  ],
   "host_permissions": ["https://www.youtube.com/*"],
-  "web_accessible_resources": [{
-    "matches": ["<all_urls>"],
-    "resources": ["notification/notification.html"]
-  }],
   "action": {
     "default_popup": "index.html"
   },

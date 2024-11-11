@@ -5,9 +5,9 @@ const search = 'https://www.youtube.com/results'
 
 console.log("background works!");
 
-// chrome.action.onClicked.addListener(() => {
-//     console.log("click");
-// });
+chrome.action.onClicked.addListener(() => {
+    console.log("click");
+});
 
 // chrome.action.onClicked.addListener(async (tab) => {
 //     // let queryOptions = { url: 'chrome-extension://mpnfelmoifonibdccihkjlkhialilnjf/settings/settings.html' };
@@ -26,30 +26,40 @@ console.log("background works!");
 //     // }
 // });
 
-// chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
-//     if (changeInfo.url) {
-//         console.log('changeInfo = ', changeInfo);
-//         if (tab.url && tab.url?.startsWith(youtube)) {
-//             for (let i = 0; i < BlackListStorage.blackChannels.length; i++) {
-//                 if (tab.url?.includes(BlackListStorage.blackChannels[i])) {
-//                     await chrome.tabs.update({
-//                         url: youtube
-//                     })
-//                 }
-//             }
-//         }
-//     }
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    console.log("tab updates");
+    if (tab.url && tab.url.includes("https://www.youtube.com")) {
+        chrome.action.enable(tabId);
+    } else {
+        chrome.action.disable(tabId);
+    }
+});
+
+
+chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
+    if (changeInfo.url) {
+        console.log('changeInfo = ', changeInfo);
+        if (tab.url && tab.url?.startsWith(youtube)) {
+            for (let i = 0; i < BlackListStorage.blackChannels.length; i++) {
+                if (tab.url?.includes(BlackListStorage.blackChannels[i])) {
+                    await chrome.tabs.update({
+                        url: youtube
+                    })
+                }
+            }
+        }
+    }
 
     
-//     if (changeInfo.url) {
-//         console.log('before reload', changeInfo);
-//         if (tab.url && tab.url?.startsWith(search) && tab.id) {
-//             setTimeout(() => {
-//                 if (tab.id) {
-//                     chrome.tabs.reload(tab.id);
-//                 }
+    if (changeInfo.url) {
+        console.log('before reload', changeInfo);
+        if (tab.url && tab.url?.startsWith(search) && tab.id) {
+            setTimeout(() => {
+                if (tab.id) {
+                    chrome.tabs.reload(tab.id);
+                }
                 
-//             }, 1000)
-//         }
-//     }
-// })
+            }, 1000)
+        }
+    }
+})

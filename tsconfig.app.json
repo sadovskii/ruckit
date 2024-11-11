@@ -8,7 +8,10 @@
     ]
   },
   "files": [
-    "src/main.ts"
+    "src/main.ts",
+    "src/extension/background.ts",
+    "src/extension/black-list/black-list-search-page.ts",
+    "src/extension/black-list/black-list-storage.ts"
   ],
   "include": [
     "src/**/*.d.ts"

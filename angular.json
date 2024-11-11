@@ -15,11 +15,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": {
-              "base": "dist/df-youtube-angular"
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.ts"
             },
+            "outputPath": "dist/df-youtube-angular",
             "index": "src/index.html",
             "polyfills": [
               "zone.js"
@@ -35,7 +36,7 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "browser": "src/main.ts"
+            "main": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -51,7 +52,7 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "none"
             },
             "development": {
               "optimization": false,

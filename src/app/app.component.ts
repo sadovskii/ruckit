@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService, Page } from './services/global/global.service';
+import { GlobalService, Page } from './shared/services/global/global.service';
 import { from, Observable, of } from 'rxjs';
+import { ChromeService } from './shared/services/chrome/chrome.service';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +12,15 @@ export class AppComponent implements OnInit {
   
   public Page = Page;
   public page: Page = Page.Popup;
-  public currentTab$: Observable<chrome.tabs.Tab | undefined> = from(chrome.tabs.getCurrent()); 
+  public currentTab$: Observable<chrome.tabs.Tab | undefined>; 
 
-  constructor(public _pageService: GlobalService) {
-  }
+  constructor(
+    private _chromeService: ChromeService
+  ) {}
 
   ngOnInit() {
-    this.currentTab$ = from(chrome.tabs.getCurrent())
-    console.log("page = ", this._pageService.page);
-    this._pageService.page = Page.Popup;
     console.log("ngOnInit app component");
-
+    this.currentTab$ = this._chromeService.getCurrentTab();
     this.currentTab$.subscribe(t => {
       console.log("currentTab$ = ", t);
     })

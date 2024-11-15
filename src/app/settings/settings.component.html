@@ -1,2 +1,8 @@
-<h1>settings</h1>
-<button (click)="onCheckSettings()">check popup</button>
+<nb-layout>
+  <nb-sidebar [containerFixed]="true">
+    <app-sidebar></app-sidebar>
+  </nb-sidebar>
+  <nb-layout-column>
+    <app-inner-settings></app-inner-settings>
+  </nb-layout-column>
+</nb-layout>

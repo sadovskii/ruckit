@@ -36,15 +36,20 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "main": "src/main.ts"
+            "main": "src/main.ts",
+            "optimization": {
+              "styles": {
+                "inlineCritical": false
+              }
+            }
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",

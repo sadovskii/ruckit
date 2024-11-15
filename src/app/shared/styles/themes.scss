@@ -1,0 +1,66 @@
+@forward '@nebular/theme/styles/theming';
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+@import 'palette.scss';
+
+$nb-themes: nb-register-theme(
+  (
+    background-basic-color-2: $color-base-white,
+    background-basic-color-3: $color-base-white,
+    color-primary-400: $color-base-gray-8,
+    color-primary-500: $color-base-gray-8,
+    color-primary-600: $color-base-gray-8,
+    color-basic-transparent-200: $color-base-gray-8,
+    color-basic-default-border: $color-base-gray-8,
+
+    // text
+    text-heading-2-font-size: 1.25rem,
+
+
+    // select
+    select-outline-basic-hover-background-color: $color-base-gray-8,
+    text-control-color: --color-basic-800,
+    border-basic-color-4: $color-base-white,
+    //sidebar
+    sidebar-shadow: 0,
+    header-height: 0,
+    sidebar-padding: 0,
+    sidebar-width: 15rem,
+    sidebar-border-color: $color-base-gray-7,
+    sidebar-background-color: $color-base-gray-8
+  ),
+  default,
+  default
+);
+
+$nb-themes: nb-register-theme(
+  (
+    background-basic-color-2: $color-base-black,
+    color-primary-400: $color-base-gray-2,
+    color-primary-500: $color-base-gray-2,
+    color-primary-600: $color-base-gray-2,
+    color-basic-200: $color-base-gray-2,
+    color-basic-800: $color-base-black,
+    color-basic-1000: $color-base-black,
+    color-basic-1100: $color-base-black,
+    color-basic-transparent-200: $color-base-gray-2,
+
+    // text
+    text-heading-2-font-size: 1.25rem,
+
+    // select
+    select-outline-basic-focus-border-color: $color-base-black,
+    select-outline-basic-hover-background-color: $color-base-gray-2,
+    option-list-border-color: $color-base-gray-2,
+    //sidebar
+    sidebar-shadow: 0,
+    header-height: 0,
+    sidebar-padding: 0,
+    sidebar-width: 15rem,
+    sidebar-border-color: $color-base-gray-3,
+    sidebar-background-color: $color-base-gray-1
+  ),
+  dark,
+  dark
+);

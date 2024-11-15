@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
+
   async onCheckSettings() {
     console.log("window ", await chrome.windows.getCurrent());
     console.log("chrome.tabs current ", await chrome.tabs.getCurrent());

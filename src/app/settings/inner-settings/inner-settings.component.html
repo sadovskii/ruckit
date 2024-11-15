@@ -1,0 +1,10 @@
+<h3>Settings</h3>
+
+<nb-card>
+  <nb-card-body class="card-body">
+    <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
+      <nb-option (click)="onChangeTheme()" value="default">Light</nb-option>
+      <nb-option (click)="onChangeTheme()" value="dark">Dark</nb-option>
+    </nb-select>
+  </nb-card-body>
+</nb-card>

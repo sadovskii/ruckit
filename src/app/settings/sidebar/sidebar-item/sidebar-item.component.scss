@@ -1,0 +1,21 @@
+.sidebar-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+    align-items: center;
+    padding: 4px;
+
+    &__icon {
+        width: 28px;
+        height: 28px;
+        margin-right: 8px;
+        svg {
+            fill:red;
+            stroke:green;
+        }
+    }
+
+    &__content {
+        margin: 0;
+    }
+}

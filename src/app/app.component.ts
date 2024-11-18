@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalService, Page } from './shared/services/global/global.service';
 import { from, Observable, of } from 'rxjs';
 import { ChromeService } from './shared/services/chrome/chrome.service';
+import { IconRegisterService } from './shared/services/nbIcon-library-register.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit {
   public currentTab$: Observable<chrome.tabs.Tab | undefined>; 
 
   constructor(
-    private _chromeService: ChromeService
+    private _chromeService: ChromeService,
+    private _registerIconService: IconRegisterService
   ) {}
 
   ngOnInit() {

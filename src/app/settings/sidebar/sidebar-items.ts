@@ -1,5 +1,5 @@
 export enum SideBarItemsType {
-    Header,
+    Header = 1,
     AboutExtension,
     BlackList,
     HideList,

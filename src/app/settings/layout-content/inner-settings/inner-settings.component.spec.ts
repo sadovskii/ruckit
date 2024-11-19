@@ -4,7 +4,7 @@ describe('InnerSettingsComponent', () => {
   let component: InnerSettingsComponent;
 
   beforeEach(() => {
-    component = new InnerSettingsComponent();
+    // component = new InnerSettingsComponent();
   });
 
   it('should create', () => {

@@ -1,8 +1,29 @@
 <nb-layout>
   <nb-sidebar [containerFixed]="true">
-    <app-sidebar></app-sidebar>
+    <app-sidebar (sidebarItemChanged)="onSidebarItemChanged($event)"></app-sidebar>
   </nb-sidebar>
   <nb-layout-column>
-    <app-inner-settings></app-inner-settings>
+    <div *ngIf="activeSidebarItem">
+      @switch (activeSidebarItem) {
+        @case (SideBarItemsType.Header) {
+          <app-start-page></app-start-page>
+        }
+        @case (SideBarItemsType.AboutExtension) {
+          <app-about-extension></app-about-extension>
+        }
+        @case (SideBarItemsType.BlackList) {
+          <app-black-list></app-black-list>
+        }
+        @case (SideBarItemsType.HideList) {
+          <app-hide-list></app-hide-list>
+        }
+        @case (SideBarItemsType.Password) {
+          <app-password></app-password>
+        }
+        @case (SideBarItemsType.Settings) {
+          <app-inner-settings></app-inner-settings>
+        }
+      }
+    </div>
   </nb-layout-column>
 </nb-layout>

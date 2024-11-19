@@ -13,10 +13,32 @@
     height: 100%;
     border-right: 0.063rem solid var(--sidebar-border-color);
     background-color: var(--sidebar-background-color);
+    padding: 0.75rem 0.5rem;
 
     &__header {
-        height: 4rem;
         border-bottom: 0.063rem solid var(--sidebar-border-color);
+        margin-left: 0.25rem;
+        padding-bottom: 0.75rem;
+    }
+
+    &__item {
+        &_margin {
+            &_bottom {
+                &_025rem {
+                    margin-bottom: 0.25rem;
+                }
+
+                &_1rem {
+                    margin-bottom: 1rem;
+                }   
+            }
+
+            &_top {
+                &_075rem {
+                    margin-top: 0.75rem;
+                }
+            }
+        }
     }
 }
 

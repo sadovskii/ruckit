@@ -1,4 +1,19 @@
-<div class="sidebar-item">
-  <nb-icon class="sidebar-item__icon" status="success" [icon]="icon" pack="sidebar"></nb-icon>
-  <p class="sidebar-item__content">{{content}}</p>
+<div class="sidebar-item sidebar-item_active" *ngIf="active; else inactiveItem">
+  <nb-icon
+    class="icon icon_active icon_solid sidebar-item__icon"
+    [icon]="iconSolid"
+    pack="ruckit-28">
+  </nb-icon>
+  <p class="content content_active sidebar-item__content">{{content}}</p>
 </div>
+
+<ng-template #inactiveItem>
+  <div class="sidebar-item">
+    <nb-icon
+      class="icon icon_linear sidebar-item__icon"
+      [icon]="iconLinear"
+      pack="ruckit-28">
+    </nb-icon>
+    <p class="content sidebar-item__content">{{content}}</p>
+  </div>
+</ng-template>

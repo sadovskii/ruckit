@@ -1,21 +1,66 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+@import '../../../shared/styles/palette.scss';
+
+:host {
+    display: block;
+}
+
 .sidebar-item {
     display: flex;
     flex-wrap: wrap;
     justify-items: center;
     align-items: center;
-    padding: 4px;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
 
     &__icon {
         width: 28px;
         height: 28px;
         margin-right: 8px;
-        svg {
-            fill:red;
-            stroke:green;
+        pointer-events: none;
+    }
+
+    .icon {
+        color: var(--sidebar-item-content-inactive-color);
+
+        &_active {
+            color: var(--sidebar-item-icon-active-color) !important;
         }
     }
 
-    &__content {
+    &__icon-solid {
+
+    }
+
+    &__icon-linear {
+
+    }
+
+    .content {
         margin: 0;
+        pointer-events: none;
+        color: var(--sidebar-item-content-inactive-color);
+
+        &_active {
+            color: var(--sidebar-item-content-active-color);
+        }
+    }
+
+    &_active {
+        background-color: var(--sidebar-item-background-active-color);
+    }
+
+    &:hover {
+        background-color: var(--sidebar-item-background-active-color);
+
+        .sidebar-item__content {
+            color: var(--sidebar-item-content-active-color);
+        }
+
+        .sidebar-item__icon {
+            color: var(--sidebar-item-content-active-color);
+        }
     }
 }

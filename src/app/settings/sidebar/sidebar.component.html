@@ -1,4 +1,51 @@
 <div class="sidebar">
-  <app-header class="sidebar__header"></app-header>
-  <app-sidebar-item content="About the extension" icon="question"></app-sidebar-item>
+  <app-sidebar-header
+    class="sidebar__header"
+    (click)="clickItem(SideBarItems.header.key)">
+  </app-sidebar-header>
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_margin_bottom_025rem sidebar__item_margin_top_075rem"
+    (click)="clickItem(SideBarItems.aboutExtension.key)"
+    content="About the extension"
+    icon="about-extension-linear-28"
+    iconLinear="about-extension-linear-28"
+    iconSolid="about-extension-solid-28"
+    [active]="SideBarItems.aboutExtension.params.active">
+  </app-sidebar-item>
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_margin_bottom_1rem"
+    (click)="clickItem(SideBarItems.blackList.key)"
+    content="Black list"
+    icon="black-list-linear-28"
+    iconLinear="black-list-linear-28"
+    iconSolid="black-list-solid-28"
+    [active]="SideBarItems.blackList.params.active">
+  </app-sidebar-item>
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_margin_bottom_025rem"
+    (click)="clickItem(SideBarItems.hideList.key)"
+    content="Hide list"
+    icon="hide-list-linear-28"
+    iconLinear="hide-list-linear-28"
+    iconSolid="hide-list-solid-28"
+    [active]="SideBarItems.hideList.params.active">
+  </app-sidebar-item>
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_margin_bottom_025rem"
+    (click)="clickItem(SideBarItems.password.key)"
+    content="Password"
+    icon="password-linear-28"
+    iconLinear="password-linear-28"
+    iconSolid="password-solid-28"
+    [active]="SideBarItems.password.params.active">
+  </app-sidebar-item>
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_margin_bottom_025rem"
+    (click)="clickItem(SideBarItems.settings.key)"
+    content="Settings"
+    icon="settings-linear-28"
+    iconLinear="settings-linear-28"
+    iconSolid="settings-solid-28"
+    [active]="SideBarItems.settings.params.active">
+  </app-sidebar-item>
 </div>

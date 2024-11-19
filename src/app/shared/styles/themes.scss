@@ -19,7 +19,7 @@ $nb-themes: nb-register-theme(
 
 
     // select
-    select-outline-basic-hover-background-color: $color-base-gray-8,
+    select-outline-basic-hover-background-color: --color-primary-400,
     text-control-color: --color-basic-800,
     border-basic-color-4: $color-base-white,
     //sidebar
@@ -28,7 +28,12 @@ $nb-themes: nb-register-theme(
     sidebar-padding: 0,
     sidebar-width: 15rem,
     sidebar-border-color: $color-base-gray-7,
-    sidebar-background-color: $color-base-gray-8
+    sidebar-background-color: --color-primary-400,
+    sidebar-item-content-inactive-color: $color-base-gray-5,
+    sidebar-item-content-active-color: $color-base-black,
+    sidebar-item-background-inactive-color: --color-primary-400,
+    sidebar-item-background-active-color: $color-base-gray-7,
+    sidebar-item-icon-active-color: $color-primary-red
   ),
   default,
   default
@@ -53,13 +58,18 @@ $nb-themes: nb-register-theme(
     select-outline-basic-focus-border-color: $color-base-black,
     select-outline-basic-hover-background-color: $color-base-gray-2,
     option-list-border-color: $color-base-gray-2,
+
     //sidebar
     sidebar-shadow: 0,
     header-height: 0,
     sidebar-padding: 0,
     sidebar-width: 15rem,
     sidebar-border-color: $color-base-gray-3,
-    sidebar-background-color: $color-base-gray-1
+    sidebar-background-color: $color-base-gray-1,
+    sidebar-item-content-inactive-color: $color-base-gray-5,
+    sidebar-item-content-active-color: $color-base-white,
+    sidebar-item-background-active-color: $color-base-gray-3,
+    sidebar-item-icon-active-color: $color-primary-red
   ),
   dark,
   dark

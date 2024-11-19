@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^18.2.10",
     "@angular/platform-browser-dynamic": "^18.2.10",
     "@angular/router": "^18.2.10",
+    "@fontsource/poppins": "^5.1.0",
     "@nebular/eva-icons": "14.0.2",
     "@nebular/theme": "^14.0.2",
     "@types/chrome": "^0.0.280",

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-settings-item',
@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./settings-item.component.scss']
 })
 export class SettingsItemComponent {
-  // @HostBinding('class') protected readonly class = 'contents'; // Makes component host as if it was not there, can offer less css headaches. Assumes .contents{display:contents} css class exits
-  // constructor() {}
+  @Input({ required: true })
+  public header: string;
+
+  @Input({ required: true })
+  public description: string;
 }

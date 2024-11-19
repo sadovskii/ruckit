@@ -1,0 +1,19 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+:host {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.content {
+    &__description {
+        color: var(--settings-item-desctiption);
+    }
+}
+
+.control {
+    display: flex;
+    align-items: center;
+}

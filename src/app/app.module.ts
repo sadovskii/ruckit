@@ -19,12 +19,16 @@ import { HideListComponent } from './settings/layout-content/hide-list/hide-list
 import { PasswordComponent } from './settings/layout-content/password/password.component';
 import { StartPageComponent } from './settings/layout-content/start-page/start-page.component';
 import { LayoutComponent } from './settings/layout-content/shared/layout/layout.component';
+import { SettingsItemComponent } from './settings/shared/settings-item/settings-item.component';
+import { HideListBlockComponent } from './settings/layout-content/hide-list/hide-list-block/hide-list-block.component';
+import { HideListBlockItemComponent } from './settings/layout-content/hide-list/hide-list-block/hide-list-block-item/hide-list-block-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PopupComponent,
     SettingsComponent,
+    SettingsItemComponent,
     InnerSettingsComponent,
     SidebarComponent,
     SidebarHeaderComponent,
@@ -35,6 +39,8 @@ import { LayoutComponent } from './settings/layout-content/shared/layout/layout.
     HideListComponent,
     PasswordComponent,
     LayoutComponent,
+    HideListBlockComponent,
+    HideListBlockItemComponent,
     SafePipe,
   ],
   imports: [

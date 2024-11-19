@@ -1,10 +1,13 @@
-<h3>Settings</h3>
-
-<nb-card>
-  <nb-card-body class="card-body">
+<app-layout
+  class="inner-settings"
+  header="Settings">
+  <app-settings-item
+    class="inner-settings__item"
+    header="Appearance"
+    description="Customize how Ruckit looks on your device">
     <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
       <nb-option (click)="onChangeTheme()" value="default">Light</nb-option>
       <nb-option (click)="onChangeTheme()" value="dark">Dark</nb-option>
     </nb-select>
-  </nb-card-body>
-</nb-card>
+  </app-settings-item>
+</app-layout>

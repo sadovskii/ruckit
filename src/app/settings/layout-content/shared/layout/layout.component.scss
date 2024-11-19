@@ -1,0 +1,22 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+@import '../../../../shared/styles/palette.scss';
+
+:host {
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    height: 3.875rem;
+    border-bottom: 1px solid var(--layout-border-color);
+
+    &__content {
+        margin: 0;
+    }
+}
+
+.card-body {
+    display: flex;
+}
+

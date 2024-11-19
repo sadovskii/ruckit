@@ -3,7 +3,7 @@
     <app-sidebar (sidebarItemChanged)="onSidebarItemChanged($event)"></app-sidebar>
   </nb-sidebar>
   <nb-layout-column>
-    <div *ngIf="activeSidebarItem">
+    <div class="settings" *ngIf="activeSidebarItem">
       @switch (activeSidebarItem) {
         @case (SideBarItemsType.Header) {
           <app-start-page></app-start-page>

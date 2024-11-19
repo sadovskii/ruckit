@@ -1,0 +1,23 @@
+:host {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 7rem;
+}
+
+.start-page {
+    max-width: 37.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+
+    &__quote {
+        text-align: center;
+    }
+}
+
+.quote {
+    size: 1rem;
+}

@@ -1,0 +1,3 @@
+ytd-search ytd-video-renderer:has(ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]) {
+    display: none !important;
+}

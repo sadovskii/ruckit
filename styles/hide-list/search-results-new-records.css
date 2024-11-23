@@ -1,0 +1,3 @@
+ytd-search ytd-shelf-renderer:has(ytd-post-renderer) {
+    display: none !important;
+}

@@ -15,7 +15,6 @@ $nb-themes: nb-register-theme(
     color-primary-600: $color-base-gray-8,
     color-basic-transparent-200: $color-base-gray-8,
     color-basic-default-border: $color-base-gray-8,
-    layout-padding: 3rem 4rem,
 
     // text
     font-family-primary: Poppins,
@@ -27,6 +26,14 @@ $nb-themes: nb-register-theme(
     text-heading-2-font-size: $text-h2-font-size,
     text-heading-2-font-weight: $text-h2-font-weight,
     text-heading-2-line-height: $text-h2-line-height,
+    // h5 text
+    text-heading-5-font-size: $text-p1-font-size,
+    text-heading-5-font-weight: $text-p1-font-weight,
+    text-heading-5-line-height: $text-p1-line-height,
+    // h6 text
+    text-heading-6-font-size: $text-button-m-font-size,
+    text-heading-6-font-weight: $text-button-m-font-weight,
+    text-heading-6-line-height: $text-button-m-line-height,
     // p text
     text-paragraph-font-size: $text-p2-font-size,
     text-paragraph-font-weight: $text-p2-font-weight,
@@ -36,6 +43,7 @@ $nb-themes: nb-register-theme(
     select-outline-basic-hover-background-color: --color-primary-400,
     text-control-color: --color-basic-800,
     border-basic-color-4: $color-base-white,
+
     //sidebar
     sidebar-shadow: 0,
     header-height: 0,
@@ -52,11 +60,39 @@ $nb-themes: nb-register-theme(
     sidebar-item-icon-active-color: $color-primary-red,
 
     //layout
+    layout-padding: 3rem 4rem,
+    layout-background-color: $color-base-white,
     layout-border-color: $color-base-gray-7,
     card-padding: 2rem 0,
+    card-border-color: $color-base-white,
 
     //settings
     settings-item-desctiption: $color-base-gray-5,
+
+    //toggle
+    toggle-height: 1.875rem,
+    toggle-width: 3.75rem,
+    toggle-outline-width: 0px,
+    toggle-basic-border-color: $color-base-white,
+    toggle-basic-background-color: $color-base-gray-7,
+    toggle-switcher-size: 1.5rem,
+    toggle-border-radius: 31.25rem, //500px
+    toggle-border-width: 0px,
+    toggle-basic-hover-background-color: $color-base-gray-7,
+    toggle-basic-hover-checked-background-color: $color-primary-red,
+    toggle-basic-checked-background-color: $color-primary-red,
+    toggle-basic-active-background-color: $color-base-gray-7,
+    toggle-basic-active-checked-background-color: $color-primary-red,
+    toggle-basic-focus-checked-background-color: $color-primary-red,
+    toggle-basic-focus-background-color: $color-base-gray-7,
+    toggle-basic-checked-switcher-checkmark-color: $color-base-white,
+
+    //hidelist
+    hidelist-item-background-color: $color-base-gray-8,
+    hidelist-item-border-color: $color-base-gray-7,
+
+    //common
+    corner-radius-8: 0.5rem,
   ),
   default,
   default
@@ -73,7 +109,6 @@ $nb-themes: nb-register-theme(
     color-basic-1000: $color-base-black,
     color-basic-1100: $color-base-black,
     color-basic-transparent-200: $color-base-gray-2,
-    layout-padding: 3rem 4rem,
 
     // text
     font-family-primary: Poppins,
@@ -85,6 +120,14 @@ $nb-themes: nb-register-theme(
     text-heading-2-font-size: $text-h2-font-size,
     text-heading-2-font-weight: $text-h2-font-weight,
     text-heading-2-line-height: $text-h2-line-height,
+    // h5 text
+    text-heading-5-font-size: $text-p1-font-size,
+    text-heading-5-font-weight: $text-p1-font-weight,
+    text-heading-5-line-height: $text-p1-line-height,
+    // h6 text
+    text-heading-6-font-size: $text-button-m-font-size,
+    text-heading-6-font-weight: $text-button-m-font-weight,
+    text-heading-6-line-height: $text-button-m-line-height,
     // p text
     text-paragraph-font-size: $text-p2-font-size,
     text-paragraph-font-weight: $text-p2-font-weight,
@@ -110,11 +153,38 @@ $nb-themes: nb-register-theme(
     sidebar-item-icon-active-color: $color-primary-red,
 
     //layout
+    layout-padding: 3rem 4rem,
     layout-border-color: $color-base-gray-3,
     card-padding: 2rem 0,
 
     //settings
     settings-item-desctiption: $color-base-gray-5,
+
+    //toggle
+    toggle-height: 1.875rem,
+    toggle-width: 3.75rem,
+    toggle-outline-width: 0px,
+    toggle-basic-border-color: $color-base-black,
+    toggle-basic-background-color: $color-base-gray-3,
+    toggle-basic-checked-switcher-background-color: $color-base-white,
+    toggle-switcher-size: 1.5rem,
+    toggle-border-radius: 31.25rem, //500px
+    toggle-border-width: 0px,
+    toggle-basic-hover-background-color: $color-base-gray-3,
+    toggle-basic-hover-checked-background-color: $color-primary-red,
+    toggle-basic-checked-background-color: $color-primary-red,
+    toggle-basic-active-background-color: $color-base-gray-3,
+    toggle-basic-active-checked-background-color: $color-primary-red,
+    toggle-basic-focus-checked-background-color: $color-primary-red,
+    toggle-basic-focus-background-color: $color-base-gray-3,
+    toggle-basic-checked-switcher-checkmark-color: $color-base-white,
+
+    //hidelist
+    hidelist-item-background-color: $color-base-gray-2,
+    hidelist-item-border-color: $color-base-gray-3,
+
+    //common
+    corner-radius-8: 0.5rem,
   ),
   dark,
   dark

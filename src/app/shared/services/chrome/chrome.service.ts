@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { delay, from, Observable, of, switchMap, tap } from 'rxjs';
 import { EXTENSION_IDENTIFIER } from '../../constants';
 
 @Injectable()
@@ -23,5 +23,104 @@ export class ChromeService {
             url: 'index.html',
           });
     }
+  }
+
+  scriptingGetRegisteredContentScripts(contentScriptId: string): Observable<chrome.scripting.RegisteredContentScript[]> {
+    return from(chrome.scripting.getRegisteredContentScripts({ ids: [contentScriptId] }))
+  }
+
+  addCssContentScriptOrUpdateExist(contentScriptId: string, cssFiles: string[]): Observable<any> {
+    return this.scriptingGetRegisteredContentScripts(contentScriptId).pipe(
+      tap(t => console.log("tap. value = ", t)),
+      switchMap(t => {
+        if (t.length > 0) {
+
+          cssFiles.forEach(cssFile => {
+            if (!t[0].css?.find(q => q === cssFile)) {
+              t[0].css?.push(cssFile);
+            }
+          })
+
+
+          console.log("updateContentScripts");
+          return from(chrome.scripting.updateContentScripts([t[0]]));
+        }
+        else {
+          console.log("registerContentScripts");
+          return from(chrome.scripting.registerContentScripts([{
+            id: contentScriptId,
+            css: [...cssFiles, "styles/blank.css"],
+            matches: ["*://www.youtube.com/*"],
+            runAt: "document_start"
+          }]));
+        }
+      })
+    );
+  }
+
+  removeCssContentScript(contentScriptId: string, cssFile: string): Observable<any> {
+    return from(chrome.scripting.getRegisteredContentScripts({ ids: [contentScriptId] })).pipe(
+      switchMap(t => {
+        if (t.length > 0) {
+
+          t[0].css = t[0].css?.filter(t => t !== cssFile);
+
+          return from(chrome.scripting.updateContentScripts([t[0]]));
+        }
+        else {
+          return of(null);
+        }
+      })
+    );
+  }
+
+  insertCssToYoutube(cssUrl: string) {
+    chrome.tabs.query({ "url": "*://www.youtube.com/*"}, (tabs) => {
+      tabs.forEach((tab) => {
+        if (tab.id) {
+          of(chrome.scripting.insertCSS({
+            target: {
+              tabId: tab.id,
+            },
+            files: [cssUrl],
+          })).subscribe();
+        } 
+      })
+    })
+  }
+
+  removeCssToYoutube(cssUrl: string) {
+    chrome.tabs.query({ "url": "*://www.youtube.com/*"}, (tabs) => {
+      tabs.forEach((tab) => {
+        if (tab.id) {
+          of(chrome.scripting.removeCSS({
+            target: {
+              tabId: tab.id,
+            },
+            files: [cssUrl],
+          })).subscribe();
+        } 
+      })
+    })
+  }
+
+  storageSyncGetItem(key: string): Observable<any> {
+    return from(chrome.storage.sync.get(key));
+  }
+
+  storageSyncSetMap(key: string, map: Map<any, any>): Observable<void> {
+    let data: { [key: string]: any } = {};
+    data[key] = Array.from(map);
+    return from(chrome.storage.sync.set(data));
+  };
+
+  storageSyncGetBytesInUse(key: string) {
+    from(chrome.storage.sync.getBytesInUse(key)).subscribe(t => {
+      console.log(`${key} size = `, t);
+    })
+  }
+
+  test() {
+    console.log("test from chrome service");
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "df youtube angular",
+  "name": "Ruckit",
   "description": "This extension is made for demonstration purposes",
   "version": "1.0",
   "manifest_version": 3,
@@ -10,11 +10,9 @@
     "128": "assets/icon128.png"
   },
   "permissions": [
-    "storage", 
-    "activeTab",
+    "storage",
     "scripting",
-    "tabs",
-    "webNavigation"
+    "tabs"
   ],
   "host_permissions": ["https://www.youtube.com/*"],
   "action": {
@@ -22,5 +20,11 @@
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/*"],
+      "css": ["styles/blank.css"]
+    }
+  ]
 }

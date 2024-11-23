@@ -1,2 +1,11 @@
-<app-layout header="Hidelist">
+<app-layout header="Hidelist" *ngIf="HideListConfiguration">
+	<div class="hide-list-blocks">
+		<app-hide-list-block
+			class="hide-list-block hide-list-blocks__hide-list-block"
+			*ngFor="let group of HideListConfiguration.groups"
+			[header]="group.name"
+			[items]="group.items"
+			(update)="updateHideList(group.type, $event)">
+		</app-hide-list-block>
+	</div>
 </app-layout>

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { HideListItemModel, HideListItemType } from '../hide-list.models';
 
 @Component({
   selector: 'app-hide-list-block',
@@ -8,8 +9,15 @@ import { Component, Input } from '@angular/core';
 export class HideListBlockComponent {
 
   @Input({ required: true })
-  public items: any[];
+  public items: HideListItemModel[];
 
   @Input({ required: true })
   public header: string;
+
+  @Output()
+  public update = new EventEmitter<HideListItemModel>();
+
+  updateItem(item: HideListItemModel) {
+    this.update.emit(item);
+  }
 }

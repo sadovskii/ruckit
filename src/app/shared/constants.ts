@@ -1,4 +1,5 @@
 export const EXTENSION_IDENTIFIER = "angndinolnfailiohlpgnpcjmffkfhjh";
+export const HIDE_LIST_ID = "hide-list";
 
 
 export const QUOTES = {

@@ -1,0 +1,11 @@
+/*vidoes*/
+ytd-thumbnail:hover yt-image img,
+ytd-playlist-video-thumbnail-renderer:hover yt-image img,
+/*playlists*/
+yt-thumbnail-view-model:hover img,
+/*shorts*/
+ytm-shorts-lockup-view-model-v2:hover,
+/*similar requests*/
+ytd-search-refinement-card-renderer:hover img {
+    filter: grayscale(100%);
+}

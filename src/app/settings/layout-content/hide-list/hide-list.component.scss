@@ -1,0 +1,11 @@
+.hide-list-blocks {
+    display: block;
+
+    &__hide-list-block {
+        margin-bottom: 1.5rem;
+    }
+
+    &__hide-list-block:last-child {
+        margin-bottom:0;
+    }
+}

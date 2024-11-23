@@ -1,5 +1,5 @@
 .inner-settings {
-    &__item {
-        
+    &__item:not(:last-child) {
+        margin-bottom: 1.5rem;
     }
 }

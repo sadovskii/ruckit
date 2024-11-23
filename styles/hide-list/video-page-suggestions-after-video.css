@@ -1,0 +1,4 @@
+.ytp-player-content button,
+.ytp-player-content .ytp-endscreen-content {
+    display: none !important;
+}

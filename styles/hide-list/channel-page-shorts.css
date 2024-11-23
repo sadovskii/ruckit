@@ -1,0 +1,7 @@
+yt-tab-shape[tab-title="Shorts"] {
+    display: none !important;
+}
+
+ytd-rich-grid-renderer[is-shorts-grid] {
+    display: none !important;
+}

@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { PopupComponent } from './popup/popup.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ChromeService } from './shared/services/chrome/chrome.service';
-import { NbButtonModule, NbCardModule, NbIconModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbToggleModule } from '@nebular/theme';
 import { InnerSettingsComponent } from './settings/layout-content/inner-settings/inner-settings.component';
 import { SidebarComponent } from './settings/sidebar/sidebar.component';
 import { SidebarHeaderComponent } from './settings/sidebar/sidebar-header/sidebar-header.component';
@@ -22,6 +22,7 @@ import { LayoutComponent } from './settings/layout-content/shared/layout/layout.
 import { SettingsItemComponent } from './settings/shared/settings-item/settings-item.component';
 import { HideListBlockComponent } from './settings/layout-content/hide-list/hide-list-block/hide-list-block.component';
 import { HideListBlockItemComponent } from './settings/layout-content/hide-list/hide-list-block/hide-list-block-item/hide-list-block-item.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,9 +37,9 @@ import { HideListBlockItemComponent } from './settings/layout-content/hide-list/
     StartPageComponent,
     AboutExtensionComponent,
     BlackListComponent,
-    HideListComponent,
     PasswordComponent,
     LayoutComponent,
+    HideListComponent,
     HideListBlockComponent,
     HideListBlockItemComponent,
     SafePipe,
@@ -52,7 +53,10 @@ import { HideListBlockItemComponent } from './settings/layout-content/hide-list/
     NbThemeModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbEvaIconsModule,
-    NbIconModule
+    NbIconModule,
+    NbToggleModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     ChromeService,

@@ -1,0 +1,22 @@
+/*vidoes*/
+ytd-thumbnail yt-image img,
+ytd-playlist-video-thumbnail-renderer:not(:hover) yt-image img,
+/*playlists*/
+yt-thumbnail-view-model img,
+/*shorts*/
+ytm-shorts-lockup-view-model-v2,
+/*similar requests*/
+ytd-search-refinement-card-renderer img {
+    filter: brightness(0%);
+}
+
+ytd-thumbnail:hover yt-image img,
+ytd-playlist-video-thumbnail-renderer:hover yt-image img,
+/*playlists*/
+yt-thumbnail-view-model:hover img,
+/*shorts*/
+ytm-shorts-lockup-view-model-v2:hover,
+/*similar requests*/
+ytd-search-refinement-card-renderer:hover img {
+    filter: brightness(100%);
+}

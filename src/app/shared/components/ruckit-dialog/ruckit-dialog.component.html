@@ -1,0 +1,13 @@
+<div class="ruckit-dialog">
+    <div class="ruckit-dialog__header header">
+        <div class="header__first-level first-level">
+            <app-tag [type]="tagType" [value]="tagValue"></app-tag>
+        </div>
+        <div class="header__second-level">
+            <h2>{{header}}</h2>
+        </div>
+    </div>
+    <div class="ruckit-dialog__content content">
+        <ng-content></ng-content>
+    </div>
+</div>

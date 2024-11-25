@@ -1,11 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { NbDialogService, NbWindowControlButtonsConfig, NbWindowService } from '@nebular/theme';
+import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 
 @Component({
   selector: 'app-password',
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.scss']
 })
-export class PasswordComponent {
-  // @HostBinding('class') protected readonly class = 'contents'; // Makes component host as if it was not there, can offer less css headaches. Assumes .contents{display:contents} css class exits
-  // constructor() {}
+export class PasswordComponent implements OnInit {
+  toggleFormControl: FormControl;
+
+  selectedInquirePassowrdPeriod: number = 10;
+
+  constructor(private _dialogService: NbDialogService,) {}
+
+  ngOnInit(): void {
+    this.initToogleControl();
+  }
+
+  initToogleControl() {
+    this.toggleFormControl = new FormControl(false);
+    this.toggleFormControl.valueChanges.subscribe(t => {
+
+      if (t !== null) {
+        if (t) {
+
+          const buttonsConfig: NbWindowControlButtonsConfig = {
+            minimize: false,
+            maximize: false,
+            fullScreen: false,
+            close: true,
+          };
+
+          this._dialogService.open(SetNewPasswordComponent, { hasBackdrop: true })
+        }
+      }
+    })
+  }
+
+  onChangeInquirePassowrdPeriod() {
+    console.log("selectedInquirePassowrdPeriod = ", this.selectedInquirePassowrdPeriod);
+  }
 }

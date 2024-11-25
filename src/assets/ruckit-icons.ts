@@ -228,3 +228,31 @@ export const ruckitStopScreenSolid28: {
     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.843 5.802C11.872 4.601 12.886 4 14 4C15.114 4 16.128 4.6 18.157 5.802L18.843 6.208C20.872 7.41 21.886 8.011 22.443 9C23 9.99 23 11.19 23 13.594V14.406C23 16.809 23 18.011 22.443 19C21.886 19.989 20.872 20.59 18.843 21.791L18.157 22.198C16.128 23.399 15.114 24 14 24C12.886 24 11.872 23.4 9.843 22.198L9.157 21.791C7.128 20.591 6.114 19.989 5.557 19C5 18.01 5 16.81 5 14.406V13.594C5 11.19 5 9.989 5.557 9C6.114 8.011 7.128 7.41 9.157 6.208L9.843 5.802ZM15 18C15 18.2652 14.8946 18.5196 14.7071 18.7071C14.5196 18.8946 14.2652 19 14 19C13.7348 19 13.4804 18.8946 13.2929 18.7071C13.1054 18.5196 13 18.2652 13 18C13 17.7348 13.1054 17.4804 13.2929 17.2929C13.4804 17.1054 13.7348 17 14 17C14.2652 17 14.5196 17.1054 14.7071 17.2929C14.8946 17.4804 15 17.7348 15 18ZM14 8.25C14.1989 8.25 14.3897 8.32902 14.5303 8.46967C14.671 8.61032 14.75 8.80109 14.75 9V15C14.75 15.1989 14.671 15.3897 14.5303 15.5303C14.3897 15.671 14.1989 15.75 14 15.75C13.8011 15.75 13.6103 15.671 13.4697 15.5303C13.329 15.3897 13.25 15.1989 13.25 15V9C13.25 8.80109 13.329 8.61032 13.4697 8.46967C13.6103 8.32902 13.8011 8.25 14 8.25Z" fill="currentColor"/>
     </svg>`,
 };
+
+// 18
+export const ruckitCloserLinear28: {
+    name: 'closer-linear-44';
+    data: string;
+} = {
+    name: 'closer-linear-44',
+    data: 
+    `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="#FEFEFE"/>
+    <path d="M14.9297 29.071L29.0718 14.9289" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M29.0723 29.071L14.9301 14.9289" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`,
+};
+
+// 18
+export const ruckitCloserSolid28: {
+    name: 'closer-solid-44';
+    data: string;
+} = {
+    name: 'closer-solid-44',
+    data: 
+    `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="44" height="44" rx="22" fill="#F0331B"/>
+    <path d="M16.6973 27.3032L27.3039 16.6966" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M27.3047 27.3032L16.6981 16.6966" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`,
+};

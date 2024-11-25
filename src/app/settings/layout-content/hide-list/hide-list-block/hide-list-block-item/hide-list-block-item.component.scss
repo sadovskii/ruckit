@@ -4,29 +4,3 @@
     justify-content: space-between;
 	align-items: center;
 }
-
-::ng-deep {
-  nb-toggle {
-    .toggle:not(.checked) {
-		.toggle-switcher {
-			right: auto !important;
-		}
-    }
-
-	.toggle.checked {
-		.toggle-switcher {
-			left: calc(100% - var(--toggle-switcher-size) - 6px) !important;
-		}
-	}
-
-	.toggle-switcher {
-		margin: 3px 1px 1px 3px !important; 
-	}
-  }
-  
-}
-
-.toggle {
-  
-
-}

@@ -1,0 +1,23 @@
+:host {
+	height: 1.875rem;
+}
+
+::ng-deep {
+  .ruckit-toggle {
+    .toggle:not(.checked) {
+		.toggle-switcher {
+			right: auto !important;
+		}
+    }
+
+	.toggle.checked {
+		.toggle-switcher {
+			left: calc(100% - var(--toggle-switcher-size) - 6px) !important;
+		}
+	}
+
+	.toggle-switcher {
+		margin: 3px 1px 1px 3px !important; 
+	}
+  }
+}

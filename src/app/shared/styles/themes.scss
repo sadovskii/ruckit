@@ -26,6 +26,10 @@ $nb-themes: nb-register-theme(
     text-heading-2-font-size: $text-h2-font-size,
     text-heading-2-font-weight: $text-h2-font-weight,
     text-heading-2-line-height: $text-h2-line-height,
+    // h3 text
+    text-heading-3-font-size: $text-h3-font-size,
+    text-heading-3-font-weight: $text-h3-font-weight,
+    text-heading-3-line-height: $text-h3-line-height,
     // h5 text
     text-heading-5-font-size: $text-p1-font-size,
     text-heading-5-font-weight: $text-p1-font-weight,
@@ -38,6 +42,10 @@ $nb-themes: nb-register-theme(
     text-paragraph-font-size: $text-p2-font-size,
     text-paragraph-font-weight: $text-p2-font-weight,
     text-paragraph-line-height: $text-p2-line-height,
+    // label text
+    text-label-font-size: $text-button-bold-font-size,
+    text-label-font-weight: $text-button-bold-font-weight,
+    text-label-line-height: $text-button-bold-line-height,
 
     // select
     select-outline-basic-hover-background-color: --color-primary-400,
@@ -67,7 +75,15 @@ $nb-themes: nb-register-theme(
     card-border-color: $color-base-white,
 
     //settings
+    select-outline-basic-focus-border-color: $color-base-white,
     settings-item-desctiption: $color-base-gray-5,
+    //settings-text
+    select-medium-text-font-size: $text-button-m-font-size,
+    select-medium-text-font-weight: $text-button-m-font-weight,
+    select-medium-text-line-height: $text-button-m-line-height,
+    option-medium-text-font-size: $text-button-m-font-size,
+    option-medium-text-font-weight: $text-button-m-font-weight,
+    option-medium-text-line-height: $text-button-m-line-height,
 
     //toggle
     toggle-height: 1.875rem,
@@ -91,8 +107,20 @@ $nb-themes: nb-register-theme(
     hidelist-item-background-color: $color-base-gray-8,
     hidelist-item-border-color: $color-base-gray-7,
 
+    //tag
+    tag-red-background-color: $color-secondary-light-red,
+    tag-red-color: $color-primary-red,
+    tag-green-background-color: $color-secondary-light-success,
+    tag-green-color: $color-primary-success,
+
+    //dialog
+    dialog-layout-border-color: $color-base-gray-7,
+    dialog-header-border-color: $color-base-gray-7,
+
     //common
+    corner-radius-12: 0.75rem,
     corner-radius-8: 0.5rem,
+    corner-radius-4: 0.25rem,
   ),
   default,
   default
@@ -101,6 +129,7 @@ $nb-themes: nb-register-theme(
 $nb-themes: nb-register-theme(
   (
     background-basic-color-2: $color-base-black,
+    background-basic-color-3: $color-base-black,
     color-primary-400: $color-base-gray-2,
     color-primary-500: $color-base-gray-2,
     color-primary-600: $color-base-gray-2,
@@ -120,6 +149,10 @@ $nb-themes: nb-register-theme(
     text-heading-2-font-size: $text-h2-font-size,
     text-heading-2-font-weight: $text-h2-font-weight,
     text-heading-2-line-height: $text-h2-line-height,
+    // h3 text
+    text-heading-3-font-size: $text-h3-font-size,
+    text-heading-3-font-weight: $text-h3-font-weight,
+    text-heading-3-line-height: $text-h3-line-height,
     // h5 text
     text-heading-5-font-size: $text-p1-font-size,
     text-heading-5-font-weight: $text-p1-font-weight,
@@ -137,6 +170,13 @@ $nb-themes: nb-register-theme(
     select-outline-basic-focus-border-color: $color-base-black,
     select-outline-basic-hover-background-color: $color-base-gray-2,
     option-list-border-color: $color-base-gray-2,
+    //settings-text
+    select-medium-text-font-size: $text-button-m-font-size,
+    select-medium-text-font-weight: $text-button-m-font-weight,
+    select-medium-text-line-height: $text-button-m-line-height,
+    option-medium-text-font-size: $text-button-m-font-size,
+    option-medium-text-font-weight: $text-button-m-font-weight,
+    option-medium-text-line-height: $text-button-m-line-height,
 
     //sidebar
     sidebar-shadow: 0,
@@ -183,8 +223,20 @@ $nb-themes: nb-register-theme(
     hidelist-item-background-color: $color-base-gray-2,
     hidelist-item-border-color: $color-base-gray-3,
 
+    //tag
+    tag-red-background-color: $color-secondary-red,
+    tag-red-color: $color-primary-red,
+    tag-green-background-color: $color-secondary-success,
+    tag-green-color: $color-primary-success,
+
+    //dialog
+    dialog-layout-border-color: $color-base-gray-2,
+    dialog-header-border-color: $color-base-gray-3,
+
     //common
+    corner-radius-12: 0.75rem,
     corner-radius-8: 0.5rem,
+    corner-radius-4: 0.25rem,
   ),
   dark,
   dark

@@ -1,0 +1,22 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+.ruckit-dialog {
+    padding: 2.25rem;
+    display: flex;
+    width: 34.5rem;
+    background-color: var(--background-basic-color-2);
+    flex-direction: column;
+    border: 1px solid var(--dialog-layout-border-color);
+    border-radius: var(--corner-radius-12);
+
+    &__header {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--dialog-header-border-color);
+    }
+
+    .first-level {
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,22 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+:host {
+    display: block;
+}
+
+.tag {
+    padding: 0.25rem 0.5rem;
+    float: left;
+    border-radius: var(--corner-radius-4);
+
+    &_red {
+        background-color: var(--tag-red-background-color);
+        color: var(--tag-red-color);
+    }
+
+    &_green {
+        background-color: var(--tag-green-background-color);
+        color: var(--tag-green-color);
+    }
+}

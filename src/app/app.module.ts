@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { PopupComponent } from './popup/popup.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ChromeService } from './shared/services/chrome/chrome.service';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbToggleModule, NbWindowModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbToggleModule, NbWindowModule } from '@nebular/theme';
 import { InnerSettingsComponent } from './settings/layout-content/inner-settings/inner-settings.component';
 import { SidebarComponent } from './settings/sidebar/sidebar.component';
 import { SidebarHeaderComponent } from './settings/sidebar/sidebar-header/sidebar-header.component';
@@ -22,11 +22,11 @@ import { LayoutComponent } from './settings/layout-content/shared/layout/layout.
 import { SettingsItemComponent } from './settings/shared/settings-item/settings-item.component';
 import { HideListBlockComponent } from './settings/layout-content/hide-list/hide-list-block/hide-list-block.component';
 import { HideListBlockItemComponent } from './settings/layout-content/hide-list/hide-list-block/hide-list-block-item/hide-list-block-item.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RuckitToggleComponent } from './shared/components/ruckit-toggle/ruckit-toggle.component';
 import { SetNewPasswordComponent } from './settings/layout-content/password/set-new-password/set-new-password.component';
 import { TagComponent } from './shared/components/tag/tag.component';
 import { RuckitDialogComponent } from './shared/components/ruckit-dialog/ruckit-dialog.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -53,6 +53,8 @@ import { RuckitDialogComponent } from './shared/components/ruckit-dialog/ruckit-
     TagComponent
   ],
   imports: [
+    ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     NbLayoutModule,
     NbButtonModule,
@@ -63,9 +65,8 @@ import { RuckitDialogComponent } from './shared/components/ruckit-dialog/ruckit-
     NbEvaIconsModule,
     NbIconModule,
     NbToggleModule,
-    ReactiveFormsModule,
-    FormsModule,
     NbDialogModule.forRoot(),
+    NbInputModule
   ],
   providers: [
     ChromeService,

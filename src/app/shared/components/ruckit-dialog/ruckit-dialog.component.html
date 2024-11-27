@@ -1,13 +1,28 @@
-<div class="ruckit-dialog">
-    <div class="ruckit-dialog__header header">
-        <div class="header__first-level first-level">
-            <app-tag [type]="tagType" [value]="tagValue"></app-tag>
-        </div>
-        <div class="header__second-level">
-            <h2>{{header}}</h2>
-        </div>
-    </div>
-    <div class="ruckit-dialog__content content">
-        <ng-content></ng-content>
-    </div>
+<div class="ruckit-dialog" [style.width]="width">
+	<div class="ruckit-dialog__header header">
+		<div class="header__first-level first-level">
+			<app-tag [type]="tagType" [value]="tagValue"></app-tag>
+			<div class="icon-container" (click)="close()">
+				<nb-icon
+					*ngIf="isCloserClicked; else inactiveIcon"
+					class="icon icon_active icon_solid first-level__icon"
+					icon="closer-solid-44"
+					pack="ruckit-28">
+				</nb-icon> 
+				<ng-template #inactiveIcon>
+					<nb-icon
+						class="icon icon_inactive icon_linear first-level__icon"
+						icon="closer-linear-44"
+						pack="ruckit-28">
+					</nb-icon>
+			</ng-template>	
+			</div>
+		</div>
+		<div class="header__second-level">
+			<h2>{{header}}</h2>
+		</div>
+	</div>
+	<div class="ruckit-dialog__content content">
+		<ng-content></ng-content>
+	</div>
 </div>

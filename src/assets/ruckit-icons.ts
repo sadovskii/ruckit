@@ -237,9 +237,9 @@ export const ruckitCloserLinear28: {
     name: 'closer-linear-44',
     data: 
     `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="#FEFEFE"/>
-    <path d="M14.9297 29.071L29.0718 14.9289" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M29.0723 29.071L14.9301 14.9289" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="currentColor"/>
+    <path d="M14.9297 29.071L29.0718 14.9289" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M29.0723 29.071L14.9301 14.9289" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg>`,
 };
 
@@ -252,7 +252,7 @@ export const ruckitCloserSolid28: {
     data: 
     `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="44" height="44" rx="22" fill="#F0331B"/>
-    <path d="M16.6973 27.3032L27.3039 16.6966" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M27.3047 27.3032L16.6981 16.6966" stroke="#FEFEFE" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M16.6973 27.3032L27.3039 16.6966" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M27.3047 27.3032L16.6981 16.6966" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg>`,
 };

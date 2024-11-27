@@ -116,6 +116,53 @@ $nb-themes: nb-register-theme(
     //dialog
     dialog-layout-border-color: $color-base-gray-7,
     dialog-header-border-color: $color-base-gray-7,
+    dialog-closer-color: $color-base-black,
+
+    //input
+    input-basic-background-color: $color-base-gray-8,
+    input-basic-border-color: $color-base-gray-7,
+    input-basic-focus-background-color: $color-base-gray-8,
+    input-basic-focus-border-color: $color-base-gray-7,
+    input-basic-hover-background-color: $color-base-gray-8,
+    input-basic-hover-border-color: $color-base-gray-7,
+    input-basic-focus-and-hover-background-color: $color-base-gray-8,
+    input-basic-focus-and-hover-border-color: $color-base-gray-7,
+    input-basic-disabled-background-color: $color-base-white,
+    input-basic-disabled-border-color: $color-base-gray-7,
+    input-basic-disabled-text-color: $color-base-gray-7,
+    input-medium-padding: 0.575rem 1.125rem, //9.2px 18px
+    // input-placeholder
+    input-basic-placeholder-color: $color-base-gray-5,
+    input-basic-hover-placeholder-color: $color-base-black,
+    // input-text
+    input-basic-text-color: $color-base-black,
+    input-medium-text-font-size: $text-button-m-font-size,
+    input-medium-text-font-weight: $text-button-m-font-weight,
+    input-medium-text-line-height: $text-button-m-line-height,
+
+    //set password
+    set-passord-hint-color: $color-base-gray-5,
+
+    //button
+    button-filled-basic-background-color: $color-base-gray-7,
+    button-filled-basic-border-color: $color-base-gray-7,
+    button-filled-basic-text-color: $color-base-black,
+    button-filled-text-transform: "",
+    button-text-font-weight: $text-button-m-font-weight,
+    button-filled-basic-hover-background-color: $color-base-gray-6,
+    button-filled-basic-hover-border-color: $color-base-gray-6,
+    button-filled-basic-focus-background-color: $color-base-gray-7,
+    button-filled-basic-focus-border-color: $color-base-gray-7,
+    button-filled-basic-active-background-color: $color-primary-red,
+    button-filled-basic-active-border-color: $color-primary-red,
+    button-outline-width: 0rem,
+    input-danger-background-color: $color-secondary-light-red,
+    input-danger-border-color: $color-primary-red,
+    input-danger-text-color: $color-primary-red,
+    input-danger-hover-background-color: $color-secondary-light-red,
+    input-danger-hover-border-color: $color-primary-red,
+    input-danger-focus-background-color: $color-secondary-light-red,
+    input-danger-focus-border-color: $color-primary-red,
 
     //common
     corner-radius-12: 0.75rem,
@@ -232,6 +279,53 @@ $nb-themes: nb-register-theme(
     //dialog
     dialog-layout-border-color: $color-base-gray-2,
     dialog-header-border-color: $color-base-gray-3,
+    dialog-closer-color: $color-base-white,
+
+    // input
+    input-basic-background-color: $color-base-gray-1,
+    input-basic-border-color: $color-base-gray-3,
+    input-basic-focus-background-color: $color-base-gray-1,
+    input-basic-focus-border-color: $color-base-gray-3,
+    input-basic-hover-background-color: $color-base-gray-1,
+    input-basic-hover-border-color: $color-base-gray-3,
+    input-basic-focus-and-hover-background-color: $color-base-gray-1,
+    input-basic-focus-and-hover-border-color: $color-base-gray-3,
+    input-basic-disabled-background-color: $color-base-black,
+    input-basic-disabled-border-color: $color-base-gray-3,
+    input-basic-disabled-text-color: $color-base-gray-3,
+    input-medium-padding: 0.575rem 1.125rem, //9.2px 18px
+    // input-placeholder
+    input-basic-placeholder-color: $color-base-gray-4,
+    input-basic-hover-placeholder-color: $color-base-white,
+    // input-text
+    input-basic-text-color: $color-base-white,
+    input-medium-text-font-size: $text-button-m-font-size,
+    input-medium-text-font-weight: $text-button-m-font-weight,
+    input-medium-text-line-height: $text-button-m-line-height,
+
+    //set password
+    set-passord-hint-color: $color-base-gray-4,
+
+    //button
+    button-filled-basic-background-color: $color-base-gray-2,
+    button-filled-basic-border-color: $color-base-gray-2,
+    button-filled-basic-text-color: $color-base-white,
+    button-filled-text-transform: "",
+    button-text-font-weight: $text-button-m-font-weight,
+    button-filled-basic-hover-background-color: $color-base-gray-3,
+    button-filled-basic-hover-border-color: $color-base-gray-3,
+    button-filled-basic-focus-background-color: $color-base-gray-2,
+    button-filled-basic-focus-border-color: $color-base-gray-2,
+    button-filled-basic-active-background-color: $color-primary-red,
+    button-filled-basic-active-border-color: $color-primary-red,
+    button-outline-width: 0rem,
+    input-danger-background-color: $color-secondary-red,
+    input-danger-border-color: $color-primary-red,
+    input-danger-text-color: $color-primary-red,
+    input-danger-hover-background-color: $color-secondary-red,
+    input-danger-hover-border-color: $color-primary-red,
+    input-danger-focus-background-color: $color-secondary-red,
+    input-danger-focus-border-color: $color-primary-red,
 
     //common
     corner-radius-12: 0.75rem,

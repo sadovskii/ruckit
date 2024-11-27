@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NbDialogService, NbWindowControlButtonsConfig, NbWindowService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbWindowControlButtonsConfig, NbWindowService } from '@nebular/theme';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 
 @Component({
@@ -13,7 +13,8 @@ export class PasswordComponent implements OnInit {
 
   selectedInquirePassowrdPeriod: number = 10;
 
-  constructor(private _dialogService: NbDialogService,) {}
+  constructor(
+    private _dialogService: NbDialogService) {}
 
   ngOnInit(): void {
     this.initToogleControl();
@@ -26,14 +27,13 @@ export class PasswordComponent implements OnInit {
       if (t !== null) {
         if (t) {
 
-          const buttonsConfig: NbWindowControlButtonsConfig = {
-            minimize: false,
-            maximize: false,
-            fullScreen: false,
-            close: true,
-          };
-
-          this._dialogService.open(SetNewPasswordComponent, { hasBackdrop: true })
+          this._dialogService.open(SetNewPasswordComponent,
+            {
+              hasBackdrop: true,
+              autoFocus: false,
+              backdropClass: "custom-backdrop"
+            }
+          )
         }
       }
     })

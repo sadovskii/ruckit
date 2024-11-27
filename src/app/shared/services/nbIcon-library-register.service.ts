@@ -24,7 +24,10 @@ export class IconRegisterService {
                 [icons.ruckitSettingsLinear28.name]: icons.ruckitSettingsLinear28.data,
                 [icons.ruckitSettingsSolid28.name]: icons.ruckitSettingsSolid28.data,
                 [icons.ruckitStopScreenLinear28.name]: icons.ruckitStopScreenLinear28.data,
-                [icons.ruckitStopScreenSolid28.name]: icons.ruckitStopScreenSolid28.data
+                [icons.ruckitStopScreenSolid28.name]: icons.ruckitStopScreenSolid28.data,
+                [icons.ruckitCloserLinear28.name]: icons.ruckitCloserLinear28.data,
+                [icons.ruckitCloserSolid28.name]: icons.ruckitCloserSolid28.data,
+
             }
         );
     }

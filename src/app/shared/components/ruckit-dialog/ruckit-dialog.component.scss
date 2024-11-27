@@ -4,7 +4,7 @@
 .ruckit-dialog {
     padding: 2.25rem;
     display: flex;
-    width: 34.5rem;
+    // width: 34.5rem;
     background-color: var(--background-basic-color-2);
     flex-direction: column;
     border: 1px solid var(--dialog-layout-border-color);
@@ -15,8 +15,24 @@
         border-bottom: 1px solid var(--dialog-header-border-color);
     }
 
+    .header {
+        &__first-level {
+            padding-bottom: 0.625rem;
+        }
+    }
+
     .first-level {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .icon-container {
+            .icon {
+                width: 2.75rem;
+                height: 2.75rem;
+                cursor: pointer;
+                color: var(--dialog-closer-color);
+            }
+        }
     }
 }

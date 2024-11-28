@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { PopupComponent } from './popup/popup.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ChromeService } from './shared/services/chrome/chrome.service';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbToggleModule, NbWindowModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbDialogService, NbIconModule, NbInputModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbToggleModule, NbWindowModule } from '@nebular/theme';
 import { InnerSettingsComponent } from './settings/layout-content/inner-settings/inner-settings.component';
 import { SidebarComponent } from './settings/sidebar/sidebar.component';
 import { SidebarHeaderComponent } from './settings/sidebar/sidebar-header/sidebar-header.component';
@@ -27,6 +27,7 @@ import { SetNewPasswordComponent } from './settings/layout-content/password/set-
 import { TagComponent } from './shared/components/tag/tag.component';
 import { RuckitDialogComponent } from './shared/components/ruckit-dialog/ruckit-dialog.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { EnterPasswordComponent } from './settings/layout-content/password/enter-password/enter-password.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     RuckitToggleComponent,
     RuckitDialogComponent,
     SetNewPasswordComponent,
-    TagComponent
+    TagComponent,
+    EnterPasswordComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -70,7 +72,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   ],
   providers: [
     ChromeService,
-    IconRegisterService
+    IconRegisterService,
+    NbDialogService
   ],
   bootstrap: [AppComponent]
 })

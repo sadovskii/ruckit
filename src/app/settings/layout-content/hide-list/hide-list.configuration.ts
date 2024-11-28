@@ -116,13 +116,13 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                         value: map?.get(HideListItemType.SearchResultsChipBarBelowSearch) ?? false
                     },
                     {
-                        name: "New records",
+                        name: "New records section",
                         type: HideListItemType.SearchResultsNewRecords,
                         cssUrl: "styles/hide-list/search-results-new-records.css",
                         value: map?.get(HideListItemType.SearchResultsNewRecords) ?? false
                     },
                     {
-                        name: "People also search for",
+                        name: "People also search for section",
                         type: HideListItemType.SearchResultsPeopleAlsoSearchFor,
                         cssUrl: "styles/hide-list/search-results-people-also-search-for.css",
                         value: map?.get(HideListItemType.SearchResultsPeopleAlsoSearchFor) ?? false

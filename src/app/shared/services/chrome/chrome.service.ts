@@ -44,7 +44,6 @@ export class ChromeService {
 
   addCssContentScriptOrUpdateExist(contentScriptId: string, cssFiles: string[]): Observable<any> {
     return this.scriptingGetRegisteredContentScripts(contentScriptId).pipe(
-      tap(t => console.log("tap. value = ", t)),
       switchMap(t => {
         if (t.length > 0) {
 
@@ -52,14 +51,10 @@ export class ChromeService {
             if (!t[0].css?.find(q => q === cssFile)) {
               t[0].css?.push(cssFile);
             }
-          })
-
-
-          console.log("updateContentScripts");
+          });
           return from(chrome.scripting.updateContentScripts([t[0]]));
         }
         else {
-          console.log("registerContentScripts");
           return from(chrome.scripting.registerContentScripts([{
             id: contentScriptId,
             css: [...cssFiles, "styles/blank.css"],
@@ -121,6 +116,12 @@ export class ChromeService {
     return from(chrome.storage.sync.get(key));
   }
 
+  storageSyncSet<T>(key: string, value: T) {
+    let data: { [key: string]: T } = {};
+    data[key] = value;
+    return from(chrome.storage.sync.set(data))
+  }
+
   storageSyncSetMap(key: string, map: Map<any, any>): Observable<void> {
     let data: { [key: string]: any } = {};
     data[key] = Array.from(map);
@@ -133,7 +134,7 @@ export class ChromeService {
     })
   }
 
-  test() {
-    console.log("test from chrome service");
+  storageSyncRemove(key: string): Observable<void> {
+    return from(chrome.storage.sync.remove(key))
   }
 }

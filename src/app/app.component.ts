@@ -3,6 +3,8 @@ import { GlobalService, Page } from './shared/services/global/global.service';
 import { from, Observable, of } from 'rxjs';
 import { ChromeService } from './shared/services/chrome/chrome.service';
 import { IconRegisterService } from './shared/services/nbIcon-library-register.service';
+import { STORAGE_PASSWORD_ID, STORAGE_THEME_ID } from './shared/constants';
+import { NbThemeService } from '@nebular/theme';
 
 @Component({
   selector: 'app-root',
@@ -17,17 +19,34 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _chromeService: ChromeService,
-    private _registerIconService: IconRegisterService
+    private _registerIconService: IconRegisterService,
+    private _globalService: GlobalService,
+    private _themeService: NbThemeService
   ) {}
 
   ngOnInit() {
-    console.log("ngOnInit app component");
     this.currentTab$ = this._chromeService.getCurrentTab();
-    this.currentTab$.subscribe(t => {
-      console.log("currentTab$ = ", t);
+    this.initIsRestricted()
+    this.initTheme();
+  }
+
+  initIsRestricted() {
+    this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).subscribe(password => {
+      if (password) {
+        this._globalService.isRestricted.next(true);
+      }
+    })
+  }
+
+  initTheme() {
+    this._chromeService.storageSyncGetItem(STORAGE_THEME_ID).subscribe(value => {
+      const theme = value[STORAGE_THEME_ID];
+      if (theme) {
+        console.log("theme = ", theme);
+        this._themeService.changeTheme(theme);
+      }
     })
   }
 
   title = 'df-youtube-angular';
 }
-// await chrome.tabs.getCurrent()Ы

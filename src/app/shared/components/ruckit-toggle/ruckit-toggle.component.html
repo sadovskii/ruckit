@@ -1,6 +1,7 @@
 <nb-toggle
   [checked]="checked"
   [disabled]="disabled"
+  (click)="onClick($event)"
   (checkedChange)="onToggleChange($event)">
 </nb-toggle>
 

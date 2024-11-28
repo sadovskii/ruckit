@@ -23,7 +23,7 @@ export class RuckitToggleComponent implements ControlValueAccessor {
   }
 
   set checked(value: boolean) {
-      this._checked = coerceBooleanProperty(value);
+      this._checked = value;
   }
 
   @Input()
@@ -32,12 +32,19 @@ export class RuckitToggleComponent implements ControlValueAccessor {
   }
 
   set disabled(value: boolean) {
-      this._disabled = coerceBooleanProperty(value);
+    this._disabled = coerceBooleanProperty(value);
   }
 
+  @Input()
+  public preventDefault: boolean = false;
+
+  @Input()
+  public lock: boolean = false;
+
   @Output() public readonly checkedChange = new EventEmitter<boolean>();
-  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public readonly onBlur = new EventEmitter<any>();
+  @Output() public readonly click = new EventEmitter<any>();
+
 
   private _checked = false;
   private _disabled = false;
@@ -52,12 +59,14 @@ export class RuckitToggleComponent implements ControlValueAccessor {
   }
 
   onToggleChange(event: boolean) {
+    console.log("onToggleChange = ", event);
     this.checkedChange.emit(event);
     this.checked = event;
     this._onChange(event);
 }
 
   writeValue(obj: any): void {
+    console.log("writeValue = ", obj);
     this.checked = obj;
     this._changeDetector.markForCheck();
   }
@@ -73,7 +82,13 @@ export class RuckitToggleComponent implements ControlValueAccessor {
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = coerceBooleanProperty(isDisabled);
     this._changeDetector.markForCheck();
-}
+  }
+
+  onClick(event: Event) {
+    if (this.preventDefault) {
+      event.preventDefault();
+    }
+  }
 
   private _onTouched = () => { };
   private _onChange: (value: boolean) => void = () => { };

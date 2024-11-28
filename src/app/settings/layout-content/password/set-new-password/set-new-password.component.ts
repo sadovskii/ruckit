@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NbDialogRef } from '@nebular/theme';
 import { TagType } from 'src/app/shared/components/tag/tag.types';
 import { matchValidator } from 'src/app/shared/validators/match.validator';
 
@@ -15,6 +14,9 @@ export class SetNewPasswordComponent {
   @Output()
   public submit = new EventEmitter<string>
 
+  @Output()
+  public close = new EventEmitter<any>;
+
   public TagType = TagType;
   public invalidAfterClick = false;
 
@@ -24,12 +26,12 @@ export class SetNewPasswordComponent {
   }
 )
 
-  constructor(private _refDialog: NbDialogRef<SetNewPasswordComponent>) {
+  constructor() {
     this.formGroup.setValidators(matchValidator("enterPassword", "confirmPassword"))
   }
 
   onClose() {
-    this._refDialog.close();
+    this.close.emit();
   }
 
   onSubmit() {

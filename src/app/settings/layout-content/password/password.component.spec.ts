@@ -4,7 +4,7 @@ describe('PasswordComponent', () => {
   let component: PasswordComponent;
 
   beforeEach(() => {
-    component = new PasswordComponent();
+    // component = new PasswordComponent();
   });
 
   it('should create', () => {

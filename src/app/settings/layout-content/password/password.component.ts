@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbGlobalLogicalPosition, NbGlobalPhysicalPosition } from '@nebular/theme';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
 import { STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID } from 'src/app/shared/constants';
 import { map, of, Subscription, switchMap } from 'rxjs';
 import { EnterPasswordComponent } from './enter-password/enter-password.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @Component({
   selector: 'app-password',
@@ -17,19 +18,26 @@ import { EnterPasswordComponent } from './enter-password/enter-password.componen
 export class PasswordComponent implements OnInit, OnDestroy {
   passwordRequestToggleControl: FormControl;
   selectedInquirePassowrdPeriod: number | undefined = undefined;
+  isHasPassword: boolean | null = null;
 
   private _subscriptions = new Subscription();
+  private readonly backdropClass = 'custom-backdrop';
 
   constructor(
     private _dialogService: NbDialogService,
-    private _globalService: GlobalService,
+    public _globalService: GlobalService,
     private _chromeService: ChromeService,
     private _cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    this.initInquirePasswordPeriod()
+    this.initInquirePasswordPeriod();
     this.initPasswordRequestToggleControl();
+
+    this._globalService.getHasPassword$().subscribe(t => {
+      this.isHasPassword = t;
+      this._cdr.detectChanges();
+    })
   }
 
   initPasswordRequestToggleControl() {
@@ -82,13 +90,17 @@ export class PasswordComponent implements OnInit, OnDestroy {
     }
   }
 
+  submitChangePassword(result: boolean) {
+    console.log("submitChangePassword = ", result);
+  }
+
   // initialize open set new password window, handle submit and close
   private initEnterPassword() {
     const ref = this._dialogService.open(EnterPasswordComponent,
       {
         hasBackdrop: true,
         autoFocus: false,
-        backdropClass: "custom-backdrop"
+        backdropClass: this.backdropClass
       }
     );
 
@@ -110,12 +122,12 @@ export class PasswordComponent implements OnInit, OnDestroy {
     ).subscribe(result => {
       // entered password isn't equal to storage password
       if (result === false) {
-        ref.componentRef.instance.formGroup.controls.enterPassword.setErrors({passwordIsCorrect: true})
+        ref.componentRef.instance.formGroup.controls.enterPassword.setErrors({ passwordIsCorrect: true })
         ref.componentRef.instance.invalidAfterClick = true;
       }
       // entered password is equal to storage password
       else {
-        this._globalService.isRestricted.next(false);
+        this._globalService.setHasPassword$(false);
         this.passwordRequestToggleControl.setValue(false);
         ref.close();
         this._cdr.detectChanges();
@@ -135,7 +147,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
       {
         hasBackdrop: true,
         autoFocus: false,
-        backdropClass: "custom-backdrop"
+        backdropClass: this.backdropClass
       }
     );
 
@@ -143,7 +155,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
       switchMap(password => this._chromeService.storageSyncSet<string>(STORAGE_PASSWORD_ID, password))
       ).subscribe(_ => {
         ref.close();
-        this._globalService.isRestricted.next(true);
+        this._globalService.setHasPassword$(true);
         this.passwordRequestToggleControl.setValue(true);
         this._cdr.detectChanges();
       });

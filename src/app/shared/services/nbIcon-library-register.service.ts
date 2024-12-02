@@ -26,9 +26,22 @@ export class IconRegisterService {
                 [icons.ruckitStopScreenLinear28.name]: icons.ruckitStopScreenLinear28.data,
                 [icons.ruckitStopScreenSolid28.name]: icons.ruckitStopScreenSolid28.data,
                 [icons.ruckitCloserLinear28.name]: icons.ruckitCloserLinear28.data,
-                [icons.ruckitCloserSolid28.name]: icons.ruckitCloserSolid28.data,
-
+                [icons.ruckitCloserSolid28.name]: icons.ruckitCloserSolid28.data,                
             }
         );
+
+        this.iconLibraries.registerSvgPack('ruckit-16',
+            {
+                [icons.ruckitClosedLock16.name]: icons.ruckitClosedLock16.data,
+            }
+        );
+
+        this.iconLibraries.registerSvgPack('ruckit-15',
+            {
+                [icons.ruckitEye15.name]: icons.ruckitEye15.data,
+                [icons.RuckitEyeOff15.name]: icons.RuckitEyeOff15.data
+            }
+        );
+
     }
 }

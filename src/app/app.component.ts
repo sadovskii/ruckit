@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService, Page } from './shared/services/global/global.service';
-import { from, Observable, of } from 'rxjs';
+import { from, map, Observable, of } from 'rxjs';
 import { ChromeService } from './shared/services/chrome/chrome.service';
 import { IconRegisterService } from './shared/services/nbIcon-library-register.service';
 import { STORAGE_PASSWORD_ID, STORAGE_THEME_ID } from './shared/constants';
@@ -31,9 +31,14 @@ export class AppComponent implements OnInit {
   }
 
   initIsRestricted() {
-    this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).subscribe(password => {
+    this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).pipe(
+      map(t => t[STORAGE_PASSWORD_ID])
+    ).subscribe(password => {
       if (password) {
-        this._globalService.isRestricted.next(true);
+        this._globalService.setHasPassword$(true);
+      }
+      else {
+        this._globalService.setHasPassword$(false);
       }
     })
   }

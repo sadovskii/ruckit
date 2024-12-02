@@ -51,6 +51,9 @@ $nb-themes: nb-register-theme(
     select-outline-basic-hover-background-color: --color-primary-400,
     text-control-color: --color-basic-800,
     border-basic-color-4: $color-base-white,
+    select-outline-basic-disabled-text-color: $color-base-gray-7,
+    select-outline-basic-disabled-border-color: $color-base-gray-7,
+    select-outline-basic-disabled-icon-color: $color-base-gray-7,
 
     //sidebar
     sidebar-shadow: 0,
@@ -77,6 +80,8 @@ $nb-themes: nb-register-theme(
     //settings
     select-outline-basic-focus-border-color: $color-base-white,
     settings-item-desctiption: $color-base-gray-5,
+    settings-item-disabled-color: $color-base-gray-7,
+
     //settings-text
     select-medium-text-font-size: $text-button-m-font-size,
     select-medium-text-font-weight: $text-button-m-font-weight,
@@ -102,6 +107,8 @@ $nb-themes: nb-register-theme(
     toggle-basic-focus-checked-background-color: $color-primary-red,
     toggle-basic-focus-background-color: $color-base-gray-7,
     toggle-basic-checked-switcher-checkmark-color: $color-base-white,
+    toggle-basic-text-color: $color-base-white,
+    toggle-basic-checked-switcher-background-color: $color-base-white,
 
     //hidelist
     hidelist-item-background-color: $color-base-gray-8,
@@ -134,11 +141,20 @@ $nb-themes: nb-register-theme(
     // input-placeholder
     input-basic-placeholder-color: $color-base-gray-5,
     input-basic-hover-placeholder-color: $color-base-black,
+    input-basic-disabled-placeholder-color: $color-base-gray-7,
     // input-text
     input-basic-text-color: $color-base-black,
     input-medium-text-font-size: $text-button-m-font-size,
     input-medium-text-font-weight: $text-button-m-font-weight,
     input-medium-text-line-height: $text-button-m-line-height,
+    // input-danger
+    input-danger-background-color: $color-secondary-light-red,
+    input-danger-border-color: $color-primary-red,
+    input-danger-text-color: $color-primary-red,
+    input-danger-hover-background-color: $color-secondary-light-red,
+    input-danger-hover-border-color: $color-primary-red,
+    input-danger-focus-background-color: $color-secondary-light-red,
+    input-danger-focus-border-color: $color-primary-red,
 
     //set password
     set-passord-hint-color: $color-base-gray-5,
@@ -156,18 +172,38 @@ $nb-themes: nb-register-theme(
     button-filled-basic-active-background-color: $color-primary-red,
     button-filled-basic-active-border-color: $color-primary-red,
     button-outline-width: 0rem,
-    input-danger-background-color: $color-secondary-light-red,
-    input-danger-border-color: $color-primary-red,
-    input-danger-text-color: $color-primary-red,
-    input-danger-hover-background-color: $color-secondary-light-red,
-    input-danger-hover-border-color: $color-primary-red,
-    input-danger-focus-background-color: $color-secondary-light-red,
-    input-danger-focus-border-color: $color-primary-red,
+    button-filled-basic-disabled-background-color: transparent,
+    button-filled-basic-disabled-border-color: $color-base-gray-7,
+    button-filled-basic-disabled-text-color: $color-base-gray-7,
+
+    //icon-button
+    button-tiny-icon-size: 0.938rem,
+    icon-button-ghost-tiny-padding: 0.27rem 0.15rem,
+    button-ghost-border-width: 0rem,
+    button-ghost-basic-text-color: $color-base-gray-5,
+    button-ghost-basic-hover-background-color: $color-base-gray-7,
+    button-ghost-basic-hover-text-color: $color-base-black,
+    button-ghost-basic-active-background-color: $color-primary-red,
+    button-ghost-basic-active-text-color: $color-base-black,
+    button-ghost-basic-focus-background-color: transparent,
+    button-ghost-basic-focus-text-color: $color-base-gray-5,
+    button-ghost-danger-text-color: $color-primary-red,
+    button-ghost-danger-hover-background-color: $color-primary-red,
+    button-ghost-danger-hover-text-color: $color-base-black,
+    button-ghost-danger-active-background-color: transparent,
+    button-ghost-danger-active-text-color: $color-base-black,
+    button-ghost-danger-focus-background-color: transparent,
+    button-ghost-danger-focus-text-color: $color-primary-red,
+    button-ghost-basic-disabled-background-color: transparent,
+    button-ghost-basic-disabled-text-color: $color-base-gray-7,
+
+    button-outline-color: transparent,
 
     //common
     corner-radius-12: 0.75rem,
     corner-radius-8: 0.5rem,
     corner-radius-4: 0.25rem,
+    disable-header-text-color: $color-base-gray-7,
   ),
   default,
   default
@@ -217,6 +253,10 @@ $nb-themes: nb-register-theme(
     select-outline-basic-focus-border-color: $color-base-black,
     select-outline-basic-hover-background-color: $color-base-gray-2,
     option-list-border-color: $color-base-gray-2,
+    select-outline-basic-disabled-text-color: $color-base-gray-3,
+    select-outline-basic-disabled-border-color: $color-base-gray-3,
+    select-outline-basic-disabled-icon-color: $color-base-gray-3,
+
     //settings-text
     select-medium-text-font-size: $text-button-m-font-size,
     select-medium-text-font-weight: $text-button-m-font-weight,
@@ -246,6 +286,7 @@ $nb-themes: nb-register-theme(
 
     //settings
     settings-item-desctiption: $color-base-gray-5,
+    settings-item-disabled-color: $color-base-gray-3,
 
     //toggle
     toggle-height: 1.875rem,
@@ -265,6 +306,7 @@ $nb-themes: nb-register-theme(
     toggle-basic-focus-checked-background-color: $color-primary-red,
     toggle-basic-focus-background-color: $color-base-gray-3,
     toggle-basic-checked-switcher-checkmark-color: $color-base-white,
+    toggle-basic-text-color: $color-base-white,
 
     //hidelist
     hidelist-item-background-color: $color-base-gray-2,
@@ -297,11 +339,20 @@ $nb-themes: nb-register-theme(
     // input-placeholder
     input-basic-placeholder-color: $color-base-gray-4,
     input-basic-hover-placeholder-color: $color-base-white,
+    input-basic-disabled-placeholder-color: $color-base-gray-3,
     // input-text
     input-basic-text-color: $color-base-white,
     input-medium-text-font-size: $text-button-m-font-size,
     input-medium-text-font-weight: $text-button-m-font-weight,
     input-medium-text-line-height: $text-button-m-line-height,
+    //input-danger
+    input-danger-background-color: $color-secondary-red,
+    input-danger-border-color: $color-primary-red,
+    input-danger-text-color: $color-primary-red,
+    input-danger-hover-background-color: $color-secondary-red,
+    input-danger-hover-border-color: $color-primary-red,
+    input-danger-focus-background-color: $color-secondary-red,
+    input-danger-focus-border-color: $color-primary-red,
 
     //set password
     set-passord-hint-color: $color-base-gray-4,
@@ -319,18 +370,39 @@ $nb-themes: nb-register-theme(
     button-filled-basic-active-background-color: $color-primary-red,
     button-filled-basic-active-border-color: $color-primary-red,
     button-outline-width: 0rem,
-    input-danger-background-color: $color-secondary-red,
-    input-danger-border-color: $color-primary-red,
-    input-danger-text-color: $color-primary-red,
-    input-danger-hover-background-color: $color-secondary-red,
-    input-danger-hover-border-color: $color-primary-red,
-    input-danger-focus-background-color: $color-secondary-red,
-    input-danger-focus-border-color: $color-primary-red,
+    button-filled-basic-disabled-background-color: transparent,
+    button-filled-basic-disabled-border-color: $color-base-gray-3,
+    button-filled-basic-disabled-text-color: $color-base-gray-3,
+
+    //icon-button
+    button-tiny-icon-size: 0.938rem,
+    icon-button-ghost-tiny-padding: 0.27rem 0.15rem,
+    button-ghost-border-width: 0rem,
+    button-ghost-basic-background-color: transparent,
+    button-ghost-basic-text-color: $color-base-gray-4,
+    button-ghost-basic-hover-background-color: $color-base-gray-3,
+    button-ghost-basic-hover-text-color: $color-base-white,
+    button-ghost-basic-active-background-color: $color-primary-red,
+    button-ghost-basic-active-text-color: $color-base-white,
+    button-ghost-basic-focus-background-color: transparent,
+    button-ghost-basic-focus-text-color: $color-base-gray-4,
+    button-ghost-danger-text-color: $color-primary-red,
+    button-ghost-danger-hover-background-color: $color-primary-red,
+    button-ghost-danger-hover-text-color: $color-base-white,
+    button-ghost-danger-active-background-color: transparent,
+    button-ghost-danger-active-text-color: $color-base-white,
+    button-ghost-danger-focus-text-color: $color-base-white,
+    button-ghost-danger-focus-background-color: transparent,
+    button-ghost-basic-disabled-background-color: transparent,
+    button-ghost-basic-disabled-text-color: $color-base-gray-3,
+
+    button-outline-color: transparent,
 
     //common
     corner-radius-12: 0.75rem,
     corner-radius-8: 0.5rem,
     corner-radius-4: 0.25rem,
+    disable-header-text-color: $color-base-gray-3,
   ),
   dark,
   dark

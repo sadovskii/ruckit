@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { PopupComponent } from './popup/popup.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ChromeService } from './shared/services/chrome/chrome.service';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbDialogService, NbIconModule, NbInputModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbToggleModule, NbWindowModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbDialogService, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbToggleModule, NbWindowModule } from '@nebular/theme';
 import { InnerSettingsComponent } from './settings/layout-content/inner-settings/inner-settings.component';
 import { SidebarComponent } from './settings/sidebar/sidebar.component';
 import { SidebarHeaderComponent } from './settings/sidebar/sidebar-header/sidebar-header.component';
@@ -28,6 +28,8 @@ import { TagComponent } from './shared/components/tag/tag.component';
 import { RuckitDialogComponent } from './shared/components/ruckit-dialog/ruckit-dialog.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EnterPasswordComponent } from './settings/layout-content/password/enter-password/enter-password.component';
+import { RuckitPasswordInputComponent } from './shared/components/ruckit-password-input/ruckit-password-input.component';
+import { ChangePasswordComponent } from './settings/layout-content/password/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { EnterPasswordComponent } from './settings/layout-content/password/enter
     RuckitDialogComponent,
     SetNewPasswordComponent,
     TagComponent,
-    EnterPasswordComponent
+    EnterPasswordComponent,
+    RuckitPasswordInputComponent,
+    ChangePasswordComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -68,7 +72,8 @@ import { EnterPasswordComponent } from './settings/layout-content/password/enter
     NbIconModule,
     NbToggleModule,
     NbDialogModule.forRoot(),
-    NbInputModule
+    NbInputModule,
+    NbFormFieldModule
   ],
   providers: [
     ChromeService,

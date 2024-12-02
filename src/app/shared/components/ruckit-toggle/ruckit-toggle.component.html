@@ -3,5 +3,6 @@
   [disabled]="disabled"
   (click)="onClick($event)"
   (checkedChange)="onToggleChange($event)">
+  <nb-icon *ngIf="lock" icon="closed-lock-16" pack="ruckit-16"></nb-icon>
 </nb-toggle>
 

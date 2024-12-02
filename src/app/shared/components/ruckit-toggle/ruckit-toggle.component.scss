@@ -19,5 +19,12 @@
 	.toggle-switcher {
 		margin: 3px 1px 1px 3px !important; 
 	}
+
+	.toggle-label-end .text:not(:empty) {
+		position: absolute;
+		padding-left: 0.5rem !important;
+		padding-top: 0.55rem;
+		cursor: pointer;
+	}
   }
 }

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { EXTENSION_IDENTIFIER } from '../shared/constants';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ChromeService } from '../shared/services/chrome/chrome.service';
 
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.scss']
+  styleUrls: ['./popup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupComponent {
 

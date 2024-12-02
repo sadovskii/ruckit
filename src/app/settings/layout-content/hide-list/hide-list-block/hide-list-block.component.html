@@ -6,6 +6,7 @@
 		class="hide-list-item hide-list-items__hide-list-item"
 		*ngFor="let item of items"
 		[item]="item"
+		[isRestricted]="isRestricted"
 		(update)="updateItem($event)">
 	</app-hide-list-block-item>
 </div>

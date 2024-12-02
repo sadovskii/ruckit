@@ -11,4 +11,7 @@ export class SettingsItemComponent {
 
   @Input({ required: true })
   public description: string;
+
+  @Input()
+  public disabled = false;
 }

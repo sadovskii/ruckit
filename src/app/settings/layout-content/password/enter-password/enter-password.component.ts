@@ -32,13 +32,15 @@ export class EnterPasswordComponent {
   }
 
   onSubmit() {
-
-    console.log(this.formGroup.value);
-
     if (this.formGroup.invalid) {
       this.invalidAfterClick = true;
+      this._chr.detectChanges();
+      console.log("form is invalid");
       return;
     }
+
+
+    console.log('form = ', this.formGroup)
 
     this.submit.emit(this.formGroup.controls.enterPassword.value!)
     console.log("form is valid");

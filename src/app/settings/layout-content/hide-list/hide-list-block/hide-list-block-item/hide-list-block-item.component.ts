@@ -1,15 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HideListItemModel } from '../../hide-list.models';
 import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-hide-list-block-item',
   templateUrl: './hide-list-block-item.component.html',
-  styleUrls: ['./hide-list-block-item.component.scss']
+  styleUrls: ['./hide-list-block-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HideListBlockItemComponent implements OnInit {
   @Input({ required: true })
   public item: HideListItemModel;
+
+  @Input({ required: true })
+  public isRestricted: boolean;
 
   @Output()
   public update = new EventEmitter<HideListItemModel>;

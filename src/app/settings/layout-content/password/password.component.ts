@@ -8,6 +8,7 @@ import { STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID } from 'src/app/sh
 import { map, of, Subscription, switchMap } from 'rxjs';
 import { EnterPasswordComponent } from './enter-password/enter-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { RuckitSnackBarService, SnackbarActionType } from 'src/app/shared/components/ruckit-snack-bar/ruckit-snack-bar.service';
 
 @Component({
   selector: 'app-password',
@@ -16,7 +17,6 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordComponent implements OnInit, OnDestroy {
-  passwordRequestToggleControl: FormControl;
   selectedInquirePassowrdPeriod: number | undefined = undefined;
   isHasPassword: boolean | null = null;
 
@@ -28,11 +28,11 @@ export class PasswordComponent implements OnInit, OnDestroy {
     public _globalService: GlobalService,
     private _chromeService: ChromeService,
     private _cdr: ChangeDetectorRef,
+    private _snackbarService: RuckitSnackBarService
   ) {}
 
   ngOnInit(): void {
     this.initInquirePasswordPeriod();
-    this.initPasswordRequestToggleControl();
 
     this._globalService.getHasPassword$().subscribe(t => {
       this.isHasPassword = t;
@@ -40,25 +40,8 @@ export class PasswordComponent implements OnInit, OnDestroy {
     })
   }
 
-  initPasswordRequestToggleControl() {
-    this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).subscribe(value => {
-      const password = value[STORAGE_PASSWORD_ID];
-
-      if (password) {
-        this.passwordRequestToggleControl = new FormControl(true);
-      }
-      else {
-        this.passwordRequestToggleControl = new FormControl(false);
-      }
-
-      console.log("control value = ", this.passwordRequestToggleControl.value);
-      this._cdr.detectChanges();
-    })
-  }
-
   initInquirePasswordPeriod() {
-    const sub = this._chromeService.storageSyncGetItem(STORAGE_FREE_PASSWORD_PERIOD_ID).subscribe(value => {
-      const period = value[STORAGE_FREE_PASSWORD_PERIOD_ID];
+    const sub = this._chromeService.storageSyncGetItem(STORAGE_FREE_PASSWORD_PERIOD_ID).subscribe(period => {
       if (period) {
         this.selectedInquirePassowrdPeriod = period;
       }
@@ -78,11 +61,11 @@ export class PasswordComponent implements OnInit, OnDestroy {
   }
 
   onRequestToggleClick() {
-    if (this.passwordRequestToggleControl.value === null) {
+    if (this.isHasPassword === null) {
       return;
     }
 
-    if (this.passwordRequestToggleControl.value) {
+    if (this.isHasPassword) {
       this.initEnterPassword();
     }
     else {
@@ -91,6 +74,13 @@ export class PasswordComponent implements OnInit, OnDestroy {
   }
 
   submitChangePassword(result: boolean) {
+    if (result) {
+      this._snackbarService.success(SnackbarActionType.undefined);
+    }
+    else {
+      console.log('should be restricted');
+      this._snackbarService.restricted();
+    }
     console.log("submitChangePassword = ", result);
   }
 
@@ -105,37 +95,12 @@ export class PasswordComponent implements OnInit, OnDestroy {
     );
 
     let sub = ref.componentRef.instance.submit.pipe(
-      switchMap(password =>
-        this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).pipe(
-            map(storagePassword => storagePassword[STORAGE_PASSWORD_ID]), 
-            map(storagePassword => ({ password, storagePassword }))
-          )
-        ),
-      switchMap(p => {
-        if (p.password === p.storagePassword) {
-          return this._chromeService.storageSyncRemove(STORAGE_PASSWORD_ID)
-        }
-        else {
-          return of(false)
-        }
+      switchMap(_ => {
+        return this._chromeService.storageSyncRemove(STORAGE_PASSWORD_ID)
       })
-    ).subscribe(result => {
-      // entered password isn't equal to storage password
-      if (result === false) {
-        ref.componentRef.instance.formGroup.controls.enterPassword.setErrors({ passwordIsCorrect: true })
-        ref.componentRef.instance.invalidAfterClick = true;
-      }
-      // entered password is equal to storage password
-      else {
-        this._globalService.setHasPassword$(false);
-        this.passwordRequestToggleControl.setValue(false);
-        ref.close();
+    ).subscribe(_ => {
+      this._globalService.setHasPassword$(false);
         this._cdr.detectChanges();
-      }
-    })
-
-    sub = ref.componentRef.instance.close.subscribe(_ => {
-      ref.close();
     })
 
     this._subscriptions.add(sub);
@@ -156,7 +121,6 @@ export class PasswordComponent implements OnInit, OnDestroy {
       ).subscribe(_ => {
         ref.close();
         this._globalService.setHasPassword$(true);
-        this.passwordRequestToggleControl.setValue(true);
         this._cdr.detectChanges();
       });
     

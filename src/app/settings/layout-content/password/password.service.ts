@@ -8,29 +8,30 @@ export class PasswordService {
   constructor(private _chromeService: ChromeService) {
   }
 
-  comparePasswordWithStoraged(currentPassword: string): Observable<boolean> {
-    return this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).pipe(
-      map(storagePassword => storagePassword[STORAGE_PASSWORD_ID]),
-      tap(t => console.log('tap = ', t)),
-      switchMap(p => of(p === currentPassword)),
-      tap(t => console.log('tap = ', t))
-    )
-  }
-
-  changePassword(password: string): Observable<any> {
-    return this._chromeService.storageSyncSet<string>(STORAGE_PASSWORD_ID, password)
-  }
-
   submitChangePassword(currentpassword: string, newPassword: string): Observable<any> {
-    return this.comparePasswordWithStoraged(currentpassword).pipe(
+    return this._comparePasswordWithStoraged(currentpassword).pipe(
       switchMap(result => {
         if (result) {
-          return this.changePassword(newPassword);
+          return this._changePassword(newPassword);
         }
         else {
           return of(false);
         }
       })
     )
+  }
+
+  submitEnterPassword(password: string): Observable<boolean> {
+    return this._comparePasswordWithStoraged(password);
+  }
+
+  private _comparePasswordWithStoraged(currentPassword: string): Observable<boolean> {
+    return this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).pipe(
+      switchMap(p => of(p === currentPassword)),
+    )
+  }
+
+  private _changePassword(password: string): Observable<any> {
+    return this._chromeService.storageSyncSet<string>(STORAGE_PASSWORD_ID, password)
   }
 }

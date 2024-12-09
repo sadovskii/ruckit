@@ -28,8 +28,7 @@ export class InnerSettingsComponent implements OnInit {
   }
 
   initThemeSelected() {
-    this._chromeService.storageSyncGetItem(STORAGE_THEME_ID).subscribe(value => {
-      const theme = value[STORAGE_THEME_ID];
+    this._chromeService.storageSyncGetItem(STORAGE_THEME_ID).subscribe(theme => {
       if (theme) {
         this.selectedTheme = theme;
       }

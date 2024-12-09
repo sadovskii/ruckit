@@ -1,2 +1,10 @@
 <app-layout header="Blacklist">
+    <app-black-list-simple-item
+        header="Channels restrictions"
+        description="Block the channels that you want to hide from your feed"
+        placeholder="Enter a channel name"
+        [hidenCountItems]="0"
+        hidenItems="Hiden channels"
+        [isRestricted]="false">
+    </app-black-list-simple-item>
 </app-layout>

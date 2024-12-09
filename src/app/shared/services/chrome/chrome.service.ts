@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, from, Observable, of, switchMap, tap } from 'rxjs';
+import { delay, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { EXTENSION_IDENTIFIER } from '../../constants';
 
 @Injectable()
@@ -113,7 +113,8 @@ export class ChromeService {
   }
 
   storageSyncGetItem(key: string): Observable<any> {
-    return from(chrome.storage.sync.get(key));
+    return from(chrome.storage.sync.get(key))
+      .pipe(map(value => value[key]));
   }
 
   storageSyncSet<T>(key: string, value: T) {

@@ -160,21 +160,39 @@ $nb-themes: nb-register-theme(
     set-passord-hint-color: $color-base-gray-5,
 
     //button
+    button-text-font-weight: $text-button-m-font-weight,
+    //button-filled
     button-filled-basic-background-color: $color-base-gray-7,
     button-filled-basic-border-color: $color-base-gray-7,
     button-filled-basic-text-color: $color-base-black,
-    button-filled-text-transform: "",
-    button-text-font-weight: $text-button-m-font-weight,
+    button-filled-text-transform: none,
     button-filled-basic-hover-background-color: $color-base-gray-6,
     button-filled-basic-hover-border-color: $color-base-gray-6,
     button-filled-basic-focus-background-color: $color-base-gray-7,
     button-filled-basic-focus-border-color: $color-base-gray-7,
     button-filled-basic-active-background-color: $color-primary-red,
     button-filled-basic-active-border-color: $color-primary-red,
-    button-outline-width: 0rem,
     button-filled-basic-disabled-background-color: transparent,
     button-filled-basic-disabled-border-color: $color-base-gray-7,
     button-filled-basic-disabled-text-color: $color-base-gray-7,
+    //button-outline
+    button-outline-text-transform: none,
+    button-outline-width: 0rem,
+    button-outline-basic-background-color: $color-base-gray-8,
+    button-outline-basic-border-color: $color-base-gray-7,
+    button-outline-basic-text-color: $color-base-black,
+    button-outline-tiny-padding: 0.25rem 0.5rem,
+    button-outline-basic-hover-background-color: $color-base-gray-7,
+    button-outline-basic-hover-border-color: $color-base-gray-7,
+    button-outline-basic-hover-text-color: $color-base-black,
+    button-outline-basic-focus-background-color: $color-base-gray-8,
+    button-outline-basic-focus-border-color: $color-base-gray-7,
+    button-outline-basic-focus-text-color: $color-base-black,
+    button-outline-basic-active-background-color: $color-base-gray-8,
+    button-outline-basic-active-border-color: $color-base-gray-7,
+    button-outline-basic-active-text-color: $color-base-black,
+    text-button-tiny-font-size: $text-button-s-font-size,
+    text-button-tiny-line-height: $text-button-s-line-height,
 
     //icon-button
     button-tiny-icon-size: 0.938rem,
@@ -198,6 +216,13 @@ $nb-themes: nb-register-theme(
     button-ghost-basic-disabled-text-color: $color-base-gray-7,
 
     button-outline-color: transparent,
+
+    // snack-bar
+    snack-bar-background-color: $color-base-gray-8,
+    snack-bar-border-color: $color-base-gray-7,
+    snack-bar-closer-color: $color-base-black,
+    snack-bar-closer-hover-background-color: $color-base-gray-7,
+    snack-bar-closer-active-background-color: $color-primary-red,
 
     //common
     corner-radius-12: 0.75rem,
@@ -358,21 +383,40 @@ $nb-themes: nb-register-theme(
     set-passord-hint-color: $color-base-gray-4,
 
     //button
+    button-text-font-weight: $text-button-m-font-weight,
+    //button-filled
     button-filled-basic-background-color: $color-base-gray-2,
     button-filled-basic-border-color: $color-base-gray-2,
     button-filled-basic-text-color: $color-base-white,
-    button-filled-text-transform: "",
-    button-text-font-weight: $text-button-m-font-weight,
+    button-filled-text-transform: none,
     button-filled-basic-hover-background-color: $color-base-gray-3,
     button-filled-basic-hover-border-color: $color-base-gray-3,
     button-filled-basic-focus-background-color: $color-base-gray-2,
     button-filled-basic-focus-border-color: $color-base-gray-2,
     button-filled-basic-active-background-color: $color-primary-red,
     button-filled-basic-active-border-color: $color-primary-red,
-    button-outline-width: 0rem,
     button-filled-basic-disabled-background-color: transparent,
     button-filled-basic-disabled-border-color: $color-base-gray-3,
     button-filled-basic-disabled-text-color: $color-base-gray-3,
+    //button-outline
+    button-outline-text-transform: none,
+    button-outline-width: 0rem,
+    button-outline-basic-background-color: $color-base-gray-1,
+    button-outline-basic-border-color: $color-base-gray-3,
+    button-outline-basic-text-color: $color-base-white,
+    button-outline-tiny-padding: 0.25rem 0.5rem,
+    button-outline-basic-hover-background-color: $color-base-gray-3,
+    button-outline-basic-hover-border-color: $color-base-gray-3,
+    button-outline-basic-hover-text-color: $color-base-white,
+    button-outline-basic-focus-background-color: $color-base-gray-1,
+    button-outline-basic-focus-border-color: $color-base-gray-3,
+    button-outline-basic-focus-text-color: $color-base-white,
+    button-outline-basic-active-background-color: $color-base-gray-1,
+    button-outline-basic-active-border-color: $color-base-gray-3,
+    button-outline-basic-active-text-color: $color-base-white,
+    text-button-tiny-font-size: $text-button-s-font-size,
+    text-button-tiny-line-height: $text-button-s-line-height,
+
 
     //icon-button
     button-tiny-icon-size: 0.938rem,
@@ -397,6 +441,13 @@ $nb-themes: nb-register-theme(
     button-ghost-basic-disabled-text-color: $color-base-gray-3,
 
     button-outline-color: transparent,
+
+    // snack-bar
+    snack-bar-background-color: $color-base-gray-1,
+    snack-bar-border-color: $color-base-gray-3,
+    snack-bar-closer-hover-background-color: $color-base-gray-3,
+    snack-bar-closer-color: $color-base-white,
+    snack-bar-closer-active-background-color: $color-primary-red,
 
     //common
     corner-radius-12: 0.75rem,

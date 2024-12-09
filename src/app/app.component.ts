@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService, Page } from './shared/services/global/global.service';
-import { from, map, Observable, of } from 'rxjs';
+import { debounce, debounceTime, from, map, Observable, of, switchMap, tap, timer } from 'rxjs';
 import { ChromeService } from './shared/services/chrome/chrome.service';
 import { IconRegisterService } from './shared/services/nbIcon-library-register.service';
-import { STORAGE_PASSWORD_ID, STORAGE_THEME_ID } from './shared/constants';
+import { STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID, STORAGE_THEME_ID } from './shared/constants';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -28,11 +28,11 @@ export class AppComponent implements OnInit {
     this.currentTab$ = this._chromeService.getCurrentTab();
     this.initIsRestricted()
     this.initTheme();
+    this.initIsPasswordFreeSessionSwitched();
   }
 
   initIsRestricted() {
     this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).pipe(
-      map(t => t[STORAGE_PASSWORD_ID])
     ).subscribe(password => {
       if (password) {
         this._globalService.setHasPassword$(true);
@@ -44,12 +44,31 @@ export class AppComponent implements OnInit {
   }
 
   initTheme() {
-    this._chromeService.storageSyncGetItem(STORAGE_THEME_ID).subscribe(value => {
-      const theme = value[STORAGE_THEME_ID];
+    this._chromeService.storageSyncGetItem(STORAGE_THEME_ID).subscribe(theme => {
       if (theme) {
         console.log("theme = ", theme);
         this._themeService.changeTheme(theme);
       }
+    })
+  }
+
+  initIsPasswordFreeSessionSwitched() {
+    this._globalService.getIsPasswordFreeSessionSwitched$().pipe(
+      switchMap(_ => this._chromeService.storageSyncGetItem(STORAGE_FREE_PASSWORD_PERIOD_ID)),
+      debounce(period => {
+        console.log('debounce')
+        if (period) {
+          const number = +period;
+          
+          return timer(number * 1000);
+        }
+        else {
+          return timer(30000);
+        }
+      })
+    ).subscribe(period => {
+      console.log('debounce is finished')
+      this._globalService.setIsPasswordFreeSession$(false)
     })
   }
 

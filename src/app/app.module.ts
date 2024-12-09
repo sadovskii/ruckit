@@ -30,6 +30,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EnterPasswordComponent } from './settings/layout-content/password/enter-password/enter-password.component';
 import { RuckitPasswordInputComponent } from './shared/components/ruckit-password-input/ruckit-password-input.component';
 import { ChangePasswordComponent } from './settings/layout-content/password/change-password/change-password.component';
+import { RuckitSnackBarComponent } from './shared/components/ruckit-snack-bar/ruckit-snack-bar.component';
+import { RuckitSnackBarService } from './shared/components/ruckit-snack-bar/ruckit-snack-bar.service';
+import { BlackListSimpleItemComponent } from './settings/layout-content/black-list/black-list-simple-item/black-list-simple-item.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,9 @@ import { ChangePasswordComponent } from './settings/layout-content/password/chan
     TagComponent,
     EnterPasswordComponent,
     RuckitPasswordInputComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    RuckitSnackBarComponent,
+    BlackListSimpleItemComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -78,7 +83,8 @@ import { ChangePasswordComponent } from './settings/layout-content/password/chan
   providers: [
     ChromeService,
     IconRegisterService,
-    NbDialogService
+    NbDialogService,
+    RuckitSnackBarService
   ],
   bootstrap: [AppComponent]
 })

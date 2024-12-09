@@ -68,6 +68,9 @@ export class ChangePasswordComponent implements OnDestroy {
           return;
         }
         else {
+          this.invalidAfterClick = false;
+          this.formGroup.reset();
+          this._cdr.detectChanges();
           this.onSubmit.emit(true);
         }
       })

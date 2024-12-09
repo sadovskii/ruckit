@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HideListItemModel } from '../../hide-list.models';
 import { FormControl } from '@angular/forms';
 
@@ -18,20 +18,25 @@ export class HideListBlockItemComponent implements OnInit {
   @Output()
   public update = new EventEmitter<HideListItemModel>;
 
-  toggleFormControl: FormControl;
+  @Output()
+  public restrictedClickAttempt = new EventEmitter<void>;
+  checked: boolean;
+
+  constructor(private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.initToogleControl()
+    this.checked = this.item.value ?? false;
   }
 
-  initToogleControl() {
-    this.toggleFormControl = new FormControl(this.item.value ?? false);
-    this.toggleFormControl.valueChanges.subscribe(t => {
+  onRequestToggleClick() {
+    if (this.isRestricted && this.checked) {
+      this.restrictedClickAttempt.emit();
+      return;
+    }
 
-      if (t !== null) {
-        this.item.value = t;
-        this.update.emit(this.item);
-      }
-    })
+    this.checked = !this.checked;
+    this.item.value = this.checked;
+    this._cdr.detectChanges();
+    this.update.emit(this.item);
   }
 }

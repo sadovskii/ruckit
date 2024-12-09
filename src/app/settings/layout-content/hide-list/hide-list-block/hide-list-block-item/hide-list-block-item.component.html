@@ -3,6 +3,8 @@
 </div>
 <ruckit-toggle
   class="ruckit-toggle"
+  [preventDefault]="true"
   [lock]="isRestricted"
-  [formControl]="toggleFormControl">
+  (click)="onRequestToggleClick()"
+  [checked]="checked">
 </ruckit-toggle>

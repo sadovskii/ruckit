@@ -43,5 +43,17 @@ export class IconRegisterService {
             }
         );
 
+        this.iconLibraries.registerSvgPack('ruckit-24',
+            {
+                [icons.RuckitExclamation24.name]: icons.RuckitExclamation24.data,
+                [icons.RuckitCheck24.name]: icons.RuckitCheck24.data
+            }
+        );
+
+        this.iconLibraries.registerSvgPack('ruckit-21',
+            {
+                [icons.RuckitCross21.name]: icons.RuckitCross21.data
+            }
+        )
     }
 }

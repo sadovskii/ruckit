@@ -1,0 +1,49 @@
+<div class="snack-bar-container">
+	<div class="snack-bar" *ngIf="showNotification && incommingNotification">
+		<!-- @switch (incommingNotification.type) {
+			@case (SnackbarType.success) {
+				<div class="snack-bar__info info">
+					<nb-icon class="info__icon" icon="check-24" pack="ruckit-24"></nb-icon>
+					<h6 class="info-text">Setting is sucessfully edited</h6>
+					<button class="info__button" nbButton size="tiny" outline>Undo</button>
+				</div>
+			}
+			@case (SnackbarType.restricted) {
+				<div class="snack-bar__info info">
+					<nb-icon icon="exclamation-24" pack="ruckit-24"></nb-icon>
+					<h6 class="info-text">Editing is restricted</h6>
+					<button class="info__button" nbButton size="tiny">Enter password</button>
+				</div>
+			}
+		} -->
+		
+		<div class="snack-bar__info info">
+			@switch (incommingNotification.type) {
+				@case (SnackbarType.success) {
+					<nb-icon class="info__icon" icon="check-24" pack="ruckit-24"></nb-icon>
+				}
+				@case (SnackbarType.restricted) {
+					<nb-icon class="info__icon" icon="exclamation-24" pack="ruckit-24"></nb-icon>
+				}
+			}
+			<h6 class="info-text">{{incommingNotification.message}}</h6>
+			<button
+				class="info__button"
+				*ngIf="incommingNotification.action !== SnackbarActionType.undefined"
+				nbButton
+				size="tiny"
+				outline
+				(click)="actionClick(incommingNotification.action)">
+				{{incommingNotification.action}}
+			</button>
+		</div>
+		<div class="closer-container">
+			<nb-icon
+				class="closer-container__icon"
+				(click)="close(incommingNotification.id)"
+				icon="cross-21"
+				pack="ruckit-21">
+			</nb-icon>
+		</div>
+	</div>
+</div>

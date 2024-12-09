@@ -9,9 +9,14 @@ export class GlobalService {
   public isRestricted = new BehaviorSubject<boolean>(false);
 
   private _isRestricted$ = new BehaviorSubject<Restriction>({ hasPassword: false, isPasswordFreeSession: false });
+  private _isPasswordFreeSessionSwitched$ = new Subject<void>();
 
   setIsPasswordFreeSession$(value: boolean) {
     const hasPassword = this._isRestricted$.value.hasPassword;
+
+    if (value) {
+      this._isPasswordFreeSessionSwitched$.next();
+    }
 
     this._isRestricted$.next({
       hasPassword: hasPassword,
@@ -61,6 +66,10 @@ export class GlobalService {
         return p.hasPassword;
       })
     )
+  }
+
+  getIsPasswordFreeSessionSwitched$(): Observable<void> {
+    return this._isPasswordFreeSessionSwitched$.asObservable();
   }
 }
 

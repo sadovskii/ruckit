@@ -1,0 +1,24 @@
+<div class="sample-item">
+	<app-settings-item
+		class="content sample-item__content"
+		[header]="header"
+		[description]="description">
+		<ruckit-toggle
+			class="ruckit-toggle"
+			[preventDefault]="true"
+			[lock]="isRestricted"
+			(click)="onToggleClick()"
+			[checked]="checked">
+		</ruckit-toggle>
+	</app-settings-item>
+	<div class="form sample-item__form">
+		<div class="add-new-item form__add-new-item">
+			<input class="add-new-item__input" nbInput [placeholder]="placeholder">
+			<button class="add-new-item__button" nbButton>Add new</button>
+		</div>
+		<div class="manage form__manage">
+			<button nbButton>Manage restrictions</button>
+			<h6>{{hidenItems}}: {{hidenCountItems}}</h6>
+		</div>
+	</div>
+</div>

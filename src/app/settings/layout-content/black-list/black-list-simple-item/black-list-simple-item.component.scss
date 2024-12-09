@@ -1,0 +1,23 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+.sample-item {
+    &__content {
+        margin-bottom: 1rem;
+    }
+
+    &__form {
+        max-width: 39.375rem;
+    }
+
+    .form {
+        .add-new-item {
+            display: flex;
+            flex-direction: row;
+
+            &__input {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+}

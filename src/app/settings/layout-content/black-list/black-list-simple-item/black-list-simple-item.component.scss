@@ -1,22 +1,75 @@
 @use '@nebular/theme/styles/themes/default';
 @use '@nebular/theme/styles/themes/dark';
 
-.sample-item {
+:host {
+    display: block;
+}
+
+.simple-item {
     &__content {
         margin-bottom: 1rem;
     }
 
-    &__form {
+    &__simple-settings {
         max-width: 39.375rem;
     }
 
-    .form {
+    .simple-settings {
         .add-new-item {
             display: flex;
             flex-direction: row;
 
             &__input {
                 margin-right: 0.5rem;
+            }
+
+            .input {
+                &:hover:not(:disabled):not(.status-danger) {
+                    &::placeholder {
+                        color: var(--input-basic-hover-placeholder-color);
+                    }
+                }
+
+                &::placeholder {
+                    color: var(--input-basic-placeholder-color);
+                    opacity: 1; /* Firefox */
+                }
+            
+                &:disabled::placeholder {
+                    color: var(--input-basic-disabled-placeholder-color);
+                    opacity: 1;
+                }
+                
+                &:focus::placeholder {
+                    color: transparent !important;
+                }
+            
+                &:not(:disabled).status-danger::placeholder {
+                    color: var(--input-danger-text-color);
+                }
+            }
+        }
+
+        &__add-new-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .manage {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            &__open-advanced-settings {
+                max-width: 11.25rem; //180px
+                margin-right: 1.5rem;
+            }
+
+            .count {
+                color: var(--black-list-item-text-count);
+
+                &_disabled {
+                    color: var(--black-list-item-disabled-text-count);
+                }
             }
         }
     }

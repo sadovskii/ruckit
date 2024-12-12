@@ -7,8 +7,7 @@
 		*ngFor="let item of items"
 		[item]="item"
 		[isRestricted]="isRestricted"
-		(update)="updateItem($event)"
-		(restrictedClickAttempt)="restrictedClickAttempt.emit()">
+		(update)="updateItem($event)">
 	</app-hide-list-block-item>
 </div>
 

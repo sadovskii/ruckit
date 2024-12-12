@@ -14,29 +14,24 @@ export class HideListBlockItemComponent implements OnInit {
 
   @Input({ required: true })
   public isRestricted: boolean;
-
+  
   @Output()
   public update = new EventEmitter<HideListItemModel>;
-
-  @Output()
-  public restrictedClickAttempt = new EventEmitter<void>;
-  checked: boolean;
+  
+  toggleControl: FormControl<boolean | null>;
 
   constructor(private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.checked = this.item.value ?? false;
+    this.toggleControl = new FormControl(this.item.value ?? false);
+    this._initToggleHandler();
   }
 
-  onRequestToggleClick() {
-    if (this.isRestricted && this.checked) {
-      this.restrictedClickAttempt.emit();
-      return;
-    }
-
-    this.checked = !this.checked;
-    this.item.value = this.checked;
-    this._cdr.detectChanges();
-    this.update.emit(this.item);
+  private _initToggleHandler() {
+    this.toggleControl.valueChanges.subscribe(value => {
+      this.item.value = value!;
+      this._cdr.detectChanges();
+      this.update.emit(this.item);
+    })
   }
 }

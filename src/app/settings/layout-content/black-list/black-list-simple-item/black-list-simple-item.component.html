@@ -1,24 +1,43 @@
-<div class="sample-item">
+<div class="simple-item">
 	<app-settings-item
-		class="content sample-item__content"
+		class="content simple-item__content"
 		[header]="header"
 		[description]="description">
 		<ruckit-toggle
+			restrictedToggle
 			class="ruckit-toggle"
-			[preventDefault]="true"
 			[lock]="isRestricted"
-			(click)="onToggleClick()"
-			[checked]="checked">
+			[formControl]="toggleControl">
 		</ruckit-toggle>
 	</app-settings-item>
-	<div class="form sample-item__form">
-		<div class="add-new-item form__add-new-item">
-			<input class="add-new-item__input" nbInput [placeholder]="placeholder">
-			<button class="add-new-item__button" nbButton>Add new</button>
+	<div class="simple-settings simple-item__simple-settings">
+		<div class="add-new-item simple-settings__add-new-item">
+			<input
+				class="add-new-item__input input"
+				fullWidth
+				nbInput
+				[placeholder]="placeholder"
+				[disabled]="disabled"
+			>
+			<button
+				class="add-new-item__button"
+				nbButton
+				[disabled]="disabled">
+				Add new
+			</button>
 		</div>
-		<div class="manage form__manage">
-			<button nbButton>Manage restrictions</button>
-			<h6>{{hidenItems}}: {{hidenCountItems}}</h6>
+		<div class="manage simple-settings__manage">
+			<button
+				class="manage__open-advanced-settings"
+				nbButton
+				[disabled]="disabled">
+				Manage restrictions
+			</button>
+			<h6
+				[ngClass]="{'count_disabled': disabled }"
+				class="count manage__count">
+				{{hidenItems}}: {{hidenCountItems}}
+			</h6>
 		</div>
 	</div>
 </div>

@@ -61,6 +61,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
   }
 
   onRequestToggleClick() {
+    console.log('onRequestToggleClick');
     if (this.isHasPassword === null) {
       return;
     }
@@ -108,6 +109,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
 
   // initialize open set new password window, handle submit and close
   private initSetNewPassword() {
+    console.log('initSetNewPassword');
     const ref = this._dialogService.open(SetNewPasswordComponent,
       {
         hasBackdrop: true,

@@ -33,6 +33,7 @@ import { ChangePasswordComponent } from './settings/layout-content/password/chan
 import { RuckitSnackBarComponent } from './shared/components/ruckit-snack-bar/ruckit-snack-bar.component';
 import { RuckitSnackBarService } from './shared/components/ruckit-snack-bar/ruckit-snack-bar.service';
 import { BlackListSimpleItemComponent } from './settings/layout-content/black-list/black-list-simple-item/black-list-simple-item.component';
+import { RestrictedToggleDirective } from './shared/directive/restricted-toggle/restricted-toggle.directive';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { BlackListSimpleItemComponent } from './settings/layout-content/black-li
     ChangePasswordComponent,
     RuckitSnackBarComponent,
     BlackListSimpleItemComponent,
+    RestrictedToggleDirective
   ],
   imports: [
     ReactiveFormsModule,
@@ -78,13 +80,13 @@ import { BlackListSimpleItemComponent } from './settings/layout-content/black-li
     NbToggleModule,
     NbDialogModule.forRoot(),
     NbInputModule,
-    NbFormFieldModule
+    NbFormFieldModule,
   ],
   providers: [
     ChromeService,
     IconRegisterService,
     NbDialogService,
-    RuckitSnackBarService
+    RuckitSnackBarService,
   ],
   bootstrap: [AppComponent]
 })

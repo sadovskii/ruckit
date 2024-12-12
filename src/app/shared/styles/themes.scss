@@ -224,6 +224,11 @@ $nb-themes: nb-register-theme(
     snack-bar-closer-hover-background-color: $color-base-gray-7,
     snack-bar-closer-active-background-color: $color-primary-red,
 
+    // black-list
+    // black-list-item
+    black-list-item-text-count: $color-base-gray-6,
+    black-list-item-disabled-text-count: $color-base-gray-7,
+
     //common
     corner-radius-12: 0.75rem,
     corner-radius-8: 0.5rem,
@@ -448,6 +453,11 @@ $nb-themes: nb-register-theme(
     snack-bar-closer-hover-background-color: $color-base-gray-3,
     snack-bar-closer-color: $color-base-white,
     snack-bar-closer-active-background-color: $color-primary-red,
+
+    // black-list
+    // black-list-item
+    black-list-item-text-count: $color-base-gray-4,
+    black-list-item-disabled-text-count: $color-base-gray-3,
 
     //common
     corner-radius-12: 0.75rem,

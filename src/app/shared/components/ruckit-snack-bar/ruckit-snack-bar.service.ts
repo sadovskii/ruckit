@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, first, Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class RuckitSnackBarService {
@@ -15,9 +15,6 @@ export class RuckitSnackBarService {
     const id = Date.now();
     this.snackbar = { id, message, type, action };
     this.snackbarSubject.next(this.snackbar);
-    setTimeout(() => {
-      
-    }, 3000);
     return id;
   }
 

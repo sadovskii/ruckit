@@ -6,8 +6,7 @@
 			[header]="group.name"
 			[items]="group.items"
 			[isRestricted]="IsRestricted"
-			(update)="updateHideList(group.type, $event)"
-			(restrictedClickAttempt)="onRestrictedClickAttempt()">
+			(update)="updateHideList(group.type, $event)">
 		</app-hide-list-block>
 	</div>
 </app-layout>

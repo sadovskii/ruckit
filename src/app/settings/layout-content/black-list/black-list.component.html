@@ -1,10 +1,29 @@
-<app-layout header="Blacklist">
-    <app-black-list-simple-item
-        header="Channels restrictions"
-        description="Block the channels that you want to hide from your feed"
-        placeholder="Enter a channel name"
-        [hidenCountItems]="0"
-        hidenItems="Hiden channels"
-        [isRestricted]="false">
-    </app-black-list-simple-item>
+<app-layout class="black-list" header="Blacklist">
+	<app-black-list-simple-item
+		class="black-list__item"
+		header="Channels restrictions"
+		description="Block the channels that you want to hide from your feed"
+		placeholder="Enter a channel name"
+		[hidenCountItems]="0"
+		hidenItems="Hiden channels"
+		[isRestricted]="isRestricted">
+	</app-black-list-simple-item>
+	<app-black-list-simple-item
+		class="black-list__item"
+		header="Keywords restrictions"
+		description="Block keywords that you want to hide videos from your feed"
+		placeholder="Enter a keyword"
+		[hidenCountItems]="0"
+		hidenItems="Hiden keywords"
+		[isRestricted]="isRestricted">
+	</app-black-list-simple-item>
+	<app-black-list-simple-item
+		class="black-list__item"
+		header="Phrases restrictions"
+		description="Block phrases that you want to hide videos from your feed"
+		placeholder="Enter a phrase"
+		[hidenCountItems]="0"
+		hidenItems="Hiden phrases"
+		[isRestricted]="isRestricted">
+	</app-black-list-simple-item>
 </app-layout>

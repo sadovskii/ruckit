@@ -27,15 +27,12 @@ export class HideListComponent implements OnInit, OnDestroy {
   constructor(
     private _chromeService: ChromeService,
     private _globalService: GlobalService,
-    private _cdr: ChangeDetectorRef,
-    private _snackbarService: RuckitSnackBarService,
-    private _dialogService: NbDialogService
+    private _cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this._initHideListConfiguration();
     this._initIsRestricted();
-    this._initSnackbarAction();
   }
 
   updateHideList(groupType: HideListItemGroupType, item: HideListItemModel) {
@@ -70,65 +67,33 @@ export class HideListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRestrictedClickAttempt() {
-    this._snackbarService.restricted();
-  }
-
-  ngOnDestroy(): void {
-    this._subscriptions.unsubscribe();
-  }
-
+  
   private _initHideListConfiguration() {
     let sub = this._chromeService.storageSyncGetItem(HIDE_LIST_ID).subscribe(map => {
-
+      
       if (map) {
         this.hideListItemMap = new Map<HideListItemType, boolean>(map);
       }
-
+      
       this.HideListConfiguration = HideListModelConfiguration(this.hideListItemMap);
       this.IsRestricted = this._globalService.getIsRestrictedValue();
       console.log('IsRestricted = ', this.IsRestricted);
       this._cdr.detectChanges();
     })
-
+    
     this._subscriptions.add(sub);
   }
-
+  
   private _initIsRestricted() {
-    let sub = this._globalService.getIsRestricted$().subscribe(t => {
+    let sub = this._globalService.getIsRestricted$.subscribe(t => {
       this.IsRestricted = t;
       this._cdr.detectChanges();
     })
-
+    
     this._subscriptions.add(sub);
   }
 
-  private _initSnackbarAction() {
-    const sub = this._snackbarService.action$().subscribe(t => {
-      console.log('_initSnackbarAction');
-      if (t === SnackbarActionType.enterPassword) {
-        this._initEnterPassword();
-      }
-    });
-
-    this._subscriptions.add(sub);
-  }
-
-  private _initEnterPassword() {
-    const ref = this._dialogService.open(EnterPasswordComponent,
-      {
-        hasBackdrop: true,
-        autoFocus: false,
-        backdropClass: BACKDROP_CLASS
-      }
-    );
-
-    let sub = ref.componentRef.instance.submit.pipe(
-      ).subscribe(_ => {
-        this._globalService.setIsPasswordFreeSession$(true);
-          this._cdr.detectChanges();
-      })
-
-    this._subscriptions.add(sub);
+  ngOnDestroy(): void {
+    this._subscriptions.unsubscribe();
   }
 }

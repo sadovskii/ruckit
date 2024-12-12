@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-black-list-simple-item',
   templateUrl: './black-list-simple-item.component.html',
   styleUrl: './black-list-simple-item.component.scss'
 })
-export class BlackListSimpleItemComponent {
+export class BlackListSimpleItemComponent implements OnInit {
   @Input({ required: true })
   public header: string;
 
@@ -24,11 +25,20 @@ export class BlackListSimpleItemComponent {
   @Input({ required: true })
   public hidenCountItems: number;
 
-  public checked: boolean;
+  @Input()
+  public checked: boolean = true;
+
+  public disabled: boolean = !this.checked;
+
+  public toggleControl = new FormControl(this.checked);
 
   constructor(private _cdr: ChangeDetectorRef) {}
 
-  onToggleClick() {
-    this.checked = !this.checked;
+  ngOnInit(): void {
+    this.toggleControl.valueChanges.subscribe(value => {
+      this.disabled = !value!;
+      this.checked = value!;
+      console.log('toggle value = ', value);
+    })
   }
 }

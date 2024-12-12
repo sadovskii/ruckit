@@ -21,9 +21,6 @@ export class HideListBlockComponent {
   @Output()
   public update = new EventEmitter<HideListItemModel>();
 
-  @Output()
-  public restrictedClickAttempt = new EventEmitter<void>;
-
   updateItem(item: HideListItemModel) {
     this.update.emit(item);
   }

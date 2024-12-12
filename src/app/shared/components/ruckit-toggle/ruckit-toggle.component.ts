@@ -43,7 +43,7 @@ export class RuckitToggleComponent implements ControlValueAccessor {
 
   @Output() public readonly checkedChange = new EventEmitter<boolean>();
   @Output() public readonly onBlur = new EventEmitter<any>();
-  @Output() public readonly click = new EventEmitter<any>();
+  @Output() public readonly onClick = new EventEmitter<any>();
 
 
   private _checked = false;
@@ -59,12 +59,14 @@ export class RuckitToggleComponent implements ControlValueAccessor {
   }
 
   onToggleChange(event: boolean) {
+    console.log('onToggleChange in ruckit toggle');
     this.checkedChange.emit(event);
     this.checked = event;
     this._onChange(event);
 }
 
   writeValue(obj: any): void {
+    console.log('writeValue in ruckit toggle');
     this.checked = obj;
     this._changeDetector.markForCheck();
   }
@@ -82,7 +84,9 @@ export class RuckitToggleComponent implements ControlValueAccessor {
     this._changeDetector.markForCheck();
   }
 
-  onClick(event: Event) {
+  click(event: Event) {
+    this.onClick.emit(event);
+
     if (this.preventDefault) {
       event.preventDefault();
     }

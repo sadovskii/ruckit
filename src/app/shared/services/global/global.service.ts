@@ -37,7 +37,7 @@ export class GlobalService {
     });
   }
 
-  getIsRestricted$(): Observable<boolean> {
+  get getIsRestricted$(): Observable<boolean> {
     return this._isRestricted$.asObservable().pipe(
       map(p => {
 

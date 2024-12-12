@@ -2,9 +2,8 @@
   <h5 class="header_content">{{item.name}}</h5>
 </div>
 <ruckit-toggle
+  restrictedToggle
   class="ruckit-toggle"
-  [preventDefault]="true"
-  [lock]="isRestricted"
-  (click)="onRequestToggleClick()"
-  [checked]="checked">
+  [formControl]="toggleControl"
+  [lock]="isRestricted">
 </ruckit-toggle>

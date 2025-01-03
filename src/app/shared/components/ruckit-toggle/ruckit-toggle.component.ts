@@ -59,14 +59,12 @@ export class RuckitToggleComponent implements ControlValueAccessor {
   }
 
   onToggleChange(event: boolean) {
-    console.log('onToggleChange in ruckit toggle');
     this.checkedChange.emit(event);
     this.checked = event;
     this._onChange(event);
 }
 
   writeValue(obj: any): void {
-    console.log('writeValue in ruckit toggle');
     this.checked = obj;
     this._changeDetector.markForCheck();
   }

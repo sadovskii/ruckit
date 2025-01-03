@@ -34,6 +34,8 @@ import { RuckitSnackBarComponent } from './shared/components/ruckit-snack-bar/ru
 import { RuckitSnackBarService } from './shared/components/ruckit-snack-bar/ruckit-snack-bar.service';
 import { BlackListSimpleItemComponent } from './settings/layout-content/black-list/black-list-simple-item/black-list-simple-item.component';
 import { RestrictedToggleDirective } from './shared/directive/restricted-toggle/restricted-toggle.directive';
+import { BlackListManageRestrictionsComponent } from './settings/layout-content/black-list/black-list-manage-restrictions/black-list-manage-restrictions.component';
+import { RuckitOptionListComponent } from './shared/components/ruckit-option-list/ruckit-option-list.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { RestrictedToggleDirective } from './shared/directive/restricted-toggle/
     ChangePasswordComponent,
     RuckitSnackBarComponent,
     BlackListSimpleItemComponent,
+    BlackListManageRestrictionsComponent,
+    RuckitOptionListComponent,
     RestrictedToggleDirective
   ],
   imports: [

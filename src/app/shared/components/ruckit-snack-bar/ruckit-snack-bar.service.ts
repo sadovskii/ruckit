@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, first, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, first, Observable, shareReplay, Subject, timeout } from 'rxjs';
 
 @Injectable()
 export class RuckitSnackBarService {
@@ -13,8 +13,9 @@ export class RuckitSnackBarService {
 
   private show(message: string, type: SnackbarType, action: SnackbarActionType) {
     const id = Date.now();
-    this.snackbar = { id, message, type, action };
+    this.snackbar = { id, message, type, action, isShown: true };
     this.snackbarSubject.next(this.snackbar);
+    this._action$ = new Subject<SnackbarActionType>();
     return id;
   }
 
@@ -34,7 +35,7 @@ export class RuckitSnackBarService {
     this.show(message, SnackbarType.restricted, action);
   }
 
-  action$() {
+  get action$() {
     return this._action$.asObservable();
   }
 
@@ -42,6 +43,10 @@ export class RuckitSnackBarService {
     console.log('action');
     this._action$.next(actionType);
   }
+
+  get isShown() {
+    return this.snackbar !== undefined;
+  } 
 }
 
 export interface Snackbar {
@@ -49,6 +54,7 @@ export interface Snackbar {
   message: string;
   type: SnackbarType;
   action: SnackbarActionType;
+  isShown: boolean;
 }
 
 export enum SnackbarType {

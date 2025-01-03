@@ -117,6 +117,10 @@ export class ChromeService {
       .pipe(map(value => value[key]));
   }
 
+  storageSyncGetItems(keys: string[]): Observable<any> {
+    return from(chrome.storage.sync.get(keys));
+  }
+
   storageSyncSet<T>(key: string, value: T) {
     let data: { [key: string]: T } = {};
     data[key] = value;

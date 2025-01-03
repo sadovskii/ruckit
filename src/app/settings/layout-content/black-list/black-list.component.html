@@ -1,29 +1,26 @@
 <app-layout class="black-list" header="Blacklist">
 	<app-black-list-simple-item
 		class="black-list__item"
-		header="Channels restrictions"
-		description="Block the channels that you want to hide from your feed"
-		placeholder="Enter a channel name"
-		[hidenCountItems]="0"
-		hidenItems="Hiden channels"
-		[isRestricted]="isRestricted">
+		[hidenCountItems]="blackListData[BlackListRestrictionType.Channels].length"
+		[isRestricted]="isRestricted"
+		[type]="BlackListRestrictionType.Channels"
+		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Channels)"
+		(addItem)="onAddItem($event, BlackListRestrictionType.Channels)">
 	</app-black-list-simple-item>
 	<app-black-list-simple-item
 		class="black-list__item"
-		header="Keywords restrictions"
-		description="Block keywords that you want to hide videos from your feed"
-		placeholder="Enter a keyword"
-		[hidenCountItems]="0"
-		hidenItems="Hiden keywords"
-		[isRestricted]="isRestricted">
+		[hidenCountItems]="blackListData[BlackListRestrictionType.Keywords].length"
+		[isRestricted]="isRestricted"
+		[type]="BlackListRestrictionType.Keywords"
+		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Keywords)"
+		(addItem)="onAddItem($event, BlackListRestrictionType.Keywords)">
 	</app-black-list-simple-item>
 	<app-black-list-simple-item
 		class="black-list__item"
-		header="Phrases restrictions"
-		description="Block phrases that you want to hide videos from your feed"
-		placeholder="Enter a phrase"
-		[hidenCountItems]="0"
-		hidenItems="Hiden phrases"
-		[isRestricted]="isRestricted">
+		[hidenCountItems]="blackListData[BlackListRestrictionType.Phrases].length"
+		[isRestricted]="isRestricted"
+		[type]="BlackListRestrictionType.Phrases"
+		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Phrases)"
+		(addItem)="onAddItem($event, BlackListRestrictionType.Phrases)">
 	</app-black-list-simple-item>
 </app-layout>

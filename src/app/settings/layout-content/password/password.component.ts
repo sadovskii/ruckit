@@ -4,7 +4,7 @@ import { NbDialogService, NbGlobalLogicalPosition, NbGlobalPhysicalPosition } fr
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
-import { STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID } from 'src/app/shared/constants';
+import { BACKDROP_CLASS, STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID } from 'src/app/shared/constants';
 import { map, of, Subscription, switchMap } from 'rxjs';
 import { EnterPasswordComponent } from './enter-password/enter-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -21,7 +21,6 @@ export class PasswordComponent implements OnInit, OnDestroy {
   isHasPassword: boolean | null = null;
 
   private _subscriptions = new Subscription();
-  private readonly backdropClass = 'custom-backdrop';
 
   constructor(
     private _dialogService: NbDialogService,
@@ -91,7 +90,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
       {
         hasBackdrop: true,
         autoFocus: false,
-        backdropClass: this.backdropClass
+        backdropClass: BACKDROP_CLASS
       }
     );
 
@@ -109,12 +108,11 @@ export class PasswordComponent implements OnInit, OnDestroy {
 
   // initialize open set new password window, handle submit and close
   private initSetNewPassword() {
-    console.log('initSetNewPassword');
     const ref = this._dialogService.open(SetNewPasswordComponent,
       {
         hasBackdrop: true,
         autoFocus: false,
-        backdropClass: this.backdropClass
+        backdropClass: BACKDROP_CLASS
       }
     );
 

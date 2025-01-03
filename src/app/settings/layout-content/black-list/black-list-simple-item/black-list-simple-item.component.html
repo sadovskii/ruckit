@@ -1,8 +1,8 @@
 <div class="simple-item">
 	<app-settings-item
 		class="content simple-item__content"
-		[header]="header"
-		[description]="description">
+		header="{{type}}s restrictions"
+		description="Block the {{type}}s that you want to hide from your feed">
 		<ruckit-toggle
 			restrictedToggle
 			class="ruckit-toggle"
@@ -16,13 +16,16 @@
 				class="add-new-item__input input"
 				fullWidth
 				nbInput
-				[placeholder]="placeholder"
+				placeholder="Enter a {{type}} name"
 				[disabled]="disabled"
+				[formControl]="addItemControl"
+				[status]="invalidAfterClick && addItemControl.invalid ? 'danger' : 'basic'"
 			>
 			<button
 				class="add-new-item__button"
 				nbButton
-				[disabled]="disabled">
+				[disabled]="disabled"
+				(click)="onAddItemClick()">
 				Add new
 			</button>
 		</div>
@@ -30,13 +33,14 @@
 			<button
 				class="manage__open-advanced-settings"
 				nbButton
-				[disabled]="disabled">
+				[disabled]="disabled"
+				(click)="onManageRestrictionsClick()">
 				Manage restrictions
 			</button>
 			<h6
 				[ngClass]="{'count_disabled': disabled }"
 				class="count manage__count">
-				{{hidenItems}}: {{hidenCountItems}}
+				Hiden {{type}}s: {{hidenCountItems}}
 			</h6>
 		</div>
 	</div>

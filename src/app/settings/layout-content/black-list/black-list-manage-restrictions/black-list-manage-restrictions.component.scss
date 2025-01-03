@@ -1,0 +1,71 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+.input {
+    &:hover:not(:disabled):not(.status-danger) {
+        &::placeholder {
+            color: var(--input-basic-hover-placeholder-color);
+        }
+    }
+
+    &::placeholder {
+        color: var(--input-basic-placeholder-color);
+        opacity: 1; /* Firefox */
+    }
+
+    &:disabled::placeholder {
+        color: var(--input-basic-disabled-placeholder-color);
+        opacity: 1;
+    }
+    
+    &:focus::placeholder {
+        color: transparent !important;
+    }
+
+    &:not(:disabled).status-danger::placeholder {
+        color: var(--input-danger-text-color);
+    }
+}
+
+.manage-restrictions-container {
+    padding-top: 2rem;
+
+    .new-resctiction {
+        &__label {
+            margin-bottom: 0.75rem;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: row;
+    
+            &__input {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    &__new-resctiction {
+        margin-bottom: 1.5rem;
+    }
+
+    .find-existing-restriction {
+        .header-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .hidden-count {
+                color: var(--black-list-manage-restrictions-count);
+            }
+        }
+
+        &__header-content {
+            margin-bottom: 0.75rem;
+        }
+
+        &__restriction-list {
+            width: 100%;
+        }
+    }
+}

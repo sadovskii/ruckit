@@ -18,6 +18,10 @@
     &_disabled &__header {
         color: var(--settings-item-disabled-color);
     }
+
+    .header::first-letter {
+        text-transform: capitalize;
+    }
 }
 
 .control {

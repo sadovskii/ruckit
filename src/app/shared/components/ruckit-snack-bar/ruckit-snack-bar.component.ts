@@ -30,6 +30,7 @@ export class RuckitSnackBarComponent {
               debounceTime(3000),
               tap(() => {
                   this.showNotification = false;
+                  this._snackbarService.remove();
               })
           )
           .subscribe();

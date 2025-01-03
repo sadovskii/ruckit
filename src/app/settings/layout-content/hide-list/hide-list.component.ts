@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { HideListItemGroupType, HideListItemModel, HideListItemType, HideListModel } from './hide-list.models';
 import { HideListModelConfiguration } from './hide-list.configuration';
-import { from, Subscription, switchMap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
-import { BACKDROP_CLASS, HIDE_LIST_ID, STORAGE_PASSWORD_ID } from 'src/app/shared/constants';
+import { HIDE_LIST_ID } from 'src/app/shared/constants';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
-import { RuckitSnackBarService, SnackbarActionType } from 'src/app/shared/components/ruckit-snack-bar/ruckit-snack-bar.service';
-import { NbDialogService } from '@nebular/theme';
-import { EnterPasswordComponent } from '../password/enter-password/enter-password.component';
 
 @Component({
   selector: 'app-hide-list',
@@ -71,6 +68,7 @@ export class HideListComponent implements OnInit, OnDestroy {
   private _initHideListConfiguration() {
     let sub = this._chromeService.storageSyncGetItem(HIDE_LIST_ID).subscribe(map => {
       
+      console.log('map = ', map);
       if (map) {
         this.hideListItemMap = new Map<HideListItemType, boolean>(map);
       }

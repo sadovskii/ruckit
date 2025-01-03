@@ -1,0 +1,33 @@
+<ruckit-dialog
+  header="Manage {{type}}s restrictions"
+	tagValue="Restrictions settings"
+	[tagType]="TagType.Red"
+	(closed)="onClose()">
+	<div class="manage-restrictions-container">
+		<div class="manage-restrictions-container__new-resctiction new-resctiction">
+			<h6 class="new-resctiction__label">New {{type}} restriction</h6>
+			<form class="new-resctiction__form form">
+				<input
+					class="form__input input"
+					nbInput
+					fullWidth
+					placeholder="Enter a {{placeholder}}"
+					[formControl]="addItemFormControl">
+				<button class="form__button" nbButton (click)="addItemClick()">Add new</button>
+			</form>
+		</div>
+		<div class="manage-restrictions-container__find-existing-restriction find-existing-restriction">
+			<div class="find-existing-restriction__header-content header-content">
+				<h6 class="header-content__label">Find the existing restriction</h6>
+				<h6 class="header-content__hidden-count hidden-count">Hiden {{type}}s: {{restrictionList.length}}</h6>
+			</div>
+			<ruckit-option-list
+				[optionList]="restrictionList"
+				[placeholder]="placeholder"
+				class="find-existing-restriction__restriction-list"
+				(addItem)="notFoundAddItem($event)"
+				(removeItem)="onRemoveItem($event)">
+			</ruckit-option-list>
+		</div>
+	</div>
+</ruckit-dialog>

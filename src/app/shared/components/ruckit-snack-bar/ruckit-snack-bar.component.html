@@ -1,22 +1,5 @@
 <div class="snack-bar-container">
-	<div class="snack-bar" *ngIf="showNotification && incommingNotification">
-		<!-- @switch (incommingNotification.type) {
-			@case (SnackbarType.success) {
-				<div class="snack-bar__info info">
-					<nb-icon class="info__icon" icon="check-24" pack="ruckit-24"></nb-icon>
-					<h6 class="info-text">Setting is sucessfully edited</h6>
-					<button class="info__button" nbButton size="tiny" outline>Undo</button>
-				</div>
-			}
-			@case (SnackbarType.restricted) {
-				<div class="snack-bar__info info">
-					<nb-icon icon="exclamation-24" pack="ruckit-24"></nb-icon>
-					<h6 class="info-text">Editing is restricted</h6>
-					<button class="info__button" nbButton size="tiny">Enter password</button>
-				</div>
-			}
-		} -->
-		
+	<div class="snack-bar" *ngIf="showNotification && incommingNotification">	
 		<div class="snack-bar__info info">
 			@switch (incommingNotification.type) {
 				@case (SnackbarType.success) {

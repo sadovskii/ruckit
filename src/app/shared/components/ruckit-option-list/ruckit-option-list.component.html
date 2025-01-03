@@ -1,0 +1,45 @@
+<input
+	class="search input"
+	nbInput
+	fullWidth
+	placeholder="Enter a {{placeholder}}"
+	[formControl]="searchFormControl">
+<div
+	class="option-list-container">
+	<div
+		class="option-list-container-wrapper"
+		[ngStyle]="{'height': height }">
+		@if (filteredOptionList && filteredOptionList.length > 0) {
+			<div
+				*ngFor="let item of filteredOptionList; let i = index; trackBy: trackOptionList"
+				class="option-list-container-wrapper__option-list-item option-list-item">
+				<h6 class="option-list-item__name">{{item}}</h6>
+				<nb-icon
+					class="option-list-item__icon icon"
+					(click)="remove(i)"
+					icon="cross-21"
+					pack="ruckit-21">
+				</nb-icon>
+			</div>
+		}
+		@else if (filteredOptionList.length === 0 && optionList.length !== 0) {
+			<div class="option-list-unfound">
+				<h6 class="option-list-unfound__content">The restriction is not found</h6>
+				<button
+					class="option-list-unfound__add-item"
+					nbButton
+					size="tiny"
+					outline
+					(click)="addItemClick()"
+				>
+					Add new restriction
+				</button>
+			</div>
+		}
+		@else {	
+			<div class="option-list-empty">
+				<h6 class="option-list-empty__content">The restrictions list is null</h6>
+			</div>
+		}
+	</div>
+</div>

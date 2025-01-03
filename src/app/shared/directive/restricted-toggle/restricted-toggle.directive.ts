@@ -38,7 +38,7 @@ export class RestrictedToggleDirective implements OnInit, OnDestroy {
         }
       }
       else  {
-        this._rugckitToggle.onToggleChange(!this._rugckitToggle.checked); 
+        this._rugckitToggle.onToggleChange(!this._rugckitToggle.checked);
       }
     })
 
@@ -46,7 +46,7 @@ export class RestrictedToggleDirective implements OnInit, OnDestroy {
   }
 
   private _initSnackbarAction() {
-    const sub = this._snackbarService.action$()
+    const sub = this._snackbarService.action$
       .pipe(
         first()
       ).subscribe(t => {
@@ -67,6 +67,7 @@ export class RestrictedToggleDirective implements OnInit, OnDestroy {
       }
     );
 
+    console.log("_initEnterPassword()");
     let sub = ref.componentRef.instance.submit.pipe(
       first()
       ).subscribe(_ => {

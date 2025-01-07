@@ -30,8 +30,8 @@ export enum HideListItemType {
     SearchResultsShortSection,
     SearchResultsLonelyShort,
     SearchResultsChipBarBelowSearch,
-    SearchResultsNewRecords,
-    SearchResultsPeopleAlsoSearchFor,
+    SearchResultsLatestPosts,
+    SearchResultsSuggestionsSections,
     ChannelPageShorts,
     ChannelPageShortGrid,
     ShortsPageShortsSection

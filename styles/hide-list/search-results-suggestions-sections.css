@@ -1,3 +1,7 @@
+ytd-shelf-renderer:has(#title-container) {
+    display: none !important;
+}
+
 ytd-search ytd-horizontal-card-list-renderer:has(ytd-search-refinement-card-renderer) {
     display: none !important;
 }

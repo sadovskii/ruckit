@@ -116,16 +116,17 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                         value: map?.get(HideListItemType.SearchResultsChipBarBelowSearch) ?? false
                     },
                     {
-                        name: "New records section",
-                        type: HideListItemType.SearchResultsNewRecords,
-                        cssUrl: "styles/hide-list/search-results-new-records.css",
-                        value: map?.get(HideListItemType.SearchResultsNewRecords) ?? false
+                        //Latest posts from
+                        name: "\"Latest posts\" section",
+                        type: HideListItemType.SearchResultsLatestPosts,
+                        cssUrl: "styles/hide-list/search-results-latest-posts.css",
+                        value: map?.get(HideListItemType.SearchResultsLatestPosts) ?? false
                     },
                     {
-                        name: "People also search for section",
-                        type: HideListItemType.SearchResultsPeopleAlsoSearchFor,
-                        cssUrl: "styles/hide-list/search-results-people-also-search-for.css",
-                        value: map?.get(HideListItemType.SearchResultsPeopleAlsoSearchFor) ?? false
+                        name: "Suggestions sections",
+                        type: HideListItemType.SearchResultsSuggestionsSections,
+                        cssUrl: "styles/hide-list/search-results-suggestions-sections.css",
+                        value: map?.get(HideListItemType.SearchResultsSuggestionsSections) ?? false
                     }
 
                 ]

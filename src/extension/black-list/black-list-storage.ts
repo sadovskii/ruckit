@@ -171,7 +171,8 @@ export class BlackListStorage {
         '@Droiderru',
         '@ButKorn',
         '@SemenikhinDenis',
-        '@flynutrition'
+        '@flynutrition',
+        '@itpediachannel'
     ]
 
     public static blackNameWords: string[] = [

@@ -1,26 +1,32 @@
-<app-layout class="black-list" header="Blacklist">
+<app-layout class="black-list" header="Blacklist" *ngIf="isLoadedIsRestricted && isLoadedData">
 	<app-black-list-simple-item
 		class="black-list__item"
 		[hidenCountItems]="blackListData[BlackListRestrictionType.Channels].length"
+		[checked]="blackListTurningOn[BlackListRestrictionType.Channels]"
 		[isRestricted]="isRestricted"
 		[type]="BlackListRestrictionType.Channels"
 		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Channels)"
-		(addItem)="onAddItem($event, BlackListRestrictionType.Channels)">
+		(addItem)="onAddItem($event, BlackListRestrictionType.Channels)"
+		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Channels)">
 	</app-black-list-simple-item>
 	<app-black-list-simple-item
 		class="black-list__item"
 		[hidenCountItems]="blackListData[BlackListRestrictionType.Keywords].length"
+		[checked]="blackListTurningOn[BlackListRestrictionType.Keywords]"
 		[isRestricted]="isRestricted"
 		[type]="BlackListRestrictionType.Keywords"
 		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Keywords)"
-		(addItem)="onAddItem($event, BlackListRestrictionType.Keywords)">
+		(addItem)="onAddItem($event, BlackListRestrictionType.Keywords)"
+		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Keywords)">
 	</app-black-list-simple-item>
 	<app-black-list-simple-item
 		class="black-list__item"
 		[hidenCountItems]="blackListData[BlackListRestrictionType.Phrases].length"
+		[checked]="blackListTurningOn[BlackListRestrictionType.Phrases]"
 		[isRestricted]="isRestricted"
 		[type]="BlackListRestrictionType.Phrases"
 		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Phrases)"
-		(addItem)="onAddItem($event, BlackListRestrictionType.Phrases)">
+		(addItem)="onAddItem($event, BlackListRestrictionType.Phrases)"
+		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Phrases)">
 	</app-black-list-simple-item>
 </app-layout>

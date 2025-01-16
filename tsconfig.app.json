@@ -11,7 +11,14 @@
     "src/main.ts",
     "src/extension/background.ts",
     "src/extension/black-list/black-list-search-page.ts",
-    "src/extension/black-list/black-list-storage.ts"
+    "src/extension/black-list/black-list-storage.ts",
+    "src/extension/black-list/channel/black-list-channel.ts",
+    "src/extension/black-list/video/black-list-video.ts",
+    // "src/extension/black-list/black-list-models.ts",
+    // "src/extension/black-list/black-list-script-hide-channel.ts",
+    // "src/extension/black-list/black-list-script-hide-in-shelf.ts",
+    // "src/extension/black-list/black-list-script-hide-video.ts",
+    // "src/extension/black-list/black-list-script-manipulations.ts",
   ],
   "include": [
     "src/**/*.d.ts"

@@ -4,8 +4,8 @@ export enum BlackListRestrictionType {
     Phrases = 'phrase'
 }
 
-export type Dictionary = {
-  [type in BlackListRestrictionType]: string[];
+export type Dictionary<T> = {
+  [type in BlackListRestrictionType]: T;
 };
 
 export const MAX_LENGTH_RESTRICTION = 30;

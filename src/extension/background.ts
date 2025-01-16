@@ -1,12 +1,13 @@
 import { EXTENSION_IDENTIFIER, HIDE_LIST_ID } from "src/app/shared/constants";
-import { BlackListStorage } from "./black-list/black-list-storage";
 import { ChromeService } from "src/app/shared/services/chrome/chrome.service";
 import { HideListItemType } from "src/app/settings/layout-content/hide-list/hide-list.models";
 import { HideListModelConfiguration } from "src/app/settings/layout-content/hide-list/hide-list.configuration";
-import { combineLatest, concat, concatAll, delay, forkJoin, from, merge, Observable, of } from "rxjs";
 
-const youtube = 'https://www.youtube.com/'
-const search = 'https://www.youtube.com/results'
+const youtube = 'https://www.youtube.com/';
+const search = 'https://www.youtube.com/results';
+const channelUrlAt = 'www.youtube.com/@';
+const channelUrlChannel = 'www.youtube.com/channel/';
+const videoUrl = 'www.youtube.com/watch';
 
 console.log("background works test 1111! constant = ", EXTENSION_IDENTIFIER);
 
@@ -16,7 +17,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
  
     switch (reason) {
         case 'install':
-            console.log('New User installed the extension.')
+            console.log('New User installed the extension.');
             break;
         case 'update':
             var chromeService = new ChromeService();
@@ -52,32 +53,58 @@ chrome.runtime.onInstalled.addListener(async (details) => {
           break;
     }
  
- })
+})
 
-// chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
-//     if (changeInfo.url) {
-//         console.log('changeInfo = ', changeInfo);
-//         if (tab.url && tab.url?.startsWith(youtube)) {
-//             for (let i = 0; i < BlackListStorage.blackChannels.length; i++) {
-//                 if (tab.url?.includes(BlackListStorage.blackChannels[i])) {
-//                     await chrome.tabs.update({
-//                         url: youtube
-//                     })
-//                 }
-//             }
-//         }
-//     }
+let coupleHappend = false;
 
-    
-//     if (changeInfo.url) {
-//         console.log('before reload', changeInfo);
-//         if (tab.url && tab.url?.startsWith(search) && tab.id) {
-//             setTimeout(() => {
-//                 if (tab.id) {
-//                     chrome.tabs.reload(tab.id);
-//                 }
-                
-//             }, 1000)
-//         }
-//     }
-// })
+chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
+    // I use complete because i need event when user makes new search
+    console.log(':::::::::::::::::::::::::::::::::::::')
+    console.log('test: tab.url = ', tab.url);
+    console.log('test: changeInfo = ', changeInfo);
+    console.log(':::::::::::::::::::::::::::::::::::::')
+    if (changeInfo.status === "complete" && tab && tab.id) {
+        console.log('test: *** url = ', tab.url);
+
+        if (tab.url?.startsWith(search)) {
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ["black-list/black-list-search-page.js"]
+            });
+        }
+
+        // if (tab.url?.includes(channelUrlAt)) {
+        //     console.log('test: channel url with @ = ', tab.url);
+        //     chrome.scripting.executeScript({
+        //         target: { tabId: tab.id },
+        //         files: ["black-list/channel/black-list-channel.js"]
+        //     });
+        // }
+
+        // if (tab.url?.includes(channelUrlChannel)) {
+        //     console.log('test: channel url with channel = ', tab.url);
+        //     chrome.scripting.executeScript({
+        //         target: { tabId: tab.id },
+        //         files: ["black-list/channel/black-list-channel.js"]
+        //     });
+        // }
+
+        if (tab.url?.includes(videoUrl)) {
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ["black-list/video/black-list-video.js"]
+            });
+        }
+    }
+})
+
+// chrome.contextMenus.create({
+//     id: 'parent',
+//     title: 'Parent',
+//     type: "normal",
+//     contexts: ['action'],
+// });
+
+// chrome.contextMenus.onClicked.addListener((info, tab) => {
+//     console.log('test: context menu info = ', info);
+// });

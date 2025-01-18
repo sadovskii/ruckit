@@ -1,5 +1,5 @@
 import { BlackListData } from "../black-list-models";
-import { hideChannel } from "./black-list-script-hide-channel;
+import { hideChannel } from "./black-list-script-hide-channel";
 import { hideElementsInShelf } from "./black-list-script-hide-in-shelf";
 import { hideLocupView } from "./black-list-script-hide-lockup-view";
 import { hideVideos } from "./black-list-script-hide-video";

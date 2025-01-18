@@ -59,17 +59,13 @@ let coupleHappend = false;
 
 chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
     // I use complete because i need event when user makes new search
-    console.log(':::::::::::::::::::::::::::::::::::::')
-    console.log('test: tab.url = ', tab.url);
-    console.log('test: changeInfo = ', changeInfo);
-    console.log(':::::::::::::::::::::::::::::::::::::')
-    if (changeInfo.status === "complete" && tab && tab.id) {
+    if (changeInfo.status === "complete" && tab && tab.id && tab.url?.startsWith(youtube)) {
         console.log('test: *** url = ', tab.url);
 
         if (tab.url?.startsWith(search)) {
             chrome.scripting.executeScript({
                 target: { tabId: tab.id },
-                files: ["black-list/black-list-search-page.js"]
+                files: ["black-list/search-page/black-list-search-page.js"]
             });
         }
 
@@ -94,7 +90,18 @@ chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
                 target: { tabId: tab.id },
                 files: ["black-list/video/black-list-video.js"]
             });
+
+            setTimeout(async () => {
+                const frames = await chrome.webNavigation.getAllFrames({tabId: tab.id!});
+                console.log('test: frames = ', frames);
+            }, 5000);
+            
         }
+
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ["black-list/common/black-list-remove-prohibitive-element.js"]
+        });
     }
 })
 

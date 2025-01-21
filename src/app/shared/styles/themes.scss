@@ -74,7 +74,7 @@ $nb-themes: nb-register-theme(
     layout-padding: 3rem 4rem,
     layout-background-color: $color-base-white,
     layout-border-color: $color-base-gray-7,
-    card-padding: 2rem 0,
+    card-padding: 1.5rem 0,
     card-border-color: $color-base-white,
 
     //settings
@@ -240,6 +240,9 @@ $nb-themes: nb-register-theme(
     scrollbar-thumb-color: $color-base-gray-7,
     scrollbar-thumb-hover-color: $color-base-gray-6,
 
+    // about-extension
+    about-extension-color: $color-base-gray-5,
+
     //common
     corner-radius-12: 0.75rem,
     corner-radius-8: 0.5rem,
@@ -323,7 +326,7 @@ $nb-themes: nb-register-theme(
     //layout
     layout-padding: 3rem 4rem,
     layout-border-color: $color-base-gray-3,
-    card-padding: 2rem 0,
+    card-padding: 1.5rem 0,
 
     //settings
     settings-item-desctiption: $color-base-gray-5,
@@ -480,6 +483,9 @@ $nb-themes: nb-register-theme(
     scrollbar-track-color: $color-base-gray-2,
     scrollbar-thumb-color: $color-base-gray-3,
     scrollbar-thumb-hover-color: $color-base-gray-4,
+
+    // about-extension
+    about-extension-color: $color-base-gray-5,
 
     //common
     corner-radius-100: 6.25rem,

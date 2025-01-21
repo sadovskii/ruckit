@@ -1,0 +1,9 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+.about-extension {
+    &__text {
+        color: var(--about-extension-color);
+        padding-bottom: 1rem;
+    }
+}

@@ -1,10 +1,11 @@
-<h1>popup</h1>
-<button (click)="onRouteToMainPage()">routeToMainPage</button>
-
 <nb-layout>
-    <nb-layout-column>
+  <nb-layout-header>
+    <app-popup-header (extendedSettingsClick)="onRouteToMainPage()"></app-popup-header>
+  </nb-layout-header>
+  <nb-layout-column>
       <div class="settings">
         <app-hide-list></app-hide-list>
       </div>
     </nb-layout-column>
-  </nb-layout>
+</nb-layout>
+<app-popup-global></app-popup-global>

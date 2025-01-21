@@ -1,0 +1,13 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+::ng-deep {
+    nb-layout-header {
+        nav {
+            display: block !important;
+            height: 4.5rem;
+        }
+
+        border-bottom: 1px solid var(--layout-border-color);
+    }
+}

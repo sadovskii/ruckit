@@ -1,7 +1,8 @@
 <div class="sidebar">
   <app-sidebar-header
     class="sidebar__header"
-    (click)="clickItem(SideBarItems.header.key)">
+    [clickable]="true"
+    (headerClick)="clickItem(SideBarItems.header.key)">
   </app-sidebar-header>
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_1rem sidebar__item_margin_top_075rem"

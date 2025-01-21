@@ -36,11 +36,15 @@ import { BlackListSimpleItemComponent } from './settings/layout-content/black-li
 import { RestrictedToggleDirective } from './shared/directive/restricted-toggle/restricted-toggle.directive';
 import { BlackListManageRestrictionsComponent } from './settings/layout-content/black-list/black-list-manage-restrictions/black-list-manage-restrictions.component';
 import { RuckitOptionListComponent } from './shared/components/ruckit-option-list/ruckit-option-list.component';
+import { PopupHeaderComponent } from './popup/popup-header/popup-header.component';
+import { PopupGlobalComponent } from './popup/popup-global/popup-global.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PopupComponent,
+    PopupGlobalComponent,
+    PopupHeaderComponent,
     SettingsComponent,
     SettingsItemComponent,
     InnerSettingsComponent,

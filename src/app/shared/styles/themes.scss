@@ -243,6 +243,10 @@ $nb-themes: nb-register-theme(
     // about-extension
     about-extension-color: $color-base-gray-5,
 
+    // header
+    header-padding: 1rem,
+    header-shadow: 0,
+
     //common
     corner-radius-12: 0.75rem,
     corner-radius-8: 0.5rem,
@@ -486,6 +490,9 @@ $nb-themes: nb-register-theme(
 
     // about-extension
     about-extension-color: $color-base-gray-5,
+
+    // header
+    header-padding: 1rem,
 
     //common
     corner-radius-100: 6.25rem,

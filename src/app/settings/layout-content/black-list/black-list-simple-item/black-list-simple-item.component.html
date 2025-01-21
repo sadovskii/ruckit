@@ -11,7 +11,9 @@
 		</ruckit-toggle>
 	</app-settings-item>
 	<div class="simple-settings simple-item__simple-settings">
-		<div class="add-new-item simple-settings__add-new-item">
+		<div
+			class="add-new-item simple-settings__add-new-item"
+			*ngIf="viewVersion === ViewVersions.large">
 			<input
 				class="add-new-item__input input"
 				fullWidth

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { NbIconLibraries } from "@nebular/theme";
+import { NbIconLibraries, NbIconPackParams } from "@nebular/theme";
 import * as icons from '../../../assets/ruckit-icons';
 
 @Injectable()
@@ -53,6 +53,19 @@ export class IconRegisterService {
         this.iconLibraries.registerSvgPack('ruckit-21',
             {
                 [icons.RuckitCross21.name]: icons.RuckitCross21.data
+            }
+        );
+
+        this.iconLibraries.registerSvgPack('ruckit-32',
+            {
+                [icons.RuckitBlackListLinear32.name]: icons.RuckitBlackListLinear32.data,
+                [icons.RuckitBlackListSolid32.name]: icons.RuckitBlackListSolid32.data,
+                [icons.RuckitHideListLinear32.name]: icons.RuckitHideListLinear32.data,
+                [icons.RuckitHideListSolid32.name]: icons.RuckitHideListSolid32.data,
+                [icons.RuckitStopScreenLinear32.name]: icons.RuckitStopScreenLinear32.data,
+                [icons.RuckitStopScreenSolid32.name]: icons.RuckitStopScreenSolid32.data,
+                [icons.RuckitSettingsLinear32.name]: icons.RuckitSettingsLinear32.data,
+                [icons.RuckitSettingsSolid32.name]: icons.RuckitSettingsSolid32.data
             }
         )
     }

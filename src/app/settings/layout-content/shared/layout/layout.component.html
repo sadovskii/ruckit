@@ -1,5 +1,10 @@
 <div class="header">
-  <h1 class="header__content">{{header}}</h1>
+  @if(viewVersion === ViewVersions.large) {
+    <h1 class="header__content">{{header}}</h1>
+  }
+  @else if (viewVersion === ViewVersions.small) {
+    <h3 class="header__content">{{header}}</h3>
+  }
 </div>
 
 <nb-card>

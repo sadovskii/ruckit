@@ -1,6 +1,7 @@
 import { AfterContentInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION } from '../black-list.models';
+import { ViewVersions } from 'src/app/shared/types';
 
 @Component({
   selector: 'app-black-list-simple-item',
@@ -18,7 +19,10 @@ export class BlackListSimpleItemComponent implements OnInit {
   public checked: boolean;
 
   @Input({ required: true })
-  public type: BlackListRestrictionType
+  public type: BlackListRestrictionType;
+
+  @Input({ required: true })
+  public viewVersion: ViewVersions;
 
   @Output()
   public manageResctrictionClick = new EventEmitter<void>();
@@ -31,6 +35,7 @@ export class BlackListSimpleItemComponent implements OnInit {
 
   public disabled: boolean;
 
+  protected ViewVersions = ViewVersions;
   protected invalidAfterClick = false;
   protected toggleControl: FormControl;
   protected addItemControl = new FormControl<string>('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)])

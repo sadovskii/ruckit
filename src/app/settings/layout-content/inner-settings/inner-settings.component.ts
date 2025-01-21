@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { STORAGE_THEME_ID } from 'src/app/shared/constants';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
-import { NebularThemes } from 'src/app/shared/types';
+import { NebularThemes, ViewVersions } from 'src/app/shared/types';
 
 @Component({
   selector: 'app-inner-settings',
@@ -10,12 +10,16 @@ import { NebularThemes } from 'src/app/shared/types';
   styleUrls: ['./inner-settings.component.scss']
 })
 export class InnerSettingsComponent implements OnInit {
-  selectedTheme: NebularThemes = NebularThemes.default;
+  @Input()
+  public viewVersion: ViewVersions = ViewVersions.large;
+  
+  selectedTheme: NebularThemes;
   public NebularThemes = NebularThemes;
 
   constructor(
     private _themeService: NbThemeService,
-    private _chromeService: ChromeService
+    private _chromeService: ChromeService,
+    private _cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +39,7 @@ export class InnerSettingsComponent implements OnInit {
       else {
         this.selectedTheme = NebularThemes.default;
       }
+      this._cdr.detectChanges();
     })
   }
 }

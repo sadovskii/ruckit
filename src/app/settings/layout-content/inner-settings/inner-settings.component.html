@@ -1,5 +1,7 @@
 <app-layout
-  header="Settings">
+  [viewVersion]="viewVersion"
+  header="Settings"
+  *ngIf="selectedTheme">
   <div class="inner-settings">
     <app-settings-item
       class="inner-settings__item"

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { RuckitSnackBarService, Snackbar, SnackbarType, SnackbarActionType } from './ruckit-snack-bar.service';
 import { debounceTime, tap } from 'rxjs';
 
@@ -13,7 +13,7 @@ export class RuckitSnackBarComponent {
   SnackbarType = SnackbarType;
   SnackbarActionType = SnackbarActionType;
 
-  constructor(private _snackbarService: RuckitSnackBarService) {}
+  constructor(private _snackbarService: RuckitSnackBarService, private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
       this._snackbarService.snackbar$
@@ -31,6 +31,7 @@ export class RuckitSnackBarComponent {
               tap(() => {
                   this.showNotification = false;
                   this._snackbarService.remove();
+                  this._cdr.detectChanges();
               })
           )
           .subscribe();
@@ -40,7 +41,7 @@ export class RuckitSnackBarComponent {
     this._snackbarService.remove();
   }
 
-  actionClick(type: SnackbarActionType) {
+  onActionClick(type: SnackbarActionType) {
     this._snackbarService.action(type)
   }
 }

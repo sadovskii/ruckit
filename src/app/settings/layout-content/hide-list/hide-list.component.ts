@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { HideListItemGroupType, HideListItemModel, HideListItemType, HideListModel } from './hide-list.models';
 import { HideListModelConfiguration } from './hide-list.configuration';
 import { Subscription } from 'rxjs';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
 import { HIDE_LIST_ID } from 'src/app/shared/constants';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
+import { ViewVersions } from 'src/app/shared/types';
 
 @Component({
   selector: 'app-hide-list',
@@ -13,6 +14,9 @@ import { GlobalService } from 'src/app/shared/services/global/global.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HideListComponent implements OnInit, OnDestroy {
+  @Input()
+  public viewVersion: ViewVersions = ViewVersions.large;
+
   public HideListItemType = HideListItemType;
   public HideListItemGroupType = HideListItemGroupType;
   public IsRestricted: boolean | undefined = undefined;

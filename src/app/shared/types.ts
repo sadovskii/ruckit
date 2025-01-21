@@ -4,3 +4,9 @@ export enum NebularThemes {
     corporate = "corporate",
     cosmic = "cosmic"
 }
+
+export enum ViewVersions {
+    small = 1,
+    medium,
+    large
+}

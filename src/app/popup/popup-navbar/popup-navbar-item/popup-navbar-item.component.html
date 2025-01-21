@@ -1,0 +1,17 @@
+<div class="navbar-item navbar-item_active" *ngIf="active; else inactiveItem">
+  <nb-icon
+		class="navbar-item__icon navbar-item__icon_active"
+		pack="ruckit-32"
+		[icon]="solidIcon">
+	</nb-icon>
+</div>
+
+<ng-template #inactiveItem>
+	<div class="navbar-item">
+		<nb-icon
+			class="navbar-item__icon"
+			pack="ruckit-32"
+			[icon]="linearIcon">
+		</nb-icon>
+	</div>
+</ng-template>

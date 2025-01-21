@@ -1,4 +1,4 @@
-<app-layout header="Hidelist" *ngIf="HideListConfiguration && IsRestricted != undefined">
+<app-layout [viewVersion]="viewVersion" header="Hidelist" *ngIf="HideListConfiguration && IsRestricted != undefined">
 	<div class="hide-list-blocks">
 		<app-hide-list-block
 			class="hide-list-block hide-list-blocks__hide-list-block"

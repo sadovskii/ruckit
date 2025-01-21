@@ -1,0 +1,38 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+:host {
+    display: block;
+}
+
+.navbar-item {
+    border-radius: var(--corner-radius-8);
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &_active {
+        background-color: var(--sidebar-item-background-active-color);
+    }
+
+    &:hover {
+        background-color: var(--sidebar-item-background-active-color);
+
+        .navbar-item__icon {
+            color: var(--sidebar-item-content-active-color);
+        }
+    }
+
+    &__icon {
+        width: 2rem;
+        height: 2rem;
+        color: var(--sidebar-item-content-inactive-color);
+
+        &_active {
+            color: var(--sidebar-item-icon-active-color) !important;
+        }
+    }
+}

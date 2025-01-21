@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { first, pipe, Subscription, take } from 'rxjs';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { BlackListRestrictionType, Dictionary } from './black-list.models';
@@ -6,7 +6,7 @@ import { NbDialogService } from '@nebular/theme';
 import { BlackListManageRestrictionsComponent } from './black-list-manage-restrictions/black-list-manage-restrictions.component';
 import { BACKDROP_CLASS, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from 'src/app/shared/constants';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
-import { FormControl } from '@angular/forms';
+import { ViewVersions } from 'src/app/shared/types';
 
 @Component({
   selector: 'app-black-list',
@@ -14,6 +14,11 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./black-list.component.scss']
 })
 export class BlackListComponent implements OnInit, OnDestroy {
+
+  @Input()
+  public viewVersion: ViewVersions = ViewVersions.large;
+  public ViewVersions = ViewVersions;
+
   public isRestricted: boolean;
   public BlackListRestrictionType = BlackListRestrictionType;
 
@@ -135,6 +140,7 @@ export class BlackListComponent implements OnInit, OnDestroy {
     const sub = this._globalService.getIsRestricted$.subscribe(storedIsRestricted => {
       this.isRestricted = storedIsRestricted;
       this.isLoadedIsRestricted = true;
+      this._cdr.detectChanges();
     })
 
     this._subscription.add(sub);
@@ -158,6 +164,7 @@ export class BlackListComponent implements OnInit, OnDestroy {
       this.blackListTurningOn[BlackListRestrictionType.Keywords] = t[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON] ?? false;
       this.blackListTurningOn[BlackListRestrictionType.Phrases] = t[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON] ?? false;
       this.isLoadedData = true;
+      this._cdr.detectChanges();
     })
   }
 

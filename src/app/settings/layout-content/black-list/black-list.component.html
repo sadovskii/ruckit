@@ -1,10 +1,11 @@
-<app-layout class="black-list" header="Blacklist" *ngIf="isLoadedIsRestricted && isLoadedData">
+<app-layout [viewVersion]="viewVersion" class="black-list" header="Blacklist" *ngIf="isLoadedIsRestricted && isLoadedData">
 	<app-black-list-simple-item
 		class="black-list__item"
 		[hidenCountItems]="blackListData[BlackListRestrictionType.Channels].length"
 		[checked]="blackListTurningOn[BlackListRestrictionType.Channels]"
 		[isRestricted]="isRestricted"
 		[type]="BlackListRestrictionType.Channels"
+		[viewVersion]="viewVersion"
 		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Channels)"
 		(addItem)="onAddItem($event, BlackListRestrictionType.Channels)"
 		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Channels)">
@@ -15,6 +16,7 @@
 		[checked]="blackListTurningOn[BlackListRestrictionType.Keywords]"
 		[isRestricted]="isRestricted"
 		[type]="BlackListRestrictionType.Keywords"
+		[viewVersion]="viewVersion"
 		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Keywords)"
 		(addItem)="onAddItem($event, BlackListRestrictionType.Keywords)"
 		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Keywords)">
@@ -25,6 +27,7 @@
 		[checked]="blackListTurningOn[BlackListRestrictionType.Phrases]"
 		[isRestricted]="isRestricted"
 		[type]="BlackListRestrictionType.Phrases"
+		[viewVersion]="viewVersion"
 		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Phrases)"
 		(addItem)="onAddItem($event, BlackListRestrictionType.Phrases)"
 		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Phrases)">

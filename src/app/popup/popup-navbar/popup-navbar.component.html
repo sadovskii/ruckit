@@ -1,0 +1,23 @@
+<div class="popup-navbar">
+	<app-popup-navbar-item
+		class="popup-navbar__item"
+    	[linearIcon]="popupNavbarItems.blackList.lieanerIcon"
+		[solidIcon]="popupNavbarItems.blackList.solidIcon"
+		[active]="popupNavbarItems.blackList.active"
+		(click)="clickItem(popupNavbarItems.blackList.key)">
+  </app-popup-navbar-item>
+	<app-popup-navbar-item
+		class="popup-navbar__item"
+		[linearIcon]="popupNavbarItems.hideList.lieanerIcon"
+		[solidIcon]="popupNavbarItems.hideList.solidIcon"
+		[active]="popupNavbarItems.hideList.active"
+		(click)="clickItem(popupNavbarItems.hideList.key)">
+	</app-popup-navbar-item>
+	<app-popup-navbar-item
+		class="popup-navbar__item"
+		[linearIcon]="popupNavbarItems.settings.lieanerIcon"
+		[solidIcon]="popupNavbarItems.settings.solidIcon"
+		[active]="popupNavbarItems.settings.active"
+		(click)="clickItem(popupNavbarItems.settings.key)">
+	</app-popup-navbar-item>
+</div>

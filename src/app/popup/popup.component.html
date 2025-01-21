@@ -1,11 +1,31 @@
 <nb-layout>
   <nb-layout-header>
-    <app-popup-header (extendedSettingsClick)="onRouteToMainPage()"></app-popup-header>
+    <app-popup-header
+      (extendedSettingsClick)="onRouteToMainPage()">
+    </app-popup-header>
   </nb-layout-header>
   <nb-layout-column>
-      <div class="settings">
-        <app-hide-list></app-hide-list>
+      <div class="settings" *ngIf="activeItem">
+        @switch (activeItem) {
+          @case (PopupNavbarItemType.BlackList) {
+            <app-black-list [viewVersion]="ViewVersions.small"></app-black-list>
+          }
+          @case (PopupNavbarItemType.HideList) {
+            <app-hide-list [viewVersion]="ViewVersions.small"></app-hide-list>
+          }
+          @case (PopupNavbarItemType.Settings) {
+            <app-inner-settings [viewVersion]="ViewVersions.small"></app-inner-settings>
+          }
+        }
       </div>
     </nb-layout-column>
 </nb-layout>
+<!-- this component is needed for setting popup size -->
 <app-popup-global></app-popup-global>
+<!-- this is out nb-layout because it is position fixed -->
+<app-popup-navbar
+  class="popup-navbar"
+  (navbarChanged)="onNavbarChanged($event)">
+</app-popup-navbar>
+
+<ruckit-snack-bar></ruckit-snack-bar>

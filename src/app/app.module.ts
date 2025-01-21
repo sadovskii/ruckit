@@ -38,6 +38,8 @@ import { BlackListManageRestrictionsComponent } from './settings/layout-content/
 import { RuckitOptionListComponent } from './shared/components/ruckit-option-list/ruckit-option-list.component';
 import { PopupHeaderComponent } from './popup/popup-header/popup-header.component';
 import { PopupGlobalComponent } from './popup/popup-global/popup-global.component';
+import { PopupNavbarComponent } from './popup/popup-navbar/popup-navbar.component';
+import { PopupNavbarItemComponent } from './popup/popup-navbar/popup-navbar-item/popup-navbar-item.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { PopupGlobalComponent } from './popup/popup-global/popup-global.componen
     PopupComponent,
     PopupGlobalComponent,
     PopupHeaderComponent,
+    PopupNavbarComponent,
+    PopupNavbarItemComponent,
     SettingsComponent,
     SettingsItemComponent,
     InnerSettingsComponent,

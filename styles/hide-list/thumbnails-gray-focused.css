@@ -9,3 +9,9 @@ ytm-shorts-lockup-view-model-v2:hover,
 ytd-search-refinement-card-renderer:hover img {
     filter: grayscale(100%);
 }
+
+/*for video in thumbnail*/
+ytd-video-preview,
+ytd-moving-thumbnail-renderer {
+    filter: grayscale(100%);
+}

@@ -74,10 +74,10 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                 type: HideListItemGroupType.Thumbnails,
                 items: [
                     {
-                        name: "Black thumbnail when you don't focus on it",
-                        type: HideListItemType.ThumbnailsBlackUnfocused,
-                        cssUrl: "styles/hide-list/thumbnails-black-unfocused.css",
-                        value: map?.get(HideListItemType.ThumbnailsBlackUnfocused) ?? false
+                        name: "Black thumbnail",
+                        type: HideListItemType.ThumbnailsBlack,
+                        cssUrl: "styles/hide-list/thumbnails-black.css",
+                        value: map?.get(HideListItemType.ThumbnailsBlack) ?? false
                     },
                     {
                         name: "Gray thumbnail when you focus on it",

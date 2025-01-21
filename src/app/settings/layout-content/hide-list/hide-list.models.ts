@@ -24,7 +24,7 @@ export enum HideListItemType {
     VidoePageComments,
     VideoPageSuggestionsAfterVideo,
     VidoePageSuggestionsAtTheLastSecondsOfTheVideo,
-    ThumbnailsBlackUnfocused,
+    ThumbnailsBlack,
     ThumbnailsGrayFocused,
     ThumbnailsHideVidoeFocused,
     SearchResultsShortSection,

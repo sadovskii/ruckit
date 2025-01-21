@@ -13,8 +13,7 @@
     "storage",
     "scripting",
     "tabs",
-    "contextMenus",
-    "webNavigation"
+    "contextMenus"
   ],
   "host_permissions": ["https://www.youtube.com/*"],
   "action": {

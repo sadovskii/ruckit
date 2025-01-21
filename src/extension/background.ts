@@ -5,9 +5,16 @@ import { HideListModelConfiguration } from "src/app/settings/layout-content/hide
 
 const youtube = 'https://www.youtube.com/';
 const search = 'https://www.youtube.com/results';
+
 const channelUrlAt = 'www.youtube.com/@';
 const channelUrlChannel = 'www.youtube.com/channel/';
+const channelUrlUser = 'www.youtube.com/user/';
+const channelUrlC = 'www.youtube.com/c/'
+
 const videoUrl = 'www.youtube.com/watch';
+const videoUrlEmbed = 'www.youtube.com/embed';
+
+const restrictedPage = 'https://www.youtube.com/-rp'
 
 console.log("background works test 1111! constant = ", EXTENSION_IDENTIFIER);
 
@@ -69,41 +76,39 @@ chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
             });
         }
 
-        // if (tab.url?.includes(channelUrlAt)) {
-        //     console.log('test: channel url with @ = ', tab.url);
-        //     chrome.scripting.executeScript({
-        //         target: { tabId: tab.id },
-        //         files: ["black-list/channel/black-list-channel.js"]
-        //     });
-        // }
-
-        // if (tab.url?.includes(channelUrlChannel)) {
-        //     console.log('test: channel url with channel = ', tab.url);
-        //     chrome.scripting.executeScript({
-        //         target: { tabId: tab.id },
-        //         files: ["black-list/channel/black-list-channel.js"]
-        //     });
-        // }
+        if (tab.url?.includes(channelUrlChannel) ||
+            tab.url?.includes(channelUrlAt) ||
+            tab.url?.includes(channelUrlUser) ||
+            tab.url?.includes(channelUrlC)) {
+            console.log('test: channel url with channel = ', tab.url);
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ["black-list/channel/black-list-channel.js"]
+            });
+        }
 
         if (tab.url?.includes(videoUrl)) {
             chrome.scripting.executeScript({
                 target: { tabId: tab.id },
                 files: ["black-list/video/black-list-video.js"]
             });
-
-            setTimeout(async () => {
-                const frames = await chrome.webNavigation.getAllFrames({tabId: tab.id!});
-                console.log('test: frames = ', frames);
-            }, 5000);
-            
         }
 
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ["black-list/common/black-list-remove-prohibitive-element.js"]
-        });
+        if (tab.url === restrictedPage) {
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ["black-list/common/black-list-remove-prohibitive-element.js"]
+            });
+        }
     }
 })
+
+
+chrome.runtime.onMessage.addListener(function(request, sender) {
+    if (sender.tab && sender.tab.id && request.restrictedPage) {
+        chrome.tabs.update(sender.tab.id, {url: restrictedPage});
+    }
+});
 
 // chrome.contextMenus.create({
 //     id: 'parent',

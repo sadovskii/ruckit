@@ -4,7 +4,7 @@ import { blackListProhibitiveElement } from "../common/black-list-prohibitive-el
 let timeout1 = setTimeout(async function channel() {
 
 	const url = location.href;
-	if (!url.includes('www.youtube.com/watch')) {
+	if (!(url.includes('www.youtube.com/watch'))) {
 		console.log('test: not correct url !!!!!!!!!');
 		clearTimeout(timeout1);
 		return;
@@ -22,16 +22,20 @@ let timeout1 = setTimeout(async function channel() {
 	const watchFlexyVideoId = watchFlexy.getAttribute('video-id');
 
 	if (!watchFlexyVideoId || !url.includes(watchFlexyVideoId)) {
-		timeout1 = setTimeout(channel, 300);
+		console.log('test: vidoes id in video and url are not equal');
+		timeout1 = setTimeout(channel, 200);
 		console.log('test: watchFlexyVideoId = ', watchFlexyVideoId);
         return;
 	}
 
+	console.log('test: start getting store');
 	const storageBlackLists = await chrome.storage.sync.get([
 		STORAGE_BLACKLIST_CHANNELS,
 		STORAGE_BLACKLIST_KEYWORDS,
 		STORAGE_BLACKLIST_PHRASES
 	]);
+
+	console.log('test: storageBlackLists = ', storageBlackLists);
 
 	const blackListChannels: string[] = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
 	const blackListWords: string[] = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
@@ -59,7 +63,7 @@ let timeout1 = setTimeout(async function channel() {
 			if (channelNick?.startsWith(blackListChannels[i], 1)) {
 				replace(watchFlexy);
 				console.log('test: replaced channel with nick = ', channelNick);
-				document.addEventListener('keydown', stopPropagationHandler, true);
+				// document.addEventListener('keydown', stopPropagationHandler, true);
 				return;
 			}
 		}
@@ -73,7 +77,7 @@ let timeout1 = setTimeout(async function channel() {
 			if (result) {
 				replace(watchFlexy);
 				console.log('test: replaced channel with channelName = ', channelName);
-				document.addEventListener('keydown', stopPropagationHandler, true);
+				// document.addEventListener('keydown', stopPropagationHandler, true);
 				return;
 			}
 		}
@@ -84,7 +88,7 @@ let timeout1 = setTimeout(async function channel() {
 			if (result) {
 				replace(watchFlexy);
 				console.log('test: replaced channel with channelName = ', channelName);
-				document.addEventListener('keydown', stopPropagationHandler, true);
+				// document.addEventListener('keydown', stopPropagationHandler, true);
 				return;
 			}
 		}
@@ -94,21 +98,27 @@ let timeout1 = setTimeout(async function channel() {
 	clearTimeout(timeout1);
 });
 
-function replace(element: Element) {
-	var t = document.createElement('template');
-	t.innerHTML = blackListProhibitiveElement;
+// const mo = new MutationObserver(records => {
+// 	records.forEach(r => {
+// 		const video = r.target as HTMLVideoElement;
+// 		const attrValue = video.getAttribute('src');
 
-	element.replaceWith(t.content);
-	// const items = element?.querySelectorAll(':scope > *');
-    
-    // console.log("test: items = ", items);
-    // items?.forEach(item => {
-    //     item.remove();
-    // })
-    
-    // if (element) {
-    //     element.innerHTML = test1;
-    // }
+// 		console.log("test: attr value = ", attrValue);
+// 		console.log("test: video in m = ", video);
+// 		if (attrValue && attrValue.length > 1) {
+// 			console.log("test: mutation = ", r);
+// 			video.src = '';
+// 		}
+// 	})
+// })
+
+function replace(watchFlexy: Element) {
+	// var template = document.createElement('template');
+	// template.innerHTML = blackListProhibitiveElement;
+
+	// watchFlexy.replaceWith(template.content);
+
+	chrome.runtime.sendMessage({restrictedPage: true});
 }
 
 

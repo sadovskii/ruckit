@@ -1,16 +1,19 @@
 import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES } from "src/app/shared/constants";
-import { blackListProhibitiveElement } from "../common/black-list-prohibitive-element";
 
+let counter = 0;
 let timeout = setTimeout(async function channel() {
-	// const browses = document.querySelectorAll('ytd-page-manager ytd-browse');
-
     const browse = document.querySelector('ytd-page-manager ytd-browse[page-subtype="channels"][role="main"]');
 
     if (!browse) {
         console.log('test: brows is null')
         timeout = setTimeout(channel, 100);
+		counter++
         return;
     }
+	else if (counter > 10) {
+		clearTimeout(timeout);
+		return;
+	}
 
     clearTimeout(timeout);
 
@@ -69,55 +72,11 @@ let timeout = setTimeout(async function channel() {
 			}
 		}
 	}
-    // const firstItemContentsItems = browse?.querySelectorAll(':scope > *');
-    // console.log('test: browse = ', browse);
-    // console.log('test: firstItemContentsItems = ', firstItemContentsItems);
-    
 })
 
 
 
 
 function replace(browse: Element) {
-
-	var t = document.createElement('template');
-	t.innerHTML = blackListProhibitiveElement;
-
-	browse.replaceWith(t.content);
-	//(window as any).browseRuchit = browse?.querySelectorAll(':scope > *');
-	// if ((window as any).channelMutation) {
-	// 	(window as any).channelMutation.disconnect()
-	// }
-
-	// (window as any).channelMutation = new MutationObserver(records => {
-	// 	records.forEach(record => {
-	// 		record.addedNodes.forEach(node => {
-	// 			let html = node as HTMLElement;
-	// 			html.remove();
-	// 		})
-	// 	})
-	// })
-	// const header = browse?.querySelector('#header');
-	// const resultRender = browse?.querySelector('ytd-two-column-browse-results-renderer ytd-section-list-renderer > #contents');
-
-	// console.log('test: resultRender = ', resultRender);
-	// const items = browse?.querySelectorAll(':scope > *');
-
-	// console.log('test: items = ', items);
-	
-	// if (items) {
-	// 	items?.forEach(item => {
-	// 		item.remove();
-	// 	})
-	// }
-
-	// // resultRender?.remove()
-	// // header?.remove()
-
-	// // (window as any).channelMutation.observe(resultRender, {
-	// // 	childList: true
-	// // })
-	// if (browse) {
-	// 	browse.innerHTML = test;
-	// }
+	chrome.runtime.sendMessage({restrictedPage: true});
 }

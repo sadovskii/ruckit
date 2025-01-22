@@ -25,7 +25,7 @@ export const blackListProhibitiveElement = `
 			padding: 10px 20px;
 			border: 1px solid #F0331B;
 			border-radius: 4px;
-			color: #111;
+			color: #FEFEFE;
 			font-size: 14px;
 			background-color: #F0331B;
 		}

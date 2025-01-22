@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RuckitSnackBarService, Snackbar, SnackbarType, SnackbarActionType } from './ruckit-snack-bar.service';
 import { debounceTime, tap } from 'rxjs';
+import { ViewVersions } from '../../types';
 
 @Component({
   selector: 'ruckit-snack-bar',
@@ -8,6 +9,17 @@ import { debounceTime, tap } from 'rxjs';
   styleUrl: './ruckit-snack-bar.component.scss'
 })
 export class RuckitSnackBarComponent {
+
+  @Input()
+  public viewVersion: ViewVersions = ViewVersions.large;
+
+  @Input()
+  // in rem
+  public bottom: number = 1.25;
+
+  @Output()
+  public actionClick = new EventEmitter();
+
   showNotification: boolean = false;
   incommingNotification: Snackbar | undefined = undefined;
   SnackbarType = SnackbarType;
@@ -42,6 +54,11 @@ export class RuckitSnackBarComponent {
   }
 
   onActionClick(type: SnackbarActionType) {
-    this._snackbarService.action(type)
+    if (this.viewVersion == ViewVersions.large) {
+      this._snackbarService.action(type)
+    }
+    else if (this.viewVersion === ViewVersions.small) {
+      this.actionClick.emit();
+    }
   }
 }

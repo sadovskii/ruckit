@@ -3,7 +3,6 @@
 
 .snack-bar-container {
     position: fixed;
-    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -34,6 +33,10 @@
 
             &__button {
                 margin-left: 1rem;
+            }
+
+            .info-text {
+                min-width: 8.375rem;
             }
         }
 

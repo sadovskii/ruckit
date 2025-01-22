@@ -1,4 +1,6 @@
 import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES } from "src/app/shared/constants";
+import { BlackListData } from "../black-list-models";
+import { getBlackListData } from "../common/common-functionality";
 
 let timeout1 = setTimeout(async function channel() {
 
@@ -27,18 +29,7 @@ let timeout1 = setTimeout(async function channel() {
         return;
 	}
 
-	console.log('test: start getting store');
-	const storageBlackLists = await chrome.storage.sync.get([
-		STORAGE_BLACKLIST_CHANNELS,
-		STORAGE_BLACKLIST_KEYWORDS,
-		STORAGE_BLACKLIST_PHRASES
-	]);
-
-	console.log('test: storageBlackLists = ', storageBlackLists);
-
-	const blackListChannels: string[] = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
-	const blackListWords: string[] = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
-	const blackListPhrases: string[] = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
+	const data = await getBlackListData();
 
 	const title = watchFlexy.querySelector('ytd-watch-metadata #title yt-formatted-string');
     const channelLink = watchFlexy.querySelector('ytd-watch-metadata ytd-video-owner-renderer ytd-channel-name yt-formatted-string a');
@@ -62,9 +53,9 @@ let timeout1 = setTimeout(async function channel() {
 			channelNick = decodeURIComponent(channelNick);
 		}
 		
-		console.log('test: blackListChannels = ', blackListChannels);
-		for (let i = 0; i < blackListChannels.length; i++) {
-			if (channelNick?.startsWith(blackListChannels[i], 1)) {
+		console.log('test: blackListChannels = ', data.blackListChannels);
+		for (let i = 0; i < data.blackListChannels.length; i++) {
+			if (channelNick?.startsWith(data.blackListChannels[i], 1)) {
 				replace(watchFlexy);
 				console.log('test: replaced channel with nick = ', channelNick);
 				// document.addEventListener('keydown', stopPropagationHandler, true);
@@ -73,9 +64,9 @@ let timeout1 = setTimeout(async function channel() {
 		}
 
 		const splited = channelName.toLocaleLowerCase().split(' ');
-		for (let i = 0; i < blackListWords.length; i++) {
+		for (let i = 0; i < data.blackListWords.length; i++) {
 			var result = splited?.some((w) => {
-				return w.includes(blackListWords[i]?.toLocaleLowerCase())
+				return w.includes(data.blackListWords[i]?.toLocaleLowerCase())
 			})
 
 			if (result) {
@@ -86,8 +77,8 @@ let timeout1 = setTimeout(async function channel() {
 			}
 		}
 
-		for (let i = 0; i < blackListPhrases.length; i++) {
-			var result = channelName?.includes(blackListPhrases[i])
+		for (let i = 0; i < data.blackListPhrases.length; i++) {
+			var result = channelName?.includes(data.blackListPhrases[i])
 	
 			if (result) {
 				replace(watchFlexy);

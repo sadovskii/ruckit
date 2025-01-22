@@ -67,12 +67,11 @@ export class RestrictedToggleDirective implements OnInit, OnDestroy {
       }
     );
 
-    console.log("_initEnterPassword()");
     let sub = ref.componentRef.instance.submit.pipe(
       first()
       ).subscribe(_ => {
         this._globalService.setIsPasswordFreeSession$(true);
-        this._rugckitToggle.onToggleChange(!this._rugckitToggle.checked)
+        this._rugckitToggle.onToggleChange(!this._rugckitToggle.checked);
         this._cdr.detectChanges();
       })
 

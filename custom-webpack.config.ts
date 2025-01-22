@@ -16,6 +16,7 @@ module.exports = {
     "black-list/search-page/black-list-script-mutations": { import: 'src/extension/black-list/search-page/black-list-script-mutations.ts', runtime: false },
     "black-list/common/black-list-prohibitive-element": { import: 'src/extension/black-list/common/black-list-prohibitive-element.ts', runtime: false },
     "black-list/common/black-list-remove-prohibitive-element": { import: 'src/extension/black-list/common/black-list-remove-prohibitive-element.ts', runtime: false },
+    "black-list/common/common-functionality": { import: 'src/extension/black-list/common/common-functionality.ts', runtime: false },
     "black-list/black-list-models": { import: 'src/extension/black-list/black-list-models.ts', runtime: false },
     "black-list/black-list-storage": { import: 'src/extension/black-list/black-list-storage.ts', runtime: false },
   },

@@ -1,4 +1,5 @@
 import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES } from "src/app/shared/constants";
+import { getBlackListData } from "../common/common-functionality";
 
 let counter = 0;
 let timeout = setTimeout(async function channel() {
@@ -17,15 +18,7 @@ let timeout = setTimeout(async function channel() {
 
     clearTimeout(timeout);
 
-	const storageBlackLists = await chrome.storage.sync.get([
-		STORAGE_BLACKLIST_CHANNELS,
-		STORAGE_BLACKLIST_KEYWORDS,
-		STORAGE_BLACKLIST_PHRASES
-	]);
-
-	const blackListChannels: string[] = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
-    const blackListWords: string[] = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
-    const blackListPhrases: string[] = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
+	const data = await getBlackListData();
 
 
 	// console.log("test: storageBlackLists = ", storageBlackLists);
@@ -38,7 +31,7 @@ let timeout = setTimeout(async function channel() {
 	// console.log('test: channelNick = ', channelNick);
 
 	if (channelName && channelNick) {
-		blackListChannels.forEach(blackChannel => {
+		data.blackListChannels.forEach(blackChannel => {
             // start with from 1 because always in href value is /@something
             if (channelNick?.startsWith(blackChannel)) {
 				replace(browse);
@@ -49,9 +42,9 @@ let timeout = setTimeout(async function channel() {
 
 		if (channelName) {
 			const splited = channelName?.toLocaleLowerCase().split(' ');
-			for (let i = 0; i < blackListWords.length; i++) {
+			for (let i = 0; i < data.blackListWords.length; i++) {
 				var result = splited?.some((w) => {
-					return w.includes(blackListWords[i]?.toLocaleLowerCase())
+					return w.includes(data.blackListWords[i]?.toLocaleLowerCase())
 				})
 	
 				if (result) {
@@ -61,8 +54,8 @@ let timeout = setTimeout(async function channel() {
 				}
 			}
 
-			for (let i = 0; i < blackListPhrases.length; i++) {
-				var result = channelName?.includes(blackListPhrases[i])
+			for (let i = 0; i < data.blackListPhrases.length; i++) {
+				var result = channelName?.includes(data.blackListPhrases[i])
 		
 				if (result) {
 					replace(browse);

@@ -2,6 +2,7 @@ import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, ST
 import { hideElement } from "./black-list-script-manipulations";
 import { BlackListData } from "../black-list-models";
 import { getFirstYtdItemMutation, getYtdItemMutation, getYtdListMutation } from "./black-list-script-mutations";
+import { getBlackListData } from "../common/common-functionality";
 
 let data: BlackListData = {
     blackListChannels: [],
@@ -22,36 +23,7 @@ let timeout = setTimeout(async function page() {
 
     // if content is null it means that it hasn't been loaded yet and need to try again after 500 ms
     if (listContent && firstItem) {
-
-        const storageKeysData = []
-
-        const storageKeysTurnedOn = [
-            STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON,
-            STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON,
-            STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON
-        ]
-
-        var storageTurningOn = await chrome.storage.sync.get(storageKeysTurnedOn);
-
-        //depend on storageKeysTurnedOn black list will be loaded or not
-        if (storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON]) {
-            storageKeysData.push(STORAGE_BLACKLIST_CHANNELS)
-        }
-
-        if (storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON]) {
-            storageKeysData.push(STORAGE_BLACKLIST_KEYWORDS)
-        }
-
-        if (storageTurningOn[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON]) {
-            storageKeysData.push(STORAGE_BLACKLIST_PHRASES)
-        }
-        
-        const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
-        data = {
-            blackListChannels: storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [],
-            blackListWords: storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [],
-            blackListPhrases: storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? []
-        }
+        data = await getBlackListData();
 
         console.log('test: data = ', data);
 

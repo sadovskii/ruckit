@@ -28,4 +28,8 @@
   (navbarChanged)="onNavbarChanged($event)">
 </app-popup-navbar>
 
-<ruckit-snack-bar></ruckit-snack-bar>
+<ruckit-snack-bar
+  [bottom]="6"
+  [viewVersion]="ViewVersions.small"
+  (actionClick)="onRouteToMainPage()">
+</ruckit-snack-bar>

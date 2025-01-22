@@ -54,6 +54,7 @@ export class BlackListSimpleItemComponent implements OnInit {
   }
 
   onManageRestrictionsClick() {
+    console.log('onManageRestrictionsClick');
     this.manageResctrictionClick.emit();
   }
 

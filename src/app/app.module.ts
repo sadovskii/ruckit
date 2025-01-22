@@ -40,6 +40,7 @@ import { PopupHeaderComponent } from './popup/popup-header/popup-header.componen
 import { PopupGlobalComponent } from './popup/popup-global/popup-global.component';
 import { PopupNavbarComponent } from './popup/popup-navbar/popup-navbar.component';
 import { PopupNavbarItemComponent } from './popup/popup-navbar/popup-navbar-item/popup-navbar-item.component';
+import { RestrictedButtonDirective } from './shared/directive/restricted-button/restricted-button.directive';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { PopupNavbarItemComponent } from './popup/popup-navbar/popup-navbar-item
     BlackListSimpleItemComponent,
     BlackListManageRestrictionsComponent,
     RuckitOptionListComponent,
-    RestrictedToggleDirective
+    RestrictedToggleDirective,
+    RestrictedButtonDirective
   ],
   imports: [
     ReactiveFormsModule,

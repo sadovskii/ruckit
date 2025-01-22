@@ -34,9 +34,11 @@
 		<div class="manage simple-settings__manage">
 			<button
 				class="manage__open-advanced-settings"
+				restrictedButton
+				[lock]="isRestricted"
 				nbButton
 				[disabled]="disabled"
-				(click)="onManageRestrictionsClick()">
+				(restricedClick)="onManageRestrictionsClick()">
 				Manage restrictions
 			</button>
 			<h6

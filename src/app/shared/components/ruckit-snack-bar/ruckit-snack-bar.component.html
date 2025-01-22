@@ -1,4 +1,4 @@
-<div class="snack-bar-container">
+<div class="snack-bar-container" [ngStyle]="{'bottom': bottom.toString() + 'rem'}">
 	<div class="snack-bar" *ngIf="showNotification && incommingNotification">	
 		<div class="snack-bar__info info">
 			@switch (incommingNotification.type) {

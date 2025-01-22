@@ -8,7 +8,7 @@
       <div class="settings" *ngIf="activeItem">
         @switch (activeItem) {
           @case (PopupNavbarItemType.BlackList) {
-            <app-black-list [viewVersion]="ViewVersions.small"></app-black-list>
+            <app-black-list [viewVersion]="ViewVersions.small" (manageRestrictionClick)="onRouteToMainPage()"></app-black-list>
           }
           @case (PopupNavbarItemType.HideList) {
             <app-hide-list [viewVersion]="ViewVersions.small"></app-hide-list>

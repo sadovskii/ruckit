@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { first, pipe, Subscription, take } from 'rxjs';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { BlackListRestrictionType, Dictionary } from './black-list.models';
@@ -18,6 +18,9 @@ export class BlackListComponent implements OnInit, OnDestroy {
   @Input()
   public viewVersion: ViewVersions = ViewVersions.large;
   public ViewVersions = ViewVersions;
+
+  @Output()
+  public manageRestrictionClick = new EventEmitter();
 
   public isRestricted: boolean;
   public BlackListRestrictionType = BlackListRestrictionType;
@@ -51,33 +54,39 @@ export class BlackListComponent implements OnInit, OnDestroy {
   }
 
   onManageRestrictionClick(type: BlackListRestrictionType) {
-    this.blackListData[type] = this._sortAlphabetically(this.blackListData[type]);
 
-    const ref = this._dialogService.open(BlackListManageRestrictionsComponent, {
-      hasBackdrop: true,
-      autoFocus: false,
-      backdropClass: BACKDROP_CLASS,
-      context: {
-        type: type,
-        restrictionList: this.blackListData[type],
-      }
-    })
+    if (this.viewVersion == ViewVersions.large) {
+      this.blackListData[type] = this._sortAlphabetically(this.blackListData[type]);
 
-    const addItemSub = ref.componentRef.instance.addItem.subscribe(t => {
-      this.onAddItem(t, type);
-    });
-
-    const removeItemSub = ref.componentRef.instance.removeItem.subscribe(item => {
-      this.onRemoveItem(item, type);
-    })
-
-    addItemSub.add(removeItemSub);
-
-    const sub = ref.onClose.pipe(first()).subscribe(t => {
-      addItemSub.unsubscribe();
-    });
-
-    this._subscription.add(sub);
+      const ref = this._dialogService.open(BlackListManageRestrictionsComponent, {
+        hasBackdrop: true,
+        autoFocus: false,
+        backdropClass: BACKDROP_CLASS,
+        context: {
+          type: type,
+          restrictionList: this.blackListData[type],
+        }
+      })
+  
+      const addItemSub = ref.componentRef.instance.addItem.subscribe(t => {
+        this.onAddItem(t, type);
+      });
+  
+      const removeItemSub = ref.componentRef.instance.removeItem.subscribe(item => {
+        this.onRemoveItem(item, type);
+      })
+  
+      addItemSub.add(removeItemSub);
+  
+      const sub = ref.onClose.pipe(first()).subscribe(t => {
+        addItemSub.unsubscribe();
+      });
+  
+      this._subscription.add(sub);
+    }
+    else if (this.viewVersion === ViewVersions.small) {
+      this.manageRestrictionClick.emit();
+    }
   }
 
   onAddItem(item: string, type: BlackListRestrictionType) {

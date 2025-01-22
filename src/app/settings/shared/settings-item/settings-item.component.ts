@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ViewVersions } from 'src/app/shared/types';
 
 @Component({
   selector: 'app-settings-item',
@@ -13,5 +14,10 @@ export class SettingsItemComponent {
   public description: string;
 
   @Input()
+  public viewVersion: ViewVersions = ViewVersions.large;
+
+  @Input()
   public disabled = false;
+
+  protected ViewVersions = ViewVersions;
 }

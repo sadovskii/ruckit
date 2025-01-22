@@ -1,5 +1,23 @@
 @use '../../shared/styles/scrollbar.scss';
 
+::-webkit-scrollbar {
+    width: 0.7rem;
+    border: solid 0.85rem transparent;
+}
+
+/* Track */
+/* full stripe */
+::-webkit-scrollbar-track {
+    border: solid 0.85rem transparent;
+    border-radius: 0;
+}
+
+/* Handle */
+/* interative stripe */
+::-webkit-scrollbar-thumb {
+    border: solid 0.85rem transparent;
+}
+
 html {
     width: 27.5rem; /* 440px */
     height: 37.5rem; /* 600px */

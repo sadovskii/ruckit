@@ -7,11 +7,10 @@
 }
 
 .header {
-    height: 3.875rem;
     border-bottom: 1px solid var(--layout-border-color);
 
     &__content {
-        margin: 0;
+        margin: 0 0 1.25rem 0;
     }
 }
 

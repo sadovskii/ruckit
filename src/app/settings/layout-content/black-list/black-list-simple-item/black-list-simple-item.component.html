@@ -20,7 +20,7 @@
 				fullWidth
 				nbInput
 				placeholder="Enter a {{type}} name"
-				[disabled]="disabled"
+				[attr.disabled]="disabled ? true : null"
 				[formControl]="addItemControl"
 				[status]="invalidAfterClick && addItemControl.invalid ? 'danger' : 'basic'"
 			>

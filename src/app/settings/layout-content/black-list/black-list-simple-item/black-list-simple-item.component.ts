@@ -38,13 +38,17 @@ export class BlackListSimpleItemComponent implements OnInit {
   protected ViewVersions = ViewVersions;
   protected invalidAfterClick = false;
   protected toggleControl: FormControl;
-  protected addItemControl = new FormControl<string>('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)])
+  protected addItemControl: FormControl<string | null>;
 
   constructor(private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.disabled = !this.checked;
     this.toggleControl = new FormControl(this.checked);
+    this.addItemControl = new FormControl<string>(
+      { value: '', disabled: this.disabled},
+      [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]
+    )
 
     this.toggleControl.valueChanges.subscribe(value => {
       this.disabled = !value!;
@@ -54,7 +58,6 @@ export class BlackListSimpleItemComponent implements OnInit {
   }
 
   onManageRestrictionsClick() {
-    console.log('onManageRestrictionsClick');
     this.manageResctrictionClick.emit();
   }
 

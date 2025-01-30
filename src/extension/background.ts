@@ -16,8 +16,6 @@ const videoUrlEmbed = 'www.youtube.com/embed';
 
 const restrictedPage = 'https://www.youtube.com/-rp'
 
-console.log("background works test 1111! constant = ", EXTENSION_IDENTIFIER);
-
 
 chrome.runtime.onInstalled.addListener(async (details) => {
     const reason = details.reason;
@@ -67,8 +65,6 @@ let coupleHappend = false;
 chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
     // I use complete because i need event when user makes new search
     if (changeInfo.status === "complete" && tab && tab.id && tab.url?.startsWith(youtube)) {
-        console.log('test: *** url = ', tab.url);
-
         if (tab.url?.startsWith(search)) {
             chrome.scripting.executeScript({
                 target: { tabId: tab.id },
@@ -109,14 +105,3 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
         chrome.tabs.update(sender.tab.id, {url: restrictedPage});
     }
 });
-
-// chrome.contextMenus.create({
-//     id: 'parent',
-//     title: 'Parent',
-//     type: "normal",
-//     contexts: ['action'],
-// });
-
-// chrome.contextMenus.onClicked.addListener((info, tab) => {
-//     console.log('test: context menu info = ', info);
-// });

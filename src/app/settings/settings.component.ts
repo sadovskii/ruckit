@@ -16,7 +16,5 @@ export class SettingsComponent {
   }
 
   async onCheckSettings() {
-    console.log("window ", await chrome.windows.getCurrent());
-    console.log("chrome.tabs current ", await chrome.tabs.getCurrent());
   }
 }

@@ -4,7 +4,6 @@ import { getBlackListData } from "../common/common-functionality";
 let counter = 0;
 let timeout = setTimeout(async function channel() {
     const browse = document.querySelector('ytd-page-manager ytd-browse[page-subtype="channels"][role="main"]');
-
     if (!browse) {
         console.log('test: brows is null')
         timeout = setTimeout(channel, 100);
@@ -66,7 +65,6 @@ let timeout = setTimeout(async function channel() {
 		}
 	}
 })
-
 
 
 

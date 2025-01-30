@@ -106,6 +106,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            &__content {
+                margin-bottom: 0.5rem;
+            }
         }
     }
     

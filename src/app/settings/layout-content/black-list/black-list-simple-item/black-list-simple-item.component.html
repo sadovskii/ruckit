@@ -12,7 +12,7 @@
 		</ruckit-toggle>
 	</app-settings-item>
 	<div class="simple-settings simple-item__simple-settings">
-		<div
+		<form
 			class="add-new-item simple-settings__add-new-item"
 			*ngIf="viewVersion === ViewVersions.large">
 			<input
@@ -31,7 +31,7 @@
 				(click)="onAddItemClick()">
 				Add new
 			</button>
-		</div>
+		</form>
 		<div class="manage simple-settings__manage">
 			<button
 				class="manage__open-advanced-settings"

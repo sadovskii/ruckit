@@ -30,8 +30,9 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
   @Output()
   public removeItem = new EventEmitter<number>;
 
-  protected searchFormControl = new FormControl<string>('', Validators.maxLength(MAX_LENGTH_RESTRICTION));
+  protected searchFormControl = new FormControl<string>('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]);
   protected filteredOptionList: string[];
+  protected invalidAfterClick = false;
 
   private _subscriptions = new Subscription();
 
@@ -51,9 +52,13 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
   }
 
   protected addItemClick() {
-    this.addItem.emit(this.searchFormControl.value!);
-    this.searchFormControl.setValue('');
-    this.searchFormControl.reset();
+    this.invalidAfterClick = true;
+    if (this.searchFormControl.valid) {
+      this.invalidAfterClick = false;
+      this.addItem.emit(this.searchFormControl.value!);
+      this.searchFormControl.setValue('');
+      this.searchFormControl.reset();
+    }
   }
 
   private _initSearchChangesHandler() {

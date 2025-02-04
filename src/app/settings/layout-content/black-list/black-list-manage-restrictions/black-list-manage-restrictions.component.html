@@ -12,7 +12,8 @@
 					nbInput
 					fullWidth
 					placeholder="Enter a {{placeholder}}"
-					[formControl]="addItemFormControl">
+					[formControl]="addItemFormControl"
+					[status]="invalidAfterClick && addItemFormControl.invalid ? 'danger' : 'basic'">
 				<button class="form__button" nbButton (click)="addItemClick()">Add new</button>
 			</form>
 		</div>

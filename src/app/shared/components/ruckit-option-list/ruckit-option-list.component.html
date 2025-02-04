@@ -4,7 +4,8 @@
 	fullWidth
 	placeholder="Enter a {{placeholder}}"
 	[formControl]="searchFormControl"
-	[attr.disabled]="optionList.length === 0 ? true : null">
+	[attr.disabled]="optionList.length === 0 ? true : null"
+	[status]="invalidAfterClick && searchFormControl.invalid ? 'danger' : 'basic'">
 <div
 	class="option-list-container">
 	<div

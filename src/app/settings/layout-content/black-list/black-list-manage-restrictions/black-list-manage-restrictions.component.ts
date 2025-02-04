@@ -11,6 +11,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class BlackListManageRestrictionsComponent {
   public TagType = TagType;
+
+  protected invalidAfterClick = false;
   
   @Input({ required: true })
   public type: BlackListRestrictionType;
@@ -33,8 +35,12 @@ export class BlackListManageRestrictionsComponent {
   }
 
   protected addItemClick() {
-    this.addItem.emit(this.addItemFormControl.value!);
-    this.addItemFormControl.reset();
+    this.invalidAfterClick = true;
+    if (this.addItemFormControl.valid) {
+      this.invalidAfterClick = false;
+      this.addItem.emit(this.addItemFormControl.value!);
+      this.addItemFormControl.reset();
+    }
   }
 
   protected notFoundAddItem(value: string) {

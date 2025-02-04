@@ -40,10 +40,6 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.filteredOptionList = this.optionList;
     this._initSearchChangesHandler();
-
-    if (this.isDisabled) {
-      this.searchFormControl.disable();
-    }
   }
 
   trackOptionList(index: any, item: string) {
@@ -52,10 +48,6 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
 
   remove(index: number) {
     this.removeItem.emit(index);
-  }
-
-  protected get isDisabled() {
-    return this.optionList.length === 0;
   }
 
   protected addItemClick() {

@@ -3,7 +3,8 @@
 	nbInput
 	fullWidth
 	placeholder="Enter a {{placeholder}}"
-	[formControl]="searchFormControl">
+	[formControl]="searchFormControl"
+	[attr.disabled]="optionList.length === 0 ? true : null">
 <div
 	class="option-list-container">
 	<div

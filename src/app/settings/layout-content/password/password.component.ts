@@ -77,11 +77,6 @@ export class PasswordComponent implements OnInit, OnDestroy {
     if (result) {
       this._snackbarService.success(SnackbarActionType.undefined);
     }
-    else {
-      console.log('should be restricted');
-      this._snackbarService.restricted();
-    }
-    console.log("submitChangePassword = ", result);
   }
 
   // initialize open set new password window, handle submit and close

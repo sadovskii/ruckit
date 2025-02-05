@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PasswordService } from '../password.service';
 import { matchValidator } from 'src/app/shared/validators/match.validator';
 import { of, Subscription, switchMap } from 'rxjs';
+import { MAX_LENGTH_RESTRICTION } from '../../black-list/black-list.models';
 
 @Component({
   selector: 'app-change-password',
@@ -37,9 +38,9 @@ export class ChangePasswordComponent implements OnDestroy {
   private _subscription = new Subscription();
 
   public formGroup = new FormGroup({
-    enterCurrentPassword: new FormControl('', Validators.required),
-    enterNewPassword: new FormControl('', Validators.required),
-    confirmNewPassword: new FormControl('', Validators.required)
+    enterCurrentPassword: new FormControl('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]),
+    enterNewPassword: new FormControl('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]),
+    confirmNewPassword: new FormControl('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)])
   })
 
   constructor(
@@ -59,8 +60,8 @@ export class ChangePasswordComponent implements OnDestroy {
     const newPassword = this.formGroup.controls.confirmNewPassword.value!;
   
     const sub = this._passwordService.submitChangePassword(currentPassword, newPassword)
-      .subscribe(t => {
-        if (t == false) {
+      .subscribe(validationResult => {
+        if (validationResult == false) {
           this.formGroup.controls.enterCurrentPassword.setErrors({ passwordIsCorrect: true })
           this.invalidAfterClick = true;
           this.onSubmit.emit(false);

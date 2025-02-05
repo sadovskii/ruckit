@@ -49,6 +49,7 @@ export class RuckitPasswordInputComponent implements ControlValueAccessor, After
 
   writeValue(value: any): void {
     this.password = value;
+    this._crd.detectChanges();
   }
 
   setDisabledState?(isDisabled: boolean): void {

@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, forwardRef, Inject, Injector, Input, OnInit, Optional, Self, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, forwardRef, Inject, Injector, Input, OnInit, Optional, Renderer2, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { NbComponentOrCustomStatus } from '@nebular/theme';
 
@@ -15,7 +15,7 @@ import { NbComponentOrCustomStatus } from '@nebular/theme';
     }
   ]
 })
-export class RuckitPasswordInputComponent implements ControlValueAccessor {
+export class RuckitPasswordInputComponent implements ControlValueAccessor, AfterViewChecked {
   @Input()
   public status: NbComponentOrCustomStatus = 'basic';
 
@@ -38,7 +38,14 @@ export class RuckitPasswordInputComponent implements ControlValueAccessor {
   isDisabled: boolean;
   showPassword = false;
 
-  constructor(private _crd: ChangeDetectorRef) {}
+  constructor(private _crd: ChangeDetectorRef, private el: ElementRef, private renderer: Renderer2) {}
+
+  ngAfterViewChecked(): void {
+    const icon = this.el.nativeElement.querySelector('.form-field__icon-button');
+    if (icon && icon.getAttribute('tabindex') !== '-1') {
+      this.renderer.setAttribute(icon, 'tabindex', '-1');
+    }
+  }
 
   writeValue(value: any): void {
     this.password = value;

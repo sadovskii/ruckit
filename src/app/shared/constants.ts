@@ -1,6 +1,4 @@
 export const EXTENSION_IDENTIFIER = "eakiedfceboebghgkpciddfaghpednlb";
-// eakiedfceboebghgkpciddfaghpednlb - web chrome store
-// angndinolnfailiohlpgnpcjmffkfhjh - local
 // storage ids
 export const HIDE_LIST_ID = "hide-list";
 export const STORAGE_PASSWORD_ID = "password";

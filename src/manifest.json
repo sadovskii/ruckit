@@ -3,6 +3,7 @@
   "description": "Remove distracting elements and content in youtube and save your previous choice by password",
   "version": "0.1.0",
   "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArvhhitNdBnzuFqmfCB7V+/3qW2a//UwfGNjGwM+pG/DD2uZS9KK8OfYjV9EijxJ7rYcpMYxu9/Mt4qLlZzQ3kI1q9yBzWEuNJgI6PfsFZAegIENgviLNPXe63U/ZrIoYVxVJSp7oWiIAEoHFbmTQXTy5hYRwrcdnc4TLHCuZnEA61RB0kpCwSc82Ic8aBSxBMkpAd2RIQhH4PFpl4rczMpTgXK9uFf3gsy7m97oYTxvR+UqZOhIKlILrHhw4LNX902X1oKkQF7k2dR9Fz1+O4ZMOjc1o6L3TtyYAx+82ZZ6NyNC+owsponijLSu458mLYYTiSJJdsn7H1YOMDSRVswIDAQAB",
   "icons": {
     "16": "assets/icon16.png",
     "32": "assets/icon32.png",

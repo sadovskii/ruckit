@@ -10,7 +10,7 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Suggestions",
                         type: HideListItemType.MainMenuSuggesions,
-                        cssUrl: "styles/hide-list/main-menu-suggestions.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.MainMenuSuggesions],
                         value: map?.get(HideListItemType.MainMenuSuggesions) ?? false
                     }
                 ]
@@ -22,7 +22,7 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Shorts",
                         type: HideListItemType.LeftPanelShorts,
-                        cssUrl: "styles/hide-list/left-panel-shorts.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.LeftPanelShorts],
                         value: map?.get(HideListItemType.LeftPanelShorts) ?? false
                     }
                 ]
@@ -34,7 +34,7 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Notification",
                         type: HideListItemType.HeaderNotification,
-                        cssUrl: "styles/hide-list/header-notification.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.HeaderNotification],
                         value: map?.get(HideListItemType.HeaderNotification) ?? false
                     }           
                 ]
@@ -46,25 +46,25 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Right panel suggestions",
                         type: HideListItemType.VidoePageRightPanelSuggestions,
-                        cssUrl: "styles/hide-list/video-page-right-panel-suggestions.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.VidoePageRightPanelSuggestions],
                         value: map?.get(HideListItemType.VidoePageRightPanelSuggestions) ?? false
                     },
                     {
                         name: "Comments",
                         type: HideListItemType.VidoePageComments,
-                        cssUrl: "styles/hide-list/video-page-comments.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.VidoePageComments],
                         value: map?.get(HideListItemType.VidoePageComments) ?? false
                     },
                     {
                         name: "Suggestions after video",
                         type: HideListItemType.VideoPageSuggestionsAfterVideo,
-                        cssUrl: "styles/hide-list/video-page-suggestions-after-video.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.VideoPageSuggestionsAfterVideo],
                         value: map?.get(HideListItemType.VideoPageSuggestionsAfterVideo) ?? false
                     },
                     {
                         name: "Suggestions at the last seconds of the video",
                         type: HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo,
-                        cssUrl: "styles/hide-list/video-page-suggestions-at-the-last-seconds-of-the-video.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo],
                         value: map?.get(HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo) ?? false
                     }
                 ]
@@ -76,19 +76,19 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Black thumbnail",
                         type: HideListItemType.ThumbnailsBlack,
-                        cssUrl: "styles/hide-list/thumbnails-black.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.ThumbnailsBlack],
                         value: map?.get(HideListItemType.ThumbnailsBlack) ?? false
                     },
                     {
                         name: "Gray thumbnail when you focus on it",
                         type: HideListItemType.ThumbnailsGrayFocused,
-                        cssUrl: "styles/hide-list/thumbnails-gray-focused.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.ThumbnailsGrayFocused],
                         value: map?.get(HideListItemType.ThumbnailsGrayFocused) ?? false
                     },
                     {
                         name: "Hide video in thumbnail when you focus on it",
                         type: HideListItemType.ThumbnailsHideVidoeFocused,
-                        cssUrl: "styles/hide-list/thumbnails-hide-vidoe-focused.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.ThumbnailsHideVidoeFocused],
                         value: map?.get(HideListItemType.ThumbnailsHideVidoeFocused) ?? false
                     },
                 ]
@@ -100,32 +100,32 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Shorts section",
                         type: HideListItemType.SearchResultsShortSection,
-                        cssUrl: "styles/hide-list/search-results-short-section.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsShortSection],
                         value: map?.get(HideListItemType.SearchResultsShortSection) ?? false
                     },
                     {
                         name: "Lonely short",
                         type: HideListItemType.SearchResultsLonelyShort,
-                        cssUrl: "styles/hide-list/search-results-lonely-short.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsLonelyShort],
                         value: map?.get(HideListItemType.SearchResultsLonelyShort) ?? false
                     },
                     {
                         name: "Chip bar below search",
                         type: HideListItemType.SearchResultsChipBarBelowSearch,
-                        cssUrl: "styles/hide-list/search-results-chip-bar-below-search.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsChipBarBelowSearch],
                         value: map?.get(HideListItemType.SearchResultsChipBarBelowSearch) ?? false
                     },
                     {
                         //Latest posts from
                         name: "\"Latest posts\" section",
                         type: HideListItemType.SearchResultsLatestPosts,
-                        cssUrl: "styles/hide-list/search-results-latest-posts.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsLatestPosts],
                         value: map?.get(HideListItemType.SearchResultsLatestPosts) ?? false
                     },
                     {
                         name: "Suggestions sections",
                         type: HideListItemType.SearchResultsSuggestionsSections,
-                        cssUrl: "styles/hide-list/search-results-suggestions-sections.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsSuggestionsSections],
                         value: map?.get(HideListItemType.SearchResultsSuggestionsSections) ?? false
                     }
 
@@ -138,7 +138,7 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Shorts",
                         type: HideListItemType.ChannelPageShorts,
-                        cssUrl: "styles/hide-list/channel-page-shorts.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.ChannelPageShorts],
                         value: map?.get(HideListItemType.ChannelPageShorts) ?? false
                     }
                 ]
@@ -150,11 +150,31 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                     {
                         name: "Shorts section",
                         type: HideListItemType.ShortsPageShortsSection,
-                        cssUrl: "styles/hide-list/shorts-page-shorts-section.css",
+                        cssUrl: HidelistCssConfiguration[HideListItemType.ShortsPageShortsSection],
                         value: map?.get(HideListItemType.ShortsPageShortsSection) ?? false
                     }
                 ]
             }
         ]
     }
+}
+
+export class HidelistCssConfiguration {
+    static [HideListItemType.MainMenuSuggesions] = "styles/hide-list/main-menu-suggestions.css";
+    static [HideListItemType.LeftPanelShorts] = "styles/hide-list/left-panel-shorts.css";
+    static [HideListItemType.HeaderNotification] = "styles/hide-list/header-notification.css";
+    static [HideListItemType.VidoePageRightPanelSuggestions] = "styles/hide-list/video-page-right-panel-suggestions.css";
+    static [HideListItemType.VidoePageComments] = "styles/hide-list/video-page-comments.css";
+    static [HideListItemType.VideoPageSuggestionsAfterVideo] = "styles/hide-list/video-page-suggestions-after-video.css";
+    static [HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo] = "styles/hide-list/video-page-suggestions-at-the-last-seconds-of-the-video.css";
+    static [HideListItemType.ThumbnailsBlack] = "styles/hide-list/thumbnails-black.css";
+    static [HideListItemType.ThumbnailsGrayFocused] = "styles/hide-list/thumbnails-gray-focused.css";
+    static [HideListItemType.ThumbnailsHideVidoeFocused] = "styles/hide-list/thumbnails-hide-vidoe-focused.css";
+    static [HideListItemType.SearchResultsShortSection] = "styles/hide-list/search-results-short-section.css";
+    static [HideListItemType.SearchResultsLonelyShort] = "styles/hide-list/search-results-lonely-short.css";
+    static [HideListItemType.SearchResultsChipBarBelowSearch] = "styles/hide-list/search-results-chip-bar-below-search.css";
+    static [HideListItemType.SearchResultsLatestPosts] = "styles/hide-list/search-results-latest-posts.css";
+    static [HideListItemType.SearchResultsSuggestionsSections] = "styles/hide-list/search-results-suggestions-sections.css";
+    static [HideListItemType.ChannelPageShorts] = "styles/hide-list/channel-page-shorts.css";
+    static [HideListItemType.ShortsPageShortsSection] = "styles/hide-list/shorts-page-shorts-section.css";
 }

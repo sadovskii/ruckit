@@ -33,7 +33,6 @@ export enum HideListItemType {
     SearchResultsLatestPosts,
     SearchResultsSuggestionsSections,
     ChannelPageShorts,
-    ChannelPageShortGrid,
     ShortsPageShortsSection
 }
 

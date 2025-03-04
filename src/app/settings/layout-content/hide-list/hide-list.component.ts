@@ -37,32 +37,18 @@ export class HideListComponent implements OnInit, OnDestroy {
   }
 
   updateHideList(groupType: HideListItemGroupType, item: HideListItemModel) {
-    console.log("updateHideList. item = ", item);
     if (item.value) {
-      this._chromeService.insertCssToYoutube(item.cssUrl);
-      
-      let sub = this._chromeService.addCssContentScriptOrUpdateExist(
-        HIDE_LIST_ID,
-        [item.cssUrl]
-      ).subscribe();
-
+      this._chromeService.insertCssToYoutube([item.cssUrl]);
       this.hideListItemMap.set(item.type, item.value);
-      this._subscriptions.add(sub);
 
-      sub = this._chromeService.storageSyncSetMap(HIDE_LIST_ID, this.hideListItemMap).subscribe();
+      const sub = this._chromeService.storageSyncSetMap(HIDE_LIST_ID, this.hideListItemMap).subscribe();
       this._subscriptions.add(sub);
     }
     else {
       this._chromeService.removeCssToYoutube(item.cssUrl);
-      let sub = this._chromeService.removeCssContentScript(
-        HIDE_LIST_ID,
-        item.cssUrl
-      ).subscribe();
-
-      this._subscriptions.add(sub);
 
       this.hideListItemMap.set(item.type, item.value ?? false);
-      sub = this._chromeService.storageSyncSetMap(HIDE_LIST_ID, this.hideListItemMap).subscribe();
+      const sub = this._chromeService.storageSyncSetMap(HIDE_LIST_ID, this.hideListItemMap).subscribe();
 
       this._subscriptions.add(sub);
     }
@@ -72,14 +58,12 @@ export class HideListComponent implements OnInit, OnDestroy {
   private _initHideListConfiguration() {
     let sub = this._chromeService.storageSyncGetItem(HIDE_LIST_ID).subscribe(map => {
       
-      console.log('map = ', map);
       if (map) {
         this.hideListItemMap = new Map<HideListItemType, boolean>(map);
       }
       
       this.HideListConfiguration = HideListModelConfiguration(this.hideListItemMap);
       this.IsRestricted = this._globalService.getIsRestrictedValue();
-      console.log('IsRestricted = ', this.IsRestricted);
       this._cdr.detectChanges();
     })
     

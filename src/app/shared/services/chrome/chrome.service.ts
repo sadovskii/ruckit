@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { delay, from, map, Observable, of, switchMap, tap } from 'rxjs';
+import { delay, first, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { EXTENSION_IDENTIFIER } from '../../constants';
 
 @Injectable()
 export class ChromeService {
   getCurrentTab(): Observable<chrome.tabs.Tab | undefined> {
-    return from(chrome.tabs.getCurrent())
+    return from(chrome.tabs.getCurrent());
   }
 
   async openIndexToNewTab() {
@@ -82,7 +82,7 @@ export class ChromeService {
     );
   }
 
-  insertCssToYoutube(cssUrl: string) {
+  insertCssToYoutube(cssUrls: string[]) {
     chrome.tabs.query({ "url": "*://www.youtube.com/*"}, (tabs) => {
       tabs.forEach((tab) => {
         if (tab.id) {
@@ -90,8 +90,8 @@ export class ChromeService {
             target: {
               tabId: tab.id,
             },
-            files: [cssUrl],
-          })).subscribe();
+            files: cssUrls,
+          })).pipe(first()).subscribe();
         } 
       })
     })
@@ -106,7 +106,7 @@ export class ChromeService {
               tabId: tab.id,
             },
             files: [cssUrl],
-          })).subscribe();
+          })).pipe(first()).subscribe();
         } 
       })
     })

@@ -1,7 +1,7 @@
 import { EXTENSION_IDENTIFIER, HIDE_LIST_ID } from "src/app/shared/constants";
 import { ChromeService } from "src/app/shared/services/chrome/chrome.service";
 import { HideListItemType } from "src/app/settings/layout-content/hide-list/hide-list.models";
-import { HideListModelConfiguration } from "src/app/settings/layout-content/hide-list/hide-list.configuration";
+import { HidelistCssConfiguration, HideListModelConfiguration } from "src/app/settings/layout-content/hide-list/hide-list.configuration";
 
 const youtube = 'https://www.youtube.com/';
 const search = 'https://www.youtube.com/results';
@@ -25,31 +25,25 @@ chrome.runtime.onInstalled.addListener(async (details) => {
             console.log('New User installed the extension.');
             break;
         case 'update':
-            var chromeService = new ChromeService();
-
             var item = await chrome.storage.sync.get(HIDE_LIST_ID);
-            var items = await chrome.scripting.getRegisteredContentScripts();
-            console.log("all items = ", items);
+
+            if (!item) return;
+
             const map = item[HIDE_LIST_ID];
 
-            if (map) {
-                const hideListItemMap = new Map<HideListItemType, boolean>(map);
-                const configuration = HideListModelConfiguration(hideListItemMap);
-                const cssFiles: string[] = [];
+            if (!map) return;
 
-                configuration.groups.forEach(g => {
-                    g.items.forEach(item => {
-                        if (item.value) {
-                            cssFiles.push(item.cssUrl);
-                        }
-                    })
+            const hideListItemMap = new Map<HideListItemType, boolean>(map);
+            const configuration = HideListModelConfiguration(hideListItemMap);
+            const cssFiles: string[] = [];
+
+            configuration.groups.forEach(g => {
+                g.items.forEach(item => {
+                    if (item.value) {
+                        cssFiles.push(item.cssUrl);
+                    }
                 })
-
-                chromeService.addCssContentScriptOrUpdateExist(
-                    HIDE_LIST_ID,
-                    cssFiles
-                ).subscribe();
-            }
+            })
           break;
        case 'chrome_update':
        case 'shared_module_update':
@@ -60,10 +54,32 @@ chrome.runtime.onInstalled.addListener(async (details) => {
  
 })
 
-let coupleHappend = false;
+
+chrome.webNavigation.onCommitted.addListener(async (details) => {
+    if (details.frameId === 0 && details.url.includes('youtube.com')) {
+        const result = await chrome.storage.sync.get(HIDE_LIST_ID);
+        const resultMapped = result[HIDE_LIST_ID];
+
+        if (resultMapped && Array.isArray(resultMapped)) {
+            const keys = Array.from(resultMapped)
+                .filter(t => t[1])
+                .map<HideListItemType>(t => t[0])
+                .map(t => HidelistCssConfiguration[t]);
+
+            if (keys && keys.length > 0) {
+                await chrome.scripting.insertCSS({
+                    target: { tabId: details.tabId },
+                    files: keys
+                })
+            }
+        }
+        
+    }
+  });
 
 chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
     // I use complete because i need event when user makes new search
+
     if (changeInfo.status === "complete" && tab && tab.id && tab.url?.startsWith(youtube)) {
         if (tab.url?.startsWith(search)) {
             chrome.scripting.executeScript({
@@ -100,7 +116,7 @@ chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
 })
 
 
-chrome.runtime.onMessage.addListener(function(request, sender) {
+chrome.runtime.onMessage.addListener((request, sender) => {
     if (sender.tab && sender.tab.id && request.restrictedPage) {
         chrome.tabs.update(sender.tab.id, {url: restrictedPage});
     }

@@ -1,6 +1,5 @@
 import { blackListProhibitiveElement } from "./black-list-prohibitive-element";
 
-console.log('test: provibited content');
 document.title = 'prohibited content - YouTube';
 
 let timeout = setTimeout(function prohibitedContent() {
@@ -34,8 +33,5 @@ let timeout = setTimeout(function prohibitedContent() {
     
         picture.replaceWith(template.content);
     }
-    
-    // document.removeEventListener('keydown', stopPropagationHandler, true);
-    console.log('test: -=-=-=- removed pE');
 });
 

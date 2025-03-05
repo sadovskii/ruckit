@@ -1,31 +1,26 @@
-import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES } from "src/app/shared/constants";
-import { BlackListData } from "../black-list-models";
 import { getBlackListData } from "../common/common-functionality";
 
 let timeout1 = setTimeout(async function channel() {
 
 	const url = location.href;
 	if (!(url.includes('www.youtube.com/watch'))) {
-		console.log('test: not correct url !!!!!!!!!');
 		clearTimeout(timeout1);
 		return;
 	}
 
     const watchFlexy = document.querySelector('ytd-page-manager > ytd-watch-flexy');
 
+	// it's recursion that run channel script again till appearance of ytd-watch-flexy and stop previous script
 	if (!watchFlexy) {
-		console.log('test: some elements are null');
-
         timeout1 = setTimeout(channel, 300);
         return;
 	}
 
 	const watchFlexyVideoId = watchFlexy.getAttribute('video-id');
 
+	// it's recursion that run channel script again till appearance of video-id and stop previous script
 	if (!watchFlexyVideoId || !url.includes(watchFlexyVideoId)) {
-		console.log('test: vidoes id in video and url are not equal');
 		timeout1 = setTimeout(channel, 200);
-		console.log('test: watchFlexyVideoId = ', watchFlexyVideoId);
         return;
 	}
 
@@ -34,9 +29,8 @@ let timeout1 = setTimeout(async function channel() {
 	const title = watchFlexy.querySelector('ytd-watch-metadata #title yt-formatted-string');
     const channelLink = watchFlexy.querySelector('ytd-watch-metadata ytd-video-owner-renderer ytd-channel-name yt-formatted-string a');
 
+	// it's recursion that run channel script again till appearance of 'title' and 'channelLink' and stop previous script
     if (!title || !channelLink) {
-        console.log('test: some title or channelLink are null');
-
         timeout1 = setTimeout(channel, 300);
         return;
     }
@@ -44,21 +38,15 @@ let timeout1 = setTimeout(async function channel() {
 	const channelName = title?.textContent;
 	var channelNick = channelLink?.getAttribute("href");
 
-	console.log('test: channelName = ', channelName);
-	console.log('test: channelNick = ', channelNick);
-
 	if (channelName && channelNick) {
 
 		if (checkEncodeURI(channelNick)) {
 			channelNick = decodeURIComponent(channelNick);
 		}
-		
-		console.log('test: blackListChannels = ', data.blackListChannels);
+
 		for (let i = 0; i < data.blackListChannels.length; i++) {
 			if (channelNick?.startsWith(data.blackListChannels[i], 1)) {
 				replace(watchFlexy);
-				console.log('test: replaced channel with nick = ', channelNick);
-				// document.addEventListener('keydown', stopPropagationHandler, true);
 				return;
 			}
 		}

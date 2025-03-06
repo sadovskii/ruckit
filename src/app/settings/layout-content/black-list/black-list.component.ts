@@ -54,7 +54,6 @@ export class BlackListComponent implements OnInit, OnDestroy {
   }
 
   onManageRestrictionClick(type: BlackListRestrictionType) {
-
     if (this.viewVersion == ViewVersions.large) {
       this.blackListData[type] = this._sortAlphabetically(this.blackListData[type]);
 
@@ -121,6 +120,8 @@ export class BlackListComponent implements OnInit, OnDestroy {
           .subscribe();
       }
     }
+
+    chrome.runtime.sendMessage({changeBlackList: true});
   }
 
   private _setListToStorage(list: string[], type: BlackListRestrictionType) {
@@ -143,6 +144,8 @@ export class BlackListComponent implements OnInit, OnDestroy {
           .subscribe();
       }
     }
+
+    chrome.runtime.sendMessage({changeBlackList: true});
   }
 
   private _initIsRestricted() {

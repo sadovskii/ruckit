@@ -30,6 +30,10 @@ $nb-themes: nb-register-theme(
     text-heading-3-font-size: $text-h3-font-size,
     text-heading-3-font-weight: $text-h3-font-weight,
     text-heading-3-line-height: $text-h3-line-height,
+    // h4 text
+    text-heading-4-font-size: $text-h4-font-size,
+    text-heading-4-font-weight: $text-h4-font-weight,
+    text-heading-4-line-height: $text-h4-line-height,
     // h5 text
     text-heading-5-font-size: $text-p1-font-size,
     text-heading-5-font-weight: $text-p1-font-weight,
@@ -62,8 +66,8 @@ $nb-themes: nb-register-theme(
     sidebar-width: 15rem,
     sidebar-border-color: $color-base-gray-7,
     sidebar-background-color: $color-base-gray-8,
-    sidebar-text-font-weight: 600,
-    sidebar-text-font-size: 0.813rem,
+    sidebar-text-font-size: $text-button-bold-font-size,
+    sidebar-text-font-weight: $text-button-bold-font-weight,
     sidebar-item-content-inactive-color: $color-base-gray-5,
     sidebar-item-content-active-color: $color-base-black,
     sidebar-item-background-inactive-color: --color-primary-400,
@@ -71,7 +75,8 @@ $nb-themes: nb-register-theme(
     sidebar-item-icon-active-color: $color-primary-red,
 
     //layout
-    layout-padding: 3rem 4rem,
+    layout-padding: 1.75rem 0,
+    layout-small-padding: 1.5rem 1.5rem 0,
     layout-background-color: $color-base-white,
     layout-border-color: $color-base-gray-7,
     card-padding: 1.5rem 0,
@@ -175,6 +180,8 @@ $nb-themes: nb-register-theme(
     button-filled-basic-disabled-background-color: transparent,
     button-filled-basic-disabled-border-color: $color-base-gray-7,
     button-filled-basic-disabled-text-color: $color-base-gray-7,
+    button-filled-medium-padding: 0.625rem 1.25rem,
+    button-filled-small-padding: 0.5rem 1rem,
     //button-outline
     button-outline-text-transform: none,
     button-outline-width: 0rem,
@@ -191,8 +198,16 @@ $nb-themes: nb-register-theme(
     button-outline-basic-active-background-color: $color-base-gray-8,
     button-outline-basic-active-border-color: $color-base-gray-7,
     button-outline-basic-active-text-color: $color-base-black,
+    button-outline-medium-padding: 0.625rem 1.25rem,
+    button-outline-small-padding: 0.5rem 1rem,
+
+
     text-button-tiny-font-size: $text-button-s-font-size,
     text-button-tiny-line-height: $text-button-s-line-height,
+    text-button-small-font-size: $text-button-s-font-size,
+    text-button-small-line-height: $text-button-s-line-height,
+    text-button-medium-font-size: $text-button-m-font-size,
+    text-button-medium-line-height: $text-button-m-line-height,
 
     //icon-button
     button-tiny-icon-size: 0.938rem,
@@ -285,6 +300,10 @@ $nb-themes: nb-register-theme(
     text-heading-3-font-size: $text-h3-font-size,
     text-heading-3-font-weight: $text-h3-font-weight,
     text-heading-3-line-height: $text-h3-line-height,
+    // h4 text
+    text-heading-4-font-size: $text-h4-font-size,
+    text-heading-4-font-weight: $text-h4-font-weight,
+    text-heading-4-line-height: $text-h4-line-height,
     // h5 text
     text-heading-5-font-size: $text-p1-font-size,
     text-heading-5-font-weight: $text-p1-font-weight,
@@ -321,15 +340,16 @@ $nb-themes: nb-register-theme(
     sidebar-width: 15rem,
     sidebar-border-color: $color-base-gray-3,
     sidebar-background-color: $color-base-gray-1,
-    sidebar-text-font-weight: 600,
-    sidebar-text-font-size: 0.813rem,
+    sidebar-text-font-size: $text-button-bold-font-size,
+    sidebar-text-font-weight: $text-button-bold-font-weight,
     sidebar-item-content-inactive-color: $color-base-gray-5,
     sidebar-item-content-active-color: $color-base-white,
     sidebar-item-background-active-color: $color-base-gray-3,
     sidebar-item-icon-active-color: $color-primary-red,
 
     //layout
-    layout-padding: 3rem 4rem,
+    layout-padding: 1.75rem 0,
+    layout-small-padding: 1.5rem 1.5rem 0,
     layout-border-color: $color-base-gray-3,
     card-padding: 1.5rem 0,
 
@@ -422,6 +442,8 @@ $nb-themes: nb-register-theme(
     button-filled-basic-disabled-background-color: transparent,
     button-filled-basic-disabled-border-color: $color-base-gray-3,
     button-filled-basic-disabled-text-color: $color-base-gray-3,
+    button-filled-medium-padding: 0.625rem 1.25rem,
+    button-filled-small-padding: 0.5rem 1rem,
     //button-outline
     button-outline-text-transform: none,
     button-outline-width: 0rem,
@@ -438,8 +460,16 @@ $nb-themes: nb-register-theme(
     button-outline-basic-active-background-color: $color-base-gray-1,
     button-outline-basic-active-border-color: $color-base-gray-3,
     button-outline-basic-active-text-color: $color-base-white,
+    button-outline-medium-padding: 0.625rem 1.25rem,
+    button-outline-small-padding: 0.5rem 1rem,
+
+
     text-button-tiny-font-size: $text-button-s-font-size,
     text-button-tiny-line-height: $text-button-s-line-height,
+    text-button-small-font-size: $text-button-s-font-size,
+    text-button-small-line-height: $text-button-s-line-height,
+    text-button-medium-font-size: $text-button-m-font-size,
+    text-button-medium-line-height: $text-button-m-line-height,
 
 
     //icon-button

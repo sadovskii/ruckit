@@ -12,15 +12,27 @@
     &__content {
         margin: 0 0 1.25rem 0;
     }
+
+    &_large-version {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
 }
 
 .card-body {
     display: block;
     width: 100%;
     height: 100%;
+
+    &_small-version {
+        padding-bottom: 4rem !important;
+    }
+
+    &_large-version {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
 }
 
-.small-version {
-    padding-bottom: 4rem !important;
-}
+
 

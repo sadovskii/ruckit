@@ -13,13 +13,13 @@
 	</app-settings-item>
 	<div class="simple-settings simple-item__simple-settings">
 		<form
-			class="add-new-item simple-settings__add-new-item"
-			*ngIf="viewVersion === ViewVersions.large">
+			class="add-new-item simple-settings__add-new-item">
 			<input
 				class="add-new-item__input input"
 				fullWidth
 				nbInput
 				placeholder="Enter a {{type}} name"
+				[size]="sizeByViewVersion"
 				[attr.disabled]="disabled ? true : null"
 				[formControl]="addItemControl"
 				[status]="invalidAfterClick && addItemControl.invalid ? 'danger' : 'basic'"
@@ -28,25 +28,41 @@
 				class="add-new-item__button"
 				nbButton
 				[disabled]="disabled"
+				[size]="sizeByViewVersion"
 				(click)="onAddItemClick()">
 				Add new
 			</button>
 		</form>
 		<div class="manage simple-settings__manage">
 			<button
-				class="manage__open-advanced-settings"
+				class="open-advanced-settings manage__open-advanced-settings"
+				[ngClass]="
+					{
+						'open-advanced-settings_small' : viewVersion === ViewVersions.small,
+						'open-advanced-settings_large' : viewVersion === ViewVersions.large
+					}"
 				restrictedButton
 				[lock]="isRestricted"
 				nbButton
 				[disabled]="disabled"
+				[size]="sizeByViewVersion"
 				(restricedClick)="onManageRestrictionsClick()">
 				Manage restrictions
 			</button>
-			<h6
-				[ngClass]="{'count_disabled': disabled }"
-				class="count manage__count">
-				Hiden {{type}}s: {{hidenCountItems}}
-			</h6>
+			@if (viewVersion === ViewVersions.large) {
+				<h6
+					[ngClass]="{'count_disabled': disabled }"
+					class="count manage__count">
+					Hiden {{type}}s: {{hidenCountItems}}
+				</h6>
+			}
+			@else if (viewVersion === ViewVersions.small) {
+				<p
+					[ngClass]="{'count_disabled': disabled }"
+					class="count manage__count">
+					Hiden {{type}}s: {{hidenCountItems}}
+				</p>
+			}	
 		</div>
 	</div>
 </div>

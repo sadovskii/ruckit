@@ -2,6 +2,7 @@ import { AfterContentInit, ChangeDetectorRef, Component, EventEmitter, Input, On
 import { FormControl, Validators } from '@angular/forms';
 import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION } from '../black-list.models';
 import { ViewVersions } from 'src/app/shared/types';
+import { NbComponentSize } from '@nebular/theme';
 
 @Component({
   selector: 'app-black-list-simple-item',
@@ -72,5 +73,16 @@ export class BlackListSimpleItemComponent implements OnInit {
     this.addItemControl.setValue('');
     this.addItemControl.reset();
     this.invalidAfterClick = false;
+  }
+
+  get sizeByViewVersion() : NbComponentSize {
+    let size: NbComponentSize = 'medium';
+
+    if (this.viewVersion === this.ViewVersions.small) {
+      size = 'small';
+    }
+
+
+    return size;
   }
 }

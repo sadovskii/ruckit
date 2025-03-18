@@ -1,4 +1,7 @@
-<div class="header">
+<div class="header"
+  [ngClass]="{
+    'header_large-version' : viewVersion === ViewVersions.large
+  }">
   @if(viewVersion === ViewVersions.large) {
     <h1 class="header__content">{{header}}</h1>
   }
@@ -10,7 +13,10 @@
 <nb-card>
   <nb-card-body
     class="card-body"
-    [ngClass]="{'small-version' : viewVersion === ViewVersions.small}">
+    [ngClass]="{
+      'card-body_large-version' : viewVersion === ViewVersions.large,
+      'card-body_small-version' : viewVersion === ViewVersions.small,
+    }">
     <ng-content></ng-content>
   </nb-card-body>
 </nb-card>

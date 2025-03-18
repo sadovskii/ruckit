@@ -61,7 +61,16 @@
 
             &__open-advanced-settings {
                 max-width: 11.25rem; //180px
-                margin-right: 1.5rem;
+            }
+
+            .open-advanced-settings {
+                &_small {
+                    margin-right: 1.25rem;
+                }
+
+                &_large {
+                    margin-right: 1.5rem;
+                }
             }
 
             .count {

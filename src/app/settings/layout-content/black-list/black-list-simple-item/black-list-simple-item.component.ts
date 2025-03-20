@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION } from '../black-list.models';
 import { ViewVersions } from 'src/app/shared/types';
@@ -7,7 +7,8 @@ import { NbComponentSize } from '@nebular/theme';
 @Component({
   selector: 'app-black-list-simple-item',
   templateUrl: './black-list-simple-item.component.html',
-  styleUrl: './black-list-simple-item.component.scss'
+  styleUrl: './black-list-simple-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlackListSimpleItemComponent implements OnInit {
   @Input({ required: true })
@@ -81,7 +82,6 @@ export class BlackListSimpleItemComponent implements OnInit {
     if (this.viewVersion === this.ViewVersions.small) {
       size = 'small';
     }
-
 
     return size;
   }

@@ -1,0 +1,117 @@
+@import '../palette.scss';
+@import '../typography.scss';
+@import '../fonts.scss';
+
+$common-theme-settings: (
+    // text
+    font-family-primary: Roboto,
+
+    // h1 text
+    text-heading-1-font-size: $text-h1-font-size,
+    text-heading-1-font-weight: $text-h1-font-weight,
+    text-heading-1-line-height: $text-h1-line-height,
+    // h2 text
+    text-heading-2-font-size: $text-h2-font-size,
+    text-heading-2-font-weight: $text-h2-font-weight,
+    text-heading-2-line-height: $text-h2-line-height,
+    // h3 text
+    text-heading-3-font-size: $text-h3-font-size,
+    text-heading-3-font-weight: $text-h3-font-weight,
+    text-heading-3-line-height: $text-h3-line-height,
+    // h4 text
+    text-heading-4-font-size: $text-h4-font-size,
+    text-heading-4-font-weight: $text-h4-font-weight,
+    text-heading-4-line-height: $text-h4-line-height,
+    // h5 text
+    text-heading-5-font-size: $text-p1-font-size,
+    text-heading-5-font-weight: $text-p1-font-weight,
+    text-heading-5-line-height: $text-p1-line-height,
+    // h6 text
+    text-heading-6-font-size: $text-button-m-font-size,
+    text-heading-6-font-weight: $text-button-m-font-weight,
+    text-heading-6-line-height: $text-button-m-line-height,
+    // p text
+    text-paragraph-font-size: $text-p2-font-size,
+    text-paragraph-font-weight: $text-p2-font-weight,
+    text-paragraph-line-height: $text-p2-line-height,
+
+    //settings-text
+    select-medium-text-font-size: $text-button-m-font-size,
+    select-medium-text-font-weight: $text-button-m-font-weight,
+    select-medium-text-line-height: $text-button-m-line-height,
+    option-medium-text-font-size: $text-button-m-font-size,
+    option-medium-text-font-weight: $text-button-m-font-weight,
+    option-medium-text-line-height: $text-button-m-line-height,
+
+    //sidebar
+    sidebar-shadow: 0,
+    header-height: 0,
+    sidebar-padding: 0,
+    sidebar-width: 15rem,
+
+    //layout
+    layout-padding: 1.75rem 0,
+    layout-small-padding: 1.5rem 1.5rem 0,
+    card-padding: 1.5rem 0,
+
+    //toggle
+    toggle-height: 1.875rem,
+    toggle-width: 3.75rem,
+    toggle-outline-width: 0px,
+    toggle-switcher-size: 1.5rem,
+    toggle-border-radius: 31.25rem, //500px
+    toggle-border-width: 0px,
+
+    // input
+    // input-text small
+    input-small-text-font-size: $text-button-s-font-size,
+    input-small-text-font-weight: $text-button-s-font-weight,
+    input-small-text-line-height: $text-button-s-line-height,
+    // input-text medium
+    input-medium-text-font-size: $text-button-m-font-size,
+    input-medium-text-font-weight: $text-button-m-font-weight,
+    input-medium-text-line-height: $text-button-m-line-height,
+    // input placeholder small
+    input-small-placeholder-text-font-size: $text-button-s-font-size,
+    input-small-placeholder-text-font-weight: $text-button-s-font-weight,
+    input-small-placeholder-text-line-height: $text-button-s-line-height,
+    // input placeholder medium
+    input-medium-placeholder-text-font-size: $text-button-m-font-size,
+    input-medium-placeholder-text-font-weight: $text-button-m-font-weight,
+    input-medium-placeholder-text-line-height: $text-button-m-line-height,
+    // input-padding
+    input-small-padding: 0.5rem 0.875rem,
+    input-medium-padding: 0.625rem 1.125rem,
+
+    //button
+    button-text-font-weight: $text-button-m-font-weight,
+    button-filled-medium-padding: 0.625rem 1.25rem,
+    button-filled-small-padding: 0.5rem 1rem,
+    //button-outline
+    button-outline-width: 0rem,
+    button-outline-tiny-padding: 0.25rem 0.5rem,
+    button-outline-medium-padding: 0.625rem 1.25rem,
+    button-outline-small-padding: 0.5rem 1rem,
+    //text-button
+    text-button-tiny-font-size: $text-button-s-font-size,
+    text-button-tiny-line-height: $text-button-s-line-height,
+    text-button-small-font-size: $text-button-s-font-size,
+    text-button-small-line-height: $text-button-s-line-height,
+    text-button-medium-font-size: $text-button-m-font-size,
+    text-button-medium-line-height: $text-button-m-line-height,
+
+    //icon-button
+    button-tiny-icon-size: 0.938rem,
+    icon-button-ghost-tiny-padding: 0.27rem 0.15rem,
+    button-ghost-border-width: 0rem,
+
+    // header
+    header-padding: 1rem,
+    header-shadow: 0,
+
+    //common
+    corner-radius-100: 6.25rem,
+    corner-radius-12: 0.75rem,
+    corner-radius-8: 0.5rem,
+    corner-radius-4: 0.25rem, 
+);

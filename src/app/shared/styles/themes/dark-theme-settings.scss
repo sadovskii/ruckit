@@ -1,0 +1,183 @@
+@import './common-theme-settings.scss';
+
+// Dark theme settings (merge in the common variables)
+$dark-theme-settings: map-merge(
+  $common-theme-settings,
+  (
+    background-basic-color-2: $color-base-black,
+    background-basic-color-3: $color-base-black,
+    color-primary-400: $color-base-gray-2,
+    color-primary-500: $color-base-gray-2,
+    color-primary-600: $color-base-gray-2,
+    color-basic-200: $color-base-gray-2,
+    color-basic-800: $color-base-black,
+    color-basic-1000: $color-base-black,
+    color-basic-1100: $color-base-black,
+    color-basic-transparent-200: $color-base-gray-2,
+
+    // select
+    select-outline-basic-focus-border-color: $color-base-black,
+    select-outline-basic-hover-background-color: $color-base-gray-2,
+    option-list-border-color: $color-base-gray-2,
+    select-outline-basic-disabled-text-color: $color-base-gray-3,
+    select-outline-basic-disabled-border-color: $color-base-gray-3,
+    select-outline-basic-disabled-icon-color: $color-base-gray-3,
+
+    //sidebar
+    sidebar-border-color: $color-base-gray-3,
+    sidebar-background-color: $color-base-gray-1,
+    sidebar-text-font-size: $text-button-bold-font-size,
+    sidebar-text-font-weight: $text-button-bold-font-weight,
+    sidebar-item-content-inactive-color: $color-base-gray-5,
+    sidebar-item-content-active-color: $color-base-white,
+    sidebar-item-background-active-color: $color-base-gray-3,
+    sidebar-item-icon-active-color: $color-primary-red,
+
+    //layout
+    layout-border-color: $color-base-gray-3,
+
+    //settings
+    settings-item-desctiption: $color-base-gray-5,
+    settings-item-disabled-color: $color-base-gray-3,
+
+    //toggle
+    toggle-basic-border-color: $color-base-black,
+    toggle-basic-background-color: $color-base-gray-3,
+    toggle-basic-checked-switcher-background-color: $color-base-white,
+    toggle-basic-hover-background-color: $color-base-gray-3,
+    toggle-basic-hover-checked-background-color: $color-primary-red,
+    toggle-basic-checked-background-color: $color-primary-red,
+    toggle-basic-active-background-color: $color-base-gray-3,
+    toggle-basic-active-checked-background-color: $color-primary-red,
+    toggle-basic-focus-checked-background-color: $color-primary-red,
+    toggle-basic-focus-background-color: $color-base-gray-3,
+    toggle-basic-checked-switcher-checkmark-color: $color-base-white,
+    toggle-basic-text-color: $color-base-white,
+
+    //hidelist
+    hidelist-item-background-color: $color-base-gray-2,
+    hidelist-item-border-color: $color-base-gray-3,
+
+    //tag
+    tag-red-background-color: $color-secondary-red,
+    tag-red-color: $color-primary-red,
+    tag-green-background-color: $color-secondary-success,
+    tag-green-color: $color-primary-success,
+
+    //dialog
+    dialog-layout-border-color: $color-base-gray-2,
+    dialog-header-border-color: $color-base-gray-3,
+    dialog-closer-color: $color-base-white,
+
+    // input
+    input-basic-background-color: $color-base-gray-1,
+    input-basic-border-color: $color-base-gray-3,
+    input-basic-focus-background-color: $color-base-gray-1,
+    input-basic-focus-border-color: $color-base-gray-3,
+    input-basic-hover-background-color: $color-base-gray-1,
+    input-basic-hover-border-color: $color-base-gray-3,
+    input-basic-focus-and-hover-background-color: $color-base-gray-1,
+    input-basic-focus-and-hover-border-color: $color-base-gray-3,
+    input-basic-disabled-background-color: $color-base-black,
+    input-basic-disabled-border-color: $color-base-gray-3,
+    input-basic-disabled-text-color: $color-base-gray-3,
+    // input-placeholder
+    input-basic-placeholder-color: $color-base-gray-4,
+    input-basic-hover-placeholder-color: $color-base-white,
+    input-basic-disabled-placeholder-color: $color-base-gray-3,
+    // input-text
+    input-basic-text-color: $color-base-white,
+    //input-danger
+    input-danger-background-color: $color-secondary-red,
+    input-danger-border-color: $color-primary-red,
+    input-danger-text-color: $color-primary-red,
+    input-danger-hover-background-color: $color-secondary-red,
+    input-danger-hover-border-color: $color-primary-red,
+    input-danger-focus-background-color: $color-secondary-red,
+    input-danger-focus-border-color: $color-primary-red,
+
+    //set password
+    set-passord-hint-color: $color-base-gray-4,
+
+    //button
+    //button-filled
+    button-filled-basic-background-color: $color-base-gray-2,
+    button-filled-basic-border-color: $color-base-gray-2,
+    button-filled-basic-text-color: $color-base-white,
+    button-filled-text-transform: none,
+    button-filled-basic-hover-background-color: $color-base-gray-3,
+    button-filled-basic-hover-border-color: $color-base-gray-3,
+    button-filled-basic-focus-background-color: $color-base-gray-2,
+    button-filled-basic-focus-border-color: $color-base-gray-2,
+    button-filled-basic-active-background-color: $color-primary-red,
+    button-filled-basic-active-border-color: $color-primary-red,
+    button-filled-basic-disabled-background-color: transparent,
+    button-filled-basic-disabled-border-color: $color-base-gray-3,
+    button-filled-basic-disabled-text-color: $color-base-gray-3,
+    //button-outline
+    button-outline-text-transform: none,
+    button-outline-basic-background-color: $color-base-gray-1,
+    button-outline-basic-border-color: $color-base-gray-3,
+    button-outline-basic-text-color: $color-base-white,
+    button-outline-basic-hover-background-color: $color-base-gray-3,
+    button-outline-basic-hover-border-color: $color-base-gray-3,
+    button-outline-basic-hover-text-color: $color-base-white,
+    button-outline-basic-focus-background-color: $color-base-gray-1,
+    button-outline-basic-focus-border-color: $color-base-gray-3,
+    button-outline-basic-focus-text-color: $color-base-white,
+    button-outline-basic-active-background-color: $color-base-gray-1,
+    button-outline-basic-active-border-color: $color-base-gray-3,
+    button-outline-basic-active-text-color: $color-base-white,
+
+
+    //icon-button
+    button-ghost-basic-background-color: transparent,
+    button-ghost-basic-text-color: $color-base-gray-4,
+    button-ghost-basic-hover-background-color: $color-base-gray-3,
+    button-ghost-basic-hover-text-color: $color-base-white,
+    button-ghost-basic-active-background-color: $color-primary-red,
+    button-ghost-basic-active-text-color: $color-base-white,
+    button-ghost-basic-focus-background-color: transparent,
+    button-ghost-basic-focus-text-color: $color-base-gray-4,
+    button-ghost-danger-text-color: $color-primary-red,
+    button-ghost-danger-hover-background-color: $color-primary-red,
+    button-ghost-danger-hover-text-color: $color-base-white,
+    button-ghost-danger-active-background-color: transparent,
+    button-ghost-danger-active-text-color: $color-base-white,
+    button-ghost-danger-focus-text-color: $color-base-white,
+    button-ghost-danger-focus-background-color: transparent,
+    button-ghost-basic-disabled-background-color: transparent,
+    button-ghost-basic-disabled-text-color: $color-base-gray-3,
+
+    button-outline-color: transparent,
+
+    // snack-bar
+    snack-bar-background-color: $color-base-gray-1,
+    snack-bar-border-color: $color-base-gray-3,
+    snack-bar-closer-hover-background-color: $color-base-gray-3,
+    snack-bar-closer-color: $color-base-white,
+    snack-bar-closer-active-background-color: $color-primary-red,
+
+    // black-list
+    // black-list-item
+    black-list-item-text-count: $color-base-gray-4,
+    black-list-item-disabled-text-count: $color-base-gray-3,
+    black-list-manage-restrictions-count: $color-base-gray-4,
+
+    // option-list
+    black-list-option-list-border-color: $color-base-gray-3,
+    black-list-option-list-item-background-color: $color-base-gray-2,
+    black-list-option-list-disabled-text-color: $color-base-gray-3,
+
+    //scrollbar
+    scrollbar-track-color: $color-base-gray-2,
+    scrollbar-thumb-color: $color-base-gray-3,
+    scrollbar-thumb-hover-color: $color-base-gray-4,
+
+    // about-extension
+    about-extension-color: $color-base-gray-5,
+
+    //common
+    disable-header-text-color: $color-base-gray-3,
+  )
+);

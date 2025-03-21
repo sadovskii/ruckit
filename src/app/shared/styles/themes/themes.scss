@@ -1,0 +1,18 @@
+@forward '@nebular/theme/styles/theming';
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+@import './default-theme-settings.scss';
+@import './dark-theme-settings.scss';
+
+$nb-themes: nb-register-theme(
+  $default-theme-settings,
+  default,
+  default
+);
+
+$nb-themes: nb-register-theme(
+  $dark-theme-settings,
+  dark,
+  dark
+);

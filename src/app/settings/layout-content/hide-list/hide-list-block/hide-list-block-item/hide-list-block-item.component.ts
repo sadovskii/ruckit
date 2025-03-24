@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HideListItemModel } from '../../hide-list.models';
 import { FormControl } from '@angular/forms';
+import { ViewVersions } from 'src/app/shared/types';
 
 @Component({
   selector: 'app-hide-list-block-item',
@@ -14,6 +15,11 @@ export class HideListBlockItemComponent implements OnInit {
 
   @Input({ required: true })
   public isRestricted: boolean;
+
+  @Input()
+  public viewVersion: ViewVersions = ViewVersions.large;
+
+  public ViewVersions = ViewVersions;
   
   @Output()
   public update = new EventEmitter<HideListItemModel>;

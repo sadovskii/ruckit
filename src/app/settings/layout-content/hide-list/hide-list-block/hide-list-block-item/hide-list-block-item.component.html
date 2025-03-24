@@ -1,5 +1,10 @@
 <div class="header">
-  <h5 class="header_content">{{item.name}}</h5>
+  @if (viewVersion === ViewVersions.large) {
+    <h5 class="header_content">{{item.name}}</h5>
+  }
+  @else {
+    <h6 class="header_content">{{item.name}}</h6>
+  }
 </div>
 <ruckit-toggle
   restrictedToggle

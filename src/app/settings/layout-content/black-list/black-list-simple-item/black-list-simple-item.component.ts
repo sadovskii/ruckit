@@ -85,4 +85,13 @@ export class BlackListSimpleItemComponent implements OnInit {
 
     return size;
   }
+
+  get placeholder() {
+    if (this.type === BlackListRestrictionType.Channels) {
+      return `${BlackListRestrictionType.Channels} name (e.g. @example)`;
+    }
+    else {
+      return this.type.toString();
+    }
+  }
 }

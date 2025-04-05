@@ -13,7 +13,7 @@ const CHANNEL_URL_C = 'www.youtube.com/c/'
 const VIDEO_URL = 'www.youtube.com/watch';
 const RESTRICTED_PAGE = 'https://www.youtube.com/-rp'
 
-export function runBlackListScripts(tab: chrome.tabs.Tab) {
+export function runBlackListScriptsByUrl(tab: chrome.tabs.Tab) {
     if (tab && tab.id && tab.url?.startsWith(YOUTUBE)) {
         if (tab.url?.startsWith(SEARCH)) {
             chrome.scripting.executeScript({

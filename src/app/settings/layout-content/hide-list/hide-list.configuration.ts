@@ -124,7 +124,7 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                         value: map?.get(HideListItemType.VideoPageSuggestionsAfterVideo) ?? false
                     },
                     {
-                        name: "Suggestions at the last seconds of the video",
+                        name: "The last seconds suggestions",
                         type: HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo,
                         cssUrl: HidelistCssConfiguration[HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo],
                         value: map?.get(HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo) ?? false

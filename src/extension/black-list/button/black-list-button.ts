@@ -15,17 +15,17 @@ const mutation = new MutationObserver(async entry => {
 
                     if (record.target.nodeName.localeCompare('yt-flexible-actions-view-model', ['en'], {sensitivity: 'base'}) === 0) {
                         const htmlelement = record.target as HTMLElement;
+                        htmlelement.style.backgroundColor = 'yellow';
 
                         if (htmlelement) {
                             // const action = htmlelement.querySelector('yt-flexible-actions-view-model');
 
                             if (htmlelement) {
                                 console.log('button: htmlElement = ', htmlelement);
-                                // htmlelement.innerHTML += TEMPLATE;
+                                htmlelement.innerHTML += TEMPLATE;
                             }
                         }
 
-                        htmlelement.style.backgroundColor = 'yellow';
                     }
 
                     if (record.target.nodeName.localeCompare('ytd-watch-metadata', ['en'], {sensitivity: 'base'}) === 0) {

@@ -1,4 +1,4 @@
-import { BlackListData } from "../black-list-models";
+import { BlackListData } from "../../black-list-models";
 
 const LOCKUP_VIEW_LOCAL_NAME = 'yt-lockup-view-model';
 

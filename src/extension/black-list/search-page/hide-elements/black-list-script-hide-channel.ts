@@ -1,4 +1,4 @@
-import { BlackListData } from "../black-list-models";
+import { BlackListData } from "../../black-list-models";
 
 const CHANNEL_RENDER_LOCAL_NAME = 'ytd-channel-renderer';
 

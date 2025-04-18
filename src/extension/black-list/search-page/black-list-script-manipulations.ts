@@ -1,8 +1,8 @@
 import { BlackListData } from "../black-list-models";
-import { hideChannel } from "./black-list-script-hide-channel";
-import { hideElementsInShelf } from "./black-list-script-hide-in-shelf";
-import { hideLocupView } from "./black-list-script-hide-lockup-view";
-import { hideVideos } from "./black-list-script-hide-video";
+import { hideChannel } from "./hide-elements/black-list-script-hide-channel";
+import { hideElementsInShelf } from "./hide-elements/black-list-script-hide-in-shelf";
+import { hideLocupView } from "./hide-elements/black-list-script-hide-lockup-view";
+import { hideVideos } from "./hide-elements/black-list-script-hide-video";
 
 // hide element. methods inside to check htmlElement type and it is method makes manipulations with this one
 export function hideElement(htmlElement: HTMLElement, data: BlackListData) {

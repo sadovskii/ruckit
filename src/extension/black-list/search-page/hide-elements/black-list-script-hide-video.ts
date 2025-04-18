@@ -1,4 +1,4 @@
-import { BlackListData } from "../black-list-models";
+import { BlackListData } from "../../black-list-models";
 
 const VIDEO_RENDER_LOCAL_NAME = 'ytd-video-renderer';
 

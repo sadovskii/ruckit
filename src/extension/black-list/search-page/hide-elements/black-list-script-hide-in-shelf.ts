@@ -1,4 +1,4 @@
-import { BlackListData } from "../black-list-models";
+import { BlackListData } from "../../black-list-models";
 import { hideVideos } from "./black-list-script-hide-video";
 
 const SHELF_RENDER_LOCAL_NAME = 'ytd-shelf-renderer';

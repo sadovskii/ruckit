@@ -1,7 +1,6 @@
 import { TEMPLATE } from "./black-list-button-templates";
 
 const mutation = new MutationObserver(async entry => {
-
     entry.forEach(record => {
         if (record.type == 'childList') {
             if (record) {

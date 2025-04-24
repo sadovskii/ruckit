@@ -1,7 +1,7 @@
 import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
 import { hideElement } from "./black-list-script-manipulations";
 import { BlackListData } from "../black-list-models";
-import { getFirstYtdItemMutation, getYtdItemMutation, getYtdListMutation } from "./black-list-script-mutations";
+import { SearchPageMutations } from "./black-list-script-mutations";
 import { getBlackListData } from "../common/common-functionality";
 
 let data: BlackListData = {
@@ -27,30 +27,14 @@ let timeout = setTimeout(async function page() {
 
         console.log('test: data = ', data);
 
-        if ((window as any).subMutationObserver) {
-            (window as any).subMutationObserver.disconnect();
-        }
-
-        (window as any).subMutationObserver = getYtdItemMutation(data);
-    
-        if ((window as any).mutationObserver) {
-            (window as any).mutationObserver.disconnect();
-        }
-
-        (window as any).mutationObserver = getYtdListMutation(data, (window as any).subMutationObserver);
-
-        if ((window as any).firstMutationObserver) {
-            (window as any).firstMutationObserver.disconnect();
-        }
-
-        (window as any).firstMutationObserver = getFirstYtdItemMutation(data, data.blackListChannels);
+        const searchPageMutations = new SearchPageMutations(data);
 
         if (firstItem) {
             // need to run this observe for first ytd-item-section-renderer
             // it solves situation when ytd-item-section-renderer is rendered. some videos inside are rendered too
             // but not all
             // these videos can be catched this observe
-            (window as any).firstMutationObserver.observe(firstItem, {
+            searchPageMutations.firstYtdItem.observe(firstItem, {
                 attributes: true,
                 attributeOldValue: true
             });
@@ -68,7 +52,7 @@ let timeout = setTimeout(async function page() {
         }
 
         // observe ytd-section-list-renderer for ytd-item-section-renderer that will be able to be rendered
-        (window as any).mutationObserver.observe(listContent, {
+        searchPageMutations.ytdList.observe(listContent, {
             childList: true,
         });
 

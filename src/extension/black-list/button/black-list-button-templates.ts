@@ -1,5 +1,5 @@
 export const TEMPLATE = `
-<div style="display: flex; align-items: center;">
+<div id="black-list-cross" style="display: flex; align-items: center;">
     <style>
         :root {
             --button-main-color-black: #F0331B;

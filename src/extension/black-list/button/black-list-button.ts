@@ -52,8 +52,26 @@ const mutation = new MutationObserver(async entry => {
 
                         if (owner) {
                             const ownerHtml = owner as HTMLElement;
-                            ownerHtml.innerHTML += TEMPLATE;
-                            console.log('button: owner is', ownerHtml)
+
+                            let black = owner.querySelector('#black-list-cross');
+                            if (!black) {
+
+                                const div = document.createElement('div');
+                                div.innerHTML = TEMPLATE;
+
+                                black = div.firstElementChild;
+
+                                if (black) {
+
+                                    let htmlblack = black as HTMLElement;
+
+                                    htmlblack.style.marginLeft = '16px';
+
+                                    ownerHtml.appendChild(black);
+                                }
+                            
+                                console.log('button: owner is', ownerHtml)
+                            }
                         }
                         else {
                             console.log('button: owner is not found');

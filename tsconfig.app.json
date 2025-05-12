@@ -15,7 +15,8 @@
     "src/extension/black-list/channel/black-list-channel.ts",
     "src/extension/black-list/video/black-list-video.ts",
     "src/extension/black-list/common/black-list-remove-prohibitive-element.ts",
-    "src/extension/black-list/button/black-list-button.ts"
+    "src/extension/black-list/button/black-list-button.ts",
+    "src/extension/global-mutation.ts"
   ],
   "include": [
     "src/**/*.d.ts"

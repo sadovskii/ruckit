@@ -25,9 +25,14 @@ chrome.webNavigation.onCommitted.addListener(async (details) => {
     if (details.frameId === 0 && details.url.includes('youtube.com')) {
         console.log('button: chrome.tabs.onUpdated is completed')
         if (details.tabId) {
+            // chrome.scripting.executeScript({
+            //     target: { tabId: details.tabId },
+            //     files: ["black-list/button/black-list-button.js"]
+            // });
+
             chrome.scripting.executeScript({
                 target: { tabId: details.tabId },
-                files: ["black-list/button/black-list-button.js"]
+                files: ["global-mutation.js"]
             });
         }
     }

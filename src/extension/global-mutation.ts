@@ -1,28 +1,7 @@
-export class GlobalMutation {
-    private _mutation: MutationObserver;
+import { BlackListChannelRemover } from "./black-list/button/black-list-button-object";
+import { GlobalMutation } from "./global-mutation-object";
 
-    constructor() {
-        this.setMutation();
-        this.observe();
-    }
+const global = new GlobalMutation();
 
-    private setMutation() {
-        this._mutation = new MutationObserver(async entry => {
-            entry.forEach(record => {
-
-            })
-        });
-    }
-
-    private observe() {
-        const ytdAppElement = document.querySelector('ytd-app');
-
-        if (ytdAppElement) {
-            this._mutation.observe(ytdAppElement, { subtree: true, childList: true })
-
-        }
-        else {
-            console.log('button: ytdAppElement is null')
-        }
-    }
-}
+global.addExecution(BlackListChannelRemover.addRemoverToVideoPage)
+global.run();

@@ -12,6 +12,7 @@ module.exports = {
     "black-list/search-page/black-list-script-mutations": { import: 'src/extension/black-list/search-page/black-list-script-mutations.ts', runtime: false },
     "black-list/common/black-list-remove-prohibitive-element": { import: 'src/extension/black-list/common/black-list-remove-prohibitive-element.ts', runtime: false },
     "black-list/button/black-list-button": { import: 'src/extension/black-list/button/black-list-button.ts', runtime: false },
+    "global-mutation": { import: 'src/extension/global-mutation.ts', runtime: false },
   },
   plugins:[
     new CopyPlugin({

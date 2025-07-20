@@ -1,13 +1,11 @@
 import { TEMPLATE } from "./black-list-button-templates";
 
 export class BlackListChannelRemover {
-    static addRemoverToVideoPage(record: MutationRecord) {
-        if (record.target.nodeName.localeCompare('yt-page-header-view-model', ['en'], {sensitivity: 'base'}) === 0) {
+    static addRemoverOnChannelPage(record: MutationRecord) {
+        if (record.target.nodeName === 'YT-PAGE-HEADER-VIEW-MODEL') {
 
-            console.log('button: ', record);
             const htmlelement = record.target as HTMLElement;
             htmlelement.style.backgroundColor = 'yellow';
-            console.log("button: t-page-header-view-modelß");
 
             if (htmlelement) {
 
@@ -33,6 +31,52 @@ export class BlackListChannelRemover {
                     }
 
                 });
+            }
+        }
+    }
+
+    static addRemoverOnAlmostEverywhere(record: MutationRecord) {
+        if (record.target.nodeName === 'YTD-CHANNEL-NAME') {
+            const htmlelement = record.target as HTMLElement;
+            htmlelement.style.backgroundColor = 'blue';
+
+
+            const a = htmlelement.closest('td')
+        }
+    }
+
+    static addRemoverOnVideoPage(record: MutationRecord) {
+        if (record.target.nodeName === 'YTD-WATCH-METADATA') {
+            const htmlelement = record.target as HTMLElement;
+            htmlelement.style.backgroundColor = 'green';
+
+            const owner = htmlelement.querySelector('#owner');
+
+            if (owner) {
+                const ownerHtml = owner as HTMLElement;
+
+                let black = owner.querySelector('#black-list-cross');
+                if (!black) {
+
+                    const div = document.createElement('div');
+                    div.innerHTML = TEMPLATE;
+
+                    black = div.firstElementChild;
+
+                    if (black) {
+
+                        let htmlblack = black as HTMLElement;
+
+                        htmlblack.style.marginLeft = '16px';
+
+                        ownerHtml.appendChild(black);
+                    }
+                
+                    console.log('button: owner is', ownerHtml)
+                }
+            }
+            else {
+                console.log('button: owner is not found');
             }
         }
     }

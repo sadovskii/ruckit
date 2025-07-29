@@ -17,32 +17,32 @@ export interface HideListGroupModel {
 
 
 export enum HideListItemType {
-    MainMenuSuggesions = 1,
-    LeftPanelShorts,
-    HeaderNotification,
-    VidoePageRightPanelSuggestions,
-    VidoePageComments,
-    VideoPageSuggestionsAfterVideo,
-    VidoePageSuggestionsAtTheLastSecondsOfTheVideo,
-    ThumbnailsBlack,
-    ThumbnailsGrayFocused,
-    ThumbnailsHideVidoeFocused,
-    SearchResultsShortSection,
-    SearchResultsLonelyShort,
-    SearchResultsChipBarBelowSearch,
+    HomeFeedSuggestedVideosGrid = 1,
+    SidebarShortsTab,
+    HeaderNotificationsBell,
+    WatchPageUpNextSidebar,
+    WatchPageCommentsSection,
+    WatchPageEndScreenSuggestions,
+    WatchPagePreendSuggestions,
+    VideoThumbnailsThumbnailBlackout,
+    VideoThumbnailsDisableHoverPlayback,
+    VideoThumbnailsDisableHoverImage,
+    SearchResultsShortsShelf,
+    SearchResultsSingleShorts,
+    SearchResultsTopicChips,
     SearchResultsLatestPosts,
     SearchResultsSuggestionsSections,
-    ChannelPageShorts,
+    ChannelPageShortsTab,
     ShortsPageShortsSection
 }
 
 export enum HideListItemGroupType {
     Header = 1,
-    MainMenu,
-    VideoPage,
-    LeftPanel,
+    HomeFeed,
+    WatchPage,
+    Sidebar,
     SearchResults,
-    Thumbnails,
+    VideoThumbnails,
     ChannelPage,
     ShortsPage
 }

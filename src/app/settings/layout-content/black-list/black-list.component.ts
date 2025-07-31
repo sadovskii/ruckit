@@ -69,10 +69,14 @@ export class BlackListComponent implements OnInit, OnDestroy {
   
       const addItemSub = ref.componentRef.instance.addItem.subscribe(t => {
         this.onAddItem(t, type);
+
+        ref.componentRef.instance.restrictionList = [...this.blackListData[type]];
       });
   
       const removeItemSub = ref.componentRef.instance.removeItem.subscribe(item => {
         this.onRemoveItem(item, type);
+
+        ref.componentRef.instance.restrictionList = [...this.blackListData[type]];
       })
   
       addItemSub.add(removeItemSub);

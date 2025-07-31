@@ -4,130 +4,38 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
     return {
         groups: [
             {
+                name: "Home Feed",
+                type: HideListItemGroupType.HomeFeed,
+                items: [
+                    {
+                        name: "Suggested Videos Grid",
+                        type: HideListItemType.HomeFeedSuggestedVideosGrid,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.HomeFeedSuggestedVideosGrid],
+                        value: map?.get(HideListItemType.HomeFeedSuggestedVideosGrid) ?? false
+                    }
+                ]
+            },
+            {
                 name: "Header",
                 type: HideListItemGroupType.Header,
                 items: [
                     {
-                        name: "Notification",
-                        type: HideListItemType.HeaderNotification,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.HeaderNotification],
-                        value: map?.get(HideListItemType.HeaderNotification) ?? false
+                        name: "Notifications Bell",
+                        type: HideListItemType.HeaderNotificationsBell,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.HeaderNotificationsBell],
+                        value: map?.get(HideListItemType.HeaderNotificationsBell) ?? false
                     }           
                 ]
             },
             {
-                name: "Main page",
-                type: HideListItemGroupType.MainMenu,
+                name: "Sidebar",
+                type: HideListItemGroupType.Sidebar,
                 items: [
                     {
-                        name: "Suggestions",
-                        type: HideListItemType.MainMenuSuggesions,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.MainMenuSuggesions],
-                        value: map?.get(HideListItemType.MainMenuSuggesions) ?? false
-                    }
-                ]
-            },
-            {
-                name: "Left panel",
-                type: HideListItemGroupType.LeftPanel,
-                items: [
-                    {
-                        name: "Shorts",
-                        type: HideListItemType.LeftPanelShorts,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.LeftPanelShorts],
-                        value: map?.get(HideListItemType.LeftPanelShorts) ?? false
-                    }
-                ]
-            },
-            {
-                name: "Thumbnails",
-                type: HideListItemGroupType.Thumbnails,
-                items: [
-                    {
-                        name: "Black in static",
-                        type: HideListItemType.ThumbnailsBlack,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.ThumbnailsBlack],
-                        value: map?.get(HideListItemType.ThumbnailsBlack) ?? false
-                    },
-                    {
-                        name: "Gray (Black and white) when focusing",
-                        type: HideListItemType.ThumbnailsGrayFocused,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.ThumbnailsGrayFocused],
-                        value: map?.get(HideListItemType.ThumbnailsGrayFocused) ?? false
-                    },
-                    {
-                        name: "Stop playback when focusing",
-                        type: HideListItemType.ThumbnailsHideVidoeFocused,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.ThumbnailsHideVidoeFocused],
-                        value: map?.get(HideListItemType.ThumbnailsHideVidoeFocused) ?? false
-                    },
-                ]
-            },
-            {
-                name: "Search results",
-                type: HideListItemGroupType.SearchResults,
-                items: [
-                    {
-                        name: "Chip bar below search",
-                        type: HideListItemType.SearchResultsChipBarBelowSearch,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsChipBarBelowSearch],
-                        value: map?.get(HideListItemType.SearchResultsChipBarBelowSearch) ?? false
-                    },
-                    {
-                        name: "Shorts section",
-                        type: HideListItemType.SearchResultsShortSection,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsShortSection],
-                        value: map?.get(HideListItemType.SearchResultsShortSection) ?? false
-                    },
-                    {
-                        name: "Lonely short",
-                        type: HideListItemType.SearchResultsLonelyShort,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsLonelyShort],
-                        value: map?.get(HideListItemType.SearchResultsLonelyShort) ?? false
-                    },
-                    {
-                        //Latest posts from
-                        name: "\"Latest posts\" section",
-                        type: HideListItemType.SearchResultsLatestPosts,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsLatestPosts],
-                        value: map?.get(HideListItemType.SearchResultsLatestPosts) ?? false
-                    },
-                    {
-                        name: "Suggestions sections",
-                        type: HideListItemType.SearchResultsSuggestionsSections,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsSuggestionsSections],
-                        value: map?.get(HideListItemType.SearchResultsSuggestionsSections) ?? false
-                    }
-
-                ]
-            },
-            {
-                name: "Video page",
-                type: HideListItemGroupType.VideoPage,
-                items: [
-                    {
-                        name: "Right panel suggestions",
-                        type: HideListItemType.VidoePageRightPanelSuggestions,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.VidoePageRightPanelSuggestions],
-                        value: map?.get(HideListItemType.VidoePageRightPanelSuggestions) ?? false
-                    },
-                    {
-                        name: "Comments",
-                        type: HideListItemType.VidoePageComments,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.VidoePageComments],
-                        value: map?.get(HideListItemType.VidoePageComments) ?? false
-                    },
-                    {
-                        name: "Suggestions after video",
-                        type: HideListItemType.VideoPageSuggestionsAfterVideo,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.VideoPageSuggestionsAfterVideo],
-                        value: map?.get(HideListItemType.VideoPageSuggestionsAfterVideo) ?? false
-                    },
-                    {
-                        name: "Suggestions at the last seconds of the video",
-                        type: HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo],
-                        value: map?.get(HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo) ?? false
+                        name: "Shorts Tab",
+                        type: HideListItemType.SidebarShortsTab,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SidebarShortsTab],
+                        value: map?.get(HideListItemType.SidebarShortsTab) ?? false
                     }
                 ]
             },
@@ -136,10 +44,10 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                 type: HideListItemGroupType.ChannelPage,
                 items: [
                     {
-                        name: "Shorts",
-                        type: HideListItemType.ChannelPageShorts,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.ChannelPageShorts],
-                        value: map?.get(HideListItemType.ChannelPageShorts) ?? false
+                        name: "Shorts tab",
+                        type: HideListItemType.ChannelPageShortsTab,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.ChannelPageShortsTab],
+                        value: map?.get(HideListItemType.ChannelPageShortsTab) ?? false
                     }
                 ]
             },
@@ -154,27 +62,119 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                         value: map?.get(HideListItemType.ShortsPageShortsSection) ?? false
                     }
                 ]
+            },
+            {
+                name: "Watch page",
+                type: HideListItemGroupType.WatchPage,
+                items: [
+                    {
+                        name: "Pre-end Suggestions",
+                        type: HideListItemType.WatchPagePreendSuggestions,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.WatchPagePreendSuggestions],
+                        value: map?.get(HideListItemType.WatchPagePreendSuggestions) ?? false
+                    },
+                    {
+                        name: "End Screen Suggestions",
+                        type: HideListItemType.WatchPageEndScreenSuggestions,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.WatchPageEndScreenSuggestions],
+                        value: map?.get(HideListItemType.WatchPageEndScreenSuggestions) ?? false
+                    },
+                    {
+                        name: "Up-Next Sidebar",
+                        type: HideListItemType.WatchPageUpNextSidebar,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.WatchPageUpNextSidebar],
+                        value: map?.get(HideListItemType.WatchPageUpNextSidebar) ?? false
+                    },
+                    {
+                        name: "Comments Section",
+                        type: HideListItemType.WatchPageCommentsSection,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.WatchPageCommentsSection],
+                        value: map?.get(HideListItemType.WatchPageCommentsSection) ?? false
+                    },
+                ]
+            },
+            {
+                name: "Search results",
+                type: HideListItemGroupType.SearchResults,
+                items: [
+                    {
+                        name: "Topic Chips",
+                        type: HideListItemType.SearchResultsTopicChips,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsTopicChips],
+                        value: map?.get(HideListItemType.SearchResultsTopicChips) ?? false
+                    },
+                    {
+                        name: "Shorts Shelf",
+                        type: HideListItemType.SearchResultsShortsShelf,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsShortsShelf],
+                        value: map?.get(HideListItemType.SearchResultsShortsShelf) ?? false
+                    },
+                    {
+                        name: "Single Shorts",
+                        type: HideListItemType.SearchResultsSingleShorts,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsSingleShorts],
+                        value: map?.get(HideListItemType.SearchResultsSingleShorts) ?? false
+                    },
+                    {
+                        //Latest posts from
+                        name: "Latest Posts",
+                        type: HideListItemType.SearchResultsLatestPosts,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsLatestPosts],
+                        value: map?.get(HideListItemType.SearchResultsLatestPosts) ?? false
+                    },
+                    {
+                        name: "Suggestions Sections",
+                        type: HideListItemType.SearchResultsSuggestionsSections,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsSuggestionsSections],
+                        value: map?.get(HideListItemType.SearchResultsSuggestionsSections) ?? false
+                    }
+
+                ]
+            },
+            {
+                name: "Video Thumbnails",
+                type: HideListItemGroupType.VideoThumbnails,
+                items: [
+                    {
+                        name: "Thumbnail Blackout",
+                        type: HideListItemType.VideoThumbnailsThumbnailBlackout,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.VideoThumbnailsThumbnailBlackout],
+                        value: map?.get(HideListItemType.VideoThumbnailsThumbnailBlackout) ?? false
+                    },
+                    {
+                        name: "Disable Hover Playback",
+                        type: HideListItemType.VideoThumbnailsDisableHoverPlayback,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.VideoThumbnailsDisableHoverPlayback],
+                        value: map?.get(HideListItemType.VideoThumbnailsDisableHoverPlayback) ?? false
+                    },
+                    {
+                        name: "Disable Hover Image",
+                        type: HideListItemType.VideoThumbnailsDisableHoverImage,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.VideoThumbnailsDisableHoverImage],
+                        value: map?.get(HideListItemType.VideoThumbnailsDisableHoverImage) ?? false
+                    },
+                ]
             }
         ]
     }
 }
 
 export class HidelistCssConfiguration {
-    static [HideListItemType.MainMenuSuggesions] = "styles/hide-list/main-menu-suggestions.css";
-    static [HideListItemType.LeftPanelShorts] = "styles/hide-list/left-panel-shorts.css";
-    static [HideListItemType.HeaderNotification] = "styles/hide-list/header-notification.css";
-    static [HideListItemType.VidoePageRightPanelSuggestions] = "styles/hide-list/video-page-right-panel-suggestions.css";
-    static [HideListItemType.VidoePageComments] = "styles/hide-list/video-page-comments.css";
-    static [HideListItemType.VideoPageSuggestionsAfterVideo] = "styles/hide-list/video-page-suggestions-after-video.css";
-    static [HideListItemType.VidoePageSuggestionsAtTheLastSecondsOfTheVideo] = "styles/hide-list/video-page-suggestions-at-the-last-seconds-of-the-video.css";
-    static [HideListItemType.ThumbnailsBlack] = "styles/hide-list/thumbnails-black.css";
-    static [HideListItemType.ThumbnailsGrayFocused] = "styles/hide-list/thumbnails-gray-focused.css";
-    static [HideListItemType.ThumbnailsHideVidoeFocused] = "styles/hide-list/thumbnails-hide-vidoe-focused.css";
-    static [HideListItemType.SearchResultsShortSection] = "styles/hide-list/search-results-short-section.css";
-    static [HideListItemType.SearchResultsLonelyShort] = "styles/hide-list/search-results-lonely-short.css";
-    static [HideListItemType.SearchResultsChipBarBelowSearch] = "styles/hide-list/search-results-chip-bar-below-search.css";
+    static [HideListItemType.HomeFeedSuggestedVideosGrid] = "styles/hide-list/home-feed-suggested-videos-grid.css";
+    static [HideListItemType.SidebarShortsTab] = "styles/hide-list/sidebar-shorts-tab.css";
+    static [HideListItemType.HeaderNotificationsBell] = "styles/hide-list/header-notifications-bell.css";
+    static [HideListItemType.WatchPageUpNextSidebar] = "styles/hide-list/watch-page-up-next-sidebar.css";
+    static [HideListItemType.WatchPageCommentsSection] = "styles/hide-list/watch-page-comments-section.css";
+    static [HideListItemType.WatchPageEndScreenSuggestions] = "styles/hide-list/watch-page-end-screen-suggestions.css";
+    static [HideListItemType.WatchPagePreendSuggestions] = "styles/hide-list/watch-page-pre-end-suggestions.css";
+    static [HideListItemType.VideoThumbnailsThumbnailBlackout] = "styles/hide-list/video-thumbnails-thumbnail-blackout.css";
+    static [HideListItemType.VideoThumbnailsDisableHoverPlayback] = "styles/hide-list/video-thumbnails-disable-hover-playback.css";
+    static [HideListItemType.VideoThumbnailsDisableHoverImage] = "styles/hide-list/video-thumbnails-disable-hover-image.css";
+    static [HideListItemType.SearchResultsShortsShelf] = "styles/hide-list/search-results-shorts-shelf.css";
+    static [HideListItemType.SearchResultsSingleShorts] = "styles/hide-list/search-results-single-shorts.css";
+    static [HideListItemType.SearchResultsTopicChips] = "styles/hide-list/search-results-topic-chips.css";
     static [HideListItemType.SearchResultsLatestPosts] = "styles/hide-list/search-results-latest-posts.css";
     static [HideListItemType.SearchResultsSuggestionsSections] = "styles/hide-list/search-results-suggestions-sections.css";
-    static [HideListItemType.ChannelPageShorts] = "styles/hide-list/channel-page-shorts.css";
+    static [HideListItemType.ChannelPageShortsTab] = "styles/hide-list/channel-page-shorts-tab.css";
     static [HideListItemType.ShortsPageShortsSection] = "styles/hide-list/shorts-page-shorts-section.css";
 }

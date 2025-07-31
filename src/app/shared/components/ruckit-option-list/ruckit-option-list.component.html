@@ -4,7 +4,6 @@
 	fullWidth
 	placeholder="Enter a {{placeholder}}"
 	[formControl]="searchFormControl"
-	[attr.disabled]="optionList.length === 0 ? true : null"
 	[status]="invalidAfterClick && searchFormControl.invalid ? 'danger' : 'basic'">
 <div
 	class="option-list-container">
@@ -15,16 +14,16 @@
 			<div
 				*ngFor="let item of filteredOptionList; let i = index; trackBy: trackOptionList"
 				class="option-list-container-wrapper__option-list-item option-list-item">
-				<h6 class="option-list-item__name">{{item}}</h6>
+				<h6 class="option-list-item__name">{{item.option}}</h6>
 				<nb-icon
 					class="option-list-item__icon icon"
-					(click)="remove(i)"
+					(click)="remove(item.id)"
 					icon="cross-21"
 					pack="ruckit-21">
 				</nb-icon>
 			</div>
 		}
-		@else if (filteredOptionList.length === 0 && optionList.length !== 0) {
+		@else if (filteredOptionList.length === 0 && searchFormControl.value) {
 			<div class="option-list-unfound">
 				<h6 class="option-list-unfound__content">The restriction is not found</h6>
 				<button

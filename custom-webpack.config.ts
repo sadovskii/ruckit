@@ -9,16 +9,9 @@ module.exports = {
     "black-list/video/black-list-video": { import: 'src/extension/black-list/video/black-list-video.ts', runtime: false },
     "black-list/search-page/black-list-search-page": { import: 'src/extension/black-list/search-page/black-list-search-page.ts', runtime: false },
     "black-list/search-page/black-list-script-manipulations": { import: 'src/extension/black-list/search-page/black-list-script-manipulations.ts', runtime: false },
-    "black-list/search-page/black-list-script-hide-channel": { import: 'src/extension/black-list/search-page/black-list-script-hide-channel.ts', runtime: false },
-    "black-list/search-page/black-list-script-hide-in-shelf": { import: 'src/extension/black-list/search-page/black-list-script-hide-in-shelf.ts', runtime: false },
-    "black-list/search-page/black-list-script-hide-lockup-view": { import: 'src/extension/black-list/search-page/black-list-script-hide-lockup-view.ts', runtime: false },
-    "black-list/search-page/black-list-script-hide-video": { import: 'src/extension/black-list/search-page/black-list-script-hide-video.ts', runtime: false },
     "black-list/search-page/black-list-script-mutations": { import: 'src/extension/black-list/search-page/black-list-script-mutations.ts', runtime: false },
-    "black-list/common/black-list-prohibitive-element": { import: 'src/extension/black-list/common/black-list-prohibitive-element.ts', runtime: false },
     "black-list/common/black-list-remove-prohibitive-element": { import: 'src/extension/black-list/common/black-list-remove-prohibitive-element.ts', runtime: false },
-    "black-list/common/common-functionality": { import: 'src/extension/black-list/common/common-functionality.ts', runtime: false },
-    "black-list/black-list-models": { import: 'src/extension/black-list/black-list-models.ts', runtime: false },
-    "black-list/black-list-storage": { import: 'src/extension/black-list/black-list-storage.ts', runtime: false },
+    "black-list/button/black-list-button": { import: 'src/extension/black-list/button/black-list-button.ts', runtime: false },
   },
   plugins:[
     new CopyPlugin({

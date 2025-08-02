@@ -1,4 +1,4 @@
-import { runBlackListScripts, runHideListCssScripts } from "./background-functionality";
+import { runBlackListScriptsByUrl, runHideListCssScripts } from "./background-functionality";
 
 const restrictedPage = 'https://www.youtube.com/-rp'
 
@@ -22,6 +22,15 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 })
 
 chrome.webNavigation.onCommitted.addListener(async (details) => {
+    if (details.frameId === 0 && details.url.includes('youtube.com')) {
+        console.log('button: chrome.tabs.onUpdated is completed')
+        if (details.tabId) {
+            chrome.scripting.executeScript({
+                target: { tabId: details.tabId },
+                files: ["black-list/button/black-list-button.js"]
+            });
+        }
+    }
     // frameId == 0 means that there was reload or move to new site
     if (details.frameId === 0 && details.url.includes('youtube.com')) {
         runHideListCssScripts(details);
@@ -31,7 +40,7 @@ chrome.webNavigation.onCommitted.addListener(async (details) => {
 chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
     // I use complete because i need event when user makes new search
     if (changeInfo.status === "complete") {
-        runBlackListScripts(tab);
+        runBlackListScriptsByUrl(tab);
     }
 })
 
@@ -47,7 +56,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     if (request.changeBlackList) {
         chrome.tabs.query({ "url": "*://www.youtube.com/*"}, function(tabs) {
             tabs.forEach(tab => {
-                runBlackListScripts(tab);
+                runBlackListScriptsByUrl(tab);
             });
         });
     }

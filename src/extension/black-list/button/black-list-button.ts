@@ -1,5 +1,30 @@
 import { TEMPLATE } from "./black-list-button-templates";
 
+
+window.addEventListener('yt-navigate-finish', q => {
+  console.log('button: yt-navigate-finish event fired');
+
+  console.log('button: q = ', q);
+  runBlackListScriptsByUrl();
+});
+
+
+
+function runBlackListScriptsByUrl() {
+    let timeout = setTimeout(function heartbBeat() {
+        document.querySelectorAll('ytd-rich-grid-media ytd-channel-name').forEach(channels => {
+            const channelNameElement = channels as HTMLElement;
+            if (channelNameElement) {
+                channelNameElement.style.backgroundColor = 'red';
+            }
+        });
+
+        timeout = setTimeout(heartbBeat, 500);
+        
+    }, 500);
+}
+
+
 const mutation = new MutationObserver(async entry => {
 
     entry.forEach(record => {
@@ -42,7 +67,7 @@ const mutation = new MutationObserver(async entry => {
 const ytdAppElement = document.querySelector('ytd-app');
 
 if (ytdAppElement) {
-    mutation.observe(ytdAppElement, { subtree: true, childList: true })
+    // mutation.observe(ytdAppElement, { subtree: true, childList: true })
 
 }
 else {

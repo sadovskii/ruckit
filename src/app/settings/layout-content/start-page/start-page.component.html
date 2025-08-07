@@ -1,4 +1,4 @@
 <div class="start-page">
-  <object data="../../../../assets/demon/demon-time.svg"></object>
-  <h5 class="quote start-page__quote">{{QUOTES.quote1}}</h5>
+  <object [data]="demonSvgUrl" (load)="onSvgLoad()"></object>
+  <h5 *ngIf="isSvgLoaded" class="quote start-page__quote">{{QUOTES.quote1}}</h5>
 </div>

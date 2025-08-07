@@ -18,3 +18,18 @@ export const BACKDROP_CLASS = 'custom-backdrop';
 export const QUOTES = {
     quote1: "What will you choose: the long-term prospects of your dwindling freedom or the compulsive urge to browse a familiar site?"
 }
+
+export const DEMON_SVGS = {
+    "demon-barbed": "assets/demons/demon-barbed.svg",
+    "demon-chained": "assets/demons/demon-chained.svg",
+    "demon-champion": "assets/demons/demon-champion.svg",
+    "demon-choice": "assets/demons/demon-choice.svg",
+    "demon-drowsy": "assets/demons/demon-drowsy.svg",
+    "demon-meditation": "assets/demons/demon-meditation.svg",
+    "demon-mirror": "assets/demons/demon-mirror.svg",
+    "demon-monitor": "assets/demons/demon-monitor.svg",
+    "demon-muscle": "assets/demons/demon-muscle.svg",
+    "demon-navigation": "assets/demons/demon-navigation.svg",
+    "demon-time": "assets/demons/demon-time.svg",
+    "demon-training": "assets/demons/demon-training.svg"
+}

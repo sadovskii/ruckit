@@ -1,11 +1,21 @@
 import { TEMPLATE } from "./black-list-button-templates";
 
+console.log('button: test is loaded @@@@@@@@@@@@@@@@');
 
 window.addEventListener('yt-navigate-finish', q => {
   console.log('button: yt-navigate-finish event fired');
 
   console.log('button: q = ', q);
   runBlackListScriptsByUrl();
+});
+
+document.addEventListener('yt-action', (e) => {
+  const action = e?.type;
+  if (action === 'yt-append-continuation-items-action' ||
+      action === 'yt-update-continuation-items-action') {
+    console.log('[YT] New videos are being appended !!!!!!!!!');
+    // do your thing here (e.g., re-run injection, analytics, etc.)
+  }
 });
 
 

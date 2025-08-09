@@ -2,7 +2,7 @@ import { TEMPLATE } from "./black-list-button-templates";
 
 export class BlackListButtonIngestion {
     injectBlackListButtonOnSearch() {
-        const path = 'ytd-video-renderer #channel-info:not(:has(#black-list-button))';
+        const path = 'ytd-video-renderer #channel-info:not(:has(.blb-conainer))';
 
         document.querySelectorAll(path).forEach(channelInfo => {
             const channelInfoElement = channelInfo as HTMLElement;

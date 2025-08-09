@@ -1,34 +1,31 @@
 :root {
-    --button-main-color-dark: #F0331B;
-    --button-cross-color-dark: #FEFEFE;
-    --button-main-color-dark-hover: #FEFEFE;
-    --button-cross-color-dark-hover: #111111;
-    
-    --button-main-color-light: #F0331B;
-    --button-cross-color-light: #FEFEFE;
-    --button-main-color-light-hover: #111111;
-    --button-cross-color-light-hover: #FEFEFE;
-    
+    --ruckit-red-color: #F0331B;
+    --ruckit-white-color: #FEFEFE;
+    --ruckit-black-color: #111111;
 }
 
-html:not([dark]) #black-list-button svg {
+html:not([dark]) {
+    --ruckit-global-button-main-color: var(--ruckit-red-color);
+    --ruckit-global-button-cross-color: var(--ruckit-white-color);
+    --ruckit-global-button-main-color-hover: var(--ruckit-black-color);
+    --ruckit-global-button-cross-color-hover: var(--ruckit-white-color);
+}
+
+html[dark] {
+    --ruckit-global-button-main-color: var(--ruckit-red-color);
+    --ruckit-global-button-cross-color: var(--ruckit-white-color);
+    --ruckit-global-button-main-color-hover: var(--ruckit-white-color);
+    --ruckit-global-button-cross-color-hover: var(--ruckit-black-color);
+}
+
+
+.black-list-button svg {
     cursor: pointer;
-    --button-main-color: var(--button-main-color-light);
-    --button-cross-color: var(--button-cross-color-light);
+    --ruckit-button-main-color: var(--ruckit-global-button-main-color);
+    --ruckit-button-cross-color: var(--ruckit-global-button-cross-color);
 }
 
-html:not([dark]) #black-list-button svg:hover {
-    --button-main-color: var(--button-main-color-light-hover);
-    --button-cross-color: var(--button-cross-color-light-hover);
-}
-
-html[dark] #black-list-button svg {
-    cursor: pointer;
-    --button-main-color: var(--button-main-color-dark);
-    --button-cross-color: var(--button-cross-color-dark);
-}
-
-html[dark] #black-list-button svg:hover {
-    --button-main-color: var(--button-main-color-dark-hover);
-    --button-cross-color: var(--button-cross-color-dark-hover);
+.black-list-button svg:hover {
+    --ruckit-button-main-color: var(--ruckit-global-button-main-color-hover);
+    --ruckit-button-cross-color: var(--ruckit-global-button-cross-color-hover);
 }

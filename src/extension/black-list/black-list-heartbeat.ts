@@ -23,6 +23,5 @@ function runFunctionOnPageType(pageType: YouTubePageType) {
             ingestion.injectBlackListButtonOnSearch();
             break;
         default:
-            console.log('Unknown or unsupported page type:', pageType);
     }
 }

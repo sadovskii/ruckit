@@ -1,0 +1,34 @@
+:root {
+    --button-main-color-dark: #F0331B;
+    --button-cross-color-dark: #FEFEFE;
+    --button-main-color-dark-hover: #FEFEFE;
+    --button-cross-color-dark-hover: #111111;
+    
+    --button-main-color-light: #F0331B;
+    --button-cross-color-light: #FEFEFE;
+    --button-main-color-light-hover: #111111;
+    --button-cross-color-light-hover: #FEFEFE;
+    
+}
+
+html:not([dark]) #black-list-button svg {
+    cursor: pointer;
+    --button-main-color: var(--button-main-color-light);
+    --button-cross-color: var(--button-cross-color-light);
+}
+
+html:not([dark]) #black-list-button svg:hover {
+    --button-main-color: var(--button-main-color-light-hover);
+    --button-cross-color: var(--button-cross-color-light-hover);
+}
+
+html[dark] #black-list-button svg {
+    cursor: pointer;
+    --button-main-color: var(--button-main-color-dark);
+    --button-cross-color: var(--button-cross-color-dark);
+}
+
+html[dark] #black-list-button svg:hover {
+    --button-main-color: var(--button-main-color-dark-hover);
+    --button-cross-color: var(--button-cross-color-dark-hover);
+}

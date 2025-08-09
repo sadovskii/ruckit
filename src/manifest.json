@@ -26,7 +26,13 @@
   "content_scripts": [
     {
       "matches": ["*://www.youtube.com/*"],
-      "css": ["styles/blank.css"]
+      "css": [
+        "styles/blank.css",
+        "styles/black-list/black-list-button.css"
+      ],
+      "js": [
+        "black-list/black-list-heartbeat.js"
+      ]
     }
   ]
 }

@@ -22,15 +22,6 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 })
 
 chrome.webNavigation.onCommitted.addListener(async (details) => {
-    if (details.frameId === 0 && details.url.includes('youtube.com')) {
-        console.log('button: chrome.tabs.onUpdated is completed')
-        if (details.tabId) {
-            chrome.scripting.executeScript({
-                target: { tabId: details.tabId },
-                files: ["black-list/button/black-list-button.js"]
-            });
-        }
-    }
     // frameId == 0 means that there was reload or move to new site
     if (details.frameId === 0 && details.url.includes('youtube.com')) {
         runHideListCssScripts(details);

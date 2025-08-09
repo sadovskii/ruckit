@@ -14,18 +14,18 @@ export const TEMPLATE = `
             
         }
 
-        .black-list svg {
+        #black-list-button svg {
             cursor: pointer;
             --button-main-color: var(--button-main-color-light);
             --button-cross-color: var(--button-cross-color-light);
         }
 
-        .black-list svg:hover {
+        #black-list-button svg:hover {
             --button-main-color: var(--button-main-color-light-hover);
             --button-cross-color: var(--button-cross-color-light-hover);
         }
     </style>
-    <div class="black-list">
+    <div id="black-list-button">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="-19.5" y="-19.5" width="433" height="104" rx="4.5" stroke="#9747FF" stroke-dasharray="10 5"/>
             <rect width="16" height="16" rx="8" fill="var(--button-main-color)"/>

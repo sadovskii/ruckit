@@ -15,6 +15,14 @@ const RESTRICTED_PAGE = 'https://www.youtube.com/-rp'
 
 export function runBlackListScriptsByUrl(tab: chrome.tabs.Tab) {
     if (tab && tab.id && tab.url?.startsWith(YOUTUBE)) {
+
+        // Run heartbeat script
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ["black-list/black-list-heartbeat.js"]
+        });
+
+        // Run scripts based on the URL search
         if (tab.url?.startsWith(SEARCH)) {
             chrome.scripting.executeScript({
                 target: { tabId: tab.id },

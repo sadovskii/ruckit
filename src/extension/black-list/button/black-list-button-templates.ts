@@ -9,8 +9,8 @@ export const TEMPLATE = `
         </svg>
     </div>
 
-    <!-- <div class="black-list-tooltip">
+    <div class="black-list-tooltip">
       Hide channel content
-    </div> -->
+    </div>
 </div>
 `

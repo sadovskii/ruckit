@@ -16,12 +16,39 @@ export class BlackListButtonIngestion {
                     const newNode = document.createElement('div');
                     newNode.innerHTML = TEMPLATE;
 
-                    const mainElement = newNode.firstElementChild as HTMLElement;
-                    mainElement.style.marginRight = '3.5px';
+                    const buttonElement = newNode.firstElementChild as HTMLElement;
+                    buttonElement.style.marginRight = '3.5px';
 
-                    thumbnailElement.insertAdjacentElement('afterend', mainElement);
+                    buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, channelInfoElement));
+
+                    thumbnailElement.insertAdjacentElement('afterend', buttonElement);
                 }
             }
         });
+    }
+
+    private _buttonCrossClickHandler(e: Event, channelInfoElement: HTMLElement) {
+    console.log(`Blacklisting clicked!`);
+
+
+        const linkToChannel = channelInfoElement.querySelector("ytd-channel-name .yt-simple-endpoint");
+        e.stopPropagation();
+        e.preventDefault();
+
+
+        if (linkToChannel) {
+            const channelUrl = linkToChannel.getAttribute('href');
+            if (channelUrl) {
+
+                const index = channelUrl.indexOf('@'); // find position of '@'
+
+                if (index !== -1) {
+                    const result = channelUrl.substring(index); // from '@' to end
+                    console.log(`Blacklisting channel: ${result}`);
+                }
+                // Here you can handle the blacklisting logic, e.g., send the URL to a server or store it locally
+                
+            }
+        }
     }
 }

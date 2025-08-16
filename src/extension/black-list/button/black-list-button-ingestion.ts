@@ -28,7 +28,7 @@ export class BlackListButtonIngestion {
     }
 
     private _buttonCrossClickHandler(e: Event, channelInfoElement: HTMLElement) {
-    console.log(`Blacklisting clicked!`);
+        console.log(`Blacklisting clicked!`);
 
 
         const linkToChannel = channelInfoElement.querySelector("ytd-channel-name .yt-simple-endpoint");
@@ -45,6 +45,9 @@ export class BlackListButtonIngestion {
                 if (index !== -1) {
                     const result = channelUrl.substring(index); // from '@' to end
                     console.log(`Blacklisting channel: ${result}`);
+                }
+                else {
+                    
                 }
                 // Here you can handle the blacklisting logic, e.g., send the URL to a server or store it locally
                 

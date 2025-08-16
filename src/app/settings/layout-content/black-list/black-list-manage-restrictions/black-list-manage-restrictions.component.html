@@ -4,7 +4,8 @@
 	[tagType]="TagType.Red"
 	(closed)="onClose()">
 	<div class="manage-restrictions-container">
-		<div class="manage-restrictions-container__new-resctiction new-resctiction">
+		<!-- hide adding logic for channels from settings -->
+		<div *ngIf="type !== BlackListRestrictionType.Channels" class="manage-restrictions-container__new-resctiction new-resctiction">
 			<h6 class="new-resctiction__label">New {{type}} restriction</h6>
 			<form class="new-resctiction__form form">
 				<input
@@ -22,7 +23,9 @@
 				<h6 class="header-content__label">Find the existing restriction</h6>
 				<h6 class="header-content__hidden-count hidden-count">Hiden {{type}}s: {{restrictionList.length}}</h6>
 			</div>
+			<!-- hide adding logic for channels from settings -->
 			<ruckit-option-list
+				[enableAdding]="type !== BlackListRestrictionType.Channels"
 				[optionList]="restrictionList"
 				[placeholder]="placeholder"
 				class="find-existing-restriction__restriction-list"

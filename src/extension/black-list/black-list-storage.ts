@@ -2,7 +2,17 @@ import { STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_IS_
 import { BlackListData } from "./black-list-models";
 
 export class BlackListStorage {
-    async getBlackListData(): Promise<BlackListData> {
+
+    public channelIsTurnedOn: boolean = false;
+    public channels: string[] = [];
+
+    public keywordsIsTurnedOn: boolean = false;
+    public keywords: string[] = [];
+
+    public phrasesIsTurnedOn: boolean = false;
+    public phrases: string[] = [];
+
+    async init(): Promise<void> {
         const storageKeysData = []
     
         const storageKeysTurnedOn = [
@@ -13,30 +23,68 @@ export class BlackListStorage {
     
         var storageTurningOn = await chrome.storage.sync.get(storageKeysTurnedOn);
     
-        //depend on storageKeysTurnedOn black list will be loaded or not
-        if (storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON]) {
-            storageKeysData.push(STORAGE_BLACKLIST_CHANNELS)
+        this.channelIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
+        if (this.channelIsTurnedOn) {
+            storageKeysData.push(STORAGE_BLACKLIST_CHANNELS);
+            
         }
     
-        if (storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON]) {
+        this.keywordsIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON];
+        if (this.keywordsIsTurnedOn) {
             storageKeysData.push(STORAGE_BLACKLIST_KEYWORDS)
         }
     
-        if (storageTurningOn[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON]) {
+        this.phrasesIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON];
+        if (this.phrasesIsTurnedOn) {
             storageKeysData.push(STORAGE_BLACKLIST_PHRASES)
         }
         
         const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
-        const data: BlackListData = {
-            blackListChannels: storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [],
-            blackListWords: storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [],
-            blackListPhrases: storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? []
-        }
-    
-        return data;
+
+        this.channels = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
+        this.keywords = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
+        this.phrases = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
+
+
+        this.handler();
     }
 
+    private handler() {
+        chrome.storage.onChanged.addListener((changes, areaName) => {
+            if (areaName !== "sync") return;
 
+            if (STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON in changes) {
+                const { oldValue, newValue } = changes[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
+
+                if (this.isBoolean(newValue)) {
+                    this.channelIsTurnedOn = newValue;
+                    return;
+                }
+            }
+
+            // this.setTurnedOns
+        });
+    }
+
+    // private setTurnedOns(turnOnNames: string[], changes: any): boolean {
+
+    //     const result = turnOnNames.find(key => key in changes);
+
+    //     if (turnOnName in changes) {
+    //         const { oldValue, newValue } = changes[turnOnName];
+
+    //         if (this.isBoolean(newValue)) {
+    //             this.channelIsTurnedOn = newValue;
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // }
+
+    private isBoolean(value: unknown): value is boolean {
+        return typeof value === "boolean";
+    }
 
     
     public static blackChannels: string[] = [

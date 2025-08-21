@@ -1,7 +1,10 @@
 import { detectYouTubePageType, YouTubePageType } from "../url-detector";
+import { BlackListStorage } from "./black-list-storage";
 import { BlackListButtonIngestion } from "./button/black-list-button-ingestion";
 
 const ingestion = new BlackListButtonIngestion();
+const storage = new BlackListStorage();
+await storage.init();
 
 runHeartbeat();
 

@@ -20,5 +20,8 @@ module.exports = {
         {from: "styles", to: "styles"},
       ]
     })
-  ]
+  ],
+  experiments: {
+    topLevelAwait: true
+  }
 } as Configuration;

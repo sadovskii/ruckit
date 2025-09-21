@@ -28,30 +28,31 @@ export class BlackListButtonIngestion {
     }
 
     private _buttonCrossClickHandler(e: Event, channelInfoElement: HTMLElement) {
-        console.log(`Blacklisting clicked!`);
-
-
         const linkToChannel = channelInfoElement.querySelector("ytd-channel-name .yt-simple-endpoint");
         e.stopPropagation();
         e.preventDefault();
 
-
         if (linkToChannel) {
             const channelUrl = linkToChannel.getAttribute('href');
-            if (channelUrl) {
+            const channelName = linkToChannel.textContent?.trim();
+            
+            this._channelTackle(channelUrl, channelName);
+        }
+    }
 
-                const index = channelUrl.indexOf('@'); // find position of '@'
+    private _channelTackle(channelUrl?: string | null, channelName?: string) {
+        if (channelUrl) {
+            const index = channelUrl.indexOf('@'); // find position of '@'
 
-                if (index !== -1) {
-                    const result = channelUrl.substring(index); // from '@' to end
-                    console.log(`Blacklisting channel: ${result}`);
-                }
-                else {
-                    
-                }
-                // Here you can handle the blacklisting logic, e.g., send the URL to a server or store it locally
-                
+            if (index !== -1) {
+                const result = channelUrl.substring(index); // from '@' to end
+                console.log(`Blacklisting channel: ${result}`);
             }
+            else {
+                console.log(`Blacklisting channelName: ${channelName}`);
+            }
+            // Here you can handle the blacklisting logic, e.g., send the URL to a server or store it locally
+            
         }
     }
 }

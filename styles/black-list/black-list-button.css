@@ -34,6 +34,8 @@ html[dark] {
     position: relative;
     display: inline-flex;
     align-items: center;
+
+    margin-bottom: 1.2px;
 }
 
 .black-list-button {

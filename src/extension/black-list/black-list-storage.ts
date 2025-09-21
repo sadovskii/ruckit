@@ -45,42 +45,36 @@ export class BlackListStorage {
         this.keywords = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
         this.phrases = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
 
-
         this.handler();
+    }
+
+
+    public setBlackListChannel(channelName: string, channelNickname: string): void {
+        
     }
 
     private handler() {
         chrome.storage.onChanged.addListener((changes, areaName) => {
             if (areaName !== "sync") return;
 
-            if (STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON in changes) {
-                const { oldValue, newValue } = changes[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
-
-                if (this.isBoolean(newValue)) {
-                    this.channelIsTurnedOn = newValue;
-                    return;
-                }
-            }
-
-            // this.setTurnedOns
+            if (this.setBooleans(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, changes)) return;
+            if (this.setBooleans(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes)) return;
+            if (this.setBooleans(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, changes)) return;
         });
     }
 
-    // private setTurnedOns(turnOnNames: string[], changes: any): boolean {
+    private setBooleans(key: string, changes: any): boolean {
+        if (key in changes) {
+            const { oldValue, newValue } = changes[key];
 
-    //     const result = turnOnNames.find(key => key in changes);
+            if (this.isBoolean(newValue)) {
+                this.channelIsTurnedOn = newValue;
+                return true;
+            }
+        }
 
-    //     if (turnOnName in changes) {
-    //         const { oldValue, newValue } = changes[turnOnName];
-
-    //         if (this.isBoolean(newValue)) {
-    //             this.channelIsTurnedOn = newValue;
-    //             return true;
-    //         }
-    //     }
-
-    //     return false;
-    // }
+        return false;
+    }
 
     private isBoolean(value: unknown): value is boolean {
         return typeof value === "boolean";

@@ -1,10 +1,12 @@
-import { STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES } from "src/app/shared/constants";
-import { BlackListData } from "./black-list-models";
+import { STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_CHANNELS_EXTENDED } from "src/app/shared/constants";
+import { BlackListChannel, BlackListData } from "./black-list-models";
 
 export class BlackListStorage {
 
     public channelIsTurnedOn: boolean = false;
     public channels: string[] = [];
+    public channelsExt: BlackListChannel[] = [];
+    public channelMap: Map<string, boolean> = new Map(); // name, nickname
 
     public keywordsIsTurnedOn: boolean = false;
     public keywords: string[] = [];
@@ -26,7 +28,7 @@ export class BlackListStorage {
         this.channelIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
         if (this.channelIsTurnedOn) {
             storageKeysData.push(STORAGE_BLACKLIST_CHANNELS);
-            
+            storageKeysData.push(STORAGE_BLACKLIST_CHANNELS_EXTENDED)
         }
     
         this.keywordsIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON];
@@ -42,24 +44,41 @@ export class BlackListStorage {
         const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
 
         this.channels = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
+        this.channelsExt = storageBlackLists[STORAGE_BLACKLIST_CHANNELS_EXTENDED] ?? [];
         this.keywords = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
         this.phrases = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
+
+        this.channelMap = new Map(this.channels.map(item => [item, true]));
 
         this.handler();
     }
 
 
-    public setBlackListChannel(channelName: string, channelNickname: string): void {
-        
+    public setBlackListChannel(channelName: string | undefined): void {
+        if (!channelName) return;
+        if (this.channels.includes(channelName)) return;
+
+        this.channels.push(channelName);
+
+        chrome.storage.sync.set({[STORAGE_BLACKLIST_CHANNELS]: this.channels });
+
     }
 
     private handler() {
         chrome.storage.onChanged.addListener((changes, areaName) => {
             if (areaName !== "sync") return;
 
-            if (this.setBooleans(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, changes)) return;
-            if (this.setBooleans(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes)) return;
-            if (this.setBooleans(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, changes)) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, changes, t => this.channelIsTurnedOn = t)) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes, t => this.keywordsIsTurnedOn = t)) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, changes, t => this.phrasesIsTurnedOn = t)) return;
+
+            if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS, changes, t => 
+                {
+                    this.channels = t;
+                    this.channelMap = new Map(this.channels.map(item => [item, true]));
+                })) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS, changes, t => this.keywords = t)) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES, changes, t => this.phrases = t)) return;
         });
     }
 
@@ -69,6 +88,19 @@ export class BlackListStorage {
 
             if (this.isBoolean(newValue)) {
                 this.channelIsTurnedOn = newValue;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private updateProperty(key: string, changes: any, setter: (val: any) => void) {
+        if (key in changes) {
+            const { oldValue, newValue } = changes[key];
+
+            if (this.isBoolean(newValue)) {
+                setter(newValue);
                 return true;
             }
         }

@@ -6,7 +6,9 @@ yt-thumbnail-view-model img,
 /*shorts*/
 ytm-shorts-lockup-view-model-v2 .yt-core-image,
 /*similar requests*/
-ytd-search-refinement-card-renderer img {
+ytd-search-refinement-card-renderer img,
+ytm-shorts-lockup-view-model img,
+ytd-expandable-metadata-renderer img {
     filter: brightness(0%);
 }
 
@@ -18,7 +20,9 @@ yt-thumbnail-view-model:hover img,
 /*shorts*/
 ytm-shorts-lockup-view-model-v2:hover .yt-core-image,
 /*similar requests*/
-ytd-search-refinement-card-renderer:hover img {
+ytd-search-refinement-card-renderer:hover img,
+ytm-shorts-lockup-view-model:hover img,
+ytd-expandable-metadata-renderer:hover img {
     filter: grayscale(100%);
 }
 

@@ -17,12 +17,12 @@ export function runBlackListScriptsByUrl(tab: chrome.tabs.Tab) {
     if (tab && tab.id && tab.url?.startsWith(YOUTUBE)) {
 
         // Run scripts based on the URL search
-        if (tab.url?.startsWith(SEARCH)) {
-            chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                files: ["black-list/search-page/black-list-search-page.js"]
-            });
-        }
+        // if (tab.url?.startsWith(SEARCH)) {
+        //     chrome.scripting.executeScript({
+        //         target: { tabId: tab.id },
+        //         files: ["black-list/search-page/black-list-search-page.js"]
+        //     });
+        // }
     
         if (tab.url?.includes(CHANNEL_URL_CHANNEL) ||
             tab.url?.includes(CHANNEL_URL_AT) ||

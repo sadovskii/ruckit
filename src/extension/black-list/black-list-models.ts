@@ -5,6 +5,6 @@ export interface BlackListData {
 }
 
 export interface BlackListChannel {
-    name: string;
-    nickname: string;
+    n: string; // name
+    ni: string; // nicknames
 }

@@ -6,6 +6,9 @@ import { hideVideos } from "./black-list-script-hide-video";
 
 // hide element. methods inside to check htmlElement type and it is method makes manipulations with this one
 export function hideElement(htmlElement: HTMLElement, data: BlackListData) {
+
+    console.log('hideElement !!!!!!!!', htmlElement.localName);
+
     hideVideos(htmlElement, data);
     hideChannel(htmlElement, data);
     hideElementsInShelf(htmlElement, data);

@@ -1,6 +1,7 @@
 import { detectYouTubePageType, YouTubePageType } from "../url-detector";
 import { BlackListStorage } from "./black-list-storage";
 import { BlackListButtonIngestion } from "./button/black-list-button-ingestion";
+import { SearchPage } from "./pages/search-page/search-page";
 
 const ingestion = new BlackListButtonIngestion();
 const storage = new BlackListStorage();
@@ -23,7 +24,8 @@ function runHeartbeat() {
 function runFunctionOnPageType(pageType: YouTubePageType) {
     switch (pageType) {
         case YouTubePageType.Search:
-            ingestion.injectBlackListButtonOnSearch();
+            const searchPage = new SearchPage(storage);
+            searchPage.blackListButtonOnSearch();
             break;
         default:
     }

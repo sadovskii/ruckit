@@ -8,10 +8,8 @@ export const STORAGE_BLACKLIST_CHANNELS = "blch";
 export const STORAGE_BLACKLIST_CHANNELS_EXTENDED = "blche";
 export const STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON = "blchito";
 export const STORAGE_BLACKLIST_KEYWORDS = "blk";
-export const STORAGE_BLACKLIST_KEYWORDS_EXTENDED = "blke";
 export const STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON = "blkito";
 export const STORAGE_BLACKLIST_PHRASES = "blph";
-export const STORAGE_BLACKLIST_PHRASES_EXTENDED = "blphe";
 export const STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON = "blphito"
 
 // for nb dialog

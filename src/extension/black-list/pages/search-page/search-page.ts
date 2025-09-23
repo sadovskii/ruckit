@@ -1,8 +1,21 @@
-import { SearchPage } from "../pages/search-page/search-page";
-import { TEMPLATE } from "./black-list-button-templates";
+import { BlackListStorage } from "../../black-list-storage";
+import { TEMPLATE } from "../../button/black-list-button-templates";
+import { PercentEncoding } from "../../common/percent-encoding";
 
-export class BlackListButtonIngestion {
-    injectBlackListButtonOnSearch() {
+export class SearchPage {
+    constructor(public blackListStorage: BlackListStorage) {
+    }
+
+    public blackListButtonOnSearch() {
+        if (this.blackListStorage.channelIsTurnedOn) {
+            this._injectBlackListButtonOnSearch()
+        }
+        else {
+            this._removeBlackListButtonOnSearch();
+        }
+    }
+
+    private _injectBlackListButtonOnSearch() {
         const path = 'ytd-video-renderer #channel-info:not(:has(.blb-conainer))';
 
         document.querySelectorAll(path).forEach(channelInfo => {
@@ -28,32 +41,27 @@ export class BlackListButtonIngestion {
         });
     }
 
+    private _removeBlackListButtonOnSearch() {
+        const path = 'ytd-video-renderer #channel-info .blb-conainer';
+
+        document.querySelectorAll(path).forEach(blackListButton => {
+            blackListButton.remove();
+        });
+    }
+
     private _buttonCrossClickHandler(e: Event, channelInfoElement: HTMLElement) {
         const linkToChannel = channelInfoElement.querySelector("ytd-channel-name .yt-simple-endpoint");
         e.stopPropagation();
         e.preventDefault();
 
         if (linkToChannel) {
-            const channelUrl = linkToChannel.getAttribute('href');
             const channelName = linkToChannel.textContent?.trim();
             
-            this._channelTackle(channelUrl, channelName);
+            this._channelTackle(channelName);
         }
     }
 
-    private _channelTackle(channelUrl?: string | null, channelName?: string) {
-        if (channelUrl) {
-            const index = channelUrl.indexOf('@'); // find position of '@'
-
-            if (index !== -1) {
-                const result = channelUrl.substring(index); // from '@' to end
-                console.log(`Blacklisting channel: ${result}`);
-            }
-            else {
-                console.log(`Blacklisting channelName: ${channelName}`);
-            }
-            // Here you can handle the blacklisting logic, e.g., send the URL to a server or store it locally
-            
-        }
+    private _channelTackle(channelName?: string) {
+        this.blackListStorage.setBlackListChannel(channelName);
     }
 }

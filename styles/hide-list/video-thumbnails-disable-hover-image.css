@@ -6,6 +6,8 @@ yt-thumbnail-view-model:hover img,
 /*shorts*/
 ytm-shorts-lockup-view-model-v2:hover .yt-core-image,
 /*similar requests*/
-ytd-search-refinement-card-renderer:hover img {
+ytd-search-refinement-card-renderer:hover img,
+ytm-shorts-lockup-view-model:hover img,
+ytd-expandable-metadata-renderer:hover img {
     filter: brightness(0%) !important;
 }

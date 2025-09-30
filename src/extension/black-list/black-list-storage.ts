@@ -49,7 +49,9 @@ export class BlackListStorage {
         this.phrases = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
 
         this.channelMap = new Map(this.channels.map(item => [item, true]));
+    }
 
+    public initHandler() {
         this.handler();
     }
 
@@ -68,12 +70,15 @@ export class BlackListStorage {
         chrome.storage.onChanged.addListener((changes, areaName) => {
             if (areaName !== "sync") return;
 
+            console.log("change = ", changes);
+
             if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, changes, t => this.channelIsTurnedOn = t)) return;
             if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes, t => this.keywordsIsTurnedOn = t)) return;
             if (this.updateProperty(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, changes, t => this.phrasesIsTurnedOn = t)) return;
 
             if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS, changes, t => 
                 {
+                    console.log('update handler!');
                     this.channels = t;
                     this.channelMap = new Map(this.channels.map(item => [item, true]));
                 })) return;
@@ -99,7 +104,7 @@ export class BlackListStorage {
         if (key in changes) {
             const { oldValue, newValue } = changes[key];
 
-            if (this.isBoolean(newValue)) {
+            if (newValue) {
                 setter(newValue);
                 return true;
             }

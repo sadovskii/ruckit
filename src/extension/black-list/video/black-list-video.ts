@@ -1,3 +1,4 @@
+import { BlackListStorage } from "../black-list-storage";
 import { getBlackListData } from "../common/common-functionality";
 
 let timeout1 = setTimeout(async function channel() {
@@ -12,6 +13,7 @@ let timeout1 = setTimeout(async function channel() {
 
 	// it's recursion that run channel script again till appearance of ytd-watch-flexy and stop previous script
 	if (!watchFlexy) {
+		console.log('test: watchFlexy is null');
         timeout1 = setTimeout(channel, 300);
         return;
 	}
@@ -20,57 +22,60 @@ let timeout1 = setTimeout(async function channel() {
 
 	// it's recursion that run channel script again till appearance of video-id and stop previous script
 	if (!watchFlexyVideoId || !url.includes(watchFlexyVideoId)) {
+		console.log('test: watchFlexyVideoId is null');
 		timeout1 = setTimeout(channel, 200);
         return;
 	}
 
-	const data = await getBlackListData();
+	const data = new BlackListStorage();
+	await data.init();
 
 	const title = watchFlexy.querySelector('ytd-watch-metadata #title yt-formatted-string');
     const channelLink = watchFlexy.querySelector('ytd-watch-metadata ytd-video-owner-renderer ytd-channel-name yt-formatted-string a');
 
 	// it's recursion that run channel script again till appearance of 'title' and 'channelLink' and stop previous script
     if (!title || !channelLink) {
+		console.log('test: channelLink is null');
         timeout1 = setTimeout(channel, 300);
         return;
     }
 
-	const channelName = title?.textContent;
-	var channelNick = channelLink?.getAttribute("href");
+	const videoName = title?.textContent?.trim();
+	let channelName = channelLink?.textContent?.trim();
 
-	if (channelName && channelNick) {
-
-		if (checkEncodeURI(channelNick)) {
-			channelNick = decodeURIComponent(channelNick);
+	if (videoName && channelName) {
+		if (channelName.length > 60) {
+			channelName = channelName.substring(0, 60);
 		}
 
-		for (let i = 0; i < data.blackListChannels.length; i++) {
-			if (channelNick?.startsWith(data.blackListChannels[i], 1)) {
+		console.log("data map = ", data.channelMap);
+		if (data.channelIsTurnedOn) {
+			if (data.channelMap.has(channelName)) {
 				replace(watchFlexy);
 				return;
 			}
 		}
 
-		const splited = channelName.toLocaleLowerCase().split(' ');
-		for (let i = 0; i < data.blackListWords.length; i++) {
+		const splited = videoName.toLocaleLowerCase().split(' ');
+		for (let i = 0; i < data.keywords.length; i++) {
 			var result = splited?.some((w) => {
-				return w.includes(data.blackListWords[i]?.toLocaleLowerCase())
+				return w.includes(data.keywords[i]?.toLocaleLowerCase())
 			})
 
 			if (result) {
 				replace(watchFlexy);
-				console.log('test: replaced channel with channelName = ', channelName);
+				console.log('test: replaced channel with channelName = ', videoName);
 				// document.addEventListener('keydown', stopPropagationHandler, true);
 				return;
 			}
 		}
 
-		for (let i = 0; i < data.blackListPhrases.length; i++) {
-			var result = channelName?.includes(data.blackListPhrases[i])
+		for (let i = 0; i < data.phrases.length; i++) {
+			var result = videoName?.includes(data.phrases[i])
 	
 			if (result) {
 				replace(watchFlexy);
-				console.log('test: replaced channel with channelName = ', channelName);
+				console.log('test: replaced channel with channelName = ', videoName);
 				// document.addEventListener('keydown', stopPropagationHandler, true);
 				return;
 			}

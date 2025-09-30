@@ -49,15 +49,63 @@ export class SearchPage {
         });
     }
 
+    public blackListRemoveElements() {
+        if (!this.blackListStorage.channelIsTurnedOn) {
+            return;
+        }
+
+        const path = 'ytd-video-renderer';
+
+        document.querySelectorAll(path).forEach(videoElement => {
+            const htmlElement = videoElement as HTMLElement;
+
+            let channelName = htmlElement?.querySelector('#channel-info ytd-channel-name .yt-simple-endpoint')?.textContent?.trim();
+
+            if (channelName) {
+                if (channelName.length > 60) {
+                    channelName = channelName.substring(0, 60);
+                }
+
+                if (this.blackListStorage.channelMap.has(channelName)) {
+                    htmlElement.remove();
+                }
+            }
+        });
+
+        document.querySelectorAll("ytd-channel-renderer").forEach(channelElement => {
+            const htmlElement = channelElement as HTMLElement;
+            let channelName = htmlElement?.querySelector('ytd-channel-name #text')?.textContent?.trim();
+
+            if (channelName) {
+                if (channelName.length > 60) {
+                    channelName = channelName.substring(0, 60);
+                }
+
+                if (this.blackListStorage.channelMap.has(channelName)) {
+                    htmlElement.remove();
+                }
+            }
+        });
+    }
+
     private _buttonCrossClickHandler(e: Event, channelInfoElement: HTMLElement) {
         const linkToChannel = channelInfoElement.querySelector("ytd-channel-name .yt-simple-endpoint");
         e.stopPropagation();
         e.preventDefault();
 
         if (linkToChannel) {
-            const channelName = linkToChannel.textContent?.trim();
+            let channelName = linkToChannel.textContent?.trim();
+
+            if (!channelName) return;
+
+            if (channelName.length > 60) {
+                channelName = channelName.substring(0, 60);
+            }
             
             this._channelTackle(channelName);
+
+            console.log("black list channel = ", this.blackListStorage.channels);
+            console.log("black list channel map = ", this.blackListStorage.channelMap);
         }
     }
 

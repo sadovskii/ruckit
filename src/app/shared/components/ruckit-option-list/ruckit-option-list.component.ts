@@ -85,6 +85,14 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected trimName(option: string) {
+    if (option.length > 50) {
+      return option.substring(0, 50) + '...';
+    }
+
+    return option;
+  }
+
   private _initSearchChangesHandler() {
     const sub = this.searchFormControl.valueChanges.subscribe(search => {
       if (search === null) {

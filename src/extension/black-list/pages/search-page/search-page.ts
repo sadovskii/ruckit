@@ -50,24 +50,53 @@ export class SearchPage {
     }
 
     public blackListRemoveElements() {
-        if (!this.blackListStorage.channelIsTurnedOn) {
-            return;
-        }
-
         const path = 'ytd-video-renderer';
 
         document.querySelectorAll(path).forEach(videoElement => {
             const htmlElement = videoElement as HTMLElement;
 
-            let channelName = htmlElement?.querySelector('#channel-info ytd-channel-name .yt-simple-endpoint')?.textContent?.trim();
+            if (this.blackListStorage.channelIsTurnedOn) {
+                let channelName = htmlElement?.querySelector('#channel-info ytd-channel-name .yt-simple-endpoint')?.textContent?.trim();
 
-            if (channelName) {
-                if (channelName.length > 60) {
-                    channelName = channelName.substring(0, 60);
+                if (channelName) {
+                    if (channelName.length > 60) {
+                        channelName = channelName.substring(0, 60);
+                    }
+
+                    if (this.blackListStorage.channelMap.has(channelName)) {
+                        htmlElement.remove();
+                        return;
+                    }
                 }
+            }
+            
+            if (this.blackListStorage.keywordsIsTurnedOn) {
+                var videoName = htmlElement?.querySelector('#video-title')?.textContent?.trim();
+                if (!videoName) return;
 
-                if (this.blackListStorage.channelMap.has(channelName)) {
-                    htmlElement.remove();
+                const splited = videoName.toLocaleLowerCase().split(' ');
+                for (let i = 0; i < this.blackListStorage.keywords.length; i++) {
+                    var result = splited?.some((w) => {
+                        return w.includes(this.blackListStorage.keywords[i]?.toLocaleLowerCase())
+                    })
+        
+                    if (result) {
+                        htmlElement.remove();
+                        return;
+                    }
+                }
+            }
+            if (this.blackListStorage.phrasesIsTurnedOn) {
+                var videoName = htmlElement?.querySelector('#video-title')?.textContent?.trim();
+                if (!videoName) return;
+
+                for (let i = 0; i < this.blackListStorage.phrases.length; i++) {
+                    var result = videoName?.includes(this.blackListStorage.phrases[i])
+            
+                    if (result) {
+                        htmlElement.remove();
+                        return;
+                    }
                 }
             }
         });

@@ -80,16 +80,49 @@ export class FeedPage {
         document.querySelectorAll('ytd-rich-item-renderer').forEach(itemElement => {
             const htmlItemElement = itemElement as HTMLElement;
 
-            const path = '#content yt-content-metadata-view-model .yt-core-attributed-string a';
-            let channelName = htmlItemElement?.querySelector(path)?.textContent?.trim();
+            if (this.blackListStorage.channelIsTurnedOn) {
+                const path = '#content yt-content-metadata-view-model .yt-core-attributed-string a';
+                let channelName = htmlItemElement?.querySelector(path)?.textContent?.trim();
 
-            if (channelName) {
-                if (channelName.length > 60) {
-                    channelName = channelName.substring(0, 60);
+                if (channelName) {
+                    if (channelName.length > 60) {
+                        channelName = channelName.substring(0, 60);
+                    }
+
+                    if (this.blackListStorage.channelMap.has(channelName)) {
+                        htmlItemElement.remove();
+                        return;
+                    }
                 }
+            }
 
-                if (this.blackListStorage.channelMap.has(channelName)) {
-                    htmlItemElement.remove();
+            if (this.blackListStorage.keywordsIsTurnedOn) {
+                var videoName = htmlItemElement?.querySelector('.yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
+                if (!videoName) return;
+
+                const splited = videoName.toLocaleLowerCase().split(' ');
+                for (let i = 0; i < this.blackListStorage.keywords.length; i++) {
+                    var result = splited?.some((w) => {
+                        return w.includes(this.blackListStorage.keywords[i]?.toLocaleLowerCase())
+                    })
+        
+                    if (result) {
+                        htmlItemElement.remove();
+                        return;
+                    }
+                }
+            }
+            if (this.blackListStorage.phrasesIsTurnedOn) {
+                var videoName = htmlItemElement?.querySelector('.yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
+                if (!videoName) return;
+
+                for (let i = 0; i < this.blackListStorage.phrases.length; i++) {
+                    var result = videoName?.includes(this.blackListStorage.phrases[i])
+            
+                    if (result) {
+                        htmlItemElement.remove();
+                        return;
+                    }
                 }
             }
         });

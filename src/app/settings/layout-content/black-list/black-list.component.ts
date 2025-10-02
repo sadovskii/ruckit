@@ -93,6 +93,12 @@ export class BlackListComponent implements OnInit, OnDestroy {
   }
 
   onAddItem(item: string, type: BlackListRestrictionType) {
+    
+    // hideed adding logic for channels from settings
+    if (type === BlackListRestrictionType.Channels) {
+      return;
+    }
+
     const list = this.blackListData[type];
     list.push(item);
     this._setListToStorage(list, type);

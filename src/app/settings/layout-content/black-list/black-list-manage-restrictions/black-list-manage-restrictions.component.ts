@@ -11,6 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class BlackListManageRestrictionsComponent {
   public TagType = TagType;
+  public BlackListRestrictionType = BlackListRestrictionType;
 
   protected invalidAfterClick = false;
   

@@ -26,7 +26,9 @@
 		@else if (filteredOptionList.length === 0 && searchFormControl.value) {
 			<div class="option-list-unfound">
 				<h6 class="option-list-unfound__content">The restriction is not found</h6>
+				<!--Hideed adding logic from settings-->
 				<button
+					*ngIf="enableAdding"
 					class="option-list-unfound__add-item"
 					nbButton
 					size="tiny"

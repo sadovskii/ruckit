@@ -1,0 +1,85 @@
+:root {
+    --ruckit-red-color: #F0331B;
+    --ruckit-white-color: #FEFEFE;
+    --ruckit-black-color: #111111;
+    --ruckit-gray-1-color: #151515;
+    --ruckit-gray-3-color: #2B2B2B;
+    --ruckit-gray-6-color: #D5D5D5;
+    --ruckit-gray-8-color: #F9F9F9;
+}
+
+html:not([dark]) {
+    --ruckit-global-button-main-color: var(--ruckit-red-color);
+    --ruckit-global-button-cross-color: var(--ruckit-white-color);
+    --ruckit-global-button-main-color-hover: var(--ruckit-black-color);
+    --ruckit-global-button-cross-color-hover: var(--ruckit-white-color);
+
+    --ruckit-tooltip-color: var(--ruckit-black-color);
+    --ruckit-tooltip-bg-color: var(--ruckit-gray-8-color);
+    --ruckit-tooltip-border-color: var(--ruckit-gray-6-color);
+}
+
+html[dark] {
+    --ruckit-global-button-main-color: var(--ruckit-red-color);
+    --ruckit-global-button-cross-color: var(--ruckit-white-color);
+    --ruckit-global-button-main-color-hover: var(--ruckit-white-color);
+    --ruckit-global-button-cross-color-hover: var(--ruckit-black-color);
+
+    --ruckit-tooltip-color: var(--ruckit-white-color);
+    --ruckit-tooltip-bg-color: var(--ruckit-gray-1-color);
+    --ruckit-tooltip-border-color: var(--ruckit-gray-3-color);
+}
+
+.blb-conainer {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 1.2px;
+}
+
+.black-list-button {
+    display: flex;
+}
+
+.black-list-button svg {
+    cursor: pointer;
+    --ruckit-button-main-color: var(--ruckit-global-button-main-color);
+    --ruckit-button-cross-color: var(--ruckit-global-button-cross-color);
+}
+
+.black-list-button svg:hover {
+    --ruckit-button-main-color: var(--ruckit-global-button-main-color-hover);
+    --ruckit-button-cross-color: var(--ruckit-global-button-cross-color-hover);
+}
+
+/* ==========================================
+   TOOLTIP STYLES
+   ========================================== */
+.black-list-tooltip {
+    position: absolute;
+    left: calc(100% + 10px);  /* to the right of the button */
+    top: 50%;
+    transform: translateY(-50%);
+    
+    background-color: var(--ruckit-tooltip-bg-color);
+    color: var(--ruckit-tooltip-color);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--ruckit-tooltip-border-color);
+    white-space: nowrap;
+    z-index: 500;
+    
+    /* start hidden */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Show tooltip ONLY when hovering the button cross */
+.black-list-button:hover ~ .black-list-tooltip {
+    opacity: 1;
+    transform: translateY(-50%);
+}

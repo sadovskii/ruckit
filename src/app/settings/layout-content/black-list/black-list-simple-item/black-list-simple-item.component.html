@@ -12,7 +12,9 @@
 		</ruckit-toggle>
 	</app-settings-item>
 	<div class="simple-settings simple-item__simple-settings">
+		<!-- // hideed adding logic for channels from settings -->
 		<form
+			*ngIf="type !== BlackListRestrictionType.Channels"
 			class="add-new-item simple-settings__add-new-item">
 			<input
 				class="add-new-item__input input"

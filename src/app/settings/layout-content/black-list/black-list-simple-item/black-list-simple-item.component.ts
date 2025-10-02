@@ -11,6 +11,9 @@ import { NbComponentSize } from '@nebular/theme';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlackListSimpleItemComponent implements OnInit {
+
+  public BlackListRestrictionType = BlackListRestrictionType;
+
   @Input({ required: true })
   public isRestricted: boolean;
 

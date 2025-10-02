@@ -1,3 +1,7 @@
 ytd-search ytd-reel-shelf-renderer {
     display: none !important;
 }
+
+ytd-search grid-shelf-view-model:has(ytm-shorts-lockup-view-model) {
+    display: none !important;
+}

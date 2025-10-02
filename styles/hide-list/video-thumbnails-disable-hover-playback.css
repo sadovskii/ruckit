@@ -1,5 +1,6 @@
 /*search*/
 ytd-video-preview,
-ytd-moving-thumbnail-renderer {
+ytd-moving-thumbnail-renderer,
+animated-thumbnail-overlay-view-model {
     display: none !important;
 }

@@ -14,15 +14,7 @@ const VIDEO_URL = 'www.youtube.com/watch';
 const RESTRICTED_PAGE = 'https://www.youtube.com/-rp'
 
 export function runBlackListScriptsByUrl(tab: chrome.tabs.Tab) {
-    if (tab && tab.id && tab.url?.startsWith(YOUTUBE)) {
-    
-        if (tab.url?.includes(VIDEO_URL)) {
-            chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                files: ["black-list/video/black-list-video.js"]
-            });
-        }
-    
+    if (tab && tab.id && tab.url?.startsWith(YOUTUBE)) {    
         if (tab.url === RESTRICTED_PAGE) {
             chrome.scripting.executeScript({
                 target: { tabId: tab.id },

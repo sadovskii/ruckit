@@ -14,6 +14,10 @@ export class VideoPage {
     }
 
     private _injectBlackListButton() {
+        this._injectBlackListButtonVideoChannel();
+    }
+
+    private _injectBlackListButtonVideoChannel() {
         const ownerPath = '#owner:not(:has(.blb-conainer))';
         const channelNamePath = '#owner ytd-video-owner-renderer #upload-info #channel-name #text-container a';
 
@@ -36,7 +40,6 @@ export class VideoPage {
             }
         }
     }
-
 
     private _removeBlackListButton() {
         const path = 'ytd-rich-item-renderer yt-content-metadata-view-model .blb-conainer';

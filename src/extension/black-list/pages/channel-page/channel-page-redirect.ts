@@ -5,7 +5,7 @@ import { BlackListStorage } from "../../black-list-storage";
 export class ChannelPageRedirect {
     constructor(public data: BlackListStorage) {}
 
-    videoPageRedirect() {
+    channelPageRedirect() {
 
         if (!this.data.channelIsTurnedOn) return;
 

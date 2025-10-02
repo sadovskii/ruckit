@@ -5,7 +5,6 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
   entry: { 
     background: { import: 'src/extension/background.ts', runtime: false },
-    "black-list/video/black-list-video": { import: 'src/extension/black-list/video/black-list-video.ts', runtime: false },
     "black-list/search-page/black-list-search-page": { import: 'src/extension/black-list/search-page/black-list-search-page.ts', runtime: false },
     "black-list/search-page/black-list-script-manipulations": { import: 'src/extension/black-list/search-page/black-list-script-manipulations.ts', runtime: false },
     "black-list/search-page/black-list-script-mutations": { import: 'src/extension/black-list/search-page/black-list-script-mutations.ts', runtime: false },

@@ -71,6 +71,13 @@
             padding: 0.5rem 0.5rem 0.5rem 0.75rem;
             border-radius: var(--corner-radius-4);
     
+            &__name {
+                width: 410px;
+                white-space: nowrap;     /* keep it on one line */
+                overflow: hidden;        /* hide overflow */
+                text-overflow: ellipsis; /* show … when text overflows */
+            }
+
             &__icon {
                 display: none;
                 width: 1.313rem !important; // 21px

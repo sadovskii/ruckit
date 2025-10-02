@@ -36,6 +36,9 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
   public maxLengthRestriction = 200;
 
   @Input()
+  public enableAdding: boolean = true;
+
+  @Input()
   public height: string = '13.1rem';
 
   @Output()
@@ -74,12 +77,20 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
 
   protected addItemClick() {
     this.invalidAfterClick = true;
-    if (this.searchFormControl.valid) {
+    if (this.searchFormControl.valid && this.enableAdding) {
       this.invalidAfterClick = false;
       this.addItem.emit(this.searchFormControl.value!);
       this.searchFormControl.setValue('');
       this.searchFormControl.reset();
     }
+  }
+
+  protected trimName(option: string) {
+    if (option.length > 50) {
+      return option.substring(0, 50) + '...';
+    }
+
+    return option;
   }
 
   private _initSearchChangesHandler() {

@@ -1,4 +1,4 @@
-import { runBlackListScripts, runHideListCssScripts } from "./background-functionality";
+import { runBlackListScriptsByUrl, runHideListCssScripts } from "./background-functionality";
 
 const restrictedPage = 'https://www.youtube.com/-rp'
 
@@ -31,7 +31,7 @@ chrome.webNavigation.onCommitted.addListener(async (details) => {
 chrome.tabs.onUpdated.addListener(async (tabActiveId, changeInfo, tab) => {
     // I use complete because i need event when user makes new search
     if (changeInfo.status === "complete") {
-        runBlackListScripts(tab);
+        runBlackListScriptsByUrl(tab);
     }
 })
 
@@ -47,8 +47,49 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     if (request.changeBlackList) {
         chrome.tabs.query({ "url": "*://www.youtube.com/*"}, function(tabs) {
             tabs.forEach(tab => {
-                runBlackListScripts(tab);
+                runBlackListScriptsByUrl(tab);
             });
         });
     }
 })
+
+checkSyncStorage();
+checkSyncStorageUsage();
+
+function checkSyncStorage() {
+    chrome.storage.sync.getBytesInUse(null, (bytesInUse) => {
+        const quota = chrome.storage.sync.QUOTA_BYTES;
+        const freeBytes = quota - bytesInUse;
+        
+        console.log(`Used: ${bytesInUse} bytes`);
+        console.log(`Free: ${freeBytes} bytes`);
+    });
+}
+
+function checkSyncStorageUsage() {
+  chrome.storage.sync.get(null, (items) => {
+    const quota = chrome.storage.sync.QUOTA_BYTES;
+    const quotaPerItem = chrome.storage.sync.QUOTA_BYTES_PER_ITEM;
+
+    let totalBytes = 0;
+    console.log("---- chrome.storage.sync contents ----");
+
+    for (const [key, value] of Object.entries(items)) {
+      const json = JSON.stringify(value);
+      const bytes = new TextEncoder().encode(json).length;
+      totalBytes += bytes;
+      console.log(`Key: "${key}" | Size: ${bytes} bytes | Value:`, value);
+    }
+
+    chrome.storage.sync.getBytesInUse(null, (bytesInUse) => {
+      const freeBytes = quota - bytesInUse;
+      console.log("--------------------------------------");
+      console.log(`Total stored items: ${Object.keys(items).length}`);
+      console.log(`Reported bytes in use: ${bytesInUse}`);
+      console.log(`Calculated bytes in use: ${totalBytes}`);
+      console.log(`Quota: ${quota} bytes`);
+      console.log(`Quota per item: ${quotaPerItem} bytes`);
+      console.log(`Free space: ${freeBytes} bytes`);
+    });
+  });
+}

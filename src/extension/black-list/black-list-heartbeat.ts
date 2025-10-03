@@ -52,6 +52,7 @@ function runFunctionOnPageType(pageType: YouTubePageType) {
             const videoPage = new VideoPage(storage);
             const videoPageRedirect = new VideoPageRedirect(storage);
             videoPage.blackListButton();
+            videoPage.blackListInjectAndRemoveElements();
             videoPageRedirect.videoPageRedirect();
             break;
         default:

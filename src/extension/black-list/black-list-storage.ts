@@ -104,7 +104,7 @@ export class BlackListStorage {
         if (key in changes) {
             const { oldValue, newValue } = changes[key];
 
-            if (newValue) {
+            if (newValue != null) {
                 setter(newValue);
                 return true;
             }

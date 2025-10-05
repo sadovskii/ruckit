@@ -18,7 +18,7 @@ export interface HideListGroupModel {
 
 export enum HideListItemType {
     HomeFeedSuggestedVideosGrid = 1,
-    SidebarShortsTab,
+    SidebarShortsTab, // obsolete
     HeaderNotificationsBell,
     WatchPageUpNextSidebar,
     WatchPageCommentsSection,
@@ -27,22 +27,24 @@ export enum HideListItemType {
     VideoThumbnailsThumbnailBlackout,
     VideoThumbnailsDisableHoverPlayback,
     VideoThumbnailsDisableHoverImage,
-    SearchResultsShortsShelf,
-    SearchResultsSingleShorts,
+    SearchResultsShortsShelf, // obsolete
+    SearchResultsSingleShorts, // obsolete
     SearchResultsTopicChips,
     SearchResultsLatestPosts,
     SearchResultsSuggestionsSections,
-    ChannelPageShortsTab,
-    ShortsPageShortsSection
+    ChannelPageShortsTab, // obsolete
+    ShortsPageShortsSection,  // obsolete
+    GeneralHideShorts
 }
 
 export enum HideListItemGroupType {
     Header = 1,
     HomeFeed,
     WatchPage,
-    Sidebar,
+    Sidebar, // obsolete
     SearchResults,
     VideoThumbnails,
     ChannelPage,
-    ShortsPage
+    ShortsPage,
+    General
 }

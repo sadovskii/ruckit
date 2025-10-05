@@ -1,4 +1,4 @@
-ytd-shelf-renderer:has(#title-container) {
+ytd-two-column-search-results-renderer ytd-shelf-renderer:has(#title-container) {
     display: none !important;
 }
 

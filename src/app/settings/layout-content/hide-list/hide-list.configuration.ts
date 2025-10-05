@@ -4,6 +4,18 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
     return {
         groups: [
             {
+                name: "General",
+                type: HideListItemGroupType.General,
+                items: [
+                    {
+                        name: "Hide Shorts",
+                        type: HideListItemType.GeneralHideShorts,
+                        cssUrl: HidelistCssConfiguration[HideListItemType.GeneralHideShorts],
+                        value: map?.get(HideListItemType.GeneralHideShorts) ?? false
+                    }
+                ]
+            },
+            {
                 name: "Home Feed",
                 type: HideListItemGroupType.HomeFeed,
                 items: [
@@ -25,42 +37,6 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                         cssUrl: HidelistCssConfiguration[HideListItemType.HeaderNotificationsBell],
                         value: map?.get(HideListItemType.HeaderNotificationsBell) ?? false
                     }           
-                ]
-            },
-            {
-                name: "Sidebar",
-                type: HideListItemGroupType.Sidebar,
-                items: [
-                    {
-                        name: "Shorts Tab",
-                        type: HideListItemType.SidebarShortsTab,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SidebarShortsTab],
-                        value: map?.get(HideListItemType.SidebarShortsTab) ?? false
-                    }
-                ]
-            },
-            {
-                name: "Channel page",
-                type: HideListItemGroupType.ChannelPage,
-                items: [
-                    {
-                        name: "Shorts tab",
-                        type: HideListItemType.ChannelPageShortsTab,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.ChannelPageShortsTab],
-                        value: map?.get(HideListItemType.ChannelPageShortsTab) ?? false
-                    }
-                ]
-            },
-            {
-                name: "Shorts page",
-                type: HideListItemGroupType.ShortsPage,
-                items: [
-                    {
-                        name: "Shorts section",
-                        type: HideListItemType.ShortsPageShortsSection,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.ShortsPageShortsSection],
-                        value: map?.get(HideListItemType.ShortsPageShortsSection) ?? false
-                    }
                 ]
             },
             {
@@ -102,18 +78,6 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                         type: HideListItemType.SearchResultsTopicChips,
                         cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsTopicChips],
                         value: map?.get(HideListItemType.SearchResultsTopicChips) ?? false
-                    },
-                    {
-                        name: "Shorts Shelf",
-                        type: HideListItemType.SearchResultsShortsShelf,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsShortsShelf],
-                        value: map?.get(HideListItemType.SearchResultsShortsShelf) ?? false
-                    },
-                    {
-                        name: "Single Shorts",
-                        type: HideListItemType.SearchResultsSingleShorts,
-                        cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsSingleShorts],
-                        value: map?.get(HideListItemType.SearchResultsSingleShorts) ?? false
                     },
                     {
                         //Latest posts from
@@ -161,7 +125,7 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
 
 export class HidelistCssConfiguration {
     static [HideListItemType.HomeFeedSuggestedVideosGrid] = "styles/hide-list/home-feed-suggested-videos-grid.css";
-    static [HideListItemType.SidebarShortsTab] = "styles/hide-list/sidebar-shorts-tab.css";
+    static [HideListItemType.SidebarShortsTab] = null //"styles/hide-list/sidebar-shorts-tab.css";
     static [HideListItemType.HeaderNotificationsBell] = "styles/hide-list/header-notifications-bell.css";
     static [HideListItemType.WatchPageUpNextSidebar] = "styles/hide-list/watch-page-up-next-sidebar.css";
     static [HideListItemType.WatchPageCommentsSection] = "styles/hide-list/watch-page-comments-section.css";
@@ -170,11 +134,12 @@ export class HidelistCssConfiguration {
     static [HideListItemType.VideoThumbnailsThumbnailBlackout] = "styles/hide-list/video-thumbnails-thumbnail-blackout.css";
     static [HideListItemType.VideoThumbnailsDisableHoverPlayback] = "styles/hide-list/video-thumbnails-disable-hover-playback.css";
     static [HideListItemType.VideoThumbnailsDisableHoverImage] = "styles/hide-list/video-thumbnails-disable-hover-image.css";
-    static [HideListItemType.SearchResultsShortsShelf] = "styles/hide-list/search-results-shorts-shelf.css";
-    static [HideListItemType.SearchResultsSingleShorts] = "styles/hide-list/search-results-single-shorts.css";
+    static [HideListItemType.SearchResultsShortsShelf] = null //"styles/hide-list/search-results-shorts-shelf.css";
+    static [HideListItemType.SearchResultsSingleShorts] = null //"styles/hide-list/search-results-single-shorts.css";
     static [HideListItemType.SearchResultsTopicChips] = "styles/hide-list/search-results-topic-chips.css";
     static [HideListItemType.SearchResultsLatestPosts] = "styles/hide-list/search-results-latest-posts.css";
     static [HideListItemType.SearchResultsSuggestionsSections] = "styles/hide-list/search-results-suggestions-sections.css";
-    static [HideListItemType.ChannelPageShortsTab] = "styles/hide-list/channel-page-shorts-tab.css";
-    static [HideListItemType.ShortsPageShortsSection] = "styles/hide-list/shorts-page-shorts-section.css";
+    static [HideListItemType.ChannelPageShortsTab] = null //"styles/hide-list/channel-page-shorts-tab.css";
+    static [HideListItemType.ShortsPageShortsSection] = null //"styles/hide-list/shorts-page-shorts-section.css";
+    static [HideListItemType.GeneralHideShorts] = "styles/hide-list/general-hide-shorts.css"
 }

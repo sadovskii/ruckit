@@ -5,7 +5,6 @@ export class BlackListStorage {
 
     public channelIsTurnedOn: boolean = false;
     public channels: string[] = [];
-    public channelsExt: BlackListChannel[] = [];
     public channelMap: Map<string, boolean> = new Map(); // name, nickname
 
     public keywordsIsTurnedOn: boolean = false;
@@ -44,7 +43,6 @@ export class BlackListStorage {
         const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
 
         this.channels = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
-        this.channelsExt = storageBlackLists[STORAGE_BLACKLIST_CHANNELS_EXTENDED] ?? [];
         this.keywords = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
         this.phrases = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
 

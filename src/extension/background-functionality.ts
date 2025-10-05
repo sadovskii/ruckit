@@ -34,10 +34,12 @@ export async function runHideListCssScripts(details: chrome.webNavigation.WebNav
             .map<HideListItemType>(t => t[0])
             .map(t => HidelistCssConfiguration[t]);
 
+        const keysNotNullabe = keys.filter(t => t != null) as string[];
+
         if (keys && keys.length > 0) {
             await chrome.scripting.insertCSS({
                 target: { tabId: details.tabId },
-                files: keys
+                files: keysNotNullabe
             })
         }
     }

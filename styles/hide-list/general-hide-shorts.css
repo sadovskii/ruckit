@@ -1,0 +1,36 @@
+/* search-results-shorts-shelf */
+ytd-reel-shelf-renderer {
+    display: none !important;
+}
+
+ytd-search grid-shelf-view-model:has(ytm-shorts-lockup-view-model) {
+    display: none !important;
+}
+
+/* search-results-single-shorts */
+ytd-search ytd-video-renderer:has(ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]) {
+    display: none !important;
+}
+
+/* sidebar-shorts-tab */
+a[title="Shorts"] {
+    display: none !important;
+}
+
+/* shorts-page-shorts-section */
+/* ytd-shorts {
+    display: none !important;
+} */
+
+/* channel-page-shorts-tab */
+ytd-rich-grid-renderer[is-shorts-grid] {
+    display: none !important;
+}
+
+yt-tab-shape[tab-title="Shorts"] {
+    display: none !important;
+}
+
+ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model) {
+    display: none !important;
+}

@@ -41,6 +41,7 @@ import { PopupGlobalComponent } from './popup/popup-global/popup-global.componen
 import { PopupNavbarComponent } from './popup/popup-navbar/popup-navbar.component';
 import { PopupNavbarItemComponent } from './popup/popup-navbar/popup-navbar-item/popup-navbar-item.component';
 import { RestrictedButtonDirective } from './shared/directive/restricted-button/restricted-button.directive';
+import { BlackListStorage } from 'src/extension/black-list/black-list-storage';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { RestrictedButtonDirective } from './shared/directive/restricted-button/
     IconRegisterService,
     NbDialogService,
     RuckitSnackBarService,
+    BlackListStorage
   ],
   bootstrap: [AppComponent]
 })

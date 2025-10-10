@@ -48,6 +48,7 @@ export class BlackListSimpleItemComponent implements OnInit {
   constructor(private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    console.log('this.checked = ', this.checked);
     this.disabled = !this.checked;
     this.toggleControl = new FormControl(this.checked);
     this.addItemControl = new FormControl<string>(

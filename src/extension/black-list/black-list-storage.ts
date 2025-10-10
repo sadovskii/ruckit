@@ -1,28 +1,28 @@
-import { BlackListDictionary2, BlackListRestriction2Type, BlackListRestrictionType } from "src/app/settings/layout-content/black-list/black-list.models";
+import { BlackListDictionary, BlackListRestrictionType, blackListRestrictionTypeToStoreMap, blackListRestrictionTypeToStoreTurnOnMap } from "src/app/settings/layout-content/black-list/black-list.models";
 import { STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES } from "src/app/shared/constants";
 
 export class BlackListStorage {
 
-    public channelIsTurnedOn: boolean = false;
-    public channels: string[] = [];
+    public get channelIsTurnedOn(): boolean { return this.blackListTurningOn[BlackListRestrictionType.Channels]; }
+    public get channels(): string[] { return this.blackListData[BlackListRestrictionType.Channels]; }
     public channelMap: Map<string, boolean> = new Map(); // name, nickname
 
-    public keywordsIsTurnedOn: boolean = false;
-    public keywords: string[] = [];
+    public get keywordsIsTurnedOn(): boolean { return this.blackListTurningOn[BlackListRestrictionType.Keywords]; }
+    public get keywords(): string[] { return this.blackListData[BlackListRestrictionType.Keywords]; }
 
-    public phrasesIsTurnedOn: boolean = false;
-    public phrases: string[] = [];
+    public get phrasesIsTurnedOn(): boolean { return this.blackListTurningOn[BlackListRestrictionType.Phrases]; }
+    public get phrases(): string[] { return this.blackListData[BlackListRestrictionType.Phrases]; }
 
-    protected blackListData: BlackListDictionary2<string[]> = {
-        blch: [],
-        blph: [],
-        blk: []
+    private blackListData: BlackListDictionary<string[]> = {
+        channel: [],
+        phrase: [],
+        keyword: []
     }
     
-    protected blackListTurningOn: BlackListDictionary2<boolean> = {
-        blch: false,
-        blph: false,
-        blk: false
+    private blackListTurningOn: BlackListDictionary<boolean> = {
+        channel: false,
+        phrase: true,
+        keyword: false
     }
 
     async init(): Promise<void> {
@@ -36,28 +36,31 @@ export class BlackListStorage {
     
         var storageTurningOn = await chrome.storage.sync.get(storageKeysTurnedOn);
     
-        this.channelIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
-        if (this.channelIsTurnedOn) {
+        this.blackListTurningOn[BlackListRestrictionType.Channels] = storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
+        if (this.blackListTurningOn[BlackListRestrictionType.Channels]) {
             storageKeysData.push(STORAGE_BLACKLIST_CHANNELS);
         }
     
-        this.keywordsIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON];
-        if (this.keywordsIsTurnedOn) {
+        this.blackListTurningOn[BlackListRestrictionType.Keywords] = storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON];
+        if (this.blackListTurningOn[BlackListRestrictionType.Keywords]) {
             storageKeysData.push(STORAGE_BLACKLIST_KEYWORDS)
         }
     
-        this.phrasesIsTurnedOn = storageTurningOn[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON];
-        if (this.phrasesIsTurnedOn) {
+        this.blackListTurningOn[BlackListRestrictionType.Phrases] = storageTurningOn[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON];
+        if (this.blackListTurningOn[BlackListRestrictionType.Phrases]) {
             storageKeysData.push(STORAGE_BLACKLIST_PHRASES)
         }
         
         const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
 
-        this.channels = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
-        this.keywords = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
-        this.phrases = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
+        this.blackListData[BlackListRestrictionType.Channels] = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
+        this.blackListData[BlackListRestrictionType.Keywords] = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
+        this.blackListData[BlackListRestrictionType.Phrases] = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
 
-        this.channelMap = new Map(this.channels.map(item => [item, true]));
+        this.channelMap = new Map(this.blackListData[BlackListRestrictionType.Channels].map(item => [item, true]));
+
+        console.log("this.blackListData = ", this.blackListData);
+        console.log("this.blackListTurningOn = ", this.blackListTurningOn);
     }
 
     public initHandler() {
@@ -74,30 +77,59 @@ export class BlackListStorage {
         chrome.storage.sync.set({[STORAGE_BLACKLIST_CHANNELS]: this.channels });
     }
 
-    public setBlackListItem(item: string | undefined, type: BlackListRestriction2Type): void {
+    public addBlackListItem(item: string | undefined, type: BlackListRestrictionType): void {
         if (!item) return;
         if (this.blackListData[type].includes(item)) return;
 
-        this.channels.push(item);
+        this.blackListData[type].push(item);
 
-        chrome.storage.sync.set({[type]: this.channels });
+        const storeType = blackListRestrictionTypeToStoreMap[type];
+
+        chrome.storage.sync.set({[storeType]: this.blackListData[type] });
+    }
+
+    public removeBlackListItem(index: number, type: BlackListRestrictionType): void {
+        
+        this.blackListData[type].splice(index, 1);
+        const storeType = blackListRestrictionTypeToStoreMap[type];
+
+        chrome.storage.sync.set({[storeType]: this.blackListData[type] });
+    }
+
+    public setBlackListTutnedOn(bool: boolean, type: BlackListRestrictionType) {
+        const storeType = blackListRestrictionTypeToStoreTurnOnMap[type];
+
+        chrome.storage.sync.set({[storeType]: bool });
     }
 
     private handler() {
         chrome.storage.onChanged.addListener((changes, areaName) => {
             if (areaName !== "sync") return;
 
-            if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, changes, t => this.channelIsTurnedOn = t)) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes, t => this.keywordsIsTurnedOn = t)) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, changes, t => this.phrasesIsTurnedOn = t)) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, changes,t => {
+                this.blackListTurningOn[BlackListRestrictionType.Channels] = t;
+            })) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes, t => {
+                this.blackListTurningOn[BlackListRestrictionType.Keywords] = t
+            })) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, changes, t => {
+                this.blackListTurningOn[BlackListRestrictionType.Phrases] = t
+            })) return;
 
             if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS, changes, t => 
                 {
-                    this.channels = t;
-                    this.channelMap = new Map(this.channels.map(item => [item, true]));
+                    this.blackListData[BlackListRestrictionType.Channels] = t;
+
+                    console.log('before map = ', this.blackListData[BlackListRestrictionType.Channels]);
+
+                    this.channelMap = new Map(this.blackListData[BlackListRestrictionType.Channels].map(item => [item, true]));
                 })) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS, changes, t => this.keywords = t)) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES, changes, t => this.phrases = t)) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS, changes, t => {
+                this.blackListData[BlackListRestrictionType.Keywords] = t
+            })) return;
+            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES, changes, t => {
+                this.blackListData[BlackListRestrictionType.Phrases] = t
+            })) return;
         });
     }
 

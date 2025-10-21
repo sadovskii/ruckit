@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION } from '../black-list.models';
 import { ViewVersions } from 'src/app/shared/types';
@@ -10,7 +10,7 @@ import { NbComponentSize } from '@nebular/theme';
   styleUrl: './black-list-simple-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BlackListSimpleItemComponent implements OnInit {
+export class BlackListSimpleItemComponent implements OnInit, OnChanges  {
 
   public BlackListRestrictionType = BlackListRestrictionType;
 
@@ -47,8 +47,17 @@ export class BlackListSimpleItemComponent implements OnInit {
 
   constructor(private _cdr: ChangeDetectorRef) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['checked']) {
+
+      if (this.toggleControl && changes['checked'].currentValue !== changes['checked'].previousValue) {
+        this.toggleControl.setValue(changes['checked'].currentValue);
+      }
+    }
+  }
+
   ngOnInit(): void {
-    console.log('this.checked = ', this.checked);
     this.disabled = !this.checked;
     this.toggleControl = new FormControl(this.checked);
     this.addItemControl = new FormControl<string>(

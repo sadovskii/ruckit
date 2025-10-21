@@ -1,13 +1,14 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { first, of, pipe, Subscription, take } from 'rxjs';
+import { AfterContentInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { first, from, fromEvent, of, pipe, Subscription, take } from 'rxjs';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { BlackListRestrictionType, BlackListDictionary } from './black-list.models';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { BlackListManageRestrictionsComponent } from './black-list-manage-restrictions/black-list-manage-restrictions.component';
 import { BACKDROP_CLASS, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from 'src/app/shared/constants';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
 import { ViewVersions } from 'src/app/shared/types';
 import { BlackListStorage } from 'src/extension/black-list/black-list-storage';
+import { BlackListStorageService } from './black-list-storage.service';
 
 @Component({
   selector: 'app-black-list',
@@ -45,29 +46,28 @@ export class BlackListComponent implements OnInit, OnDestroy {
   protected isLoadedIsRestricted: boolean = false;
   protected isLoadedData: boolean = false;
 
+  private manageRestrictionsRef: NbDialogRef<BlackListManageRestrictionsComponent>;
+  private isChannelRestrictionOpen: boolean;
+
   private _subscription = new Subscription();
 
   constructor(
     private _globalService: GlobalService,
     private _dialogService: NbDialogService,
-    private _chromeService: ChromeService,
     private _cdr: ChangeDetectorRef,
-    private _blacklistStorage: BlackListStorage) {}
+    private _blacklistStorage: BlackListStorageService) {}
 
   ngOnInit(): void {
-
-    console.log("ngOninit _blacklistStorage = ", this._blacklistStorage);
-    console.log("ngOninit _blacklistStorage channels = ", this._blacklistStorage.channels);
-    console.log("ngOninit _blacklistStorage channelIsTurnedOn = ", this._blacklistStorage.channelIsTurnedOn);
     this._initIsRestricted();
     this._initBlackListData();
+    this._cdr.markForCheck();
   }
 
   onManageRestrictionClick(type: BlackListRestrictionType) {
     if (this.viewVersion == ViewVersions.large) {
       this.blackListData[type] = this._sortAlphabetically(this.blackListData[type]);
 
-      const ref = this._dialogService.open(BlackListManageRestrictionsComponent, {
+      this.manageRestrictionsRef = this._dialogService.open(BlackListManageRestrictionsComponent, {
         hasBackdrop: true,
         autoFocus: false,
         backdropClass: BACKDROP_CLASS,
@@ -75,23 +75,30 @@ export class BlackListComponent implements OnInit, OnDestroy {
           type: type,
           restrictionList: this.blackListData[type],
         }
-      })
+      });
+
+      if (type === BlackListRestrictionType.Channels) {
+        this.isChannelRestrictionOpen = true;
+      }
   
-      const addItemSub = ref.componentRef.instance.addItem.subscribe(t => {
+      const addItemSub = this.manageRestrictionsRef.componentRef.instance.addItem.subscribe(t => {
         this.onAddItem(t, type);
 
-        ref.componentRef.instance.restrictionList = [...this.blackListData[type]];
+        this.manageRestrictionsRef.componentRef.instance.restrictionList = [...this.blackListData[type]];
       });
   
-      const removeItemSub = ref.componentRef.instance.removeItem.subscribe(item => {
+      const removeItemSub = this.manageRestrictionsRef.componentRef.instance.removeItem.subscribe(item => {
         this.onRemoveItem(item, type);
 
-        ref.componentRef.instance.restrictionList = [...this.blackListData[type]];
+        this.manageRestrictionsRef.componentRef.instance.restrictionList = [...this.blackListData[type]];
       })
   
       addItemSub.add(removeItemSub);
   
-      const sub = ref.onClose.pipe(first()).subscribe(t => {
+      const sub = this.manageRestrictionsRef.onClose.pipe(first()).subscribe(t => {
+        if (type === BlackListRestrictionType.Channels) {
+          this.isChannelRestrictionOpen = false;
+        }
         addItemSub.unsubscribe();
       });
   
@@ -113,14 +120,13 @@ export class BlackListComponent implements OnInit, OnDestroy {
   }
 
   onRemoveItem(index: number, type: BlackListRestrictionType) {
-
     this._blacklistStorage.removeBlackListItem(index, type);
+
+    chrome.runtime.sendMessage({blackListRemoveItem: true});
   }
 
   onChangeTurningOn(value: boolean, type: BlackListRestrictionType) {
     this._blacklistStorage.setBlackListTutnedOn(value, type);
-
-    chrome.runtime.sendMessage({changeBlackList: true});
   }
 
   private _initIsRestricted() {
@@ -134,14 +140,21 @@ export class BlackListComponent implements OnInit, OnDestroy {
   }
 
   private _initBlackListData() {
-      of(this._blacklistStorage.init()).subscribe(_ => {
-        console.log("_initBlackListData this._blacklistStorage = ", this._blacklistStorage);
-        console.log("_initBlackListData this.blackListTurningOn = ", this.blackListTurningOn);
-        console.log("_initBlackListData this.blackListTurningOn of channel = ", this.blackListTurningOn[BlackListRestrictionType.Channels]);
+      let sub = from(this._blacklistStorage.init()).subscribe(_ => {
         this.isLoadedData = true;
         this._cdr.detectChanges();
       });
-      this._blacklistStorage.initHandler();
+      this._subscription.add(sub);
+
+      const handler = this._blacklistStorage.addHandler();
+
+      sub = handler.subscribe(t => {
+        if (this.manageRestrictionsRef && this.isChannelRestrictionOpen) {
+          this.manageRestrictionsRef.componentRef.instance.restrictionList = this.blackListData[BlackListRestrictionType.Channels];
+        }
+
+      });
+      this._subscription.add(sub);
   }
 
   private _sortAlphabetically(list: string[]): string[] {
@@ -157,5 +170,6 @@ export class BlackListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
+    this._blacklistStorage.removeHandler();
   }
 }

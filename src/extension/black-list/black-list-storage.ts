@@ -13,20 +13,24 @@ export class BlackListStorage {
     public get phrasesIsTurnedOn(): boolean { return this.blackListTurningOn[BlackListRestrictionType.Phrases]; }
     public get phrases(): string[] { return this.blackListData[BlackListRestrictionType.Phrases]; }
 
-    private blackListData: BlackListDictionary<string[]> = {
+    protected blackListData: BlackListDictionary<string[]> = {
         channel: [],
         phrase: [],
         keyword: []
     }
     
-    private blackListTurningOn: BlackListDictionary<boolean> = {
+    protected blackListTurningOn: BlackListDictionary<boolean> = {
         channel: false,
         phrase: true,
         keyword: false
     }
 
     async init(): Promise<void> {
-        const storageKeysData = []
+        const storageKeysData = [
+            STORAGE_BLACKLIST_CHANNELS,
+            STORAGE_BLACKLIST_KEYWORDS,
+            STORAGE_BLACKLIST_PHRASES
+        ]
     
         const storageKeysTurnedOn = [
             STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON,
@@ -37,19 +41,8 @@ export class BlackListStorage {
         var storageTurningOn = await chrome.storage.sync.get(storageKeysTurnedOn);
     
         this.blackListTurningOn[BlackListRestrictionType.Channels] = storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
-        if (this.blackListTurningOn[BlackListRestrictionType.Channels]) {
-            storageKeysData.push(STORAGE_BLACKLIST_CHANNELS);
-        }
-    
         this.blackListTurningOn[BlackListRestrictionType.Keywords] = storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON];
-        if (this.blackListTurningOn[BlackListRestrictionType.Keywords]) {
-            storageKeysData.push(STORAGE_BLACKLIST_KEYWORDS)
-        }
-    
         this.blackListTurningOn[BlackListRestrictionType.Phrases] = storageTurningOn[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON];
-        if (this.blackListTurningOn[BlackListRestrictionType.Phrases]) {
-            storageKeysData.push(STORAGE_BLACKLIST_PHRASES)
-        }
         
         const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
 
@@ -58,13 +51,6 @@ export class BlackListStorage {
         this.blackListData[BlackListRestrictionType.Phrases] = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
 
         this.channelMap = new Map(this.blackListData[BlackListRestrictionType.Channels].map(item => [item, true]));
-
-        console.log("this.blackListData = ", this.blackListData);
-        console.log("this.blackListTurningOn = ", this.blackListTurningOn);
-    }
-
-    public initHandler() {
-        this.handler();
     }
 
 
@@ -102,7 +88,11 @@ export class BlackListStorage {
         chrome.storage.sync.set({[storeType]: bool });
     }
 
-    private handler() {
+    public initHandler() {
+        this.handler();
+    }
+
+    protected handler() {
         chrome.storage.onChanged.addListener((changes, areaName) => {
             if (areaName !== "sync") return;
 
@@ -119,9 +109,6 @@ export class BlackListStorage {
             if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS, changes, t => 
                 {
                     this.blackListData[BlackListRestrictionType.Channels] = t;
-
-                    console.log('before map = ', this.blackListData[BlackListRestrictionType.Channels]);
-
                     this.channelMap = new Map(this.blackListData[BlackListRestrictionType.Channels].map(item => [item, true]));
                 })) return;
             if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS, changes, t => {
@@ -133,7 +120,7 @@ export class BlackListStorage {
         });
     }
 
-    private updateProperty(key: string, changes: any, setter: (val: any) => void) {
+    protected updateProperty(key: string, changes: any, setter: (val: any) => void) {
         if (key in changes) {
             const { oldValue, newValue } = changes[key];
 

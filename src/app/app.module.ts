@@ -100,7 +100,7 @@ import { RestrictedButtonDirective } from './shared/directive/restricted-button/
     ChromeService,
     IconRegisterService,
     NbDialogService,
-    RuckitSnackBarService,
+    RuckitSnackBarService
   ],
   bootstrap: [AppComponent]
 })

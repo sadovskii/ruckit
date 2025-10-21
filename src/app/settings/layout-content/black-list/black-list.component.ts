@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { first, pipe, Subscription, take } from 'rxjs';
+import { first, from, Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
-import { BlackListRestrictionType, Dictionary } from './black-list.models';
-import { NbDialogService } from '@nebular/theme';
+import { BlackListRestrictionType, BlackListDictionary } from './black-list.models';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { BlackListManageRestrictionsComponent } from './black-list-manage-restrictions/black-list-manage-restrictions.component';
-import { BACKDROP_CLASS, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from 'src/app/shared/constants';
-import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
+import { BACKDROP_CLASS, STORAGE_BLACKLIST_CHANNELS } from 'src/app/shared/constants';
 import { ViewVersions } from 'src/app/shared/types';
+import { BlackListStorageService } from './black-list-storage.service';
 
 @Component({
   selector: 'app-black-list',
@@ -25,39 +25,47 @@ export class BlackListComponent implements OnInit, OnDestroy {
   public isRestricted: boolean;
   public BlackListRestrictionType = BlackListRestrictionType;
 
-  protected blackListData: Dictionary<string[]> = {
-    channel: [],
-    phrase: [],
-    keyword: []
+  protected get blackListData() : BlackListDictionary<string[]> {
+    return {
+      channel: this._blacklistStorage.channels,
+      phrase: this._blacklistStorage.phrases,
+      keyword: this._blacklistStorage.keywords
+    } 
   }
 
-  protected blackListTurningOn: Dictionary<boolean> = {
-    channel: false,
-    phrase: false,
-    keyword: false
+  protected get blackListTurningOn() : BlackListDictionary<boolean> {
+    return {
+      channel: this._blacklistStorage.channelIsTurnedOn,
+      phrase: this._blacklistStorage.phrasesIsTurnedOn,
+      keyword: this._blacklistStorage.keywordsIsTurnedOn
+    }
   }
 
   protected isLoadedIsRestricted: boolean = false;
   protected isLoadedData: boolean = false;
+
+  private manageRestrictionsRef: NbDialogRef<BlackListManageRestrictionsComponent>;
+  private isChannelRestrictionOpen: boolean;
 
   private _subscription = new Subscription();
 
   constructor(
     private _globalService: GlobalService,
     private _dialogService: NbDialogService,
-    private _chromeService: ChromeService,
-    private _cdr: ChangeDetectorRef) {}
+    private _cdr: ChangeDetectorRef,
+    private _blacklistStorage: BlackListStorageService) {}
 
   ngOnInit(): void {
     this._initIsRestricted();
     this._initBlackListData();
+    this._cdr.markForCheck();
   }
 
   onManageRestrictionClick(type: BlackListRestrictionType) {
     if (this.viewVersion == ViewVersions.large) {
       this.blackListData[type] = this._sortAlphabetically(this.blackListData[type]);
 
-      const ref = this._dialogService.open(BlackListManageRestrictionsComponent, {
+      this.manageRestrictionsRef = this._dialogService.open(BlackListManageRestrictionsComponent, {
         hasBackdrop: true,
         autoFocus: false,
         backdropClass: BACKDROP_CLASS,
@@ -65,23 +73,30 @@ export class BlackListComponent implements OnInit, OnDestroy {
           type: type,
           restrictionList: this.blackListData[type],
         }
-      })
+      });
+
+      if (type === BlackListRestrictionType.Channels) {
+        this.isChannelRestrictionOpen = true;
+      }
   
-      const addItemSub = ref.componentRef.instance.addItem.subscribe(t => {
+      const addItemSub = this.manageRestrictionsRef.componentRef.instance.addItem.subscribe(t => {
         this.onAddItem(t, type);
 
-        ref.componentRef.instance.restrictionList = [...this.blackListData[type]];
+        this.manageRestrictionsRef.componentRef.instance.restrictionList = [...this.blackListData[type]];
       });
   
-      const removeItemSub = ref.componentRef.instance.removeItem.subscribe(item => {
+      const removeItemSub = this.manageRestrictionsRef.componentRef.instance.removeItem.subscribe(item => {
         this.onRemoveItem(item, type);
 
-        ref.componentRef.instance.restrictionList = [...this.blackListData[type]];
+        this.manageRestrictionsRef.componentRef.instance.restrictionList = [...this.blackListData[type]];
       })
   
       addItemSub.add(removeItemSub);
   
-      const sub = ref.onClose.pipe(first()).subscribe(t => {
+      const sub = this.manageRestrictionsRef.onClose.pipe(first()).subscribe(t => {
+        if (type === BlackListRestrictionType.Channels) {
+          this.isChannelRestrictionOpen = false;
+        }
         addItemSub.unsubscribe();
       });
   
@@ -99,63 +114,22 @@ export class BlackListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const list = this.blackListData[type];
-    list.push(item);
-    this._setListToStorage(list, type);
+    this._blacklistStorage.addBlackListItem(item, type);
   }
 
   onRemoveItem(index: number, type: BlackListRestrictionType) {
-    const list = this.blackListData[type];
-    list.splice(index, 1);
-    this._setListToStorage(list, type);
+    this._blacklistStorage.removeBlackListItem(index, type);
+
+    chrome.runtime.sendMessage({blackListBecomeWeaker: true});
   }
 
   onChangeTurningOn(value: boolean, type: BlackListRestrictionType) {
-    switch(type) {
-      case BlackListRestrictionType.Channels: {
-        this._chromeService.storageSyncSet<boolean>(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, value)
-          .pipe(first())
-          .subscribe();
-        break;
-      }
-      case BlackListRestrictionType.Keywords: {
-        this._chromeService.storageSyncSet<boolean>(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, value)
-          .pipe(first())
-          .subscribe();
-        break;
-      }
-      default: {
-        this._chromeService.storageSyncSet<boolean>(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, value)
-          .pipe(first())
-          .subscribe();
-      }
+
+    if (!value) {
+      chrome.runtime.sendMessage({blackListBecomeWeaker: true});
     }
 
-    chrome.runtime.sendMessage({changeBlackList: true});
-  }
-
-  private _setListToStorage(list: string[], type: BlackListRestrictionType) {
-    switch(type) {
-      case BlackListRestrictionType.Channels: {
-        this._chromeService.storageSyncSet<string[]>(STORAGE_BLACKLIST_CHANNELS, list)
-          .pipe(first())
-          .subscribe();
-        break;
-      }
-      case BlackListRestrictionType.Keywords: {
-        this._chromeService.storageSyncSet<string[]>(STORAGE_BLACKLIST_KEYWORDS, list)
-          .pipe(first())
-          .subscribe();
-        break;
-      }
-      default: {
-        this._chromeService.storageSyncSet<string[]>(STORAGE_BLACKLIST_PHRASES, list)
-          .pipe(first())
-          .subscribe();
-      }
-    }
-
-    chrome.runtime.sendMessage({changeBlackList: true});
+    this._blacklistStorage.setBlackListTutnedOn(value, type);
   }
 
   private _initIsRestricted() {
@@ -169,25 +143,23 @@ export class BlackListComponent implements OnInit, OnDestroy {
   }
 
   private _initBlackListData() {
-    const keys = [
-      STORAGE_BLACKLIST_CHANNELS,
-      STORAGE_BLACKLIST_KEYWORDS,
-      STORAGE_BLACKLIST_PHRASES,
-      STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON,
-      STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON,
-      STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON
-    ]
-  
-    this._chromeService.storageSyncGetItems(keys).subscribe(t => {
-      this.blackListData[BlackListRestrictionType.Channels] = t[STORAGE_BLACKLIST_CHANNELS] ?? [];
-      this.blackListData[BlackListRestrictionType.Keywords] = t[STORAGE_BLACKLIST_KEYWORDS] ?? [];
-      this.blackListData[BlackListRestrictionType.Phrases] = t[STORAGE_BLACKLIST_PHRASES] ?? [];
-      this.blackListTurningOn[BlackListRestrictionType.Channels] = t[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON] ?? false;
-      this.blackListTurningOn[BlackListRestrictionType.Keywords] = t[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON] ?? false;
-      this.blackListTurningOn[BlackListRestrictionType.Phrases] = t[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON] ?? false;
-      this.isLoadedData = true;
-      this._cdr.detectChanges();
-    })
+      let sub = from(this._blacklistStorage.init()).subscribe(_ => {
+        this.isLoadedData = true;
+        this._cdr.detectChanges();
+      });
+      this._subscription.add(sub);
+
+      const handler = this._blacklistStorage.addHandler();
+
+      sub = handler.subscribe(type => {
+        if (this.manageRestrictionsRef && type === STORAGE_BLACKLIST_CHANNELS && this.isChannelRestrictionOpen) {
+          this.manageRestrictionsRef.componentRef.instance.restrictionList = this.blackListData[BlackListRestrictionType.Channels];
+        }
+
+        this._cdr.detectChanges();
+
+      });
+      this._subscription.add(sub);
   }
 
   private _sortAlphabetically(list: string[]): string[] {
@@ -203,5 +175,6 @@ export class BlackListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
+    this._blacklistStorage.removeHandler();
   }
 }

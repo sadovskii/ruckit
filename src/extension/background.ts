@@ -64,10 +64,12 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 
 
 chrome.runtime.onMessage.addListener((request, sender) => {
-    if (request.changeBlackList) {
+    if (request.blackListBecomeWeaker) {
         chrome.tabs.query({ "url": "*://www.youtube.com/*"}, function(tabs) {
             tabs.forEach(tab => {
-                runBlackListScriptsByUrl(tab);
+                if (tab?.id) {
+                    chrome.tabs.reload(tab.id);
+                }
             });
         });
     }

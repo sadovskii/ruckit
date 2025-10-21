@@ -132,9 +132,6 @@ export class SearchPage {
             }
             
             this._channelTackle(channelName);
-
-            console.log("black list channel = ", this.blackListStorage.channels);
-            console.log("black list channel map = ", this.blackListStorage.channelMap);
         }
     }
 

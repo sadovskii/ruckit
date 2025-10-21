@@ -1,8 +1,9 @@
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION } from '../black-list.models';
 import { ViewVersions } from 'src/app/shared/types';
 import { NbComponentSize } from '@nebular/theme';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-black-list-simple-item',
@@ -10,7 +11,7 @@ import { NbComponentSize } from '@nebular/theme';
   styleUrl: './black-list-simple-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BlackListSimpleItemComponent implements OnInit, OnChanges  {
+export class BlackListSimpleItemComponent implements OnInit, OnChanges, OnDestroy  {
 
   public BlackListRestrictionType = BlackListRestrictionType;
 
@@ -44,14 +45,14 @@ export class BlackListSimpleItemComponent implements OnInit, OnChanges  {
   protected invalidAfterClick = false;
   protected toggleControl: FormControl;
   protected addItemControl: FormControl<string | null>;
+  protected subscription = new Subscription();
 
   constructor(private _cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-
     if (changes['checked']) {
 
-      if (this.toggleControl && changes['checked'].currentValue !== changes['checked'].previousValue) {
+      if (this.toggleControl && changes['checked'].currentValue !== this.toggleControl.value) {
         this.toggleControl.setValue(changes['checked'].currentValue);
       }
     }
@@ -65,11 +66,13 @@ export class BlackListSimpleItemComponent implements OnInit, OnChanges  {
       [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]
     )
 
-    this.toggleControl.valueChanges.subscribe(value => {
+    const sub = this.toggleControl.valueChanges.subscribe(value => {
       this.disabled = !value!;
       this.checked = value!;
       this.changeToggle.emit(this.checked);
-    })
+    });
+
+    this.subscription.add(sub);
   }
 
   onManageRestrictionsClick() {
@@ -106,5 +109,9 @@ export class BlackListSimpleItemComponent implements OnInit, OnChanges  {
     else {
       return this.type.toString();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

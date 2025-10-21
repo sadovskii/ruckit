@@ -1,13 +1,11 @@
-import { AfterContentInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { first, from, fromEvent, of, pipe, Subscription, take } from 'rxjs';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { first, from, Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { BlackListRestrictionType, BlackListDictionary } from './black-list.models';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { BlackListManageRestrictionsComponent } from './black-list-manage-restrictions/black-list-manage-restrictions.component';
-import { BACKDROP_CLASS, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from 'src/app/shared/constants';
-import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
+import { BACKDROP_CLASS, STORAGE_BLACKLIST_CHANNELS } from 'src/app/shared/constants';
 import { ViewVersions } from 'src/app/shared/types';
-import { BlackListStorage } from 'src/extension/black-list/black-list-storage';
 import { BlackListStorageService } from './black-list-storage.service';
 
 @Component({
@@ -122,10 +120,15 @@ export class BlackListComponent implements OnInit, OnDestroy {
   onRemoveItem(index: number, type: BlackListRestrictionType) {
     this._blacklistStorage.removeBlackListItem(index, type);
 
-    chrome.runtime.sendMessage({blackListRemoveItem: true});
+    chrome.runtime.sendMessage({blackListBecomeWeaker: true});
   }
 
   onChangeTurningOn(value: boolean, type: BlackListRestrictionType) {
+
+    if (!value) {
+      chrome.runtime.sendMessage({blackListBecomeWeaker: true});
+    }
+
     this._blacklistStorage.setBlackListTutnedOn(value, type);
   }
 
@@ -148,10 +151,12 @@ export class BlackListComponent implements OnInit, OnDestroy {
 
       const handler = this._blacklistStorage.addHandler();
 
-      sub = handler.subscribe(t => {
-        if (this.manageRestrictionsRef && this.isChannelRestrictionOpen) {
+      sub = handler.subscribe(type => {
+        if (this.manageRestrictionsRef && type === STORAGE_BLACKLIST_CHANNELS && this.isChannelRestrictionOpen) {
           this.manageRestrictionsRef.componentRef.instance.restrictionList = this.blackListData[BlackListRestrictionType.Channels];
         }
+
+        this._cdr.detectChanges();
 
       });
       this._subscription.add(sub);

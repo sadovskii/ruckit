@@ -64,7 +64,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 
 
 chrome.runtime.onMessage.addListener((request, sender) => {
-    if (request.blackListRemoveItem) {
+    if (request.blackListBecomeWeaker) {
         chrome.tabs.query({ "url": "*://www.youtube.com/*"}, function(tabs) {
             tabs.forEach(tab => {
                 if (tab?.id) {

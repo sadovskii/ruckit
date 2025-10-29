@@ -16,7 +16,7 @@ export class FeedPage {
     }
 
     private _injectBlackListButton() {
-        const path = 'ytd-rich-item-renderer yt-content-metadata-view-model:not(:has(.blb-conainer))';
+        const path = 'ytd-rich-item-renderer yt-lockup-metadata-view-model:not(:has(.blb-conainer)) yt-content-metadata-view-model';
 
         document.querySelectorAll(path).forEach(channelInfo => {
             const channelInfoElement = channelInfo as HTMLElement;
@@ -37,7 +37,8 @@ export class FeedPage {
 
                     buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, metadataTextLinkElement));
 
-                    metadataTextElement.insertAdjacentElement('beforebegin', buttonElement);
+                    // metadataTextElement.insertAdjacentElement('beforebegin', buttonElement);
+                    channelInfoElement.insertAdjacentElement('beforebegin', buttonElement);
                 }
             }
         });

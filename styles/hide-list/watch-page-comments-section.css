@@ -1,3 +1,13 @@
 ytd-comments {
     display: none !important;
 }
+
+/* hide comments button in new fullscreen player */
+ytd-player yt-player-quick-action-buttons > toggle-button-view-model:has(yt-touch-feedback-shape) {
+    display: none !important;
+}
+
+/* hide right panel in new fullscreen player */
+#panels-full-bleed-container:has(ytd-engagement-panel-section-list-renderer ytd-comments) {
+    display: none !important;
+}

@@ -1,3 +1,8 @@
 ytd-watch-next-secondary-results-renderer {
     display: none !important;
 }
+
+/* hide suggestions in fullscreen player in below */
+ytd-player .ytp-fullscreen-grid:has(.ytp-suggestion-set) {
+    display: none !important;
+}

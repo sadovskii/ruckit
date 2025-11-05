@@ -1,7 +1,8 @@
 import { HideListItemType } from "src/app/settings/layout-content/hide-list/hide-list.models";
 import { runBlackListScriptsByUrl, runHideListCssScripts } from "./background-functionality";
 import { HideListStorage } from "./hide-list/hide-list-storage";
-import { ContentObserver } from "@angular/cdk/observers";
+import { BlackListStorage } from "./black-list/black-list-storage";
+import { BlackListRestrictionType } from "src/app/settings/layout-content/black-list/black-list.models";
 
 const restrictedPage = 'https://www.youtube.com/-rp'
 
@@ -12,26 +13,26 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     switch (reason) {
         case 'install':
             console.log('New User installed the extension.');
+            const blackListData = new BlackListStorage();
+            await blackListData.init();
+            await blackListData.setBlackListTutnedOn(true, BlackListRestrictionType.Channels);
+
+            blackListData.initHandler();
+
+            const hidelistData = new HideListStorage();
+            await hidelistData.init();
+            await hidelistData.addHideListItem(HideListItemType.GeneralHideShorts);
+
+            chrome.tabs.query({ "url": "*://www.youtube.com/*"}, function(tabs) {
+                tabs.forEach(tab => {
+                    if (tab?.id) {
+                        chrome.tabs.reload(tab.id);
+                    }
+                });
+            });
+
             break;
         case 'update':
-            const hideListData = new HideListStorage();
-            hideListData.init(); 
-            var shorts = Array.from(hideListData.hideListMap)
-                                .filter(t => t[1])
-                                .map<HideListItemType>(t => t[0]);
-    
-            const shortTypes = new Set([
-                HideListItemType.ShortsPageShortsSection,
-                HideListItemType.SidebarShortsTab,
-                HideListItemType.ChannelPageShortsTab,
-                HideListItemType.SearchResultsShortsShelf,
-                HideListItemType.SearchResultsSingleShorts]);
-    
-            const isShorts = shorts.some(a => shortTypes.has(a));
-    
-            if (isShorts && !hideListData.generalShorts) {
-                await hideListData.addHideListItem(HideListItemType.GeneralHideShorts);
-            }
             break;
        case 'chrome_update':
        case 'shared_module_update':

@@ -1,6 +1,7 @@
 import { HideListItemType } from "src/app/settings/layout-content/hide-list/hide-list.models";
 import { runBlackListScriptsByUrl, runHideListCssScripts } from "./background-functionality";
 import { HideListStorage } from "./hide-list/hide-list-storage";
+import { ContentObserver } from "@angular/cdk/observers";
 
 const restrictedPage = 'https://www.youtube.com/-rp'
 
@@ -43,7 +44,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
 chrome.webNavigation.onCommitted.addListener(async (details) => {
     // frameId == 0 means that there was reload or move to new site
-    if (details.frameId === 0 && details.url.includes('youtube.com')) {
+    if (details.frameId === 0 && details.url.includes('www.youtube.com')) {
         runHideListCssScripts(details);
     }
   });

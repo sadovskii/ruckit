@@ -97,15 +97,28 @@ export class VideoPage {
         document.querySelectorAll(path).forEach(contentItem => {
             const channelNameElement = contentItem.querySelector('yt-content-metadata-view-model span') as HTMLElement;
 
+            const firstChild = contentItem.firstElementChild;
+            const secondChild = contentItem.children[1];
+
+            if (!channelNameElement || !firstChild || !secondChild) {
+                return;
+            }
+
             const newNode = document.createElement('div');
             newNode.innerHTML = TEMPLATE;
 
             const buttonElement = newNode.firstElementChild as HTMLElement;
             buttonElement.style.marginRight = '3.5px';
+            buttonElement.style.marginTop = '3px';
 
             buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, channelNameElement));
 
-            channelNameElement.insertAdjacentElement('beforebegin', buttonElement);
+
+            const container = document.createElement('div');
+            container.style.display = 'flex';
+            secondChild.insertAdjacentElement('beforebegin', container);
+            container.appendChild(buttonElement);
+            container.appendChild(firstChild);
         });
     }
 

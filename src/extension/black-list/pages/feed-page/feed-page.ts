@@ -16,12 +16,17 @@ export class FeedPage {
     }
 
     private _injectBlackListButton() {
-        const path = 'ytd-rich-item-renderer yt-content-metadata-view-model:not(:has(.blb-conainer))';
+        const path = 'ytd-rich-item-renderer yt-lockup-metadata-view-model:not(:has(.blb-conainer)) yt-content-metadata-view-model';
 
         document.querySelectorAll(path).forEach(channelInfo => {
             const channelInfoElement = channelInfo as HTMLElement;
             if (channelInfoElement) {
-                const metadataText = channelInfoElement.firstElementChild?.querySelector(".yt-core-attributed-string");
+                const firstChild = channelInfoElement.firstElementChild;
+                const secondChild = channelInfoElement.children[1];
+
+                if (!firstChild) return;
+
+                const metadataText = firstChild.querySelector(".yt-core-attributed-string");
 
                 if (metadataText) {
                     const metadataTextElement = metadataText as HTMLElement;
@@ -29,15 +34,21 @@ export class FeedPage {
 
                     if (!metadataTextLinkElement) return;
 
+                    
                     const newNode = document.createElement('div');
                     newNode.innerHTML = TEMPLATE;
-
+                    
                     const buttonElement = newNode.firstElementChild as HTMLElement;
                     buttonElement.style.marginRight = '3.5px';
-
+                    buttonElement.style.marginTop = '3px';
+                    
                     buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, metadataTextLinkElement));
 
-                    metadataTextElement.insertAdjacentElement('beforebegin', buttonElement);
+                    const container = document.createElement('div');
+                    container.style.display = 'flex';
+                    secondChild.insertAdjacentElement('beforebegin', container);
+                    container.appendChild(buttonElement);
+                    container.appendChild(firstChild);
                 }
             }
         });
@@ -54,7 +65,6 @@ export class FeedPage {
     private _buttonCrossClickHandler(e: Event, linkToChannel: HTMLElement) {
         e.stopPropagation();
         e.preventDefault();
-
         if (linkToChannel) {
             let channelName = linkToChannel.textContent?.trim();
 

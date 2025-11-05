@@ -2,19 +2,11 @@ import { HidelistCssConfiguration } from "src/app/settings/layout-content/hide-l
 import { HideListItemType } from "src/app/settings/layout-content/hide-list/hide-list.models";
 import { HIDE_LIST_ID } from "src/app/shared/constants";
 
-const YOUTUBE = 'https://www.youtube.com/';
-const SEARCH = 'https://www.youtube.com/results';
-
-const CHANNEL_URL_AT = 'www.youtube.com/@';
-const CHANNEL_URL_CHANNEL = 'www.youtube.com/channel/';
-const CHANNEL_URL_USER = 'www.youtube.com/user/';
-const CHANNEL_URL_C = 'www.youtube.com/c/'
-
-const VIDEO_URL = 'www.youtube.com/watch';
+const YOUTUBE = 'www.youtube.com';
 const RESTRICTED_PAGE = 'https://www.youtube.com/-rp'
 
 export function runBlackListScriptsByUrl(tab: chrome.tabs.Tab) {
-    if (tab && tab.id && tab.url?.startsWith(YOUTUBE)) {    
+    if (tab && tab.id && tab.url?.includes(YOUTUBE)) {    
         if (tab.url === RESTRICTED_PAGE) {
             chrome.scripting.executeScript({
                 target: { tabId: tab.id },

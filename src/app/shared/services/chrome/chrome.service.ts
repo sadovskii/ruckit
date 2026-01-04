@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { delay, first, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { EXTENSION_IDENTIFIER } from '../../constants';
+import { OpenFullPageAction } from '../../types';
 
 @Injectable()
 export class ChromeService {
@@ -8,34 +9,19 @@ export class ChromeService {
     return from(chrome.tabs.getCurrent());
   }
 
-  async openIndexToNewTab() {
-    let queryOptions = { url: `chrome-extension://${EXTENSION_IDENTIFIER}/index.html` };
+  async openIndexToNewTab(action: OpenFullPageAction) {
+    let queryOptions = { url: `chrome-extension://${EXTENSION_IDENTIFIER}/index.html*` };
     let tabs: chrome.tabs.Tab[] = await chrome.tabs.query(queryOptions);
   
-    if (tabs && tabs.length > 1) {
+    if (tabs && tabs.length > 0) {
       const tabIds = tabs.map(t => t.id).filter(t => t !== undefined);
 
-      tabIds.shift();
       await chrome.tabs.remove(tabIds as number[]);
     }
 
-    if (tabs && tabs.length > 0) {
-        let tab = tabs[0];
-        let window = await chrome.windows.get(tab.windowId);
-        
-        if (window.focused === false) {
-          chrome.windows.update(tab.windowId, { focused: true });
-        }
-
-        if (tab.id) {
-            chrome.tabs.update(tab.id, { active: true }, (tab) => { });
-        }
-    }
-    else {
-        let tab1 = chrome.tabs.create({
-            url: 'index.html',
-          });
-    }
+    chrome.tabs.create({
+      url: `index.html?action=${action}`,
+    });
   }
 
   scriptingGetRegisteredContentScripts(contentScriptId: string): Observable<chrome.scripting.RegisteredContentScript[]> {

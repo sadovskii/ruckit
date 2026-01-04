@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ChromeService } from '../shared/services/chrome/chrome.service';
 import { PopupNavbarItemType } from './popup-navbar/popup-navbar-item/popup-navbar-item-type';
-import { ViewVersions } from '../shared/types';
+import { OpenFullPageAction, ViewVersions } from '../shared/types';
 
 @Component({
   selector: 'app-popup',
@@ -27,7 +27,23 @@ export class PopupComponent {
   }
 
   async onRouteToMainPage() {
-    this._chromeService.openIndexToNewTab();
+    let action: OpenFullPageAction;
+
+
+    if (this.activeItem === PopupNavbarItemType.BlackList) {
+      action = OpenFullPageAction.BlackList;
+    }
+    else if (this.activeItem === PopupNavbarItemType.HideList) {
+      action = OpenFullPageAction.Hidelist;
+    }
+    else if (this.activeItem === PopupNavbarItemType.Settings) {
+      action = OpenFullPageAction.Settings;
+    }
+    else {
+      action = OpenFullPageAction.Home;
+    }
+
+    this._chromeService.openIndexToNewTab(action);
   }
 
   async onCheckPopup() {

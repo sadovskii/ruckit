@@ -10,3 +10,10 @@ export enum ViewVersions {
     medium,
     large
 }
+
+export enum OpenFullPageAction {
+    Home = "home",
+    BlackList = "blacklist",
+    Hidelist = "hidelist",
+    Settings = "settings"
+}

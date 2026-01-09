@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SideBarItems, SideBarItemsType } from './sidebar-items';
 
 @Component({
@@ -6,14 +6,21 @@ import { SideBarItems, SideBarItemsType } from './sidebar-items';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   public SideBarItemsType = SideBarItemsType;
   public SideBarItems = SideBarItems;
+
+  @Input({required: true})
+  public activeSidebarItem: SideBarItemsType;
 
   @Output()
   public sidebarItemChanged = new EventEmitter<SideBarItemsType>;
 
-  clickItem(type: SideBarItemsType) {
+  ngOnInit(): void {
+    this.changeItem(this.activeSidebarItem);
+  }
+
+  changeItem(type: SideBarItemsType) {
     SideBarItems.aboutExtension.params.active = false;
     SideBarItems.blackList.params.active = false;
     SideBarItems.hideList.params.active = false;

@@ -27,7 +27,7 @@ export class RestrictedButtonDirective implements OnDestroy {
     private _globalService: GlobalService,
   ) { }
 
-  @HostListener('click', ['$event'])
+  @HostListener('click')
   clickEvent() {
     if (this.lock) {
       this._snackbarService.restricted();

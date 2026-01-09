@@ -1,6 +1,9 @@
 <nb-layout>
   <nb-sidebar [containerFixed]="true">
-    <app-sidebar (sidebarItemChanged)="onSidebarItemChanged($event)"></app-sidebar>
+    <app-sidebar
+      [activeSidebarItem]="activeSidebarItem"
+      (sidebarItemChanged)="onSidebarItemChanged($event)">
+    </app-sidebar>
   </nb-sidebar>
   <nb-layout-column>
     <div class="settings" *ngIf="activeSidebarItem">

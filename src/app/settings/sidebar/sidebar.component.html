@@ -2,11 +2,11 @@
   <app-sidebar-header
     class="sidebar__header"
     [clickable]="true"
-    (headerClick)="clickItem(SideBarItems.header.key)">
+    (headerClick)="changeItem(SideBarItems.header.key)">
   </app-sidebar-header>
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_1rem sidebar__item_margin_top_075rem"
-    (click)="clickItem(SideBarItems.aboutExtension.key)"
+    (click)="changeItem(SideBarItems.aboutExtension.key)"
     content="About the extension"
     icon="about-extension-linear-28"
     iconLinear="about-extension-linear-28"
@@ -15,7 +15,7 @@
   </app-sidebar-item>
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_025rem"
-    (click)="clickItem(SideBarItems.blackList.key)"
+    (click)="changeItem(SideBarItems.blackList.key)"
     content="Blacklist"
     icon="black-list-linear-28"
     iconLinear="black-list-linear-28"
@@ -24,7 +24,7 @@
   </app-sidebar-item>
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_025rem"
-    (click)="clickItem(SideBarItems.hideList.key)"
+    (click)="changeItem(SideBarItems.hideList.key)"
     content="Hidelist"
     icon="hide-list-linear-28"
     iconLinear="hide-list-linear-28"
@@ -33,7 +33,7 @@
   </app-sidebar-item>
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_1rem"
-    (click)="clickItem(SideBarItems.password.key)"
+    (click)="changeItem(SideBarItems.password.key)"
     content="Password"
     icon="password-linear-28"
     iconLinear="password-linear-28"
@@ -42,7 +42,7 @@
   </app-sidebar-item>
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_025rem"
-    (click)="clickItem(SideBarItems.settings.key)"
+    (click)="changeItem(SideBarItems.settings.key)"
     content="Settings"
     icon="settings-linear-28"
     iconLinear="settings-linear-28"

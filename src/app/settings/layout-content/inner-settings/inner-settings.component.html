@@ -7,9 +7,9 @@
       class="inner-settings__item"
       header="Appearance"
       description="Customize how Ruckit looks on your device">
-      <nb-select placeholder="Select Showcase" [(selected)]="selectedTheme">
-        <nb-option (click)="onChangeTheme()" value="default">Light</nb-option>
-        <nb-option (click)="onChangeTheme()" value="dark">Dark</nb-option>
+      <nb-select *ngIf="selectedTheme" placeholder="Select Showcase" [(selected)]="selectedTheme" (selectedChange)="onChangeTheme()">
+        <nb-option value="default">Light</nb-option>
+        <nb-option value="dark">Dark</nb-option>
       </nb-select>
     </app-settings-item>
   </div>

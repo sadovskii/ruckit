@@ -13,9 +13,10 @@ $default-theme-settings: map-merge(
     color-basic-default-border: $color-base-gray-8,
 
     // select
-    select-outline-basic-hover-background-color: --color-primary-400,
+    select-outline-basic-hover-background-color: $color-base-gray-8,
     text-control-color: --color-basic-800,
     border-basic-color-4: $color-base-white,
+    option-list-border-color: $color-base-gray-7,
     select-outline-basic-disabled-text-color: $color-base-gray-7,
     select-outline-basic-disabled-border-color: $color-base-gray-7,
     select-outline-basic-disabled-icon-color: $color-base-gray-7,
@@ -27,7 +28,7 @@ $default-theme-settings: map-merge(
     sidebar-text-font-weight: $text-button-bold-font-weight,
     sidebar-item-content-inactive-color: $color-base-gray-5,
     sidebar-item-content-active-color: $color-base-black,
-    sidebar-item-background-inactive-color: --color-primary-400,
+    sidebar-item-background-inactive-color: $color-base-gray-8,
     sidebar-item-background-active-color: $color-base-gray-7,
     sidebar-item-icon-active-color: $color-primary-red,
 

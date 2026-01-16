@@ -27,7 +27,7 @@ export class InnerSettingsComponent implements OnInit {
   }
 
   onChangeTheme() {
-    this._chromeService.storageSyncSet<string>(STORAGE_THEME_ID, this.selectedTheme)
+    this._chromeService.storageSyncSet<string>(STORAGE_THEME_ID, this.selectedTheme);
     this._themeService.changeTheme(this.selectedTheme);
   }
 

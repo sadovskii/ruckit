@@ -1,6 +1,3 @@
-@use '@nebular/theme/styles/themes/default';
-@use '@nebular/theme/styles/themes/dark';
-
 :host {
     width: 100%;
     height: 100%;
@@ -22,6 +19,7 @@
 .card-body {
     display: block;
     width: 100%;
+    max-width: 1280px;
     height: 100%;
 
     &_small-version {

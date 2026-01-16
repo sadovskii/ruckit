@@ -10,6 +10,14 @@
   @include nb-theme-global();
 }
 
+// Force immediate color updates on nb-select to prevent flash during theme changes
+nb-select,
+nb-select .select-button,
+nb-option,
+nb-option-list {
+  transition: none !important;
+}
+
 p {
   margin-top: 0;
   margin-bottom: 0;

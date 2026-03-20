@@ -49,4 +49,14 @@
     iconSolid="settings-solid-28"
     [active]="SideBarItems.settings.params.active">
   </app-sidebar-item>
+
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_bottom"
+    (click)="openExtensionReviews()"
+    content="Give a feedback"
+    icon="rate-extension-linear-28"
+    iconLinear="rate-extension-linear-28"
+    iconSolid="rate-extension-solid-28"
+    [active]="false">
+  </app-sidebar-item>
 </div>

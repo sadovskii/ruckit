@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SideBarItems, SideBarItemsType } from './sidebar-items';
+import { CHROME_WEBSTORE_REVIEWS_URL } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +10,7 @@ import { SideBarItems, SideBarItemsType } from './sidebar-items';
 export class SidebarComponent implements OnInit {
   public SideBarItemsType = SideBarItemsType;
   public SideBarItems = SideBarItems;
+  public extensionReviewsUrl = CHROME_WEBSTORE_REVIEWS_URL;
 
   @Input({required: true})
   public activeSidebarItem: SideBarItemsType;
@@ -61,5 +63,9 @@ export class SidebarComponent implements OnInit {
     }
 
     this.sidebarItemChanged.emit(type);
+  }
+
+  openExtensionReviews() {
+    window.open(this.extensionReviewsUrl, '_blank');
   }
 }

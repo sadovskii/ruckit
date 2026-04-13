@@ -1,4 +1,5 @@
 export const EXTENSION_IDENTIFIER = "eakiedfceboebghgkpciddfaghpednlb";
+export const CHROME_WEBSTORE_REVIEWS_URL = `https://chromewebstore.google.com/detail/youtube-focus-remove-dist/${EXTENSION_IDENTIFIER}/reviews`;
 // storage ids
 export const HIDE_LIST_ID = "hide-list";
 export const STORAGE_PASSWORD_ID = "password";

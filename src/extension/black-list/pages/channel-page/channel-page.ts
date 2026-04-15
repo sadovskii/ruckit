@@ -15,17 +15,18 @@ export class ChannelPage {
     }
 
     private _injectBlackListButton() {
-        const actionsPath = 'yt-page-header-renderer yt-flexible-actions-view-model:not(:has(.blb-conainer))';
-        const channelNamePath = 'yt-page-header-renderer .yt-page-header-view-model__page-header-title span';
+        const actionsPath = 'yt-page-header-renderer yt-flexible-actions-view-model';
+        const channelNamePath = 'yt-page-header-renderer yt-dynamic-text-view-model h1 span.ytAttributedStringHost, yt-page-header-renderer yt-dynamic-text-view-model h1 span';
 
-        var actionsElement = document.querySelector(actionsPath) as HTMLElement;
-        var channelNameElement = document.querySelector(channelNamePath) as HTMLElement;
+        const actionsElement = document.querySelector(actionsPath) as HTMLElement | null;
+        const channelNameElement = document.querySelector(channelNamePath) as HTMLElement | null;
 
-        if (actionsElement && channelNameElement) {
+        if (actionsElement && channelNameElement && !actionsElement.querySelector('.blb-conainer')) {
             const newNode = document.createElement('div');
             newNode.innerHTML = TEMPLATE;
 
-            const buttonElement = newNode.firstElementChild as HTMLElement;
+            const buttonElement = newNode.firstElementChild as HTMLElement | null;
+            if (!buttonElement) return;
             buttonElement.style.marginLeft = '11px';
 
             buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, channelNameElement));
@@ -40,7 +41,7 @@ export class ChannelPage {
 
 
     private _removeBlackListButton() {
-        const path = 'ytd-rich-item-renderer yt-content-metadata-view-model .blb-conainer';
+        const path = 'yt-page-header-renderer yt-flexible-actions-view-model .blb-conainer';
 
         document.querySelectorAll(path).forEach(blackListButton => {
             blackListButton.remove();

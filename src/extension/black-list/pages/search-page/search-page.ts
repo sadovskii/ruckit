@@ -16,10 +16,17 @@ export class SearchPage {
     }
 
     private _injectBlackListButtonOnSearch() {
-        const path = 'ytd-video-renderer #channel-info:not(:has(.blb-conainer))';
+        const path = 'ytd-video-renderer #channel-info';
+        const maxInsertionsPerRun = 16;
+        let insertions = 0;
+        const channelInfos = Array.from(document.querySelectorAll(path)).reverse();
 
-        document.querySelectorAll(path).forEach(channelInfo => {
+        channelInfos.forEach(channelInfo => {
+            if (insertions >= maxInsertionsPerRun) return;
+
             const channelInfoElement = channelInfo as HTMLElement;
+            if (channelInfoElement.querySelector('.blb-conainer')) return;
+
             if (channelInfoElement) {
                 const thumbnail = channelInfoElement.querySelector('#channel-thumbnail');
 
@@ -36,6 +43,7 @@ export class SearchPage {
                     buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, channelInfoElement));
 
                     thumbnailElement.insertAdjacentElement('afterend', buttonElement);
+                    insertions++;
                 }
             }
         });

@@ -16,41 +16,52 @@ export class FeedPage {
     }
 
     private _injectBlackListButton() {
-        const path = 'ytd-rich-item-renderer yt-lockup-metadata-view-model:not(:has(.blb-conainer)) yt-content-metadata-view-model';
+        const path = 'ytd-rich-item-renderer yt-content-metadata-view-model';
+        const maxInsertionsPerRun = 16;
+        let insertions = 0;
+        const channelInfos = Array.from(document.querySelectorAll(path)).reverse();
 
-        document.querySelectorAll(path).forEach(channelInfo => {
+        channelInfos.forEach(channelInfo => {
+            if (insertions >= maxInsertionsPerRun) return;
+
             const channelInfoElement = channelInfo as HTMLElement;
-            if (channelInfoElement) {
-                const firstChild = channelInfoElement.firstElementChild;
-                const secondChild = channelInfoElement.children[1];
+            if (channelInfoElement.querySelector('.blb-conainer')) return;
 
-                if (!firstChild) return;
+            const metadataRow = channelInfoElement.querySelector('.ytContentMetadataViewModelMetadataRow') as HTMLElement | null;
+            const metadataTextLinkElement = metadataRow?.querySelector('a.ytAttributedStringLink') as HTMLElement | null;
 
-                const metadataText = firstChild.querySelector(".yt-core-attributed-string");
+            if (!metadataRow || !metadataTextLinkElement) return;
 
-                if (metadataText) {
-                    const metadataTextElement = metadataText as HTMLElement;
-                    const metadataTextLinkElement = metadataTextElement.querySelector("a");
+            const newNode = document.createElement('div');
+            newNode.innerHTML = TEMPLATE;
 
-                    if (!metadataTextLinkElement) return;
+            const buttonElement = newNode.firstElementChild as HTMLElement | null;
+            if (!buttonElement) return;
 
-                    
-                    const newNode = document.createElement('div');
-                    newNode.innerHTML = TEMPLATE;
-                    
-                    const buttonElement = newNode.firstElementChild as HTMLElement;
-                    buttonElement.style.marginRight = '3.5px';
-                    buttonElement.style.marginTop = '3px';
-                    
-                    buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, metadataTextLinkElement));
+            const metadataWrapper = metadataRow.parentElement as HTMLElement | null;
+            const richItemElement = channelInfoElement.closest('ytd-rich-item-renderer') as HTMLElement | null;
+            const richItemContentElement = richItemElement?.querySelector('#content') as HTMLElement | null;
 
-                    const container = document.createElement('div');
-                    container.style.display = 'flex';
-                    secondChild.insertAdjacentElement('beforebegin', container);
-                    container.appendChild(buttonElement);
-                    container.appendChild(firstChild);
-                }
-            }
+            channelInfoElement.style.overflow = 'visible';
+            metadataRow.style.overflow = 'visible';
+            metadataWrapper?.style.setProperty('overflow', 'visible');
+            richItemElement?.style.setProperty('overflow', 'visible');
+            richItemContentElement?.style.setProperty('overflow', 'visible');
+
+            metadataRow.style.display = 'flex';
+            metadataRow.style.alignItems = 'center';
+
+            buttonElement.style.marginRight = '6px';
+            buttonElement.style.marginBottom = '0';
+            buttonElement.style.display = 'inline-flex';
+            buttonElement.style.alignItems = 'center';
+            buttonElement.style.alignSelf = 'center';
+            buttonElement.style.position = 'relative';
+            buttonElement.style.zIndex = '501';
+            buttonElement.addEventListener('click', e => this._buttonCrossClickHandler(e, metadataTextLinkElement));
+
+            metadataRow.insertBefore(buttonElement, metadataRow.firstChild);
+            insertions++;
         });
     }
 
@@ -91,7 +102,7 @@ export class FeedPage {
             const htmlItemElement = itemElement as HTMLElement;
 
             if (this.blackListStorage.channelIsTurnedOn) {
-                const path = '#content yt-content-metadata-view-model .yt-core-attributed-string a';
+                const path = '#content yt-content-metadata-view-model .ytContentMetadataViewModelMetadataRow a.ytAttributedStringLink, #content yt-content-metadata-view-model .yt-core-attributed-string a';
                 let channelName = htmlItemElement?.querySelector(path)?.textContent?.trim();
 
                 if (channelName) {
@@ -107,7 +118,7 @@ export class FeedPage {
             }
 
             if (this.blackListStorage.keywordsIsTurnedOn) {
-                var videoName = htmlItemElement?.querySelector('.yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
+                var videoName = htmlItemElement?.querySelector('.ytLockupMetadataViewModelHeadingReset, .yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
                 if (!videoName) return;
 
                 const splited = videoName.toLocaleLowerCase().split(' ');
@@ -123,7 +134,7 @@ export class FeedPage {
                 }
             }
             if (this.blackListStorage.phrasesIsTurnedOn) {
-                var videoName = htmlItemElement?.querySelector('.yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
+                var videoName = htmlItemElement?.querySelector('.ytLockupMetadataViewModelHeadingReset, .yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
                 if (!videoName) return;
 
                 for (let i = 0; i < this.blackListStorage.phrases.length; i++) {

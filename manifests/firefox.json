@@ -1,0 +1,43 @@
+{
+  "name": "YouTube Focus: Remove Distractions, Shorts, Suggestions",
+  "description": "Hide or block distracting YouTube content to improve your concentration and use information rationally",
+  "version": "1.1.9",
+  "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{your-firefox-addon-id}",
+      "strict_min_version": "109.0"
+    }
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "32": "assets/icon32.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "scripting",
+    "tabs",
+    "webNavigation"
+  ],
+  "host_permissions": ["*://www.youtube.com/*"],
+  "action": {
+    "default_popup": "index.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/*"],
+      "css": [
+        "styles/blank.css",
+        "styles/black-list/black-list-button.css"
+      ],
+      "js": [
+        "black-list/black-list-heartbeat.js"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
-  "name": "YouTube Focus: Remove Distractions, Shorts, Suggestions",
-  "description": "Hide or block distracting YouTube content to improve your concentration and use information rationally",
+  "name": "Ruckit – Hide YouTube Shorts & Distractions",
+  "description": "Hide Shorts, recommendations, comments and distracting channels for a cleaner, focused YouTube experience.",
   "version": "1.1.9",
   "manifest_version": 3,
   "browser_specific_settings": {

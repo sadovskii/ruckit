@@ -45,3 +45,5 @@ export const DEMON_SVGS = {
     "demon-time": "assets/demons/demon-time.svg",
     "demon-training": "assets/demons/demon-training.svg"
 }
+
+export const DONATION_STRIPE_PAGE = 'https://donate.stripe.com/00wfZj5E6bZVeEEfA8djO00';

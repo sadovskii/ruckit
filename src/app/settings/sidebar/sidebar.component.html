@@ -50,8 +50,18 @@
     [active]="SideBarItems.settings.params.active">
   </app-sidebar-item>
 
+
   <app-sidebar-item
     class="sidebar__item sidebar__item_bottom"
+    (click)="openDonationPage()"
+    content="Support Ruckit"
+    icon="settings-donation-linear-28"
+    iconLinear="settings-donation-linear-28"
+    iconSolid="settings-donation-solid-28"
+    [active]="false">
+  </app-sidebar-item>
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_margin_bottom_1rem"
     (click)="openExtensionReviews()"
     content="Give a feedback"
     icon="rate-extension-linear-28"

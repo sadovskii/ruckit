@@ -29,8 +29,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets/favicon.png",
-              "src/assets",
-              "src/manifest.json"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
@@ -97,8 +96,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets/favicon.png",
-              "src/assets",
-              "src/manifest.json"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"

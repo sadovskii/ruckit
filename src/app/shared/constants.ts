@@ -1,5 +1,16 @@
 export const EXTENSION_IDENTIFIER = "eakiedfceboebghgkpciddfaghpednlb";
 export const CHROME_WEBSTORE_REVIEWS_URL = `https://chromewebstore.google.com/detail/youtube-focus-remove-dist/${EXTENSION_IDENTIFIER}/reviews`;
+
+declare const BROWSER_TARGET: string;
+
+const STORE_REVIEWS_URLS: Record<string, string> = {
+  chrome: `https://chromewebstore.google.com/detail/youtube-focus-remove-dist/${EXTENSION_IDENTIFIER}/reviews`,
+  edge: `https://microsoftedge.microsoft.com/addons/detail/jlcgbbelbhaedigmbedelliiogfobpco`,
+  firefox: `https://addons.mozilla.org/en-US/firefox/addon/youtube-focus/reviews/`,
+  opera: `https://addons.opera.com/en/extensions/details/youtube-focus/`
+};
+
+export const EXTENSION_REVIEWS_URL = STORE_REVIEWS_URLS[typeof BROWSER_TARGET !== 'undefined' ? BROWSER_TARGET : 'chrome'] || STORE_REVIEWS_URLS['chrome'];
 // storage ids
 export const HIDE_LIST_ID = "hide-list";
 export const STORAGE_PASSWORD_ID = "password";

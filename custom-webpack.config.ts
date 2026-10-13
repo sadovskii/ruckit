@@ -1,9 +1,17 @@
+/// <reference types="node" />
 import type { Configuration } from 'webpack';
+import { DefinePlugin } from 'webpack';
 
 const CopyPlugin = require("copy-webpack-plugin");
 
+const browser = process.env['BROWSER'] || 'chrome';
+const validBrowsers = ['chrome', 'edge', 'firefox', 'opera'];
+if (!validBrowsers.includes(browser)) {
+  throw new Error(`Invalid BROWSER env: "${browser}". Must be one of: ${validBrowsers.join(', ')}`);
+}
+
 module.exports = {
-  entry: { 
+  entry: {
     background: { import: 'src/extension/background.ts', runtime: false },
     "black-list/search-page/black-list-search-page": { import: 'src/extension/black-list/search-page/black-list-search-page.ts', runtime: false },
     "black-list/search-page/black-list-script-manipulations": { import: 'src/extension/black-list/search-page/black-list-script-manipulations.ts', runtime: false },
@@ -12,10 +20,14 @@ module.exports = {
     "black-list/black-list-heartbeat": { import: 'src/extension/black-list/black-list-heartbeat.ts', runtime: false },
   },
   plugins:[
+    new DefinePlugin({
+      'BROWSER_TARGET': JSON.stringify(browser)
+    }),
     new CopyPlugin({
       patterns: [
         {from: "assets", to: "assets"},
         {from: "styles", to: "styles"},
+        {from: `manifests/${browser}.json`, to: "manifest.json"},
       ]
     })
   ],

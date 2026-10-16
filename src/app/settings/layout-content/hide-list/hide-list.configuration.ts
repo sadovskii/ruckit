@@ -4,11 +4,11 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
     return {
         groups: [
             {
-                name: "General",
+                nameKey: "hidelist_group_general",
                 type: HideListItemGroupType.General,
                 items: [
                     {
-                        name: "Hide Shorts",
+                        nameKey: "hidelist_item_hide_shorts",
                         type: HideListItemType.GeneralHideShorts,
                         cssUrl: HidelistCssConfiguration[HideListItemType.GeneralHideShorts],
                         value: map?.get(HideListItemType.GeneralHideShorts) ?? false
@@ -16,11 +16,11 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                 ]
             },
             {
-                name: "Home Feed",
+                nameKey: "hidelist_group_home_feed",
                 type: HideListItemGroupType.HomeFeed,
                 items: [
                     {
-                        name: "Suggested Videos Grid",
+                        nameKey: "hidelist_item_suggested_videos_grid",
                         type: HideListItemType.HomeFeedSuggestedVideosGrid,
                         cssUrl: HidelistCssConfiguration[HideListItemType.HomeFeedSuggestedVideosGrid],
                         value: map?.get(HideListItemType.HomeFeedSuggestedVideosGrid) ?? false
@@ -28,11 +28,11 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                 ]
             },
             {
-                name: "Header",
+                nameKey: "hidelist_group_header",
                 type: HideListItemGroupType.Header,
                 items: [
                     {
-                        name: "Notifications Bell",
+                        nameKey: "hidelist_item_notifications_bell",
                         type: HideListItemType.HeaderNotificationsBell,
                         cssUrl: HidelistCssConfiguration[HideListItemType.HeaderNotificationsBell],
                         value: map?.get(HideListItemType.HeaderNotificationsBell) ?? false
@@ -40,29 +40,29 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                 ]
             },
             {
-                name: "Watch page",
+                nameKey: "hidelist_group_watch_page",
                 type: HideListItemGroupType.WatchPage,
                 items: [
                     {
-                        name: "Pre-end Suggestions",
+                        nameKey: "hidelist_item_pre_end_suggestions",
                         type: HideListItemType.WatchPagePreendSuggestions,
                         cssUrl: HidelistCssConfiguration[HideListItemType.WatchPagePreendSuggestions],
                         value: map?.get(HideListItemType.WatchPagePreendSuggestions) ?? false
                     },
                     {
-                        name: "End Screen Suggestions",
+                        nameKey: "hidelist_item_end_screen_suggestions",
                         type: HideListItemType.WatchPageEndScreenSuggestions,
                         cssUrl: HidelistCssConfiguration[HideListItemType.WatchPageEndScreenSuggestions],
                         value: map?.get(HideListItemType.WatchPageEndScreenSuggestions) ?? false
                     },
                     {
-                        name: "Up-Next Sidebar",
+                        nameKey: "hidelist_item_up_next_sidebar",
                         type: HideListItemType.WatchPageUpNextSidebar,
                         cssUrl: HidelistCssConfiguration[HideListItemType.WatchPageUpNextSidebar],
                         value: map?.get(HideListItemType.WatchPageUpNextSidebar) ?? false
                     },
                     {
-                        name: "Comments Section",
+                        nameKey: "hidelist_item_comments_section",
                         type: HideListItemType.WatchPageCommentsSection,
                         cssUrl: HidelistCssConfiguration[HideListItemType.WatchPageCommentsSection],
                         value: map?.get(HideListItemType.WatchPageCommentsSection) ?? false
@@ -70,24 +70,24 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                 ]
             },
             {
-                name: "Search results",
+                nameKey: "hidelist_group_search_results",
                 type: HideListItemGroupType.SearchResults,
                 items: [
                     {
-                        name: "Topic Chips",
+                        nameKey: "hidelist_item_topic_chips",
                         type: HideListItemType.SearchResultsTopicChips,
                         cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsTopicChips],
                         value: map?.get(HideListItemType.SearchResultsTopicChips) ?? false
                     },
                     {
                         //Latest posts from
-                        name: "Latest Posts",
+                        nameKey: "hidelist_item_latest_posts",
                         type: HideListItemType.SearchResultsLatestPosts,
                         cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsLatestPosts],
                         value: map?.get(HideListItemType.SearchResultsLatestPosts) ?? false
                     },
                     {
-                        name: "Suggestions Sections",
+                        nameKey: "hidelist_item_suggestions_sections",
                         type: HideListItemType.SearchResultsSuggestionsSections,
                         cssUrl: HidelistCssConfiguration[HideListItemType.SearchResultsSuggestionsSections],
                         value: map?.get(HideListItemType.SearchResultsSuggestionsSections) ?? false
@@ -96,23 +96,23 @@ export function HideListModelConfiguration(map: Map<HideListItemType, boolean>):
                 ]
             },
             {
-                name: "Video Thumbnails",
+                nameKey: "hidelist_group_video_thumbnails",
                 type: HideListItemGroupType.VideoThumbnails,
                 items: [
                     {
-                        name: "Thumbnail Blackout",
+                        nameKey: "hidelist_item_thumbnail_blackout",
                         type: HideListItemType.VideoThumbnailsThumbnailBlackout,
                         cssUrl: HidelistCssConfiguration[HideListItemType.VideoThumbnailsThumbnailBlackout],
                         value: map?.get(HideListItemType.VideoThumbnailsThumbnailBlackout) ?? false
                     },
                     {
-                        name: "Disable Hover Playback",
+                        nameKey: "hidelist_item_disable_hover_playback",
                         type: HideListItemType.VideoThumbnailsDisableHoverPlayback,
                         cssUrl: HidelistCssConfiguration[HideListItemType.VideoThumbnailsDisableHoverPlayback],
                         value: map?.get(HideListItemType.VideoThumbnailsDisableHoverPlayback) ?? false
                     },
                     {
-                        name: "Disable Hover Image",
+                        nameKey: "hidelist_item_disable_hover_image",
                         type: HideListItemType.VideoThumbnailsDisableHoverImage,
                         cssUrl: HidelistCssConfiguration[HideListItemType.VideoThumbnailsDisableHoverImage],
                         value: map?.get(HideListItemType.VideoThumbnailsDisableHoverImage) ?? false

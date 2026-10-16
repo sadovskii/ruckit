@@ -41,6 +41,7 @@ import { PopupGlobalComponent } from './popup/popup-global/popup-global.componen
 import { PopupNavbarComponent } from './popup/popup-navbar/popup-navbar.component';
 import { PopupNavbarItemComponent } from './popup/popup-navbar/popup-navbar-item/popup-navbar-item.component';
 import { RestrictedButtonDirective } from './shared/directive/restricted-button/restricted-button.directive';
+import { I18nPipe } from './shared/i18n/i18n.pipe';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { RestrictedButtonDirective } from './shared/directive/restricted-button/
     HideListBlockComponent,
     HideListBlockItemComponent,
     SafePipe,
+    I18nPipe,
     RuckitToggleComponent,
     RuckitDialogComponent,
     SetNewPasswordComponent,

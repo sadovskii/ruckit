@@ -1,6 +1,6 @@
 import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION } from '../black-list.models';
+import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION, blackListRestrictionTypeToMessageKeys } from '../black-list.models';
 import { ViewVersions } from 'src/app/shared/types';
 import { NbComponentSize } from '@nebular/theme';
 import { Subscription } from 'rxjs';
@@ -102,13 +102,8 @@ export class BlackListSimpleItemComponent implements OnInit, OnChanges, OnDestro
     return size;
   }
 
-  get placeholder() {
-    if (this.type === BlackListRestrictionType.Channels) {
-      return `${BlackListRestrictionType.Channels} name (e.g. @example)`;
-    }
-    else {
-      return this.type.toString();
-    }
+  get messages() {
+    return blackListRestrictionTypeToMessageKeys[this.type];
   }
 
   ngOnDestroy(): void {

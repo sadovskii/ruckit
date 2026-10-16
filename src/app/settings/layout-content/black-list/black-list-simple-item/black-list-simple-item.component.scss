@@ -23,6 +23,10 @@
                 margin-right: 0.5rem;
             }
 
+            &__button {
+                flex-shrink: 0;
+            }
+
             .input {
                 &:hover:not(:disabled):not(.status-danger) {
                     &::placeholder {
@@ -57,10 +61,12 @@
         .manage {
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             align-items: center;
+            row-gap: 0.5rem;
 
             &__open-advanced-settings {
-                max-width: 11.25rem; //180px
+                flex-shrink: 0;
             }
 
             .open-advanced-settings {

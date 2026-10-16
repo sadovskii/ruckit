@@ -17,7 +17,7 @@
 				size="tiny"
 				outline
 				(click)="onActionClick(incommingNotification.action)">
-				{{incommingNotification.action}}
+				{{ actionMessageKeys[incommingNotification.action] | i18n }}
 			</button>
 		</div>
 		<div class="closer-container">

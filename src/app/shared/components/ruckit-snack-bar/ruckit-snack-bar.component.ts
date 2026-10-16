@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
-import { RuckitSnackBarService, Snackbar, SnackbarType, SnackbarActionType } from './ruckit-snack-bar.service';
+import { RuckitSnackBarService, Snackbar, SnackbarType, SnackbarActionType, snackbarActionTypeToMessageKey } from './ruckit-snack-bar.service';
 import { debounceTime, tap } from 'rxjs';
 import { ViewVersions } from '../../types';
 
@@ -24,6 +24,7 @@ export class RuckitSnackBarComponent {
   incommingNotification: Snackbar | undefined = undefined;
   SnackbarType = SnackbarType;
   SnackbarActionType = SnackbarActionType;
+  actionMessageKeys = snackbarActionTypeToMessageKey;
 
   constructor(private _snackbarService: RuckitSnackBarService, private _cdr: ChangeDetectorRef) {}
 

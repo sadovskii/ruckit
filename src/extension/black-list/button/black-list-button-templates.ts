@@ -1,3 +1,5 @@
+import { t } from "src/app/shared/i18n/i18n";
+
 export const TEMPLATE = `
 <div class="blb-conainer">
     <div class="black-list-button">
@@ -10,7 +12,7 @@ export const TEMPLATE = `
     </div>
 
     <div class="black-list-tooltip">
-      Hide channel content
+      ${t('blacklist_button_tooltip')}
     </div>
 </div>
 `

@@ -26,11 +26,6 @@ export const STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON = "blphito"
 // for nb dialog
 export const BACKDROP_CLASS = 'custom-backdrop';
 
-
-export const QUOTES = {
-    quote1: "What will you choose: the long-term prospects of your dwindling freedom or the compulsive urge to browse a familiar site?"
-}
-
 export const DEMON_SVGS = {
     "demon-barbed": "assets/demons/demon-barbed.svg",
     "demon-chained": "assets/demons/demon-chained.svg",

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, first, Observable, shareReplay, Subject, timeout } from 'rxjs';
+import { t } from '../../i18n/i18n';
 
 @Injectable()
 export class RuckitSnackBarService {
@@ -25,13 +26,13 @@ export class RuckitSnackBarService {
   }
 
   success(action: SnackbarActionType = SnackbarActionType.undo) {
-    const message = 'Setting is sucessfully edited';
+    const message = t('snackbar_setting_edited');
     console.log('action = ', action);
     this.show(message, SnackbarType.success, action);
   }
 
   restricted(action: SnackbarActionType = SnackbarActionType.enterPassword) {
-    const message = 'Editing is restricted';
+    const message = t('snackbar_editing_restricted');
     this.show(message, SnackbarType.restricted, action);
   }
 
@@ -64,6 +65,12 @@ export enum SnackbarType {
 
 export enum SnackbarActionType {
   undefined = -1,
-  enterPassword = 'Enter password',
-  undo = 'Undo'
+  enterPassword = 'enterPassword',
+  undo = 'undo'
 }
+
+export const snackbarActionTypeToMessageKey: Record<SnackbarActionType, string> = {
+  [SnackbarActionType.undefined]: '',
+  [SnackbarActionType.enterPassword]: 'snackbar_action_enter_password',
+  [SnackbarActionType.undo]: 'snackbar_action_undo'
+};

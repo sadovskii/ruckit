@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DEMON_SVGS, QUOTES } from 'src/app/shared/constants';
+import { DEMON_SVGS } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-start-page',
@@ -9,7 +9,6 @@ import { DEMON_SVGS, QUOTES } from 'src/app/shared/constants';
 })
 export class StartPageComponent implements OnInit {
 
-  public QUOTES = QUOTES;
   public DEAMON_SVGS = DEMON_SVGS;
 
   public demonSvgUrl: string;

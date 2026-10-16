@@ -1,0 +1,122 @@
+{
+  "ext_name": { "message": "Ruckit – скрытие Shorts и отвлекающего контента YouTube" },
+  "ext_description": { "message": "Скрывайте Shorts, рекомендации, комментарии и отвлекающие каналы для чистого и сосредоточенного YouTube." },
+  "brand_name": { "message": "Ruckit" },
+
+  "common_add_new": { "message": "Добавить" },
+  "common_manage_restrictions": { "message": "Управлять ограничениями" },
+  "common_select_placeholder": { "message": "Выберите вариант" },
+
+  "popup_extended_settings": { "message": "Расширенные настройки" },
+
+  "sidebar_support": { "message": "Поддержать Ruckit" },
+  "sidebar_feedback": { "message": "Оставить отзыв" },
+
+  "about_title": { "message": "О расширении" },
+  "about_paragraph_1": {
+    "message": "В современном мире, полном информационного шума, внимание людей рассеивается множеством отвлекающих факторов. Традиционные профессии уступают место специальностям в сфере электронной коммерции, а время теряется на бескрайних просторах социальных сетей и стриминговых сервисов. Одна из самых популярных платформ, YouTube, с бесконечным потоком контента в Shorts и рекомендациях, превращается в настоящий водоворот, уводящий пользователей от их изначальных целей."
+  },
+  "about_paragraph_2": {
+    "message": "Ruckit открывает глаза на проблему интернет-зависимости и предлагает решение: помогает людям любого возраста и положения упорядочить получаемую информацию и обратить её разумное использование себе на пользу."
+  },
+  "about_paragraph_3": { "message": "Наши ценности: эмпатия, помощь, дисциплина, концентрация." },
+  "about_paragraph_4": {
+    "message": "Наша миссия: помочь пользователям сосредоточить рассеянное внимание на главных целях и навести порядок в их онлайн-пространстве."
+  },
+
+  "quote_1": {
+    "message": "Что вы выберете: долгосрочные перспективы своей угасающей свободы или навязчивое желание открыть знакомый сайт?"
+  },
+
+  "blacklist_title": { "message": "Чёрный список" },
+  "blacklist_channels_title": { "message": "Ограничения каналов" },
+  "blacklist_channels_description": { "message": "Блокируйте каналы, которые хотите скрыть из ленты" },
+  "blacklist_channels_placeholder": { "message": "Введите название канала" },
+  "blacklist_channels_hidden_count": {
+    "message": "Скрыто каналов: $COUNT$",
+    "placeholders": { "count": { "content": "$1", "example": "4" } }
+  },
+  "blacklist_channels_manage_title": { "message": "Управление ограничениями каналов" },
+  "blacklist_channels_new_restriction": { "message": "Новое ограничение канала" },
+  "blacklist_keywords_title": { "message": "Ограничения по ключевым словам" },
+  "blacklist_keywords_description": { "message": "Блокируйте ключевые слова, которые хотите скрыть из ленты" },
+  "blacklist_keywords_placeholder": { "message": "Введите ключевое слово" },
+  "blacklist_keywords_hidden_count": {
+    "message": "Скрыто ключевых слов: $COUNT$",
+    "placeholders": { "count": { "content": "$1", "example": "4" } }
+  },
+  "blacklist_keywords_manage_title": { "message": "Управление ограничениями по ключевым словам" },
+  "blacklist_keywords_new_restriction": { "message": "Новое ограничение по ключевому слову" },
+  "blacklist_phrases_title": { "message": "Ограничения по фразам" },
+  "blacklist_phrases_description": { "message": "Блокируйте фразы, которые хотите скрыть из ленты" },
+  "blacklist_phrases_placeholder": { "message": "Введите фразу" },
+  "blacklist_phrases_hidden_count": {
+    "message": "Скрыто фраз: $COUNT$",
+    "placeholders": { "count": { "content": "$1", "example": "4" } }
+  },
+  "blacklist_phrases_manage_title": { "message": "Управление ограничениями по фразам" },
+  "blacklist_phrases_new_restriction": { "message": "Новое ограничение по фразе" },
+  "blacklist_manage_tag": { "message": "Настройки ограничений" },
+  "blacklist_find_existing": { "message": "Найти существующее ограничение" },
+  "blacklist_button_tooltip": { "message": "Скрыть контент канала" },
+  "option_list_not_found": { "message": "Ограничение не найдено" },
+  "option_list_add_new": { "message": "Добавить ограничение" },
+  "option_list_empty": { "message": "Список ограничений пуст" },
+
+  "restricted_page_title": { "message": "запрещённый контент - YouTube" },
+  "restricted_page_go_home": { "message": "Перейти на главную" },
+
+  "hidelist_title": { "message": "Скрытие элементов" },
+  "hidelist_group_general": { "message": "Общее" },
+  "hidelist_group_home_feed": { "message": "Главная лента" },
+  "hidelist_group_header": { "message": "Шапка" },
+  "hidelist_group_watch_page": { "message": "Страница просмотра" },
+  "hidelist_group_search_results": { "message": "Результаты поиска" },
+  "hidelist_group_video_thumbnails": { "message": "Превью видео" },
+  "hidelist_item_hide_shorts": { "message": "Скрыть Shorts" },
+  "hidelist_item_suggested_videos_grid": { "message": "Сетка рекомендуемых видео" },
+  "hidelist_item_notifications_bell": { "message": "Колокольчик уведомлений" },
+  "hidelist_item_pre_end_suggestions": { "message": "Рекомендации перед концом видео" },
+  "hidelist_item_end_screen_suggestions": { "message": "Рекомендации на конечной заставке" },
+  "hidelist_item_up_next_sidebar": { "message": "Боковая панель «Далее»" },
+  "hidelist_item_comments_section": { "message": "Комментарии" },
+  "hidelist_item_topic_chips": { "message": "Тематические фильтры" },
+  "hidelist_item_latest_posts": { "message": "Последние публикации" },
+  "hidelist_item_suggestions_sections": { "message": "Разделы рекомендаций" },
+  "hidelist_item_thumbnail_blackout": { "message": "Затемнение превью" },
+  "hidelist_item_disable_hover_playback": { "message": "Отключить воспроизведение при наведении" },
+  "hidelist_item_disable_hover_image": { "message": "Отключить смену превью при наведении" },
+
+  "password_title": { "message": "Пароль" },
+  "password_request_title": { "message": "Запрос пароля" },
+  "password_request_description": { "message": "Установите пароль, который потребуется для изменения заданных вами ограничений" },
+  "password_inquire_title": { "message": "Запрашивать пароль" },
+  "password_inquire_description": { "message": "Выберите, как долго будет длиться сеанс редактирования ограничений" },
+  "password_period_30_seconds": { "message": "30 секунд" },
+  "password_period_1_minute": { "message": "1 минута" },
+  "password_change_title": { "message": "Сменить пароль" },
+  "password_current_placeholder": { "message": "Введите текущий пароль" },
+  "password_new_placeholder": { "message": "Введите новый пароль" },
+  "password_confirm_new_placeholder": { "message": "Подтвердите новый пароль" },
+  "password_enter_title": { "message": "Введите пароль" },
+  "password_enter_tag": { "message": "Доступ ограничен" },
+  "password_enter_placeholder": { "message": "Введите пароль" },
+  "password_enter_submit": { "message": "Подтвердить пароль" },
+  "password_set_title": { "message": "Установка пароля" },
+  "password_set_tag": { "message": "Настройки пароля" },
+  "password_set_hint": { "message": "*будьте очень внимательны и не потеряйте пароль" },
+  "password_set_submit": { "message": "Установить пароль" },
+  "password_show": { "message": "Показать пароль" },
+  "password_hide": { "message": "Скрыть пароль" },
+
+  "settings_title": { "message": "Настройки" },
+  "settings_appearance_title": { "message": "Внешний вид" },
+  "settings_appearance_description": { "message": "Настройте, как Ruckit выглядит на вашем устройстве" },
+  "settings_theme_light": { "message": "Светлая" },
+  "settings_theme_dark": { "message": "Тёмная" },
+
+  "snackbar_setting_edited": { "message": "Настройка успешно изменена" },
+  "snackbar_editing_restricted": { "message": "Редактирование ограничено" },
+  "snackbar_action_enter_password": { "message": "Ввести пароль" },
+  "snackbar_action_undo": { "message": "Отменить" }
+}

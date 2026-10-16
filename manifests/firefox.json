@@ -1,6 +1,7 @@
 {
-  "name": "Ruckit – Hide YouTube Shorts & Distractions",
-  "description": "Hide Shorts, recommendations, comments and distracting channels for a cleaner, focused YouTube experience.",
+  "name": "__MSG_ext_name__",
+  "description": "__MSG_ext_description__",
+  "default_locale": "en",
   "version": "1.1.11",
   "manifest_version": 3,
   "browser_specific_settings": {

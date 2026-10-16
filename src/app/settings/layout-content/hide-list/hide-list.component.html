@@ -1,9 +1,9 @@
-<app-layout [viewVersion]="viewVersion" header="Hidelist" *ngIf="HideListConfiguration && IsRestricted != undefined">
+<app-layout [viewVersion]="viewVersion" [header]="'hidelist_title' | i18n" *ngIf="HideListConfiguration && IsRestricted != undefined">
 	<div class="hide-list-blocks">
 		<app-hide-list-block
 			class="hide-list-block hide-list-blocks__hide-list-block"
 			*ngFor="let group of HideListConfiguration.groups"
-			[header]="group.name"
+			[header]="group.nameKey | i18n"
 			[items]="group.items"
 			[isRestricted]="IsRestricted"
 			[viewVersion]="viewVersion"

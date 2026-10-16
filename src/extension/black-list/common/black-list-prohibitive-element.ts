@@ -1,3 +1,5 @@
+import { t } from "src/app/shared/i18n/i18n";
+
 export const blackListProhibitiveElement = `
 <div class="ruckit-constraint-main">
 	<style>
@@ -115,6 +117,6 @@ export const blackListProhibitiveElement = `
 		</clipPath>
 		</defs>
 	</svg>
-	<span class="message">What will you choose: the long-term prospects of your dwindling freedom or the compulsive urge to browse a familiar site?</span>
-	<a href="https://www.youtube.com/" class="button">Go to the main page</a>
+	<span class="message">${t('quote_1')}</span>
+	<a href="https://www.youtube.com/" class="button">${t('restricted_page_go_home')}</a>
 </div>`

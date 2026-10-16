@@ -7,7 +7,7 @@
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_1rem sidebar__item_margin_top_075rem"
     (click)="changeItem(SideBarItems.aboutExtension.key)"
-    content="About the extension"
+    [content]="'about_title' | i18n"
     icon="about-extension-linear-28"
     iconLinear="about-extension-linear-28"
     iconSolid="about-extension-solid-28"
@@ -16,7 +16,7 @@
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_025rem"
     (click)="changeItem(SideBarItems.blackList.key)"
-    content="Blacklist"
+    [content]="'blacklist_title' | i18n"
     icon="black-list-linear-28"
     iconLinear="black-list-linear-28"
     iconSolid="black-list-solid-28"
@@ -25,7 +25,7 @@
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_025rem"
     (click)="changeItem(SideBarItems.hideList.key)"
-    content="Hidelist"
+    [content]="'hidelist_title' | i18n"
     icon="hide-list-linear-28"
     iconLinear="hide-list-linear-28"
     iconSolid="hide-list-solid-28"
@@ -34,7 +34,7 @@
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_1rem"
     (click)="changeItem(SideBarItems.password.key)"
-    content="Password"
+    [content]="'password_title' | i18n"
     icon="password-linear-28"
     iconLinear="password-linear-28"
     iconSolid="password-solid-28"
@@ -43,17 +43,27 @@
   <app-sidebar-item
     class="sidebar__item sidebar__item_margin_bottom_025rem"
     (click)="changeItem(SideBarItems.settings.key)"
-    content="Settings"
+    [content]="'settings_title' | i18n"
     icon="settings-linear-28"
     iconLinear="settings-linear-28"
     iconSolid="settings-solid-28"
     [active]="SideBarItems.settings.params.active">
   </app-sidebar-item>
 
+
   <app-sidebar-item
     class="sidebar__item sidebar__item_bottom"
+    (click)="openDonationPage()"
+    [content]="'sidebar_support' | i18n"
+    icon="settings-donation-linear-28"
+    iconLinear="settings-donation-linear-28"
+    iconSolid="settings-donation-solid-28"
+    [active]="false">
+  </app-sidebar-item>
+  <app-sidebar-item
+    class="sidebar__item sidebar__item_margin_bottom_1rem"
     (click)="openExtensionReviews()"
-    content="Give a feedback"
+    [content]="'sidebar_feedback' | i18n"
     icon="rate-extension-linear-28"
     iconLinear="rate-extension-linear-28"
     iconSolid="rate-extension-solid-28"

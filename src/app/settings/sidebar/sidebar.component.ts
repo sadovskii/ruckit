@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SideBarItems, SideBarItemsType } from './sidebar-items';
 import { EXTENSION_REVIEWS_URL } from 'src/app/shared/constants';
+import { DONATION_STRIPE_PAGE } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,6 +12,7 @@ export class SidebarComponent implements OnInit {
   public SideBarItemsType = SideBarItemsType;
   public SideBarItems = SideBarItems;
   public extensionReviewsUrl = EXTENSION_REVIEWS_URL;
+  public donationPageUrl = DONATION_STRIPE_PAGE;
 
   @Input({required: true})
   public activeSidebarItem: SideBarItemsType;
@@ -67,5 +69,9 @@ export class SidebarComponent implements OnInit {
 
   openExtensionReviews() {
     window.open(this.extensionReviewsUrl, '_blank');
+  }
+
+  openDonationPage() {
+    window.open(this.donationPageUrl, '_blank')
   }
 }

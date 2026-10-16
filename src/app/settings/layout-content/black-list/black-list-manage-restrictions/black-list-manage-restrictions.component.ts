@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { TagType } from 'src/app/shared/components/tag/tag.types';
-import { BlackListRestrictionType, BlackListRestritionModel, MAX_LENGTH_RESTRICTION } from '../black-list.models';
+import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION, blackListRestrictionTypeToMessageKeys } from '../black-list.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -52,12 +52,7 @@ export class BlackListManageRestrictionsComponent {
     this.removeItem.emit(index)
   }
 
-  get placeholder() {
-    if (this.type === BlackListRestrictionType.Channels) {
-      return `${BlackListRestrictionType.Channels} name`;
-    }
-    else {
-      return this.type.toString();
-    }
+  get messages() {
+    return blackListRestrictionTypeToMessageKeys[this.type];
   }
 }

@@ -26,7 +26,9 @@ export class IconRegisterService {
                 [icons.ruckitStopScreenLinear28.name]: icons.ruckitStopScreenLinear28.data,
                 [icons.ruckitStopScreenSolid28.name]: icons.ruckitStopScreenSolid28.data,
                 [icons.ruckitCloserLinear28.name]: icons.ruckitCloserLinear28.data,
-                [icons.ruckitCloserSolid28.name]: icons.ruckitCloserSolid28.data,                
+                [icons.ruckitCloserSolid28.name]: icons.ruckitCloserSolid28.data,  
+                [icons.RuckitSettingsDonationLinear28.name]: icons.RuckitSettingsDonationLinear28.data,
+                [icons.RuckitSettingsDonationSolid28.name]: icons.RuckitSettingsDonationSolid28.data              
             }
         );
 

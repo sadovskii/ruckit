@@ -27,6 +27,7 @@ module.exports = {
       patterns: [
         {from: "assets", to: "assets"},
         {from: "styles", to: "styles"},
+        {from: "_locales", to: "_locales"},
         {from: `manifests/${browser}.json`, to: "manifest.json"},
       ]
     })

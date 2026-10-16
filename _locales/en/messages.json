@@ -1,0 +1,236 @@
+{
+  "ext_name": {
+    "message": "Ruckit – Hide YouTube Shorts & Distractions",
+    "description": "Extension name shown in the browser and the store. Max 75 characters."
+  },
+  "ext_description": {
+    "message": "Hide Shorts, recommendations, comments and distracting channels for a cleaner, focused YouTube experience.",
+    "description": "Extension description shown in the browser and the store. Max 132 characters."
+  },
+  "brand_name": {
+    "message": "Ruckit",
+    "description": "Product name shown in the sidebar/popup header."
+  },
+
+  "common_add_new": {
+    "message": "Add new",
+    "description": "Button that adds a new blacklist restriction."
+  },
+  "common_manage_restrictions": {
+    "message": "Manage restrictions",
+    "description": "Button that opens the dialog for managing blacklist restrictions."
+  },
+  "common_select_placeholder": {
+    "message": "Select an option",
+    "description": "Placeholder of a dropdown when nothing is selected."
+  },
+
+  "popup_extended_settings": {
+    "message": "Extended settings",
+    "description": "Popup button that opens the full settings page."
+  },
+
+  "sidebar_support": {
+    "message": "Support Ruckit",
+    "description": "Sidebar link to the donation page."
+  },
+  "sidebar_feedback": {
+    "message": "Give feedback",
+    "description": "Sidebar link to the store reviews page."
+  },
+
+  "about_title": {
+    "message": "About the extension",
+    "description": "Title of the About page and its sidebar item."
+  },
+  "about_paragraph_1": {
+    "message": "In today's world full of Internet noise, people’s attention is distributed by a variety of distractions. Traditional professions are giving way to e-commerce specialties, and time is being wasted in the vast expanse of social networks and streaming services. One of the most widely used platforms, YouTube, with its endless stream of content in Shorts and Recommendations is becoming a veritable maelstrom taking users away from their original goals."
+  },
+  "about_paragraph_2": {
+    "message": "Ruckit opens eyes to the problem of Internet addiction and offers a solution: helping people of all ages and statuses to organize the information they receive and turn the rational use of information to their advantage."
+  },
+  "about_paragraph_3": {
+    "message": "Our Values: Empathy, Help, Discipline, Focus."
+  },
+  "about_paragraph_4": {
+    "message": "Our Mission: To help users focus their scattered attention on their primary goals and to bring order to their online space."
+  },
+
+  "quote_1": {
+    "message": "What will you choose: the long-term prospects of your dwindling freedom or the compulsive urge to browse a familiar site?",
+    "description": "Motivational quote shown on the start page and on blocked YouTube pages."
+  },
+
+  "blacklist_title": {
+    "message": "Blacklist",
+    "description": "Title of the Blacklist page and its sidebar item."
+  },
+  "blacklist_channels_title": {
+    "message": "Channels restrictions"
+  },
+  "blacklist_channels_description": {
+    "message": "Block the channels that you want to hide from your feed"
+  },
+  "blacklist_channels_placeholder": {
+    "message": "Enter a channel name"
+  },
+  "blacklist_channels_hidden_count": {
+    "message": "Hidden channels: $COUNT$",
+    "placeholders": {
+      "count": { "content": "$1", "example": "4" }
+    }
+  },
+  "blacklist_channels_manage_title": {
+    "message": "Manage channels restrictions"
+  },
+  "blacklist_channels_new_restriction": {
+    "message": "New channel restriction"
+  },
+  "blacklist_keywords_title": {
+    "message": "Keywords restrictions"
+  },
+  "blacklist_keywords_description": {
+    "message": "Block the keywords that you want to hide from your feed"
+  },
+  "blacklist_keywords_placeholder": {
+    "message": "Enter a keyword"
+  },
+  "blacklist_keywords_hidden_count": {
+    "message": "Hidden keywords: $COUNT$",
+    "placeholders": {
+      "count": { "content": "$1", "example": "4" }
+    }
+  },
+  "blacklist_keywords_manage_title": {
+    "message": "Manage keywords restrictions"
+  },
+  "blacklist_keywords_new_restriction": {
+    "message": "New keyword restriction"
+  },
+  "blacklist_phrases_title": {
+    "message": "Phrases restrictions"
+  },
+  "blacklist_phrases_description": {
+    "message": "Block the phrases that you want to hide from your feed"
+  },
+  "blacklist_phrases_placeholder": {
+    "message": "Enter a phrase"
+  },
+  "blacklist_phrases_hidden_count": {
+    "message": "Hidden phrases: $COUNT$",
+    "placeholders": {
+      "count": { "content": "$1", "example": "4" }
+    }
+  },
+  "blacklist_phrases_manage_title": {
+    "message": "Manage phrases restrictions"
+  },
+  "blacklist_phrases_new_restriction": {
+    "message": "New phrase restriction"
+  },
+  "blacklist_manage_tag": {
+    "message": "Restrictions settings",
+    "description": "Tag label in the Manage restrictions dialog."
+  },
+  "blacklist_find_existing": {
+    "message": "Find the existing restriction"
+  },
+  "blacklist_button_tooltip": {
+    "message": "Hide channel content",
+    "description": "Tooltip of the button injected next to channel names on YouTube."
+  },
+  "option_list_not_found": {
+    "message": "The restriction is not found"
+  },
+  "option_list_add_new": {
+    "message": "Add new restriction"
+  },
+  "option_list_empty": {
+    "message": "The restrictions list is empty"
+  },
+
+  "restricted_page_title": {
+    "message": "prohibited content - YouTube",
+    "description": "Browser tab title of a YouTube page blocked by the blacklist."
+  },
+  "restricted_page_go_home": {
+    "message": "Go to the main page",
+    "description": "Link on a blocked YouTube page that leads to the YouTube home page."
+  },
+
+  "hidelist_title": {
+    "message": "Hidelist",
+    "description": "Title of the Hidelist page and its sidebar item."
+  },
+  "hidelist_group_general": { "message": "General" },
+  "hidelist_group_home_feed": { "message": "Home Feed" },
+  "hidelist_group_header": { "message": "Header" },
+  "hidelist_group_watch_page": { "message": "Watch page" },
+  "hidelist_group_search_results": { "message": "Search results" },
+  "hidelist_group_video_thumbnails": { "message": "Video Thumbnails" },
+  "hidelist_item_hide_shorts": { "message": "Hide Shorts" },
+  "hidelist_item_suggested_videos_grid": { "message": "Suggested Videos Grid" },
+  "hidelist_item_notifications_bell": { "message": "Notifications Bell" },
+  "hidelist_item_pre_end_suggestions": { "message": "Pre-end Suggestions" },
+  "hidelist_item_end_screen_suggestions": { "message": "End Screen Suggestions" },
+  "hidelist_item_up_next_sidebar": { "message": "Up-Next Sidebar" },
+  "hidelist_item_comments_section": { "message": "Comments Section" },
+  "hidelist_item_topic_chips": { "message": "Topic Chips" },
+  "hidelist_item_latest_posts": { "message": "Latest Posts" },
+  "hidelist_item_suggestions_sections": { "message": "Suggestions Sections" },
+  "hidelist_item_thumbnail_blackout": { "message": "Thumbnail Blackout" },
+  "hidelist_item_disable_hover_playback": { "message": "Disable Hover Playback" },
+  "hidelist_item_disable_hover_image": { "message": "Disable Hover Image" },
+
+  "password_title": {
+    "message": "Password",
+    "description": "Title of the Password page and its sidebar item."
+  },
+  "password_request_title": { "message": "Password request" },
+  "password_request_description": {
+    "message": "Set the password that will be required to modify the restrictions you set"
+  },
+  "password_inquire_title": { "message": "Inquire password" },
+  "password_inquire_description": {
+    "message": "Select how long restrictions editing session will last"
+  },
+  "password_period_30_seconds": { "message": "30 seconds" },
+  "password_period_1_minute": { "message": "1 minute" },
+  "password_change_title": {
+    "message": "Change password",
+    "description": "Heading and submit button of the change password form."
+  },
+  "password_current_placeholder": { "message": "Enter current password" },
+  "password_new_placeholder": { "message": "Enter new password" },
+  "password_confirm_new_placeholder": { "message": "Confirm new password" },
+  "password_enter_title": { "message": "Enter your password" },
+  "password_enter_tag": { "message": "Access is restricted" },
+  "password_enter_placeholder": { "message": "Enter your password" },
+  "password_enter_submit": { "message": "Confirm password" },
+  "password_set_title": { "message": "Setting a password" },
+  "password_set_tag": { "message": "Password settings" },
+  "password_set_hint": { "message": "*be very careful not to lose your password" },
+  "password_set_submit": { "message": "Set a password" },
+  "password_show": {
+    "message": "Show password",
+    "description": "Accessibility label of the eye icon in password inputs."
+  },
+  "password_hide": {
+    "message": "Hide password",
+    "description": "Accessibility label of the eye icon in password inputs."
+  },
+
+  "settings_title": {
+    "message": "Settings",
+    "description": "Title of the Settings page and its sidebar item."
+  },
+  "settings_appearance_title": { "message": "Appearance" },
+  "settings_appearance_description": { "message": "Customize how Ruckit looks on your device" },
+  "settings_theme_light": { "message": "Light" },
+  "settings_theme_dark": { "message": "Dark" },
+
+  "snackbar_setting_edited": { "message": "Setting is successfully edited" },
+  "snackbar_editing_restricted": { "message": "Editing is restricted" },
+  "snackbar_action_enter_password": { "message": "Enter password" },
+  "snackbar_action_undo": { "message": "Undo" }
+}

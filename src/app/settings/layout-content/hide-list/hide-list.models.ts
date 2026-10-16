@@ -1,5 +1,6 @@
 export interface HideListItemModel {
-    name: string;
+    /** i18n message key from _locales/<locale>/messages.json */
+    nameKey: string;
     type: HideListItemType;
     cssUrl: string;
     value?: boolean;
@@ -10,7 +11,8 @@ export interface HideListModel {
 }
 
 export interface HideListGroupModel {
-    name: string;
+    /** i18n message key from _locales/<locale>/messages.json */
+    nameKey: string;
     type: HideListItemGroupType;
     items: HideListItemModel[];
 }

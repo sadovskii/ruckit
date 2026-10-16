@@ -1,33 +1,33 @@
 <ruckit-dialog
-  header="Manage {{type}}s restrictions"
-	tagValue="Restrictions settings"
+  [header]="messages.manageTitle | i18n"
+	[tagValue]="'blacklist_manage_tag' | i18n"
 	[tagType]="TagType.Red"
 	(closed)="onClose()">
 	<div class="manage-restrictions-container">
 		<!-- hide adding logic for channels from settings -->
 		<div *ngIf="type !== BlackListRestrictionType.Channels" class="manage-restrictions-container__new-resctiction new-resctiction">
-			<h6 class="new-resctiction__label">New {{type}} restriction</h6>
+			<h6 class="new-resctiction__label">{{ messages.newRestriction | i18n }}</h6>
 			<form class="new-resctiction__form form">
 				<input
 					class="form__input input"
 					nbInput
 					fullWidth
-					placeholder="Enter a {{placeholder}}"
+					[placeholder]="messages.placeholder | i18n"
 					[formControl]="addItemFormControl"
 					[status]="invalidAfterClick && addItemFormControl.invalid ? 'danger' : 'basic'">
-				<button class="form__button" nbButton (click)="addItemClick()">Add new</button>
+				<button class="form__button" nbButton (click)="addItemClick()">{{ 'common_add_new' | i18n }}</button>
 			</form>
 		</div>
 		<div class="manage-restrictions-container__find-existing-restriction find-existing-restriction">
 			<div class="find-existing-restriction__header-content header-content">
-				<h6 class="header-content__label">Find the existing restriction</h6>
-				<h6 class="header-content__hidden-count hidden-count">Hiden {{type}}s: {{restrictionList.length}}</h6>
+				<h6 class="header-content__label">{{ 'blacklist_find_existing' | i18n }}</h6>
+				<h6 class="header-content__hidden-count hidden-count">{{ messages.hiddenCount | i18n: restrictionList.length }}</h6>
 			</div>
 			<!-- hide adding logic for channels from settings -->
 			<ruckit-option-list
 				[enableAdding]="type !== BlackListRestrictionType.Channels"
 				[optionList]="restrictionList"
-				[placeholder]="placeholder"
+				[placeholder]="messages.placeholder | i18n"
 				class="find-existing-restriction__restriction-list"
 				(addItem)="notFoundAddItem($event)"
 				(removeItem)="onRemoveItem($event)">

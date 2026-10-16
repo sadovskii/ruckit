@@ -1,4 +1,4 @@
-<app-layout [viewVersion]="viewVersion" class="black-list" header="Blacklist" *ngIf="isLoadedIsRestricted && isLoadedData">
+<app-layout [viewVersion]="viewVersion" class="black-list" [header]="'blacklist_title' | i18n" *ngIf="isLoadedIsRestricted && isLoadedData">
 	<app-black-list-simple-item
 		class="black-list__item"
 		[hidenCountItems]="blackListData[BlackListRestrictionType.Channels].length"

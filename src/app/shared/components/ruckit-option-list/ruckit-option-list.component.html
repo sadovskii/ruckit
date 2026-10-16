@@ -2,7 +2,7 @@
 	class="search input"
 	nbInput
 	fullWidth
-	placeholder="Enter a {{placeholder}}"
+	[placeholder]="placeholder"
 	[formControl]="searchFormControl"
 	[status]="invalidAfterClick && searchFormControl.invalid ? 'danger' : 'basic'">
 <div
@@ -25,7 +25,7 @@
 		}
 		@else if (filteredOptionList.length === 0 && searchFormControl.value) {
 			<div class="option-list-unfound">
-				<h6 class="option-list-unfound__content">The restriction is not found</h6>
+				<h6 class="option-list-unfound__content">{{ 'option_list_not_found' | i18n }}</h6>
 				<!--Hideed adding logic from settings-->
 				<button
 					*ngIf="enableAdding"
@@ -35,13 +35,13 @@
 					outline
 					(click)="addItemClick()"
 				>
-					Add new restriction
+					{{ 'option_list_add_new' | i18n }}
 				</button>
 			</div>
 		}
 		@else {	
 			<div class="option-list-empty">
-				<h6 class="option-list-empty__content">The restrictions list is null</h6>
+				<h6 class="option-list-empty__content">{{ 'option_list_empty' | i18n }}</h6>
 			</div>
 		}
 	</div>

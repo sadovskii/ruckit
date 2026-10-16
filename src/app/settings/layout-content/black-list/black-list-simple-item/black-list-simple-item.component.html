@@ -1,8 +1,8 @@
 <div class="simple-item">
 	<app-settings-item
 		class="content simple-item__content"
-		header="{{type}}s restrictions"
-		description="Block the {{type}}s that you want to hide from your feed"
+		[header]="messages.title | i18n"
+		[description]="messages.description | i18n"
 		[viewVersion]="viewVersion">
 		<ruckit-toggle
 			restrictedToggle
@@ -20,7 +20,7 @@
 				class="add-new-item__input input"
 				fullWidth
 				nbInput
-				placeholder="Enter a {{placeholder}}"
+				[placeholder]="messages.placeholder | i18n"
 				[fieldSize]="sizeByViewVersion"
 				[attr.disabled]="disabled ? true : null"
 				[formControl]="addItemControl"
@@ -32,7 +32,7 @@
 				[disabled]="disabled"
 				[size]="sizeByViewVersion"
 				(click)="onAddItemClick()">
-				Add new
+				{{ 'common_add_new' | i18n }}
 			</button>
 		</form>
 		<div class="manage simple-settings__manage">
@@ -49,20 +49,20 @@
 				[disabled]="disabled"
 				[size]="sizeByViewVersion"
 				(restricedClick)="onManageRestrictionsClick()">
-				Manage restrictions
+				{{ 'common_manage_restrictions' | i18n }}
 			</button>
 			@if (viewVersion === ViewVersions.large) {
 				<h6
 					[ngClass]="{'count_disabled': disabled }"
 					class="count manage__count">
-					Hiden {{type}}s: {{hidenCountItems}}
+					{{ messages.hiddenCount | i18n: hidenCountItems }}
 				</h6>
 			}
 			@else if (viewVersion === ViewVersions.small) {
 				<p
 					[ngClass]="{'count_disabled': disabled }"
 					class="count manage__count">
-					Hiden {{type}}s: {{hidenCountItems}}
+					{{ messages.hiddenCount | i18n: hidenCountItems }}
 				</p>
 			}	
 		</div>

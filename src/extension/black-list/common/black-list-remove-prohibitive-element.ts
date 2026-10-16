@@ -1,6 +1,7 @@
 import { blackListProhibitiveElement } from "./black-list-prohibitive-element";
+import { t } from "src/app/shared/i18n/i18n";
 
-document.title = 'prohibited content - YouTube';
+document.title = t('restricted_page_title');
 
 let timeout = setTimeout(function prohibitedContent() {
     const iframe = document.querySelector("iframe");

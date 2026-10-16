@@ -1,15 +1,15 @@
 <app-layout
   [viewVersion]="viewVersion"
-  header="Settings"
+  [header]="'settings_title' | i18n"
   *ngIf="selectedTheme">
   <div class="inner-settings">
     <app-settings-item
       class="inner-settings__item"
-      header="Appearance"
-      description="Customize how Ruckit looks on your device">
-      <nb-select *ngIf="selectedTheme" placeholder="Select Showcase" [(selected)]="selectedTheme" (selectedChange)="onChangeTheme()">
-        <nb-option value="default">Light</nb-option>
-        <nb-option value="dark">Dark</nb-option>
+      [header]="'settings_appearance_title' | i18n"
+      [description]="'settings_appearance_description' | i18n">
+      <nb-select *ngIf="selectedTheme" [placeholder]="'common_select_placeholder' | i18n" [(selected)]="selectedTheme" (selectedChange)="onChangeTheme()">
+        <nb-option value="default">{{ 'settings_theme_light' | i18n }}</nb-option>
+        <nb-option value="dark">{{ 'settings_theme_dark' | i18n }}</nb-option>
       </nb-select>
     </app-settings-item>
   </div>

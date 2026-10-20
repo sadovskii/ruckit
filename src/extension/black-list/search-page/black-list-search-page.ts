@@ -1,4 +1,3 @@
-import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
 import { hideElement } from "./black-list-script-manipulations";
 import { BlackListData } from "../black-list-models";
 import { getFirstYtdItemMutation, getYtdItemMutation, getYtdListMutation } from "./black-list-script-mutations";
@@ -6,8 +5,7 @@ import { getBlackListData } from "../common/common-functionality";
 
 let data: BlackListData = {
     blackListChannels: [],
-    blackListWords: [],
-    blackListPhrases: []
+    blackListWords: []
 }
 
 // counter is 1 because it's needed run code immediately

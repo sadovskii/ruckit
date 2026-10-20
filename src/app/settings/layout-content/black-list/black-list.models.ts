@@ -1,9 +1,9 @@
-import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
+import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON } from "src/app/shared/constants";
 
 export enum BlackListRestrictionType {
     Channels = 'channel',
-    Keywords = 'keyword',
-    Phrases = 'phrase'
+    // Words and phrases (the former separate phrases list was merged into this one)
+    Keywords = 'keyword'
 }
 
 export type BlackListDictionary<T> = {
@@ -13,13 +13,11 @@ export type BlackListDictionary<T> = {
 export const blackListRestrictionTypeToStoreMap: Record<BlackListRestrictionType, string> = {
   [BlackListRestrictionType.Channels]: STORAGE_BLACKLIST_CHANNELS,
   [BlackListRestrictionType.Keywords]: STORAGE_BLACKLIST_KEYWORDS,
-  [BlackListRestrictionType.Phrases]: STORAGE_BLACKLIST_PHRASES,
 };
 
 export const blackListRestrictionTypeToStoreTurnOnMap: Record<BlackListRestrictionType, string> = {
   [BlackListRestrictionType.Channels]: STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON,
   [BlackListRestrictionType.Keywords]: STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON,
-  [BlackListRestrictionType.Phrases]: STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON,
 };
 
 export const MAX_LENGTH_RESTRICTION = 30;
@@ -50,14 +48,6 @@ export const blackListRestrictionTypeToMessageKeys: Record<BlackListRestrictionT
     hiddenCount: 'blacklist_keywords_hidden_count',
     manageTitle: 'blacklist_keywords_manage_title',
     newRestriction: 'blacklist_keywords_new_restriction',
-  },
-  [BlackListRestrictionType.Phrases]: {
-    title: 'blacklist_phrases_title',
-    description: 'blacklist_phrases_description',
-    placeholder: 'blacklist_phrases_placeholder',
-    hiddenCount: 'blacklist_phrases_hidden_count',
-    manageTitle: 'blacklist_phrases_manage_title',
-    newRestriction: 'blacklist_phrases_new_restriction',
   },
 };
 

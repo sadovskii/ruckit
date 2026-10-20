@@ -21,15 +21,4 @@
 		(addItem)="onAddItem($event, BlackListRestrictionType.Keywords)"
 		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Keywords)">
 	</app-black-list-simple-item>
-	<app-black-list-simple-item
-		class="black-list__item"
-		[hidenCountItems]="blackListData[BlackListRestrictionType.Phrases].length"
-		[checked]="blackListTurningOn[BlackListRestrictionType.Phrases]"
-		[isRestricted]="isRestricted"
-		[type]="BlackListRestrictionType.Phrases"
-		[viewVersion]="viewVersion"
-		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Phrases)"
-		(addItem)="onAddItem($event, BlackListRestrictionType.Phrases)"
-		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Phrases)">
-	</app-black-list-simple-item>
 </app-layout>

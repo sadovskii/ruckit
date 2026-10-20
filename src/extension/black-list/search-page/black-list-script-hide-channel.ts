@@ -1,4 +1,5 @@
 import { BlackListData } from "../black-list-models";
+import { matchesBlackListKeyword } from "../common/keyword-matching";
 
 const CHANNEL_RENDER_LOCAL_NAME = 'ytd-channel-renderer';
 
@@ -6,7 +7,6 @@ export function hideChannel(htmlElement: HTMLElement, data: BlackListData) {
     if (htmlElement.localName === CHANNEL_RENDER_LOCAL_NAME) {
         hideElementsFromBlackListByChannelName(htmlElement, data.blackListChannels);
         hideElementsFromBlackListByName(htmlElement, data.blackListWords);
-        hideElementsFromBlackListByPhrase(htmlElement, data.blackListPhrases);
     }
 }
 
@@ -27,30 +27,7 @@ function hideElementsFromBlackListByName(ytdVideoRenderer: HTMLElement, blackLis
     var element = ytdVideoRenderer?.querySelector('#info-section ytd-channel-name yt-formatted-string') as HTMLElement;
     var name = element?.textContent;
 
-    if (name) {
-        const splited = name?.toLocaleLowerCase().split(' ');
-        for (let i = 0; i < blackListWords.length; i++) {
-            var result = splited?.some((w) => {
-                return w.includes(blackListWords[i]?.toLocaleLowerCase())
-            })
-
-            if (result) {
-                ytdVideoRenderer.remove();
-                break;
-            }
-        }
-    }
-}
-
-function hideElementsFromBlackListByPhrase(ytdVideoRenderer: HTMLElement, blackListPhrases: string[]) {
-    var element = ytdVideoRenderer?.querySelector('#info-section ytd-channel-name yt-formatted-string') as HTMLElement;
-    var name = element?.textContent;
-
-    for (let i = 0; i < blackListPhrases.length; i++) {
-        var result = name?.includes(blackListPhrases[i])
-
-        if (result) {
-            ytdVideoRenderer.remove();
-        }
+    if (matchesBlackListKeyword(name, blackListWords)) {
+        ytdVideoRenderer.remove();
     }
 }

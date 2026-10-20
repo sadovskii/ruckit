@@ -1,7 +1,7 @@
 export interface BlackListData {
     blackListChannels: string[];
+    // words and phrases
     blackListWords: string[];
-    blackListPhrases: string[];
 }
 
 export interface BlackListChannel {

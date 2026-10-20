@@ -118,32 +118,11 @@ export class FeedPage {
             }
 
             if (this.blackListStorage.keywordsIsTurnedOn) {
-                var videoName = htmlItemElement?.querySelector('.ytLockupMetadataViewModelHeadingReset, .yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
-                if (!videoName) return;
+                const videoName = htmlItemElement?.querySelector('.ytLockupMetadataViewModelHeadingReset, .yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
 
-                const splited = videoName.toLocaleLowerCase().split(' ');
-                for (let i = 0; i < this.blackListStorage.keywords.length; i++) {
-                    var result = splited?.some((w) => {
-                        return w.includes(this.blackListStorage.keywords[i]?.toLocaleLowerCase())
-                    })
-        
-                    if (result) {
-                        htmlItemElement.remove();
-                        return;
-                    }
-                }
-            }
-            if (this.blackListStorage.phrasesIsTurnedOn) {
-                var videoName = htmlItemElement?.querySelector('.ytLockupMetadataViewModelHeadingReset, .yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
-                if (!videoName) return;
-
-                for (let i = 0; i < this.blackListStorage.phrases.length; i++) {
-                    var result = videoName?.includes(this.blackListStorage.phrases[i])
-            
-                    if (result) {
-                        htmlItemElement.remove();
-                        return;
-                    }
+                if (this.blackListStorage.matchesKeyword(videoName)) {
+                    htmlItemElement.remove();
+                    return;
                 }
             }
         });

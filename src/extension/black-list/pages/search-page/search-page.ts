@@ -79,32 +79,11 @@ export class SearchPage {
             }
             
             if (this.blackListStorage.keywordsIsTurnedOn) {
-                var videoName = htmlElement?.querySelector('#video-title')?.textContent?.trim();
-                if (!videoName) return;
+                const videoName = htmlElement?.querySelector('#video-title')?.textContent?.trim();
 
-                const splited = videoName.toLocaleLowerCase().split(' ');
-                for (let i = 0; i < this.blackListStorage.keywords.length; i++) {
-                    var result = splited?.some((w) => {
-                        return w.includes(this.blackListStorage.keywords[i]?.toLocaleLowerCase())
-                    })
-        
-                    if (result) {
-                        htmlElement.remove();
-                        return;
-                    }
-                }
-            }
-            if (this.blackListStorage.phrasesIsTurnedOn) {
-                var videoName = htmlElement?.querySelector('#video-title')?.textContent?.trim();
-                if (!videoName) return;
-
-                for (let i = 0; i < this.blackListStorage.phrases.length; i++) {
-                    var result = videoName?.includes(this.blackListStorage.phrases[i])
-            
-                    if (result) {
-                        htmlElement.remove();
-                        return;
-                    }
+                if (this.blackListStorage.matchesKeyword(videoName)) {
+                    htmlElement.remove();
+                    return;
                 }
             }
         });

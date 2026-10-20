@@ -26,28 +26,9 @@ export class VideoPageRedirect {
                 }
             }
             
-            if (this.data.keywordsIsTurnedOn) {
-                const splited = videoName.toLocaleLowerCase().split(' ');
-                for (let i = 0; i < this.data.keywords.length; i++) {
-                    var result = splited?.some((w) => {
-                        return w.includes(this.data.keywords[i]?.toLocaleLowerCase())
-                    })
-        
-                    if (result) {
-                        this.replace();
-                        return;
-                    }
-                }
-            }
-            if (this.data.phrasesIsTurnedOn) {
-                for (let i = 0; i < this.data.phrases.length; i++) {
-                    var result = videoName?.includes(this.data.phrases[i])
-            
-                    if (result) {
-                        this.replace();
-                        return;
-                    }
-                }
+            if (this.data.keywordsIsTurnedOn && this.data.matchesKeyword(videoName)) {
+                this.replace();
+                return;
             }
         }
     }

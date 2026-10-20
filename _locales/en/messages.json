@@ -87,46 +87,25 @@
     "message": "New channel restriction"
   },
   "blacklist_keywords_title": {
-    "message": "Keywords restrictions"
+    "message": "Keywords and phrases restrictions"
   },
   "blacklist_keywords_description": {
-    "message": "Block the keywords that you want to hide from your feed"
+    "message": "Block the words and phrases that you want to hide from your feed"
   },
   "blacklist_keywords_placeholder": {
-    "message": "Enter a keyword"
+    "message": "Enter a word or phrase"
   },
   "blacklist_keywords_hidden_count": {
-    "message": "Hidden keywords: $COUNT$",
+    "message": "Hidden keywords and phrases: $COUNT$",
     "placeholders": {
       "count": { "content": "$1", "example": "4" }
     }
   },
   "blacklist_keywords_manage_title": {
-    "message": "Manage keywords restrictions"
+    "message": "Manage keywords and phrases restrictions"
   },
   "blacklist_keywords_new_restriction": {
-    "message": "New keyword restriction"
-  },
-  "blacklist_phrases_title": {
-    "message": "Phrases restrictions"
-  },
-  "blacklist_phrases_description": {
-    "message": "Block the phrases that you want to hide from your feed"
-  },
-  "blacklist_phrases_placeholder": {
-    "message": "Enter a phrase"
-  },
-  "blacklist_phrases_hidden_count": {
-    "message": "Hidden phrases: $COUNT$",
-    "placeholders": {
-      "count": { "content": "$1", "example": "4" }
-    }
-  },
-  "blacklist_phrases_manage_title": {
-    "message": "Manage phrases restrictions"
-  },
-  "blacklist_phrases_new_restriction": {
-    "message": "New phrase restriction"
+    "message": "New keyword or phrase restriction"
   },
   "blacklist_manage_tag": {
     "message": "Restrictions settings",

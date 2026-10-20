@@ -59,33 +59,9 @@ export class VideoPage {
             if (this.blackListStorage.keywordsIsTurnedOn) {
                 const videoTitle = contentItem.querySelector('.yt-lockup-metadata-view-model__title')?.textContent?.trim();
 
-                if (!videoTitle) return;
-
-                const splited = videoTitle.toLocaleLowerCase().split(' ');
-                for (let i = 0; i < this.blackListStorage.keywords.length; i++) {
-                    var result = splited?.some((w) => {
-                        return w.includes(this.blackListStorage.keywords[i]?.toLocaleLowerCase())
-                    })
-        
-                    if (result) {
-                        contentItem.remove();
-                        return;
-                    }
-                }
-            }
-
-            if (this.blackListStorage.phrasesIsTurnedOn) {
-                const videoTitle = contentItem.querySelector('.yt-lockup-metadata-view-model__title')?.textContent?.trim();
-
-                if (!videoTitle) return;
-
-                for (let i = 0; i < this.blackListStorage.phrases.length; i++) {
-                    var result = videoTitle?.includes(this.blackListStorage.phrases[i])
-            
-                    if (result) {
-                        contentItem.remove();
-                        return;
-                    }
+                if (this.blackListStorage.matchesKeyword(videoTitle)) {
+                    contentItem.remove();
+                    return;
                 }
             }
         });

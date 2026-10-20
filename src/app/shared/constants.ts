@@ -20,8 +20,9 @@ export const STORAGE_BLACKLIST_CHANNELS = "blch";
 export const STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON = "blchito";
 export const STORAGE_BLACKLIST_KEYWORDS = "blk";
 export const STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON = "blkito";
-export const STORAGE_BLACKLIST_PHRASES = "blph";
-export const STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON = "blphito"
+// Legacy: the phrases list was merged into keywords. Kept only to migrate existing users' data.
+export const LEGACY_STORAGE_BLACKLIST_PHRASES = "blph";
+export const LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON = "blphito";
 
 // for nb dialog
 export const BACKDROP_CLASS = 'custom-backdrop';

@@ -28,7 +28,6 @@ export class BlackListComponent implements OnInit, OnDestroy {
   protected get blackListData() : BlackListDictionary<string[]> {
     return {
       channel: this._blacklistStorage.channels,
-      phrase: this._blacklistStorage.phrases,
       keyword: this._blacklistStorage.keywords
     } 
   }
@@ -36,7 +35,6 @@ export class BlackListComponent implements OnInit, OnDestroy {
   protected get blackListTurningOn() : BlackListDictionary<boolean> {
     return {
       channel: this._blacklistStorage.channelIsTurnedOn,
-      phrase: this._blacklistStorage.phrasesIsTurnedOn,
       keyword: this._blacklistStorage.keywordsIsTurnedOn
     }
   }

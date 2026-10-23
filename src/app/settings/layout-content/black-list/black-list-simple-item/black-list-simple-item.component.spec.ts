@@ -1,20 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { BlackListSimpleItemComponent } from './black-list-simple-item.component';
 
 describe('BlackListSimpleItemComponent', () => {
   let component: BlackListSimpleItemComponent;
-  let fixture: ComponentFixture<BlackListSimpleItemComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BlackListSimpleItemComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(BlackListSimpleItemComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    component = new BlackListSimpleItemComponent({} as ChangeDetectorRef);
   });
 
   it('should create', () => {

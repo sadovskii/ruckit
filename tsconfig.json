@@ -5,6 +5,13 @@
     "strictPropertyInitialization": false,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    // Explicit global types for the editor: TypeScript 6+ (used by VS Code) no longer includes @types/* automatically.
+    // Build/test configs (tsconfig.app/spec/webpack.json) override this with their own "types".
+    "types": [
+      "jasmine",
+      "chrome",
+      "node"
+    ],
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "strict": true,

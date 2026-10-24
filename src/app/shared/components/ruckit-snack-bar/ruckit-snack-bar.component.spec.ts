@@ -1,20 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { RuckitSnackBarComponent } from './ruckit-snack-bar.component';
+import { RuckitSnackBarService } from './ruckit-snack-bar.service';
 
 describe('RuckitSnackBarComponent', () => {
   let component: RuckitSnackBarComponent;
-  let fixture: ComponentFixture<RuckitSnackBarComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RuckitSnackBarComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(RuckitSnackBarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    component = new RuckitSnackBarComponent(new RuckitSnackBarService(), {} as ChangeDetectorRef);
   });
 
   it('should create', () => {

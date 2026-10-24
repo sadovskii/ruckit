@@ -1,0 +1,39 @@
+{
+  "local-chrome": {
+    "channel": "chrome",
+    "browser": "chrome",
+    "port": 9222,
+    "profileDir": "e2e/.profiles/local-chrome",
+    "extensionDir": "dist/chrome",
+    "buildScript": "build:chrome"
+  },
+  "local-edge": {
+    "channel": "msedge",
+    "browser": "edge",
+    "port": 9223,
+    "profileDir": "e2e/.profiles/local-edge",
+    "extensionDir": "dist/edge",
+    "buildScript": "build:edge"
+  },
+  "prod-chrome": {
+    "channel": "chrome",
+    "browser": "chrome",
+    "port": 9224,
+    "profileDir": "e2e/.profiles/prod-chrome",
+    "extensionId": "eakiedfceboebghgkpciddfaghpednlb",
+    "storeUrl": "https://chromewebstore.google.com/detail/eakiedfceboebghgkpciddfaghpednlb"
+  },
+  "prod-edge": {
+    "channel": "msedge",
+    "browser": "edge",
+    "port": 9225,
+    "profileDir": "e2e/.profiles/prod-edge",
+    "extensionId": "jlcgbbelbhaedigmbedelliiogfobpco",
+    "storeUrl": "https://microsoftedge.microsoft.com/addons/detail/jlcgbbelbhaedigmbedelliiogfobpco"
+  },
+  "mocked": {
+    "channel": "chromium",
+    "extensionDir": "dist/chrome",
+    "buildScript": "build:chrome"
+  }
+}

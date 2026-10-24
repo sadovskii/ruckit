@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ruckit e2e tests</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    :root {
+        --bg: #f4f5f7; --card: #fff; --text: #1d2129; --muted: #6b7280; --border: #e2e5ea;
+        --accent: #7c3aed; --green: #16a34a; --red: #dc2626; --amber: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+    header { padding: 18px 28px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 16px; }
+    header h1 { margin: 0; font-size: 20px; }
+    header span { color: var(--muted); }
+    main { padding: 20px 28px 40px; max-width: 1400px; }
+    h2 { font-size: 15px; margin: 26px 0 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 14px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .card h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+    .card .hint { color: var(--muted); font-size: 12.5px; }
+    .status { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #c4c8cf; }
+    .dot.on { background: var(--green); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+    button { font: inherit; border: 1px solid var(--border); background: #fff; border-radius: 7px; padding: 7px 12px; cursor: pointer; }
+    button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    button.primary:hover:not(:disabled) { color: #fff; filter: brightness(1.1); }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    label.check { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 12px; font-weight: 600; color: #fff; background: var(--muted); }
+    .badge.passed { background: var(--green); } .badge.failed, .badge.timedout, .badge.interrupted { background: var(--red); }
+    .badge.running { background: var(--accent); } .badge.stopped { background: var(--amber); }
+    #job { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    #job .top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    #job .top strong { font-size: 15px; }
+    #log { margin: 12px 0 0; background: #111827; color: #e5e7eb; border-radius: 8px; padding: 12px; height: 380px; overflow: auto; font: 12.5px/1.45 Consolas, "Cascadia Mono", monospace; white-space: pre-wrap; }
+    table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; background: #fafbfc; }
+    td.failed-tests { color: var(--red); font-size: 12.5px; }
+    a { color: var(--accent); }
+    .muted { color: var(--muted); }
+    #message { margin: 0 0 6px; white-space: pre-wrap; font-size: 13.5px; }
+    #message.info, #message.error { padding: 10px 14px; border-radius: 8px; border: 1px solid; }
+    #message.info { background: #f5f3ff; border-color: #ddd6fe; color: #4c1d95; }
+    #message.error { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+    .dot.ext-dot:not(.on) { background: var(--red); }
+</style>
+</head>
+<body>
+<header>
+    <h1>Ruckit e2e tests</h1>
+    <span>Real youtube.com in Chrome and Edge · the tests attach to the windows below, where you are signed in</span>
+</header>
+<main>
+    <div id="message"></div>
+
+    <h2>Local build (dist/)</h2>
+    <div class="grid" id="local"></div>
+
+    <h2>Store version</h2>
+    <div class="grid" id="prod"></div>
+
+    <h2>Offline</h2>
+    <div class="grid" id="offline"></div>
+
+    <h2>Current run</h2>
+    <div id="job"><span class="muted">Nothing is running. Press a "Run" button above.</span></div>
+
+    <h2>Previous runs</h2>
+    <div id="runs"></div>
+</main>
+
+<script>
+const CARDS = [
+    { group: 'local', target: 'local-chrome', title: 'Chrome – local build', hint: 'Loads dist/chrome into the window. Sign in with your account; don\'t install Ruckit from the store there.', build: true },
+    { group: 'local', target: 'local-edge', title: 'Edge – local build', hint: 'Loads dist/edge into the window. Sign in with your account; don\'t install Ruckit from the store there.', build: true },
+    { group: 'prod', target: 'prod-chrome', title: 'Chrome – store version', hint: 'Sign in with the test account and install Ruckit from the Chrome Web Store tab.', build: false },
+    { group: 'prod', target: 'prod-edge', title: 'Edge – store version', hint: 'Sign in with the test account and install Ruckit from the Edge Add-ons tab.', build: false },
+    { group: 'offline', target: 'mocked', title: 'Fake YouTube pages', hint: 'dist/chrome in Playwright\'s own browser against fake pages. No window, no account, fast.', build: true, noWindow: true },
+];
+
+let state = { windows: {}, runs: [] };
+let jobRunning = false;
+let logLength = 0;
+let currentJobId;
+
+function render() {
+    for (const card of CARDS) {
+        let element = document.getElementById(`card-${card.target}`);
+
+        if (!element) {
+            element = document.createElement('div');
+            element.className = 'card';
+            element.id = `card-${card.target}`;
+            element.innerHTML = `
+                <h3>${card.title}</h3>
+                ${card.noWindow ? '' : `<div class="status"><span class="dot"></span><span class="window-text"></span></div>`}
+                ${card.group === 'prod' ? `<div class="status"><span class="dot ext-dot"></span><span class="ext-text"></span></div>` : ''}
+                <div class="hint">${card.hint}</div>
+                <div class="buttons">
+                    ${card.noWindow ? '' : `<button data-action="open">Open window</button>`}
+                    ${card.group === 'prod' ? `<button data-action="install" hidden>Install Ruckit</button>` : ''}
+                    ${card.noWindow
+                        ? `<button class="primary" data-action="run" data-suite="all">Run offline tests</button>`
+                        : `<button class="primary" data-action="run" data-suite="youtube">Run YouTube page tests</button>
+                           <button class="primary" data-action="run" data-suite="settings">Run settings page tests</button>
+                           <button data-action="run" data-suite="all">Run all</button>`}
+                </div>
+                ${card.build ? `<label class="check"><input type="checkbox" class="build" checked> Build dist first</label>` : ''}`;
+            element.addEventListener('click', event => onCardClick(card, element, event));
+            document.getElementById(card.group).appendChild(element);
+        }
+
+        const window = state.windows[card.target];
+        const open = Boolean(window?.browser);
+        const extension = window?.storeExtension;
+        const missingExtension = Boolean(extension && !extension.version);
+
+        if (!card.noWindow) {
+            element.querySelector('.dot').classList.toggle('on', open);
+            element.querySelector('.window-text').textContent = open ? `Window open · ${window.browser} · port ${window.port}` : 'Window closed – press "Open window"';
+            element.querySelector('[data-action="open"]').disabled = open;
+        }
+
+        if (extension) {
+            element.querySelector('.ext-dot').classList.toggle('on', !missingExtension);
+            element.querySelector('.ext-text').textContent = missingExtension
+                ? 'Ruckit is not installed in this window – press "Install Ruckit"'
+                : `Ruckit ${extension.version} installed`;
+            const install = element.querySelector('[data-action="install"]');
+            install.hidden = !missingExtension;
+            install.disabled = !open;
+            install.title = open ? '' : 'Open the window first';
+        }
+
+        for (const button of element.querySelectorAll('[data-action="run"]')) {
+            button.disabled = jobRunning || (!card.noWindow && !open) || missingExtension;
+            button.title = !card.noWindow && !open ? 'Open the window first' : missingExtension ? 'Install Ruckit in this window first' : '';
+        }
+    }
+
+    renderRuns();
+}
+
+async function onCardClick(card, element, event) {
+    const button = event.target.closest('button');
+    if (!button || button.disabled) return;
+
+    if (button.dataset.action === 'open') {
+        button.disabled = true;
+        button.textContent = 'Opening…';
+        const result = await post('/api/open', { target: card.target });
+        showMessage(result.output ?? result.error, result.ok === false || Boolean(result.error));
+        button.textContent = 'Open window';
+        await refreshState();
+    }
+
+    if (button.dataset.action === 'install') {
+        const result = await post('/api/install', { target: card.target });
+        showMessage(result.output ?? result.error, result.ok === false || Boolean(result.error));
+    }
+
+    if (button.dataset.action === 'run') {
+        const build = element.querySelector('.build')?.checked ?? false;
+        const result = await post('/api/run', { target: card.target, suite: button.dataset.suite, build });
+        if (result.error) return showMessage(result.error, true);
+        showMessage('');
+        logLength = 0;
+        document.getElementById('job').innerHTML = '';
+        jobRunning = true;
+        render();
+        pollJob();
+    }
+}
+
+function renderJob(job) {
+    const container = document.getElementById('job');
+
+    if (!document.getElementById('log') || currentJobId !== job.id) {
+        currentJobId = job.id;
+        container.innerHTML = `
+            <div class="top">
+                <strong id="job-label"></strong>
+                <span class="badge" id="job-status"></span>
+                <span class="muted" id="job-time"></span>
+                <button id="stop">Stop</button>
+                <a id="job-report" target="_blank" hidden>Open report</a>
+            </div>
+            <pre id="log"></pre>`;
+        document.getElementById('stop').addEventListener('click', () => post('/api/stop', {}));
+    }
+
+    document.getElementById('job-label').textContent = job.label;
+    const status = document.getElementById('job-status');
+    status.textContent = job.status;
+    status.className = `badge ${job.status}`;
+    document.getElementById('job-time').textContent = `started ${new Date(job.startedAt).toLocaleTimeString()}`;
+    document.getElementById('stop').hidden = job.status !== 'running';
+
+    const report = document.getElementById('job-report');
+    report.hidden = !job.report;
+    if (job.report) report.href = job.report;
+
+    if (job.log) {
+        const log = document.getElementById('log');
+        const atBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 30;
+        log.textContent += job.log;
+        if (atBottom) log.scrollTop = log.scrollHeight;
+    }
+    logLength = job.logLength;
+}
+
+async function pollJob() {
+    const job = await get(`/api/job?from=${logLength}`);
+
+    if (job.id) {
+        renderJob(job);
+        jobRunning = job.status === 'running';
+    }
+
+    if (jobRunning) {
+        setTimeout(pollJob, 1000);
+    }
+    else {
+        render();
+        refreshState();
+    }
+}
+
+function renderRuns() {
+    const container = document.getElementById('runs');
+
+    if (!state.runs.length) {
+        container.innerHTML = '<span class="muted">No runs yet.</span>';
+        return;
+    }
+
+    const rows = state.runs.map(run => {
+        const summary = run.summary;
+        const status = summary?.status ?? 'interrupted';
+        const counts = summary ? `${summary.counts.passed} passed · ${summary.counts.failed} failed${summary.counts.flaky ? ` · ${summary.counts.flaky} flaky` : ''}${summary.counts.skipped ? ` · ${summary.counts.skipped} skipped` : ''}` : '';
+        const started = summary ? new Date(summary.startedAt).toLocaleString() : run.folder;
+        const links = [run.report && `<a href="${run.report}" target="_blank">report</a>`, run.log && `<a href="${run.log}" target="_blank">log</a>`].filter(Boolean).join(' · ');
+
+        return `<tr>
+            <td>${escapeHtml(started)}</td>
+            <td>${escapeHtml(summary?.label || summary?.projects?.join(', ') || '')}</td>
+            <td><span class="badge ${status}">${escapeHtml(status)}</span></td>
+            <td>${counts}${summary ? `<div class="muted">${summary.durationSeconds}s</div>` : ''}</td>
+            <td class="failed-tests">${(summary?.failedTests ?? []).map(escapeHtml).join('<br>')}</td>
+            <td>${links}</td>
+        </tr>`;
+    }).join('');
+
+    container.innerHTML = `<table>
+        <thead><tr><th>Started</th><th>What</th><th>Result</th><th>Tests</th><th>Failed tests</th><th></th></tr></thead>
+        <tbody>${rows}</tbody>
+    </table>`;
+}
+
+async function refreshState() {
+    state = await get('/api/state');
+
+    if (state.job) {
+        if (state.job.status === 'running' && !jobRunning) {
+            jobRunning = true;
+            logLength = 0;
+            pollJob();
+        }
+        else if (!document.getElementById('log')) {
+            logLength = 0;
+            renderJob(await get('/api/job?from=0'));
+        }
+    }
+
+    render();
+}
+
+function showMessage(text, isError = false) {
+    const message = document.getElementById('message');
+    message.textContent = text ?? '';
+    message.className = text ? (isError ? 'error' : 'info') : '';
+}
+
+async function get(url) {
+    const response = await fetch(url);
+    return response.json();
+}
+
+async function post(url, body) {
+    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Ruckit-Dashboard': '1' }, body: JSON.stringify(body) });
+    return response.json();
+}
+
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char]);
+}
+
+refreshState();
+setInterval(() => { if (!jobRunning) refreshState(); }, 3000);
+</script>
+</body>
+</html>

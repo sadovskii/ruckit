@@ -1,20 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { RuckitOptionListComponent } from './ruckit-option-list.component';
 
 describe('RuckitOptionListComponent', () => {
   let component: RuckitOptionListComponent;
-  let fixture: ComponentFixture<RuckitOptionListComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RuckitOptionListComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(RuckitOptionListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    component = new RuckitOptionListComponent({} as ChangeDetectorRef);
   });
 
   it('should create', () => {

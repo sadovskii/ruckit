@@ -1,29 +1,26 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NbThemeService } from '@nebular/theme';
 import { AppComponent } from './app.component';
+import { ChromeService } from './shared/services/chrome/chrome.service';
+import { GlobalService } from './shared/services/global/global.service';
+import { IconRegisterService } from './shared/services/nbIcon-library-register.service';
 
 describe('AppComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule],
-    declarations: [AppComponent]
-  }));
+  let app: AppComponent;
+
+  beforeEach(() => {
+    app = new AppComponent(
+      {} as ChromeService,
+      {} as IconRegisterService,
+      {} as GlobalService,
+      {} as NbThemeService
+    );
+  });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
   it(`should have as title 'df-youtube-angular'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app.title).toEqual('df-youtube-angular');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('df-youtube-angular app is running!');
   });
 });

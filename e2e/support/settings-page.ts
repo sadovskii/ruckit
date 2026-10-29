@@ -1,5 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
-import { expect } from './fixtures';
+import { expect, test, type ExtensionHandle } from './fixtures';
 
 /*
  * Page helpers for the extension's settings page (index.html in a tab). The UI may be English or Russian
@@ -58,8 +58,27 @@ export function toggle(scope: Locator) {
 
 // ---------- black list ----------
 
-export type ListName = 'channels' | 'keywords' | 'phrases';
-const LIST_INDEX: Record<ListName, number> = { channels: 0, keywords: 1, phrases: 2 };
+export type ListName = 'channels' | 'keywords';
+/** Cards on the black-list page: Channels, then Keywords and phrases (one list since the merge). */
+const LIST_INDEX: Record<ListName, number> = { channels: 0, keywords: 1 };
+
+let storeVersionHasMergedList: boolean | undefined;
+
+/**
+ * Skips the test on the store versions (prod-*) until a version with phrases merged into keywords is published:
+ * the older store versions still have a separate Phrases list. Local builds and mocked always run the test.
+ */
+export async function skipUntilMergedListIsPublished(page: Page, extension: ExtensionHandle): Promise<void> {
+    if (!extension.target.startsWith('prod')) return;
+
+    if (storeVersionHasMergedList === undefined) {
+        await gotoSettings(page, extension.origin, 'blacklist');
+        await expect(page.locator('app-black-list-simple-item').first()).toBeVisible();
+        storeVersionHasMergedList = await page.locator('app-black-list-simple-item').count() === 2;
+    }
+
+    test.skip(!storeVersionHasMergedList, `store version ${extension.version} still has the separate Phrases list`);
+}
 
 export function blackListCard(page: Page, list: ListName) {
     const root = page.locator('app-black-list-simple-item').nth(LIST_INDEX[list]);

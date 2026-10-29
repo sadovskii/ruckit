@@ -77,17 +77,13 @@ export function countVideos(page: Page, list: VideoList): Promise<number> {
     return page.locator(list.item).count();
 }
 
-export type TitleMatch = { keyword: string } | { phrase: string };
+/** Counts videos whose title contains a black-list item (a word or a phrase) like the extension does: ignoring case. */
+export function countMatching(page: Page, list: VideoList, item: string): Promise<number> {
+    return page.locator(list.item).evaluateAll((items, { titleSelector, item }) => items.filter(element => {
+        const title = element.querySelector(titleSelector)?.textContent?.trim() ?? '';
 
-/** Counts videos whose title matches like the extension does (keyword: case-insensitive, phrase: exact text). */
-export function countMatching(page: Page, list: VideoList, match: TitleMatch): Promise<number> {
-    return page.locator(list.item).evaluateAll((items, { titleSelector, match }) => items.filter(item => {
-        const title = item.querySelector(titleSelector)?.textContent?.trim() ?? '';
-
-        return 'keyword' in match
-            ? title.toLocaleLowerCase().includes(match.keyword.toLocaleLowerCase())
-            : title.includes(match.phrase);
-    }).length, { titleSelector: list.title, match });
+        return title.toLocaleLowerCase().includes(item.toLocaleLowerCase());
+    }).length, { titleSelector: list.title, item });
 }
 
 /**
@@ -111,7 +107,7 @@ export function pickPhrase(titles: string[]): string {
             .filter(phrase => /\p{L}{3,}.*\s.*\p{L}{3,}/u.test(phrase));
     }));
 
-    return pickMostCommon([...phrases], phrase => titles.filter(title => title.includes(phrase)).length, titles.length, 'phrase');
+    return pickMostCommon([...phrases], phrase => titles.filter(title => title.toLocaleLowerCase().includes(phrase.toLocaleLowerCase())).length, titles.length, 'phrase');
 }
 
 function pickMostCommon(candidates: string[], count: (candidate: string) => number, total: number, kind: string): string {

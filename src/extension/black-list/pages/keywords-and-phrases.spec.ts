@@ -8,17 +8,18 @@ import { FakeChrome, flushStorageEvents, installFakeChrome } from '../testing/fa
 import { YouTubeDom } from '../testing/youtube-dom-fixtures';
 
 /*
- * Behaviour of keyword and phrase restrictions as users experience it.
+ * Behaviour of the "keywords and phrases" restriction as users experience it. Since the merge, words and
+ * phrases are items of one list (blk/blkito), matched as a case-insensitive substring of the title.
+ * Data saved before the merge (the old phrases list blph/blphito) must keep working for existing users.
  *
- * Every test starts from data as it is persisted in chrome.storage.sync (the real keys users
- * already have), runs the real page handlers against a YouTube-like DOM and checks what is hidden.
- * The tests intentionally avoid keyword/phrase specific APIs so they stay valid when the
- * implementation of the lists changes (e.g. when phrases are merged into keywords).
+ * Every test starts from data as it is persisted in chrome.storage.sync, runs the real page handlers
+ * against a YouTube-like DOM and checks what is hidden.
  */
 
 // persisted storage keys (see src/app/shared/constants.ts) - this is user data, never rename
 const KEYWORDS = 'blk';
 const KEYWORDS_ON = 'blkito';
+// old phrases list, merged into the keywords list on startup (kept to test data saved before the merge)
 const PHRASES = 'blph';
 const PHRASES_ON = 'blphito';
 const CHANNELS = 'blch';
@@ -89,34 +90,38 @@ const SCENARIOS: Scenario[] = [
     { description: 'keyword not in the title', stored: keywordsOn(['dogs']), title: 'Funny cats compilation', hidden: false },
     { description: 'empty keywords list', stored: keywordsOn([]), title: 'Funny cats compilation', hidden: false },
 
-    // phrases
-    { description: 'phrase matches the beginning of the title', stored: phrasesOn(['How to']), title: 'How to cook pasta', hidden: true },
-    { description: 'phrase matches the middle of the title', stored: phrasesOn(['breaking news']), title: 'Today breaking news live', hidden: true },
-    { description: 'phrase matches the whole title', stored: phrasesOn(['cook pasta']), title: 'cook pasta', hidden: true },
-    { description: 'phrase matches across parts of words', stored: phrasesOn(['king new']), title: 'breaking news', hidden: true },
-    { description: 'phrase matches a single word', stored: phrasesOn(['pasta']), title: 'How to cook pasta', hidden: true },
-    { description: 'phrase matches cyrillic', stored: phrasesOn(['как приготовить']), title: 'Рецепт: как приготовить пасту', hidden: true },
-    { description: 'any of several phrases matches', stored: phrasesOn(['bad day', 'cook pasta']), title: 'How to cook pasta', hidden: true },
-    { description: 'phrase words in a different order', stored: phrasesOn(['news breaking']), title: 'Today breaking news', hidden: false },
-    { description: 'phrase not in the title', stored: phrasesOn(['bad day']), title: 'How to cook pasta', hidden: false },
-    { description: 'empty phrases list', stored: phrasesOn([]), title: 'How to cook pasta', hidden: false },
+    // phrases are items of the same "keywords and phrases" list
+    { description: 'phrase matches the beginning of the title', stored: keywordsOn(['How to']), title: 'How to cook pasta', hidden: true },
+    { description: 'phrase matches the middle of the title', stored: keywordsOn(['breaking news']), title: 'Today breaking news live', hidden: true },
+    { description: 'phrase matches the whole title', stored: keywordsOn(['cook pasta']), title: 'cook pasta', hidden: true },
+    { description: 'phrase matches across parts of words', stored: keywordsOn(['king new']), title: 'breaking news', hidden: true },
+    { description: 'phrase matches cyrillic', stored: keywordsOn(['как приготовить']), title: 'Рецепт: как приготовить пасту', hidden: true },
+    { description: 'phrase is case-insensitive', stored: keywordsOn(['How To Cook']), title: 'how to cook pasta', hidden: true },
+    { description: 'phrase is case-insensitive for cyrillic', stored: keywordsOn(['КАК ПРИГОТОВИТЬ']), title: 'как приготовить пасту', hidden: true },
+    { description: 'words and phrases in one list', stored: keywordsOn(['dogs', 'bad day']), title: 'What a bad day', hidden: true },
+    { description: 'phrase words in a different order', stored: keywordsOn(['news breaking']), title: 'Today breaking news', hidden: false },
+    { description: 'phrase not in the title', stored: keywordsOn(['bad day']), title: 'How to cook pasta', hidden: false },
 
-    // both lists in use
+    // data saved before the merge: the old separate phrases list (blph/blphito) still hides videos
     {
-        description: 'both lists on, title matches only a keyword',
-        stored: { ...keywordsOn(['cats']), ...phrasesOn(['bad day']) }, title: 'Funny cats', hidden: true,
-    },
-    {
-        description: 'both lists on, title matches only a phrase',
+        description: 'old phrases list, title matches an old phrase',
         stored: { ...keywordsOn(['cats']), ...phrasesOn(['bad day']) }, title: 'What a bad day', hidden: true,
     },
     {
-        description: 'both lists on, same item in both lists',
+        description: 'old phrases list on, keywords list off: old phrases still hide',
+        stored: { [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false, ...phrasesOn(['bad day']) }, title: 'What a bad day', hidden: true,
+    },
+    {
+        description: 'old phrases list, same item in both lists',
         stored: { ...keywordsOn(['cats']), ...phrasesOn(['cats']) }, title: 'Funny cats', hidden: true,
     },
     {
-        description: 'both lists on, title matches nothing',
+        description: 'old phrases list, title matches nothing',
         stored: { ...keywordsOn(['cats']), ...phrasesOn(['bad day']) }, title: 'Great morning', hidden: false,
+    },
+    {
+        description: 'old phrases list was case-sensitive, now case-insensitive',
+        stored: phrasesOn(['Bad Day']), title: 'what a bad day', hidden: true,
     },
 
     // toggles
@@ -125,11 +130,11 @@ const SCENARIOS: Scenario[] = [
         stored: { [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false }, title: 'Funny cats', hidden: false,
     },
     {
-        description: 'phrases turned off',
+        description: 'old phrases list turned off',
         stored: { [PHRASES]: ['bad day'], [PHRASES_ON]: false }, title: 'What a bad day', hidden: false,
     },
     {
-        description: 'both lists turned off',
+        description: 'keywords and old phrases lists both turned off',
         stored: { [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false, [PHRASES]: ['bad day'], [PHRASES_ON]: false },
         title: 'Funny cats on a bad day', hidden: false,
     },
@@ -138,7 +143,7 @@ const SCENARIOS: Scenario[] = [
         stored: { [KEYWORDS]: ['cats'] }, title: 'Funny cats', hidden: false,
     },
     {
-        description: 'phrases list without a stored toggle (never turned on)',
+        description: 'old phrases list without a stored toggle (never turned on)',
         stored: { [PHRASES]: ['bad day'] }, title: 'What a bad day', hidden: false,
     },
     { description: 'nothing stored (new user)', stored: {}, title: 'Funny cats', hidden: false },

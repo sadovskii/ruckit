@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, KEYS, keywordsOn, phrasesOn } from '../../support/storage-data';
+import { channelsOn, KEYS, keywordsOn } from '../../support/storage-data';
 import { blackListCard, gotoSettings, manageDialog, openManageDialog } from '../../support/settings-page';
 
 /* ST-MR-*: "Manage restrictions" dialog. See e2e/docs/settings-page.md */
@@ -17,9 +17,9 @@ test.describe('settings: manage restrictions', () => {
     });
 
     test('ST-MR-02 search filters the list (case-insensitive)', async ({ page, extension, storage }) => {
-        await storage.reset({ ...phrasesOn(['How to cook', 'bad day', 'how TO fish']) });
+        await storage.reset({ ...keywordsOn(['How to cook', 'bad day', 'how TO fish', 'cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'phrases');
+        const dialog = await openManageDialog(page, 'keywords');
 
         await dialog.search.fill('how to');
 
@@ -27,7 +27,7 @@ test.describe('settings: manage restrictions', () => {
 
         await dialog.search.fill('');
 
-        await expect(dialog.itemNames).toHaveCount(3);
+        await expect(dialog.itemNames).toHaveCount(4);
     });
 
     test('ST-MR-03 nothing found: "Add new restriction" adds the search text', async ({ page, extension, storage }) => {
@@ -76,15 +76,15 @@ test.describe('settings: manage restrictions', () => {
         await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['apple', 'banana', 'cherry']);
     });
 
-    test('ST-MR-07 adds an item with the dialog form', async ({ page, extension, storage }) => {
-        await storage.reset({ ...phrasesOn([]) });
+    test('ST-MR-07 adds an item (a phrase) with the dialog form', async ({ page, extension, storage }) => {
+        await storage.reset({ ...keywordsOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'phrases');
+        const dialog = await openManageDialog(page, 'keywords');
 
         await dialog.newInput.fill('bad day');
         await dialog.newButton.click();
 
-        await expect.poll(() => stored(storage, KEYS.phrases)).toEqual(['bad day']);
+        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['cats', 'bad day']);
         await expect(dialog.item('bad day')).toBeVisible();
         await expect(dialog.newInput).toHaveValue('');
     });

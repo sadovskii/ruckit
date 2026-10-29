@@ -1,6 +1,6 @@
 # Extension settings: features and edge cases
 
-Ruckit's own UI, the **settings page** (`index.html` opened in a tab) and the **toolbar popup** (the same `index.html` in the browser's popup), and what should be tested. Sources: [ai/docs/PROJECT_GUIDE.md](../../ai/docs/PROJECT_GUIDE.md), [ai/docs/backlog.md](../../ai/docs/backlog.md) and the code in `src/app/`. Written for branch `feature/update-black-list-phrase-tests`, where channels, keywords and phrases are three separate lists.
+Ruckit's own UI, the **settings page** (`index.html` opened in a tab) and the **toolbar popup** (the same `index.html` in the browser's popup), and what should be tested. Sources: [ai/docs/PROJECT_GUIDE.md](../../ai/docs/PROJECT_GUIDE.md), [ai/docs/backlog.md](../../ai/docs/backlog.md) and the code in `src/app/`. Written for branch `feature/update-black-list-phrase`, where phrases were merged into the keywords list: the black list has two cards, Channels, and Keywords and phrases.
 
 **Coverage key**
 - `E2E:settings/…` is a test in [e2e/tests/settings](../tests/settings).
@@ -20,8 +20,8 @@ Ruckit's own UI, the **settings page** (`index.html` opened in a tab) and the **
 | Key | Content |
 |---|---|
 | `blch`, `blchito` | channels black list and its on/off flag |
-| `blk`, `blkito` | keywords black list and its on/off flag |
-| `blph`, `blphito` | phrases black list and its on/off flag |
+| `blk`, `blkito` | keywords and phrases black list (one list) and its on/off flag |
+| `blph`, `blphito` | **legacy** phrases list; moved into `blk` by the background script on startup and then removed |
 | `hide-list` | hide-list options |
 | `password` | password, stored as **plain text** |
 | `free-password-period` | how long one unlock lasts |
@@ -63,7 +63,7 @@ Testing hint: the e2e tests open `chrome-extension://<id>/index.html` in a tab, 
 
 ## 4. Black list settings
 
-Three cards: **Channels**, **Keywords**, **Phrases**. Each card has:
+Two cards: **Channels** and **Keywords and phrases** (one list for single words and phrases; the separate Phrases card was removed). Each card has:
 - an on/off toggle,
 - an input with an "Add new" button (not on Channels),
 - a "Manage restrictions" button,
@@ -71,10 +71,10 @@ Three cards: **Channels**, **Keywords**, **Phrases**. Each card has:
 
 | ID | Scenario | Expected | Covered by |
 |---|---|---|---|
-| ST-BL-01 | Cards show stored state | toggle = stored flag, count = number of stored items | E2E:settings/black-list |
+| ST-BL-01 | Cards show stored state | exactly two cards; toggle = stored flag, count = number of stored items | E2E:settings/black-list |
 | ST-BL-02 | Turn a list on | stored at once; YouTube starts filtering without reload | E2E:settings/black-list, mocked/settings-to-youtube |
 | ST-BL-03 | Turn a list off | stored; **all YouTube tabs reload** | E2E:settings/black-list, mocked/settings-to-youtube |
-| ST-BL-04 | Add a keyword / phrase via the card input | stored, count +1, input cleared; YouTube applies it live | E2E:settings/black-list |
+| ST-BL-04 | Add a keyword or a phrase via the keywords card input | stored in `blk`, count +1, input cleared; YouTube applies it live | E2E:settings/black-list |
 | ST-BL-05 | Channels card has no input | channels can only be added with the ✕ button on YouTube | E2E:settings/black-list |
 | ST-BL-06 | Input and Add are disabled while the list is off | can't add to a turned-off list | E2E:settings/black-list |
 | ST-BL-07 | Validation: empty input → Add | red input, nothing stored | E2E:settings/black-list |
@@ -82,13 +82,15 @@ Three cards: **Channels**, **Keywords**, **Phrases**. Each card has:
 | ST-BL-09 | Duplicate item | ignored (not stored twice) | E2E:settings/black-list, UNIT |
 | ST-BL-10 | Count updates live when a channel is hidden on YouTube | count on the open settings page changes without reload | E2E:settings/black-list |
 | ST-BL-11 | "Manage restrictions" disabled while the list is off | — | E2E:settings/black-list |
+| ST-BL-12 | User updates from a version with a separate Phrases list | after the restart, the old phrases are in the Keywords and phrases card (no duplicates) and the legacy keys are gone | E2E:settings/black-list, UNIT |
+| ST-BL-13 | Update when keywords were off and old phrases on | the merged list is on if the old phrases list had items; an empty old list doesn't turn it on; turned-off old phrases are kept in the list | E2E:settings/black-list, UNIT |
 
 **Edge cases**
 
 | ID | Edge case | Current behaviour / question | Covered by |
 |---|---|---|---|
 | ST-BL-E01 ⚠ | Input of only spaces (`"   "`) | passes "required", **is stored** and then matches almost every title | E2E:settings/black-list (fixme – needs a decision) |
-| ST-BL-E02 ⚠ | Leading/trailing spaces (`" cats "`) | stored as typed (not trimmed); for keywords, the item then never matches a single word | E2E:settings/black-list (fixme – needs a decision) |
+| ST-BL-E02 ⚠ | Leading/trailing spaces (`" cats "`) | stored as typed (not trimmed); the item then only matches titles that have those spaces around the word | E2E:settings/black-list (fixme – needs a decision) |
 | ST-BL-E03 | Same word with different case (`Cats`, `cats`) | stored as two items | — |
 | ST-BL-E04 | Exactly 30 characters / emoji / Cyrillic / RTL | accepted and shown correctly | E2E:settings/black-list |
 | ST-BL-E05 | Press Enter in the input | submits like "Add new"? (it's a `<form>`) | E2E:settings/black-list |
@@ -99,13 +101,13 @@ Three cards: **Channels**, **Keywords**, **Phrases**. Each card has:
 
 | ID | Scenario | Expected | Covered by |
 |---|---|---|---|
-| ST-MR-01 | Open "Manage restrictions" | dialog with the list sorted alphabetically (case-insensitive), the count, a search box, and for keywords/phrases a "New restriction" form | E2E:settings/manage-restrictions |
+| ST-MR-01 | Open "Manage restrictions" | dialog with the list sorted alphabetically (case-insensitive), the count, a search box, and for keywords and phrases a "New restriction" form | E2E:settings/manage-restrictions |
 | ST-MR-02 | Search | filters the list (case-insensitive substring) | E2E:settings/manage-restrictions |
-| ST-MR-03 | Search finds nothing | "The restriction is not found" + "Add new restriction" (keywords/phrases only) adds the search text | E2E:settings/manage-restrictions |
+| ST-MR-03 | Search finds nothing | "The restriction is not found" + "Add new restriction" (keywords and phrases only) adds the search text | E2E:settings/manage-restrictions |
 | ST-MR-04 | Empty list | "The restrictions list is empty"; search disabled | E2E:settings/manage-restrictions |
 | ST-MR-05 | Remove an item (×) | removed from storage; count updates; **YouTube tabs reload** | E2E:settings/manage-restrictions |
 | ST-MR-06 | Remove while a search filter is active | the right item is removed (index of the full list) | E2E:settings/manage-restrictions |
-| ST-MR-07 | Add from the dialog form | stored; list and count update | E2E:settings/manage-restrictions |
+| ST-MR-07 | Add from the dialog form (a word or a phrase) | stored in `blk`; list and count update | E2E:settings/manage-restrictions |
 | ST-MR-08 | Channels dialog | no add form; adding from search disabled | E2E:settings/manage-restrictions |
 | ST-MR-09 | Channel hidden on YouTube while the channels dialog is open | list updates live | E2E:settings/manage-restrictions |
 | ST-MR-10 | Close the dialog (✕ / backdrop) | closes; card shows the new count | E2E:settings/manage-restrictions |
@@ -117,7 +119,7 @@ Three cards: **Channels**, **Keywords**, **Phrases**. Each card has:
 | ST-MR-E01 | Long items (> 50 chars, channels up to 60) | shown cut to 50 + "…" | — |
 | ST-MR-E02 | Opening the dialog sorts the stored list | stored order becomes alphabetical after the next save | — |
 | ST-MR-E03 | Remove the last item while searching for it | search box is cleared | E2E:settings/manage-restrictions |
-| ST-MR-E04 | Keyword/phrase list changed elsewhere while its dialog is open | the list in the dialog is **not** refreshed (live update only for channels) | — |
+| ST-MR-E04 | Keywords and phrases list changed elsewhere while its dialog is open | the list in the dialog is **not** refreshed (live update only for channels) | — |
 | ST-MR-E05 | Hundreds of items | list scrolls; search stays fast | — |
 
 ## 6. Hide list settings
@@ -155,7 +157,7 @@ Groups and options: **General** (Hide Shorts), **Home Feed** (Suggested Videos G
 | ST-LK-02 | Same, then "Enter password" + correct password | the toggle turns off; editing unlocked for the chosen period | E2E:settings/password-lock |
 | ST-LK-03 | Password set → turn a toggle **on** | allowed without password | E2E:settings/password-lock |
 | ST-LK-04 | Password set → "Manage restrictions" | blocked until the password is entered | E2E:settings/password-lock |
-| ST-LK-05 | Password set → add a keyword/phrase | allowed (makes restrictions stronger) | E2E:settings/password-lock |
+| ST-LK-05 | Password set → add a keyword or phrase | allowed (makes restrictions stronger) | E2E:settings/password-lock |
 | ST-LK-06 | Unlock period ends (30 s / 1 min) | locked again; a lock icon shows on toggles | E2E:settings/password-lock |
 | ST-LK-07 | Locked icons | lock icon on locked toggles and buttons | E2E:settings/password-lock |
 

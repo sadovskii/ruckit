@@ -1,25 +1,24 @@
-import { test, expect } from '../../support/fixtures';
-import { channelsOn, KEYS, keywordsOn, phrasesOn } from '../../support/storage-data';
-import { addViaCard, blackListCard, expectInvalid, gotoSettings, openSection } from '../../support/settings-page';
+import { test, expect, restartExtension, type ExtensionHandle, type ExtensionStorage } from '../../support/fixtures';
+import { channelsOn, KEYS, keywordsOn, legacyPhrasesOn, type StoredData } from '../../support/storage-data';
+import { addViaCard, blackListCard, expectInvalid, gotoSettings, openSection, skipUntilMergedListIsPublished } from '../../support/settings-page';
 
-/* ST-BL-*: the three black-list cards (channels, keywords, phrases). See e2e/docs/settings-page.md */
+/* ST-BL-*: the black-list cards: Channels, and Keywords and phrases (one list since the merge). See e2e/docs/settings-page.md */
 test.describe('settings: black list', () => {
     const stored = async (storage: { get(): Promise<Record<string, unknown>> }, key: string) => (await storage.get())[key];
 
-    test('ST-BL-01 cards show the stored on/off state and counts', async ({ page, extension, storage }) => {
+    test('ST-BL-01 two cards show the stored on/off state and counts', async ({ page, extension, storage }) => {
+        await skipUntilMergedListIsPublished(page, extension);
         await storage.reset({
             ...channelsOn(['A', 'B']),
-            [KEYS.keywords]: ['one', 'two', 'three'], [KEYS.keywordsOn]: false,
-            ...phrasesOn(['some phrase']),
+            [KEYS.keywords]: ['one', 'two words', 'three'], [KEYS.keywordsOn]: false,
         });
         await gotoSettings(page, extension.origin, 'blacklist');
 
+        await expect(page.locator('app-black-list-simple-item')).toHaveCount(2);
         await expect(blackListCard(page, 'channels').toggle.input).toBeChecked();
         await expect(blackListCard(page, 'keywords').toggle.input).not.toBeChecked();
-        await expect(blackListCard(page, 'phrases').toggle.input).toBeChecked();
         await expect(blackListCard(page, 'channels').count).toContainText('2');
         await expect(blackListCard(page, 'keywords').count).toContainText('3');
-        await expect(blackListCard(page, 'phrases').count).toContainText('1');
     });
 
     test('ST-BL-02 turning a list on is stored', async ({ page, extension, storage }) => {
@@ -32,13 +31,13 @@ test.describe('settings: black list', () => {
     });
 
     test('ST-BL-03 turning a list off is stored', async ({ page, extension, storage }) => {
-        await storage.reset({ ...phrasesOn(['bad day']) });
+        await storage.reset({ ...keywordsOn(['bad day']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await blackListCard(page, 'phrases').toggle.switch.click();
+        await blackListCard(page, 'keywords').toggle.switch.click();
 
-        await expect.poll(() => stored(storage, KEYS.phrasesOn)).toBe(false);
-        await expect(blackListCard(page, 'phrases').toggle.input).not.toBeChecked();
+        await expect.poll(() => stored(storage, KEYS.keywordsOn)).toBe(false);
+        await expect(blackListCard(page, 'keywords').toggle.input).not.toBeChecked();
     });
 
     test('ST-BL-04 adds a keyword from the card', async ({ page, extension, storage }) => {
@@ -52,14 +51,73 @@ test.describe('settings: black list', () => {
         await expect(blackListCard(page, 'keywords').count).toContainText('1');
     });
 
-    test('ST-BL-04 adds a phrase from the card', async ({ page, extension, storage }) => {
-        await storage.reset({ ...phrasesOn(['first phrase']) });
+    test('ST-BL-04 adds a phrase to the same list', async ({ page, extension, storage }) => {
+        await storage.reset({ ...keywordsOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await addViaCard(page, 'phrases', 'How to cook');
+        await addViaCard(page, 'keywords', 'How to cook');
 
-        await expect.poll(() => stored(storage, KEYS.phrases)).toEqual(['first phrase', 'How to cook']);
-        await expect(blackListCard(page, 'phrases').count).toContainText('2');
+        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['cats', 'How to cook']);
+        await expect(blackListCard(page, 'keywords').count).toContainText('2');
+    });
+
+    test.describe('phrases saved before the merge', () => {
+        /** Saves the old separate lists and restarts the extension, as when a user updates from an older version. */
+        const updateFromOldVersion = async ({ extension, storage }: { extension: ExtensionHandle; storage: ExtensionStorage }, oldData: StoredData) => {
+            await storage.reset(oldData);
+            await restartExtension(extension);
+            await expect.poll(async () => KEYS.legacyPhrases in await storage.get(), { message: 'the old phrases list is migrated and removed' }).toBe(false);
+        };
+
+        test.beforeEach(async ({ page, extension }) => {
+            await skipUntilMergedListIsPublished(page, extension);
+        });
+
+        test('ST-BL-12 are moved into the keywords card', async ({ page, extension, storage }) => {
+            await updateFromOldVersion({ extension, storage }, { ...keywordsOn(['cats', 'bad day']), ...legacyPhrasesOn(['bad day', 'How to']) });
+
+            const stored = await storage.get();
+            expect(stored[KEYS.keywords]).toEqual(['cats', 'bad day', 'How to']);
+            expect(stored[KEYS.keywordsOn]).toBe(true);
+            expect(KEYS.legacyPhrasesOn in stored).toBe(false);
+
+            await gotoSettings(page, extension.origin, 'blacklist');
+            await expect(blackListCard(page, 'keywords').count).toContainText('3');
+            await expect(blackListCard(page, 'keywords').toggle.input).toBeChecked();
+        });
+
+        test('ST-BL-13 turned-on phrases turn the merged list on even if keywords were off', async ({ page, extension, storage }) => {
+            await updateFromOldVersion({ extension, storage }, {
+                [KEYS.keywords]: ['cats'], [KEYS.keywordsOn]: false,
+                ...legacyPhrasesOn(['bad day']),
+            });
+
+            expect((await storage.get())[KEYS.keywordsOn]).toBe(true);
+            await gotoSettings(page, extension.origin, 'blacklist');
+            await expect(blackListCard(page, 'keywords').toggle.input).toBeChecked();
+        });
+
+        test('ST-BL-13 an empty turned-on phrases list does not turn keywords on', async ({ extension, storage }) => {
+            await updateFromOldVersion({ extension, storage }, {
+                [KEYS.keywords]: ['cats'], [KEYS.keywordsOn]: false,
+                ...legacyPhrasesOn([]),
+            });
+
+            const stored = await storage.get();
+            expect(stored[KEYS.keywords]).toEqual(['cats']);
+            expect(stored[KEYS.keywordsOn]).toBe(false);
+        });
+
+        test('ST-BL-13 turned-off phrases are kept but do not turn keywords on', async ({ extension, storage }) => {
+            await updateFromOldVersion({ extension, storage }, {
+                [KEYS.keywords]: ['cats'], [KEYS.keywordsOn]: false,
+                [KEYS.legacyPhrases]: ['bad day'], [KEYS.legacyPhrasesOn]: false,
+            });
+
+            const stored = await storage.get();
+            expect(stored[KEYS.keywords]).toEqual(['cats', 'bad day']);
+            expect(stored[KEYS.keywordsOn]).toBe(false);
+        });
     });
 
     test('ST-BL-05 the channels card has no input (channels are added on YouTube)', async ({ page, extension, storage }) => {
@@ -130,10 +188,10 @@ test.describe('settings: black list', () => {
     });
 
     test('ST-BL-11 "Manage restrictions" is disabled while the list is off', async ({ page, extension, storage }) => {
-        await storage.reset({ [KEYS.phrases]: ['x'], [KEYS.phrasesOn]: false });
+        await storage.reset({ [KEYS.keywords]: ['x', 'some phrase'], [KEYS.keywordsOn]: false });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await expect(blackListCard(page, 'phrases').manageButton).toBeDisabled();
+        await expect(blackListCard(page, 'keywords').manageButton).toBeDisabled();
     });
 
     test('ST-BL-E05 pressing Enter in the input adds the item', async ({ page, extension, storage }) => {
@@ -175,9 +233,10 @@ test.describe('settings: black list', () => {
     });
 
     test('opens the black list from the sidebar', async ({ page, extension }) => {
+        await skipUntilMergedListIsPublished(page, extension);
         await gotoSettings(page, extension.origin);
         await openSection(page, 'blacklist');
 
-        await expect(page.locator('app-black-list-simple-item')).toHaveCount(3);
+        await expect(page.locator('app-black-list-simple-item')).toHaveCount(2);
     });
 });

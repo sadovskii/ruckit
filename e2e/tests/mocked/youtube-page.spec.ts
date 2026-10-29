@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, hideList, KEYS, keywordsOn, phrasesOn } from '../../support/storage-data';
+import { channelsOn, hideList, KEYS, keywordsOn } from '../../support/storage-data';
 import { channelPage, homeFeedPage, searchResultsPage, shortsPage, watchPage, youtubeUrl } from '../../support/youtube-mock';
 import { blackListButtons, video, waitForContentScript } from '../../support/page-helpers';
 
@@ -158,21 +158,26 @@ test.describe('youtube page: keywords and phrases', () => {
         await expect(video(page, 'Good news')).toBeVisible();
     });
 
-    // ⚠ need a decision (see e2e/docs/youtube-page.md); they describe the probably intended behaviour
-    test.fixme('YT-KW-E05 a phrase matches regardless of letter case', async ({ page, storage, youtube }) => {
-        await storage.reset({ ...channelsOn(), ...phrasesOn(['How to cook']) });
+    test('YT-KW-E05 a phrase matches regardless of letter case', async ({ page, storage, youtube }) => {
+        await storage.reset({ ...channelsOn(), ...keywordsOn(['How to cook']) });
         await page.goto(youtube.serve(youtubeUrl.search('case'), searchResultsPage([{ title: 'how to cook pasta' }, { title: 'Other' }])));
 
         await expect(video(page, 'how to cook pasta')).toHaveCount(0);
+        await expect(video(page, 'Other')).toBeVisible();
     });
 
-    test.fixme('YT-KW-E07 a keyword with a space matches like a phrase', async ({ page, storage, youtube }) => {
+    test('YT-KW-E07 an item with a space matches the whole phrase, not its separate words', async ({ page, storage, youtube }) => {
         await storage.reset({ ...channelsOn(), ...keywordsOn(['cat video']) });
-        await page.goto(youtube.serve(youtubeUrl.search('space'), searchResultsPage([{ title: 'Best cat video ever' }, { title: 'Other' }])));
+        await page.goto(youtube.serve(youtubeUrl.search('space'), searchResultsPage([
+            { title: 'Best cat video ever' },
+            { title: 'A video about my cat' },
+        ])));
 
         await expect(video(page, 'Best cat video ever')).toHaveCount(0);
+        await expect(video(page, 'A video about my cat')).toBeVisible();
     });
 
+    // ⚠ need a decision (see e2e/docs/youtube-page.md); they describe the probably intended behaviour
     test.fixme('YT-KW-E01 keywords hide home feed videos even while the channels list is off', async ({ page, storage, youtube }) => {
         await storage.reset({ [KEYS.channelsOn]: false, ...keywordsOn(['cats']) });
         await page.goto(youtube.serve(youtubeUrl.home(), homeFeedPage([{ title: 'Funny cats' }, { title: 'Other' }])));

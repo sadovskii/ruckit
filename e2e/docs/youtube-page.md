@@ -1,6 +1,6 @@
 # YouTube page: features and edge cases
 
-What Ruckit does on `www.youtube.com`, and what should be tested. Sources: [ai/docs/PROJECT_GUIDE.md](../../ai/docs/PROJECT_GUIDE.md), [ai/docs/backlog.md](../../ai/docs/backlog.md) and the code in `src/extension/`, `styles/`, `src/app/settings/layout-content/hide-list/`. Written for branch `feature/update-black-list-phrase-tests`, where channels, keywords and phrases are three separate lists.
+What Ruckit does on `www.youtube.com`, and what should be tested. Sources: [ai/docs/PROJECT_GUIDE.md](../../ai/docs/PROJECT_GUIDE.md), [ai/docs/backlog.md](../../ai/docs/backlog.md) and the code in `src/extension/`, `styles/`, `src/app/settings/layout-content/hide-list/`. Written for branch `feature/update-black-list-phrase`, where phrases were merged into the keywords list: the black list has two lists, channels, and keywords and phrases.
 
 **Coverage key**
 - `E2E:youtube/…` is a real-YouTube test in [e2e/tests/youtube](../tests/youtube).
@@ -25,8 +25,8 @@ What Ruckit does on `www.youtube.com`, and what should be tested. Sources: [ai/d
 | Key | Content |
 |---|---|
 | `blch` / `blchito` | blocked channels / channels list on |
-| `blk` / `blkito` | keywords / keywords list on |
-| `blph` / `blphito` | phrases / phrases list on |
+| `blk` / `blkito` | keywords and phrases (one list) / list on |
+| `blph` / `blphito` | **legacy** phrases list / its on/off flag. Moved into `blk` by the background script on startup, then removed; until then content scripts merge it in memory |
 | `hide-list` | hide-list options |
 
 Content scripts follow storage changes live (`chrome.storage.onChanged`).
@@ -87,30 +87,42 @@ Content scripts follow storage changes live (`chrome.storage.onChanged`).
 | YT-KW-03 | Keyword in an **"up next"** title | item removed | E2E:youtube/black-list ⚠ fails today (YT-BUG-01), mocked, UNIT |
 | YT-KW-04 | Keyword in the **opened video** title | redirect to `/-rp` | E2E:youtube/black-list, mocked, UNIT |
 | YT-KW-05 | Keyword in a **channel name** (channel page) | redirect to `/-rp` | UNIT, mocked/youtube-page |
-| YT-KW-06 | Phrase in a title (search / feed / up next / opened video / channel name) | same as keywords | E2E:youtube/black-list (search), mocked, UNIT |
-| YT-KW-07 | Keywords or phrases list turned off | nothing hidden by that list | mocked, UNIT |
-| YT-KW-08 | Keyword added or list turned on while the page is open | applied without reload | mocked, UNIT |
+| YT-KW-06 | Phrase (item with spaces) in a title (search / feed / up next / opened video / channel name) | same as keywords | E2E:youtube/black-list (search), mocked, UNIT |
+| YT-KW-07 | Keywords and phrases list turned off | nothing hidden by that list | mocked, UNIT |
+| YT-KW-08 | Keyword or phrase added, or list turned on, while the page is open | applied without reload | mocked, UNIT |
 | YT-KW-09 | Keyword removed or list turned off in settings | all YouTube tabs are **reloaded** (`blackListBecomeWeaker`), so hidden videos come back | mocked/settings-to-youtube |
+| YT-KW-10 | Words and phrases in the same list | each item hides the titles that contain it | mocked, UNIT |
 
 **Matching rules (today)**
-- **Keyword:** title lowercased and split by spaces, then `word.includes(keyword)`. Case-insensitive.
-- **Phrase:** `title.includes(phrase)`. Case-sensitive.
+- One list, one rule for words and phrases (`matchesBlackListKeyword`): the title contains the item, ignoring case. Substring match, so `hate` matches `whatever` and `cat video` matches `Best cat video ever` but not `A video about my cat`.
+
+**Phrases saved before the merge (migration)**
+
+| ID | Scenario | Expected | Covered by |
+|---|---|---|---|
+| YT-MG-01 | User updates with items in the old phrases list (`blph`) | on the next start the background moves them into `blk` (no duplicates) and removes `blph`/`blphito` | E2E:settings/black-list (ST-BL-12), UNIT |
+| YT-MG-02 | Old phrases on YouTube before the migration has run | still hidden (content scripts merge `blph` in memory) | mocked/black-list-keywords-phrases, UNIT |
+| YT-MG-03 | Old phrases on YouTube after the migration | still hidden | mocked/black-list-keywords-phrases |
+| YT-MG-04 | Keywords list was off, old phrases list on with items | merged list is **on**, so nothing that was hidden before becomes visible | E2E:settings/black-list (ST-BL-13), mocked, UNIT |
+| YT-MG-05 | Old phrases list on but empty, or off | doesn't change the keywords on/off state; turned-off phrases are still moved into the list | E2E:settings/black-list (ST-BL-13), UNIT |
+| YT-MG-06 | Migration runs again (every start) | no-op once the legacy keys are gone | UNIT |
+| YT-MG-E01 | A change written to the old `blph` key while YouTube is open (e.g. by an old version on another synced device) | ignored by open tabs; moved into `blk` on the next start | UNIT |
 
 **Edge cases**
 
 | ID | Edge case | Current behaviour / question | Covered by |
 |---|---|---|---|
 | YT-KW-E01 ⚠ | Home feed while the **channels list is off** | keywords and phrases are **not applied** on the home feed (`FeedPage` returns early) | UNIT (pins it), mocked/youtube-page (fixme – needs a decision) |
-| YT-KW-E02 ⚠ | Channel page with keywords/phrases **turned off** | still redirects when the channel name matches (toggles ignored); and nothing redirects at all while the channels list is off | UNIT (pins it) |
+| YT-KW-E02 ⚠ | Channel page with the keywords list **turned off** | still redirects when the channel name matches (toggle ignored); and nothing redirects at all while the channels list is off | UNIT (pins it) |
 | YT-KW-E03 | Keyword is part of a longer word (`hate` in `whatever`) | matched (substring). False positives | UNIT, mocked/youtube-page |
 | YT-KW-E04 | Keyword with different case (`CATS` vs `cats`) / Cyrillic case | matched | UNIT |
-| YT-KW-E05 ⚠ | Phrase with different case (`How to` vs `how to`) | **not matched** (case-sensitive) | mocked/youtube-page (fixme – needs a decision) |
+| YT-KW-E05 | Phrase with different case (`How to` vs `how to`) | matched (case-insensitive since the merge) | mocked/youtube-page, mocked, E2E:youtube/black-list, UNIT |
 | YT-KW-E06 | Phrase spanning word parts (`king new` in `breaking news`) | matched | UNIT |
-| YT-KW-E07 | Keyword containing a space (`cat video`) | never matches as a keyword (title is split by spaces); it only works as a phrase | mocked/youtube-page (fixme – needs a decision) |
+| YT-KW-E07 | Item containing a space (`cat video`) | matches the whole phrase, not its separate words | mocked/youtube-page, UNIT |
 | YT-KW-E08 | Punctuation and emoji next to the word (`cats!`, `cats😂`) | matched (substring of the word) | UNIT (punctuation) |
-| YT-KW-E09 | Non-breaking spaces or multiple spaces in titles | words aren't split on NBSP, but substring still matches | — |
+| YT-KW-E09 | Non-breaking spaces or multiple spaces in titles | a phrase typed with a normal space doesn't match a title with NBSP or double spaces | — |
 | YT-KW-E10 | Very short keyword (`a`) | hides almost everything; no minimum length | — |
-| YT-KW-E11 | Same item in keywords and phrases | hidden once, no errors | UNIT |
+| YT-KW-E11 | Same item saved twice (e.g. in keywords and in the old phrases list) | stored once after the migration, hidden once, no errors | UNIT |
 | YT-KW-E12 | Title truncated by YouTube with "…" in the UI | the extension reads `textContent`, so the full title is used | — |
 | YT-KW-E13 | Titles in other languages or auto-translated titles | matching uses the shown text, which depends on the account language | — |
 | YT-KW-E14 ⚠ | Several keys changed in one `storage.set` | the content script applies only the **first** changed key (handler returns early) | — |
@@ -188,4 +200,4 @@ Still open:
 3. YT-RP-E01 back button from the restricted page, and YT-RP-E02 blocked video from an external link.
 4. YT-PT-10 SPA navigation: click a search result whose title matches a keyword.
 5. YT-CH-E05 more than 16 new items per second, YT-CH-E06 sync quota, YT-KW-E14 several keys changed at once.
-6. Decisions behind the `fixme` tests: YT-KW-E01, YT-KW-E05, YT-KW-E07, YT-PT-07. Then remove `.fixme`.
+6. Decisions behind the `fixme` tests: YT-KW-E01, YT-PT-07. Then remove `.fixme`. (YT-KW-E05 and YT-KW-E07 were decided by the merge and are real tests now.)

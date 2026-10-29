@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { hideList, KEYS, keywordsOn, phrasesOn } from '../../support/storage-data';
+import { channelsOn, hideList, KEYS, keywordsOn } from '../../support/storage-data';
 import {
     addViaCard, blackListCard, enterPassword, gotoSettings, hideListOption, manageDialog, snackBar,
 } from '../../support/settings-page';
@@ -68,11 +68,11 @@ test.describe('settings: password lock', () => {
     });
 
     test('ST-LK-03 turning a toggle on needs no password', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, [KEYS.phrases]: [], [KEYS.phrasesOn]: false, ...hideList({}) });
+        await storage.reset({ ...locked, [KEYS.channels]: [], [KEYS.channelsOn]: false, ...hideList({}) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await blackListCard(page, 'phrases').toggle.switch.click();
-        await expect.poll(() => stored(storage, KEYS.phrasesOn)).toBe(true);
+        await blackListCard(page, 'channels').toggle.switch.click();
+        await expect.poll(() => stored(storage, KEYS.channelsOn)).toBe(true);
 
         await gotoSettings(page, extension.origin, 'hidelist');
         await hideListOption(page, 5).switch.click();
@@ -95,13 +95,13 @@ test.describe('settings: password lock', () => {
         await expect(manageDialog(page).root).toBeVisible();
     });
 
-    test('ST-LK-05 adding a keyword needs no password', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...phrasesOn([]) });
+    test('ST-LK-05 adding a keyword or phrase needs no password', async ({ page, extension, storage }) => {
+        await storage.reset({ ...locked, ...keywordsOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await addViaCard(page, 'phrases', 'bad day');
+        await addViaCard(page, 'keywords', 'bad day');
 
-        await expect.poll(() => stored(storage, KEYS.phrases)).toEqual(['bad day']);
+        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['cats', 'bad day']);
         await expect(snackBar(page).root).toHaveCount(0);
     });
 
@@ -117,7 +117,7 @@ test.describe('settings: password lock', () => {
 
     test('ST-LK-06 the unlock ends after the chosen period', async ({ page, extension, storage }) => {
         test.slow();
-        await storage.reset({ ...locked, ...keywordsOn(['cats']), ...phrasesOn(['bad day']) });
+        await storage.reset({ ...locked, ...keywordsOn(['cats']), ...channelsOn(['Cat Channel']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
         await blackListCard(page, 'keywords').toggle.switch.click();
@@ -126,15 +126,15 @@ test.describe('settings: password lock', () => {
         await expect.poll(() => stored(storage, KEYS.keywordsOn)).toBe(false);
 
         // period is 30 seconds
-        await expect(blackListCard(page, 'phrases').toggle.lockIcon).toBeVisible({ timeout: 40_000 });
+        await expect(blackListCard(page, 'channels').toggle.lockIcon).toBeVisible({ timeout: 40_000 });
 
-        await blackListCard(page, 'phrases').toggle.switch.click();
-        await expect(blackListCard(page, 'phrases').toggle.input).toBeChecked();
-        expect(await stored(storage, KEYS.phrasesOn)).toBe(true);
+        await blackListCard(page, 'channels').toggle.switch.click();
+        await expect(blackListCard(page, 'channels').toggle.input).toBeChecked();
+        expect(await stored(storage, KEYS.channelsOn)).toBe(true);
     });
 
     test('ST-PW-E02 the unlock is not shared with another settings tab', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...keywordsOn(['cats']), ...phrasesOn(['bad day']) });
+        await storage.reset({ ...locked, ...keywordsOn(['cats']), ...channelsOn(['Cat Channel']) });
         await gotoSettings(page, extension.origin, 'blacklist');
         await blackListCard(page, 'keywords').toggle.switch.click();
         await snackBar(page).actionButton.click();
@@ -144,6 +144,6 @@ test.describe('settings: password lock', () => {
         const other = await extension.context.newPage();
         await gotoSettings(other, extension.origin, 'blacklist');
 
-        await expect(blackListCard(other, 'phrases').toggle.lockIcon).toBeVisible();
+        await expect(blackListCard(other, 'channels').toggle.lockIcon).toBeVisible();
     });
 });

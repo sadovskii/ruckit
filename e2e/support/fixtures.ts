@@ -64,6 +64,30 @@ async function withQuotaRetry<T>(write: () => Promise<T>): Promise<T> {
     }
 }
 
+/**
+ * Restarts the extension like a browser restart or an update does, so its startup code runs again
+ * (e.g. the migration of the old phrases list into keywords). The browser closes the extension's own tabs.
+ */
+export async function restartExtension(extension: ExtensionHandle): Promise<void> {
+    const previous = extension.worker;
+    const config = TARGETS[extension.target];
+
+    if (config.extensionDir) {
+        // an unpacked build loaded over DevTools doesn't come back after chrome.runtime.reload(); loading it again reloads it
+        await loadUnpacked(extension.context.browser()!, config);
+    }
+    else {
+        // reload is delayed so the evaluate call can return before the worker goes away
+        await previous.evaluate(() => { setTimeout(() => chrome.runtime.reload(), 100); });
+    }
+    await expect.poll(() => isAlive(previous), { timeout: 15_000 }).toBe(false);
+
+    const worker = await waitForServiceWorker(extension.context, extension.id);
+    if (!worker) throw new Error('The extension service worker did not start again after the restart.');
+
+    extension.worker = worker;
+}
+
 interface WorkerFixtures {
     target: TargetName;
     extension: ExtensionHandle;

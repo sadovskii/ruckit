@@ -58,14 +58,14 @@ export function toggle(scope: Locator) {
 
 // ---------- black list ----------
 
-export type ListName = 'channels' | 'keywords';
+export type ListName = 'channels' | 'keywordsAndPhrases';
 /** Cards on the black-list page: Channels, then Keywords and phrases (one list since the merge). */
-const LIST_INDEX: Record<ListName, number> = { channels: 0, keywords: 1 };
+const LIST_INDEX: Record<ListName, number> = { channels: 0, keywordsAndPhrases: 1 };
 
 let storeVersionHasMergedList: boolean | undefined;
 
 /**
- * Skips the test on the store versions (prod-*) until a version with phrases merged into keywords is published:
+ * Skips the test on the store versions (prod-*) until a version with phrases merged into the keywords and phrases list is published:
  * the older store versions still have a separate Phrases list. Local builds and mocked always run the test.
  */
 export async function skipUntilMergedListIsPublished(page: Page, extension: ExtensionHandle): Promise<void> {

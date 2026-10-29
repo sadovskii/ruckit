@@ -78,10 +78,10 @@ export class SearchPage {
                 }
             }
             
-            if (this.blackListStorage.keywordsIsTurnedOn) {
+            if (this.blackListStorage.keywordsAndPhrasesIsTurnedOn) {
                 const videoName = htmlElement?.querySelector('#video-title')?.textContent?.trim();
 
-                if (this.blackListStorage.matchesKeyword(videoName)) {
+                if (this.blackListStorage.matchesKeywordOrPhrase(videoName)) {
                     htmlElement.remove();
                     return;
                 }

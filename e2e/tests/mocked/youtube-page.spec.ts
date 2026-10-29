@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, hideList, KEYS, keywordsOn } from '../../support/storage-data';
+import { channelsOn, hideList, KEYS, keywordsAndPhrasesOn } from '../../support/storage-data';
 import { channelPage, homeFeedPage, searchResultsPage, shortsPage, watchPage, youtubeUrl } from '../../support/youtube-mock';
 import { blackListButtons, video, waitForContentScript } from '../../support/page-helpers';
 
@@ -88,7 +88,7 @@ test.describe('youtube page: channels', () => {
     });
 
     test('YT-CH-13 turning the channels list on while a page is open adds the buttons', async ({ page, storage, youtube }) => {
-        await storage.reset({ [KEYS.channels]: [], [KEYS.channelsOn]: false, ...keywordsOn(['e2e-marker']) });
+        await storage.reset({ [KEYS.channels]: [], [KEYS.channelsOn]: false, ...keywordsAndPhrasesOn(['e2e-marker']) });
         await page.goto(youtube.serve(youtubeUrl.search('pets'), searchResultsPage([{ title: 'e2e-marker' }, { title: 'Funny cats' }])));
         await expect(video(page, 'e2e-marker')).toHaveCount(0);
         await expect(blackListButtons(page)).toHaveCount(0);
@@ -143,7 +143,7 @@ test.describe('youtube page: channels', () => {
 test.describe('youtube page: keywords and phrases', () => {
     test('YT-KW-05 a keyword in a channel name replaces the channel page', async ({ page, storage, youtube }) => {
         // the channel page is only checked while the channels list is on (YT-KW-E02)
-        await storage.reset({ ...channelsOn(), ...keywordsOn(['cats']) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['cats']) });
 
         await page.goto(youtube.serve(youtubeUrl.channel('catstv'), channelPage('Funny Cats TV')));
 
@@ -151,7 +151,7 @@ test.describe('youtube page: keywords and phrases', () => {
     });
 
     test('YT-KW-E03 a keyword also matches inside longer words', async ({ page, storage, youtube }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn(['hate']) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['hate']) });
         await page.goto(youtube.serve(youtubeUrl.search('words'), searchResultsPage([{ title: 'Whatever happens' }, { title: 'Good news' }])));
 
         await expect(video(page, 'Whatever happens')).toHaveCount(0);
@@ -159,7 +159,7 @@ test.describe('youtube page: keywords and phrases', () => {
     });
 
     test('YT-KW-E05 a phrase matches regardless of letter case', async ({ page, storage, youtube }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn(['How to cook']) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['How to cook']) });
         await page.goto(youtube.serve(youtubeUrl.search('case'), searchResultsPage([{ title: 'how to cook pasta' }, { title: 'Other' }])));
 
         await expect(video(page, 'how to cook pasta')).toHaveCount(0);
@@ -167,7 +167,7 @@ test.describe('youtube page: keywords and phrases', () => {
     });
 
     test('YT-KW-E07 an item with a space matches the whole phrase, not its separate words', async ({ page, storage, youtube }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn(['cat video']) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['cat video']) });
         await page.goto(youtube.serve(youtubeUrl.search('space'), searchResultsPage([
             { title: 'Best cat video ever' },
             { title: 'A video about my cat' },
@@ -179,14 +179,14 @@ test.describe('youtube page: keywords and phrases', () => {
 
     // ⚠ need a decision (see e2e/docs/youtube-page.md); they describe the probably intended behaviour
     test.fixme('YT-KW-E01 keywords hide home feed videos even while the channels list is off', async ({ page, storage, youtube }) => {
-        await storage.reset({ [KEYS.channelsOn]: false, ...keywordsOn(['cats']) });
+        await storage.reset({ [KEYS.channelsOn]: false, ...keywordsAndPhrasesOn(['cats']) });
         await page.goto(youtube.serve(youtubeUrl.home(), homeFeedPage([{ title: 'Funny cats' }, { title: 'Other' }])));
 
         await expect(video(page, 'Funny cats')).toHaveCount(0);
     });
 
     test.fixme('YT-PT-07 a premiere matching a keyword is replaced like a normal video', async ({ page, storage, youtube }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn(['cats']) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['cats']) });
         await page.goto(youtube.serve(youtubeUrl.premiere(), watchPage({ title: 'Cats premiere' })));
 
         await expect(page).toHaveURL(youtubeUrl.restricted());

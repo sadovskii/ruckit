@@ -1,9 +1,9 @@
-import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON } from "src/app/shared/constants";
+import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
 
 export enum BlackListRestrictionType {
     Channels = 'channel',
-    // Words and phrases (the former separate phrases list was merged into this one)
-    Keywords = 'keyword'
+    // the stored value stays 'keyword' (it existed before phrases were merged into this list)
+    KeywordsAndPhrases = 'keyword'
 }
 
 export type BlackListDictionary<T> = {
@@ -12,12 +12,12 @@ export type BlackListDictionary<T> = {
 
 export const blackListRestrictionTypeToStoreMap: Record<BlackListRestrictionType, string> = {
   [BlackListRestrictionType.Channels]: STORAGE_BLACKLIST_CHANNELS,
-  [BlackListRestrictionType.Keywords]: STORAGE_BLACKLIST_KEYWORDS,
+  [BlackListRestrictionType.KeywordsAndPhrases]: STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES,
 };
 
 export const blackListRestrictionTypeToStoreTurnOnMap: Record<BlackListRestrictionType, string> = {
   [BlackListRestrictionType.Channels]: STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON,
-  [BlackListRestrictionType.Keywords]: STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON,
+  [BlackListRestrictionType.KeywordsAndPhrases]: STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON,
 };
 
 export const MAX_LENGTH_RESTRICTION = 30;
@@ -41,13 +41,13 @@ export const blackListRestrictionTypeToMessageKeys: Record<BlackListRestrictionT
     manageTitle: 'blacklist_channels_manage_title',
     newRestriction: 'blacklist_channels_new_restriction',
   },
-  [BlackListRestrictionType.Keywords]: {
-    title: 'blacklist_keywords_title',
-    description: 'blacklist_keywords_description',
-    placeholder: 'blacklist_keywords_placeholder',
-    hiddenCount: 'blacklist_keywords_hidden_count',
-    manageTitle: 'blacklist_keywords_manage_title',
-    newRestriction: 'blacklist_keywords_new_restriction',
+  [BlackListRestrictionType.KeywordsAndPhrases]: {
+    title: 'blacklist_keywords_and_phrases_title',
+    description: 'blacklist_keywords_and_phrases_description',
+    placeholder: 'blacklist_keywords_and_phrases_placeholder',
+    hiddenCount: 'blacklist_keywords_and_phrases_hidden_count',
+    manageTitle: 'blacklist_keywords_and_phrases_manage_title',
+    newRestriction: 'blacklist_keywords_and_phrases_new_restriction',
   },
 };
 

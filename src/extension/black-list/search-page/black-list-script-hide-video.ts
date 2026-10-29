@@ -1,5 +1,5 @@
 import { BlackListData } from "../black-list-models";
-import { matchesBlackListKeyword } from "../common/keyword-matching";
+import { matchesKeywordOrPhrase } from "../common/keywords-and-phrases-matching";
 
 const VIDEO_RENDER_LOCAL_NAME = 'ytd-video-renderer';
 
@@ -7,7 +7,7 @@ const VIDEO_RENDER_LOCAL_NAME = 'ytd-video-renderer';
 export function hideVideos(htmlElement: HTMLElement, data: BlackListData) {
     if (htmlElement.localName === VIDEO_RENDER_LOCAL_NAME) {
         hideElementsFromBlackListByChannelName(htmlElement, data.blackListChannels);
-        hideElementsFromBlackListByName(htmlElement, data.blackListWords);
+        hideElementsFromBlackListByName(htmlElement, data.blackListKeywordsAndPhrases);
     }
 }
 
@@ -25,11 +25,11 @@ function hideElementsFromBlackListByChannelName(ytdVideoRenderer: HTMLElement, b
     }
 }
 
-function hideElementsFromBlackListByName(ytdVideoRenderer: HTMLElement, blackListWords: string[]) {
+function hideElementsFromBlackListByName(ytdVideoRenderer: HTMLElement, blackListKeywordsAndPhrases: string[]) {
     var element = ytdVideoRenderer?.querySelector('#video-title') as HTMLElement;
     var name = element?.getAttribute("title");
 
-    if (matchesBlackListKeyword(name, blackListWords)) {
+    if (matchesKeywordOrPhrase(name, blackListKeywordsAndPhrases)) {
         ytdVideoRenderer.remove();
     }
 }

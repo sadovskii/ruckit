@@ -56,10 +56,10 @@ export class VideoPage {
                 }
             }
             
-            if (this.blackListStorage.keywordsIsTurnedOn) {
+            if (this.blackListStorage.keywordsAndPhrasesIsTurnedOn) {
                 const videoTitle = contentItem.querySelector('.yt-lockup-metadata-view-model__title')?.textContent?.trim();
 
-                if (this.blackListStorage.matchesKeyword(videoTitle)) {
+                if (this.blackListStorage.matchesKeywordOrPhrase(videoTitle)) {
                     contentItem.remove();
                     return;
                 }

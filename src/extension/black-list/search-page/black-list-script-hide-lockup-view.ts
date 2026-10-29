@@ -1,5 +1,5 @@
 import { BlackListData } from "../black-list-models";
-import { matchesBlackListKeyword } from "../common/keyword-matching";
+import { matchesKeywordOrPhrase } from "../common/keywords-and-phrases-matching";
 
 const LOCKUP_VIEW_LOCAL_NAME = 'yt-lockup-view-model';
 
@@ -7,7 +7,7 @@ const LOCKUP_VIEW_LOCAL_NAME = 'yt-lockup-view-model';
 export function hideLocupView(htmlElement: HTMLElement, data: BlackListData) {
     if (htmlElement.localName === LOCKUP_VIEW_LOCAL_NAME) {
         hideElementsFromBlackListByChannelName(htmlElement, data.blackListChannels);
-        hideElementsFromBlackListByName(htmlElement, data.blackListWords);
+        hideElementsFromBlackListByName(htmlElement, data.blackListKeywordsAndPhrases);
     }
 }
 
@@ -24,11 +24,11 @@ function hideElementsFromBlackListByChannelName(ytdVideoRenderer: HTMLElement, b
     }
 }
 
-function hideElementsFromBlackListByName(ytdVideoRenderer: HTMLElement, blackListWords: string[]) {
+function hideElementsFromBlackListByName(ytdVideoRenderer: HTMLElement, blackListKeywordsAndPhrases: string[]) {
     var element = ytdVideoRenderer?.querySelector('yt-lockup-metadata-view-model .yt-lockup-metadata-view-model-wiz__title span') as HTMLElement;
     var name = element?.textContent;
 
-    if (matchesBlackListKeyword(name, blackListWords)) {
+    if (matchesKeywordOrPhrase(name, blackListKeywordsAndPhrases)) {
         ytdVideoRenderer.remove();
     }
 }

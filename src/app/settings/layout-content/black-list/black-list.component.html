@@ -12,13 +12,13 @@
 	</app-black-list-simple-item>
 	<app-black-list-simple-item
 		class="black-list__item"
-		[hidenCountItems]="blackListData[BlackListRestrictionType.Keywords].length"
-		[checked]="blackListTurningOn[BlackListRestrictionType.Keywords]"
+		[hidenCountItems]="blackListData[BlackListRestrictionType.KeywordsAndPhrases].length"
+		[checked]="blackListTurningOn[BlackListRestrictionType.KeywordsAndPhrases]"
 		[isRestricted]="isRestricted"
-		[type]="BlackListRestrictionType.Keywords"
+		[type]="BlackListRestrictionType.KeywordsAndPhrases"
 		[viewVersion]="viewVersion"
-		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Keywords)"
-		(addItem)="onAddItem($event, BlackListRestrictionType.Keywords)"
-		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Keywords)">
+		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.KeywordsAndPhrases)"
+		(addItem)="onAddItem($event, BlackListRestrictionType.KeywordsAndPhrases)"
+		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.KeywordsAndPhrases)">
 	</app-black-list-simple-item>
 </app-layout>

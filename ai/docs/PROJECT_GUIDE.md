@@ -41,7 +41,7 @@ Keys in [src/app/shared/constants.ts](../../src/app/shared/constants.ts):
 |---|---|---|
 | `blch` | STORAGE_BLACKLIST_CHANNELS | `string[]` channel names (≤60 chars, exact match) |
 | `blchito` | ..._CHANNELS_IS_TURNED_ON | boolean |
-| `blk` | STORAGE_BLACKLIST_KEYWORDS | `string[]` words **and phrases** (merged list) |
+| `blk` | STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES | `string[]` words **and phrases** (merged list) |
 | `blkito` | ..._KEYWORDS_IS_TURNED_ON | boolean |
 | `blph` | LEGACY_STORAGE_BLACKLIST_PHRASES | legacy `string[]`, migrated into `blk` and removed |
 | `blphito` | LEGACY_..._PHRASES_IS_TURNED_ON | legacy boolean, migrated into `blkito` and removed |
@@ -53,7 +53,7 @@ Keys in [src/app/shared/constants.ts](../../src/app/shared/constants.ts):
 Short keys exist to save sync quota (`background.ts` logs quota usage on start).
 Mapping enum→key: `blackListRestrictionTypeToStoreMap` / `...TurnOnMap` in [black-list.models.ts](../../src/app/settings/layout-content/black-list/black-list.models.ts). `BlackListRestrictionType` = `'channel'|'keyword'`. `MAX_LENGTH_RESTRICTION = 30` (UI input limit).
 
-Phrases used to be a separate list; they were merged into keywords. `migrateLegacyPhrasesToKeywords()` (in `black-list-storage.ts`, called on every background start, idempotent) moves `blph` into `blk` (deduplicated), sets `blkito = blkito || (blphito && blph not empty)`, then removes the legacy keys. `BlackListStorage.init()` also merges them in memory in case it runs before the migration.
+Phrases used to be a separate list; they were merged into keywords. `migrateLegacyPhrasesIntoKeywordsAndPhrases()` (in `black-list-storage.ts`, called on every background start, idempotent) moves `blph` into `blk` (deduplicated), sets `blkito = blkito || (blphito && blph not empty)`, then removes the legacy keys. `BlackListStorage.init()` also merges them in memory in case it runs before the migration.
 
 Communication UI ↔ content scripts is **only through storage** (`chrome.storage.onChanged`) plus 2 runtime messages (below).
 
@@ -86,13 +86,13 @@ Communication UI ↔ content scripts is **only through storage** (`chrome.storag
 `YouTubePageType` enum + `detectYouTubePageType(href)` (pure function, path/query based). Good unit-test target.
 
 ### Storage classes
-- [black-list-storage.ts](../../src/extension/black-list/black-list-storage.ts) `BlackListStorage`: getters `channels/keywords`, `*IsTurnedOn`, `channelMap` (Map for O(1) lookup); `init()`, `matchesKeyword(text)`, `setBlackListChannel()`, `addBlackListItem()`, `removeBlackListItem(index)`, `setBlackListTutnedOn()` (sic), `initHandler()`. Fields are `protected` because Angular's `BlackListStorageService` **extends** it.
+- [black-list-storage.ts](../../src/extension/black-list/black-list-storage.ts) `BlackListStorage`: getters `channels/keywords`, `*IsTurnedOn`, `channelMap` (Map for O(1) lookup); `init()`, `matchesKeywordOrPhrase(text)`, `setBlackListChannel()`, `addBlackListItem()`, `removeBlackListItem(index)`, `setBlackListTutnedOn()` (sic), `initHandler()`. Fields are `protected` because Angular's `BlackListStorageService` **extends** it.
 - [hide-list-storage.ts](../../src/extension/hide-list/hide-list-storage.ts) `HideListStorage`: `hideListMap`, `generalShorts`, `addHideListItem()`.
 
 ### Page handlers (`black-list/pages/*`)
 Common pattern in each:
 - **Button inject**: `TEMPLATE` (from `button/black-list-button-templates.ts`, root class `.blb-conainer` — typo is the real selector, keep it) inserted next to channel name; click → `setBlackListChannel(name)` (trim, cut to 60). Removed when channels toggle off.
-- **Removal**: for each item: channel in `channelMap` → `remove()`; keyword (word or phrase): case-insensitive `title.includes(keyword)` via `matchesBlackListKeyword` ([keyword-matching.ts](../../src/extension/black-list/common/keyword-matching.ts)).
+- **Removal**: for each item: channel in `channelMap` → `remove()`; keyword (word or phrase): case-insensitive `title.includes(keyword)` via `matchesKeywordOrPhrase` ([keywords-and-phrases-matching.ts](../../src/extension/black-list/common/keywords-and-phrases-matching.ts)).
 - **Redirect** pages (video/channel/shorts) send `{restrictedPage:true}`.
 - Feed/Search button inject capped at 16 per tick (`maxInsertionsPerRun`), iterates reversed.
 

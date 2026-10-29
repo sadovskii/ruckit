@@ -38,15 +38,15 @@
   },
   "blacklist_channels_manage_title": { "message": "Заблокированные каналы" },
   "blacklist_channels_new_restriction": { "message": "Новый канал" },
-  "blacklist_keywords_title": { "message": "Слова и фразы" },
-  "blacklist_keywords_description": { "message": "Видео с этими словами и фразами не будут появляться в ленте" },
-  "blacklist_keywords_placeholder": { "message": "Слово или фраза" },
-  "blacklist_keywords_hidden_count": {
+  "blacklist_keywords_and_phrases_title": { "message": "Слова и фразы" },
+  "blacklist_keywords_and_phrases_description": { "message": "Видео с этими словами и фразами не будут появляться в ленте" },
+  "blacklist_keywords_and_phrases_placeholder": { "message": "Слово или фраза" },
+  "blacklist_keywords_and_phrases_hidden_count": {
     "message": "В списке: $COUNT$",
     "placeholders": { "count": { "content": "$1", "example": "4" } }
   },
-  "blacklist_keywords_manage_title": { "message": "Заблокированные слова и фразы" },
-  "blacklist_keywords_new_restriction": { "message": "Новое слово или фраза" },
+  "blacklist_keywords_and_phrases_manage_title": { "message": "Заблокированные слова и фразы" },
+  "blacklist_keywords_and_phrases_new_restriction": { "message": "Новое слово или фраза" },
   "blacklist_manage_tag": { "message": "Чёрный список" },
   "blacklist_find_existing": { "message": "Поиск по списку" },
   "blacklist_button_tooltip": { "message": "Скрыть канал" },

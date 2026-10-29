@@ -17,11 +17,11 @@ import { YouTubeDom } from '../testing/youtube-dom-fixtures';
  */
 
 // persisted storage keys (see src/app/shared/constants.ts) - this is user data, never rename
-const KEYWORDS = 'blk';
-const KEYWORDS_ON = 'blkito';
-// old phrases list, merged into the keywords list on startup (kept to test data saved before the merge)
-const PHRASES = 'blph';
-const PHRASES_ON = 'blphito';
+const KEYWORDS_AND_PHRASES = 'blk';
+const KEYWORDS_AND_PHRASES_ON = 'blkito';
+// old phrases list, merged into the keywords and phrases list on startup (kept to test data saved before the merge)
+const LEGACY_PHRASES = 'blph';
+const LEGACY_PHRASES_ON = 'blphito';
 const CHANNELS = 'blch';
 const CHANNELS_ON = 'blchito';
 
@@ -74,77 +74,77 @@ interface Scenario {
     hidden: boolean;
 }
 
-const keywordsOn = (keywords: string[]): StoredData => ({ [KEYWORDS]: keywords, [KEYWORDS_ON]: true });
-const phrasesOn = (phrases: string[]): StoredData => ({ [PHRASES]: phrases, [PHRASES_ON]: true });
+const keywordsAndPhrasesOn = (keywordsAndPhrases: string[]): StoredData => ({ [KEYWORDS_AND_PHRASES]: keywordsAndPhrases, [KEYWORDS_AND_PHRASES_ON]: true });
+const legacyPhrasesOn = (legacyPhrases: string[]): StoredData => ({ [LEGACY_PHRASES]: legacyPhrases, [LEGACY_PHRASES_ON]: true });
 
 const SCENARIOS: Scenario[] = [
     // keywords
-    { description: 'keyword matches a word of the title', stored: keywordsOn(['cats']), title: 'Funny cats compilation', hidden: true },
-    { description: 'keyword is case-insensitive (upper-case keyword)', stored: keywordsOn(['CATS']), title: 'Funny cats compilation', hidden: true },
-    { description: 'keyword is case-insensitive (upper-case title)', stored: keywordsOn(['cats']), title: 'FUNNY CATS COMPILATION', hidden: true },
-    { description: 'keyword is case-insensitive for cyrillic', stored: keywordsOn(['кошки']), title: 'Смешные КОШКИ', hidden: true },
-    { description: 'keyword matches the first word', stored: keywordsOn(['funny']), title: 'Funny cats', hidden: true },
-    { description: 'keyword matches a word with punctuation', stored: keywordsOn(['cats']), title: 'I love cats!', hidden: true },
-    { description: 'keyword matches part of a word', stored: keywordsOn(['hate']), title: 'Whatever happens', hidden: true },
-    { description: 'any of several keywords matches', stored: keywordsOn(['dogs', 'cats']), title: 'Funny cats', hidden: true },
-    { description: 'keyword not in the title', stored: keywordsOn(['dogs']), title: 'Funny cats compilation', hidden: false },
-    { description: 'empty keywords list', stored: keywordsOn([]), title: 'Funny cats compilation', hidden: false },
+    { description: 'keyword matches a word of the title', stored: keywordsAndPhrasesOn(['cats']), title: 'Funny cats compilation', hidden: true },
+    { description: 'keyword is case-insensitive (upper-case keyword)', stored: keywordsAndPhrasesOn(['CATS']), title: 'Funny cats compilation', hidden: true },
+    { description: 'keyword is case-insensitive (upper-case title)', stored: keywordsAndPhrasesOn(['cats']), title: 'FUNNY CATS COMPILATION', hidden: true },
+    { description: 'keyword is case-insensitive for cyrillic', stored: keywordsAndPhrasesOn(['кошки']), title: 'Смешные КОШКИ', hidden: true },
+    { description: 'keyword matches the first word', stored: keywordsAndPhrasesOn(['funny']), title: 'Funny cats', hidden: true },
+    { description: 'keyword matches a word with punctuation', stored: keywordsAndPhrasesOn(['cats']), title: 'I love cats!', hidden: true },
+    { description: 'keyword matches part of a word', stored: keywordsAndPhrasesOn(['hate']), title: 'Whatever happens', hidden: true },
+    { description: 'any of several keywords matches', stored: keywordsAndPhrasesOn(['dogs', 'cats']), title: 'Funny cats', hidden: true },
+    { description: 'keyword not in the title', stored: keywordsAndPhrasesOn(['dogs']), title: 'Funny cats compilation', hidden: false },
+    { description: 'empty keywords list', stored: keywordsAndPhrasesOn([]), title: 'Funny cats compilation', hidden: false },
 
     // phrases are items of the same "keywords and phrases" list
-    { description: 'phrase matches the beginning of the title', stored: keywordsOn(['How to']), title: 'How to cook pasta', hidden: true },
-    { description: 'phrase matches the middle of the title', stored: keywordsOn(['breaking news']), title: 'Today breaking news live', hidden: true },
-    { description: 'phrase matches the whole title', stored: keywordsOn(['cook pasta']), title: 'cook pasta', hidden: true },
-    { description: 'phrase matches across parts of words', stored: keywordsOn(['king new']), title: 'breaking news', hidden: true },
-    { description: 'phrase matches cyrillic', stored: keywordsOn(['как приготовить']), title: 'Рецепт: как приготовить пасту', hidden: true },
-    { description: 'phrase is case-insensitive', stored: keywordsOn(['How To Cook']), title: 'how to cook pasta', hidden: true },
-    { description: 'phrase is case-insensitive for cyrillic', stored: keywordsOn(['КАК ПРИГОТОВИТЬ']), title: 'как приготовить пасту', hidden: true },
-    { description: 'words and phrases in one list', stored: keywordsOn(['dogs', 'bad day']), title: 'What a bad day', hidden: true },
-    { description: 'phrase words in a different order', stored: keywordsOn(['news breaking']), title: 'Today breaking news', hidden: false },
-    { description: 'phrase not in the title', stored: keywordsOn(['bad day']), title: 'How to cook pasta', hidden: false },
+    { description: 'phrase matches the beginning of the title', stored: keywordsAndPhrasesOn(['How to']), title: 'How to cook pasta', hidden: true },
+    { description: 'phrase matches the middle of the title', stored: keywordsAndPhrasesOn(['breaking news']), title: 'Today breaking news live', hidden: true },
+    { description: 'phrase matches the whole title', stored: keywordsAndPhrasesOn(['cook pasta']), title: 'cook pasta', hidden: true },
+    { description: 'phrase matches across parts of words', stored: keywordsAndPhrasesOn(['king new']), title: 'breaking news', hidden: true },
+    { description: 'phrase matches cyrillic', stored: keywordsAndPhrasesOn(['как приготовить']), title: 'Рецепт: как приготовить пасту', hidden: true },
+    { description: 'phrase is case-insensitive', stored: keywordsAndPhrasesOn(['How To Cook']), title: 'how to cook pasta', hidden: true },
+    { description: 'phrase is case-insensitive for cyrillic', stored: keywordsAndPhrasesOn(['КАК ПРИГОТОВИТЬ']), title: 'как приготовить пасту', hidden: true },
+    { description: 'words and phrases in one list', stored: keywordsAndPhrasesOn(['dogs', 'bad day']), title: 'What a bad day', hidden: true },
+    { description: 'phrase words in a different order', stored: keywordsAndPhrasesOn(['news breaking']), title: 'Today breaking news', hidden: false },
+    { description: 'phrase not in the title', stored: keywordsAndPhrasesOn(['bad day']), title: 'How to cook pasta', hidden: false },
 
     // data saved before the merge: the old separate phrases list (blph/blphito) still hides videos
     {
         description: 'old phrases list, title matches an old phrase',
-        stored: { ...keywordsOn(['cats']), ...phrasesOn(['bad day']) }, title: 'What a bad day', hidden: true,
+        stored: { ...keywordsAndPhrasesOn(['cats']), ...legacyPhrasesOn(['bad day']) }, title: 'What a bad day', hidden: true,
     },
     {
         description: 'old phrases list on, keywords list off: old phrases still hide',
-        stored: { [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false, ...phrasesOn(['bad day']) }, title: 'What a bad day', hidden: true,
+        stored: { [KEYWORDS_AND_PHRASES]: ['cats'], [KEYWORDS_AND_PHRASES_ON]: false, ...legacyPhrasesOn(['bad day']) }, title: 'What a bad day', hidden: true,
     },
     {
         description: 'old phrases list, same item in both lists',
-        stored: { ...keywordsOn(['cats']), ...phrasesOn(['cats']) }, title: 'Funny cats', hidden: true,
+        stored: { ...keywordsAndPhrasesOn(['cats']), ...legacyPhrasesOn(['cats']) }, title: 'Funny cats', hidden: true,
     },
     {
         description: 'old phrases list, title matches nothing',
-        stored: { ...keywordsOn(['cats']), ...phrasesOn(['bad day']) }, title: 'Great morning', hidden: false,
+        stored: { ...keywordsAndPhrasesOn(['cats']), ...legacyPhrasesOn(['bad day']) }, title: 'Great morning', hidden: false,
     },
     {
         description: 'old phrases list was case-sensitive, now case-insensitive',
-        stored: phrasesOn(['Bad Day']), title: 'what a bad day', hidden: true,
+        stored: legacyPhrasesOn(['Bad Day']), title: 'what a bad day', hidden: true,
     },
 
     // toggles
     {
         description: 'keywords turned off',
-        stored: { [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false }, title: 'Funny cats', hidden: false,
+        stored: { [KEYWORDS_AND_PHRASES]: ['cats'], [KEYWORDS_AND_PHRASES_ON]: false }, title: 'Funny cats', hidden: false,
     },
     {
         description: 'old phrases list turned off',
-        stored: { [PHRASES]: ['bad day'], [PHRASES_ON]: false }, title: 'What a bad day', hidden: false,
+        stored: { [LEGACY_PHRASES]: ['bad day'], [LEGACY_PHRASES_ON]: false }, title: 'What a bad day', hidden: false,
     },
     {
         description: 'keywords and old phrases lists both turned off',
-        stored: { [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false, [PHRASES]: ['bad day'], [PHRASES_ON]: false },
+        stored: { [KEYWORDS_AND_PHRASES]: ['cats'], [KEYWORDS_AND_PHRASES_ON]: false, [LEGACY_PHRASES]: ['bad day'], [LEGACY_PHRASES_ON]: false },
         title: 'Funny cats on a bad day', hidden: false,
     },
     {
         description: 'keywords list without a stored toggle (never turned on)',
-        stored: { [KEYWORDS]: ['cats'] }, title: 'Funny cats', hidden: false,
+        stored: { [KEYWORDS_AND_PHRASES]: ['cats'] }, title: 'Funny cats', hidden: false,
     },
     {
         description: 'old phrases list without a stored toggle (never turned on)',
-        stored: { [PHRASES]: ['bad day'] }, title: 'What a bad day', hidden: false,
+        stored: { [LEGACY_PHRASES]: ['bad day'] }, title: 'What a bad day', hidden: false,
     },
     { description: 'nothing stored (new user)', stored: {}, title: 'Funny cats', hidden: false },
 ];
@@ -191,8 +191,8 @@ describe('Black list: keywords and phrases', () => {
             it('hides only the matching videos among several', async () => {
                 const stored = {
                     ...(surface.requiresChannelsOn ? { [CHANNELS]: [], [CHANNELS_ON]: true } : {}),
-                    ...keywordsOn(['cats']),
-                    ...phrasesOn(['bad day']),
+                    ...keywordsAndPhrasesOn(['cats']),
+                    ...legacyPhrasesOn(['bad day']),
                 };
                 const storage = await createStorage(stored);
 
@@ -213,11 +213,11 @@ describe('Black list: keywords and phrases', () => {
 
     describe('live updates from the settings page', () => {
         it('starts hiding by a keyword added after the page was loaded', async () => {
-            const storage = await createStorage(keywordsOn([]));
+            const storage = await createStorage(keywordsAndPhrasesOn([]));
             storage.initHandler();
             const isHidden = surfaceByName('search results').render(dom, 'Funny cats', fakeChrome);
 
-            await chrome.storage.sync.set({ [KEYWORDS]: ['cats'] });
+            await chrome.storage.sync.set({ [KEYWORDS_AND_PHRASES]: ['cats'] });
             await flushStorageEvents();
             new SearchPage(storage).blackListRemoveElements();
 
@@ -225,11 +225,11 @@ describe('Black list: keywords and phrases', () => {
         });
 
         it('stops hiding by keywords after they were turned off', async () => {
-            const storage = await createStorage(keywordsOn(['cats']));
+            const storage = await createStorage(keywordsAndPhrasesOn(['cats']));
             storage.initHandler();
             const isHidden = surfaceByName('search results').render(dom, 'Funny cats', fakeChrome);
 
-            await chrome.storage.sync.set({ [KEYWORDS_ON]: false });
+            await chrome.storage.sync.set({ [KEYWORDS_AND_PHRASES_ON]: false });
             await flushStorageEvents();
             new SearchPage(storage).blackListRemoveElements();
 
@@ -237,11 +237,11 @@ describe('Black list: keywords and phrases', () => {
         });
 
         it('starts hiding by keywords after they were turned on', async () => {
-            const storage = await createStorage({ [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false });
+            const storage = await createStorage({ [KEYWORDS_AND_PHRASES]: ['cats'], [KEYWORDS_AND_PHRASES_ON]: false });
             storage.initHandler();
             const isHidden = surfaceByName('search results').render(dom, 'Funny cats', fakeChrome);
 
-            await chrome.storage.sync.set({ [KEYWORDS_ON]: true });
+            await chrome.storage.sync.set({ [KEYWORDS_AND_PHRASES_ON]: true });
             await flushStorageEvents();
             new SearchPage(storage).blackListRemoveElements();
 
@@ -254,8 +254,8 @@ describe('Black list: keywords and phrases', () => {
         it('does not filter by keywords or phrases while channels restriction is off', async () => {
             const storage = await createStorage({
                 [CHANNELS_ON]: false,
-                ...keywordsOn(['cats']),
-                ...phrasesOn(['bad day']),
+                ...keywordsAndPhrasesOn(['cats']),
+                ...legacyPhrasesOn(['bad day']),
             });
             const cats = isRemoved(dom.addFeedVideo('Funny cats'));
             const badDay = isRemoved(dom.addFeedVideo('What a bad day'));
@@ -279,15 +279,15 @@ describe('Black list: keywords and phrases', () => {
         }
 
         it('redirects when a keyword matches the channel name', async () => {
-            expect(await openChannel({ ...channelsOn, ...keywordsOn(['cats']) }, 'Funny Cats TV')).toBe(true);
+            expect(await openChannel({ ...channelsOn, ...keywordsAndPhrasesOn(['cats']) }, 'Funny Cats TV')).toBe(true);
         });
 
         it('redirects when a phrase matches the channel name', async () => {
-            expect(await openChannel({ ...channelsOn, ...phrasesOn(['Cats TV']) }, 'Funny Cats TV')).toBe(true);
+            expect(await openChannel({ ...channelsOn, ...legacyPhrasesOn(['Cats TV']) }, 'Funny Cats TV')).toBe(true);
         });
 
         it('does not redirect when nothing matches the channel name', async () => {
-            expect(await openChannel({ ...channelsOn, ...keywordsOn(['dogs']), ...phrasesOn(['bad day']) }, 'Funny Cats TV')).toBe(false);
+            expect(await openChannel({ ...channelsOn, ...keywordsAndPhrasesOn(['dogs']), ...legacyPhrasesOn(['bad day']) }, 'Funny Cats TV')).toBe(false);
         });
 
         it('redirects when the channel itself is blocked', async () => {
@@ -295,12 +295,12 @@ describe('Black list: keywords and phrases', () => {
         });
 
         it('does nothing while channels restriction is off', async () => {
-            expect(await openChannel({ [CHANNELS_ON]: false, ...keywordsOn(['cats']) }, 'Funny Cats TV')).toBe(false);
+            expect(await openChannel({ [CHANNELS_ON]: false, ...keywordsAndPhrasesOn(['cats']) }, 'Funny Cats TV')).toBe(false);
         });
 
         // pre-existing behaviour: keyword/phrase toggles are not checked on the channel page
         it('checks keywords and phrases even when they are turned off', async () => {
-            const stored = { ...channelsOn, [KEYWORDS]: ['cats'], [KEYWORDS_ON]: false, [PHRASES]: ['bad day'], [PHRASES_ON]: false };
+            const stored = { ...channelsOn, [KEYWORDS_AND_PHRASES]: ['cats'], [KEYWORDS_AND_PHRASES_ON]: false, [LEGACY_PHRASES]: ['bad day'], [LEGACY_PHRASES_ON]: false };
 
             expect(await openChannel(stored, 'Funny Cats TV')).toBe(true);
         });

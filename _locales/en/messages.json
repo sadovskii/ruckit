@@ -86,25 +86,25 @@
   "blacklist_channels_new_restriction": {
     "message": "New channel restriction"
   },
-  "blacklist_keywords_title": {
+  "blacklist_keywords_and_phrases_title": {
     "message": "Keywords and phrases restrictions"
   },
-  "blacklist_keywords_description": {
+  "blacklist_keywords_and_phrases_description": {
     "message": "Block the words and phrases that you want to hide from your feed"
   },
-  "blacklist_keywords_placeholder": {
+  "blacklist_keywords_and_phrases_placeholder": {
     "message": "Enter a word or phrase"
   },
-  "blacklist_keywords_hidden_count": {
+  "blacklist_keywords_and_phrases_hidden_count": {
     "message": "Hidden keywords and phrases: $COUNT$",
     "placeholders": {
       "count": { "content": "$1", "example": "4" }
     }
   },
-  "blacklist_keywords_manage_title": {
+  "blacklist_keywords_and_phrases_manage_title": {
     "message": "Manage keywords and phrases restrictions"
   },
-  "blacklist_keywords_new_restriction": {
+  "blacklist_keywords_and_phrases_new_restriction": {
     "message": "New keyword or phrase restriction"
   },
   "blacklist_manage_tag": {

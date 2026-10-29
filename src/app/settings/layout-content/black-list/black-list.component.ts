@@ -27,15 +27,15 @@ export class BlackListComponent implements OnInit, OnDestroy {
 
   protected get blackListData() : BlackListDictionary<string[]> {
     return {
-      channel: this._blacklistStorage.channels,
-      keyword: this._blacklistStorage.keywords
+      [BlackListRestrictionType.Channels]: this._blacklistStorage.channels,
+      [BlackListRestrictionType.KeywordsAndPhrases]: this._blacklistStorage.keywordsAndPhrases
     } 
   }
 
   protected get blackListTurningOn() : BlackListDictionary<boolean> {
     return {
-      channel: this._blacklistStorage.channelIsTurnedOn,
-      keyword: this._blacklistStorage.keywordsIsTurnedOn
+      [BlackListRestrictionType.Channels]: this._blacklistStorage.channelIsTurnedOn,
+      [BlackListRestrictionType.KeywordsAndPhrases]: this._blacklistStorage.keywordsAndPhrasesIsTurnedOn
     }
   }
 

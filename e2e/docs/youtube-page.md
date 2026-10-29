@@ -94,7 +94,7 @@ Content scripts follow storage changes live (`chrome.storage.onChanged`).
 | YT-KW-10 | Words and phrases in the same list | each item hides the titles that contain it | mocked, UNIT |
 
 **Matching rules (today)**
-- One list, one rule for words and phrases (`matchesBlackListKeyword`): the title contains the item, ignoring case. Substring match, so `hate` matches `whatever` and `cat video` matches `Best cat video ever` but not `A video about my cat`.
+- One list, one rule for words and phrases (`matchesKeywordOrPhrase`): the title contains the item, ignoring case. Substring match, so `hate` matches `whatever` and `cat video` matches `Best cat video ever` but not `A video about my cat`.
 
 **Phrases saved before the merge (migration)**
 

@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, KEYS, keywordsOn } from '../../support/storage-data';
+import { channelsOn, KEYS, keywordsAndPhrasesOn } from '../../support/storage-data';
 import { blackListCard, gotoSettings, manageDialog, openManageDialog } from '../../support/settings-page';
 
 /* ST-MR-*: "Manage restrictions" dialog. See e2e/docs/settings-page.md */
@@ -7,19 +7,19 @@ test.describe('settings: manage restrictions', () => {
     const stored = async (storage: { get(): Promise<Record<string, unknown>> }, key: string) => (await storage.get())[key];
 
     test('ST-MR-01 shows the list sorted alphabetically and the count', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['dogs', 'Cats', 'birds']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['dogs', 'Cats', 'birds']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await expect(dialog.itemNames).toHaveText(['birds', 'Cats', 'dogs']);
         await expect(dialog.count).toContainText('3');
     });
 
     test('ST-MR-02 search filters the list (case-insensitive)', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['How to cook', 'bad day', 'how TO fish', 'cats']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['How to cook', 'bad day', 'how TO fish', 'cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await dialog.search.fill('how to');
 
@@ -31,60 +31,60 @@ test.describe('settings: manage restrictions', () => {
     });
 
     test('ST-MR-03 nothing found: "Add new restriction" adds the search text', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['cats']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await dialog.search.fill('parrots');
         await expect(dialog.notFound).toBeVisible();
         await dialog.notFoundAddButton.click();
 
-        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['cats', 'parrots']);
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['cats', 'parrots']);
         await expect(dialog.item('parrots')).toBeVisible();
     });
 
     test('ST-MR-04 an empty list shows a message and disables the search', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn([]) });
+        await storage.reset({ ...keywordsAndPhrasesOn([]) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await expect(dialog.empty).toBeVisible();
         await expect(dialog.search).toBeDisabled();
     });
 
     test('ST-MR-05 removes an item', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['birds', 'cats', 'dogs']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['birds', 'cats', 'dogs']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await dialog.remove('cats');
 
-        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['birds', 'dogs']);
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['birds', 'dogs']);
         await expect(dialog.itemNames).toHaveText(['birds', 'dogs']);
         await expect(dialog.count).toContainText('2');
     });
 
     test('ST-MR-06 removes the right item while the list is filtered', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['apple', 'banana', 'cherry', 'grape']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['apple', 'banana', 'cherry', 'grape']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await dialog.search.fill('rap');
         await expect(dialog.itemNames).toHaveText(['grape']);
         await dialog.remove('grape');
 
-        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['apple', 'banana', 'cherry']);
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['apple', 'banana', 'cherry']);
     });
 
     test('ST-MR-07 adds an item (a phrase) with the dialog form', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['cats']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await dialog.newInput.fill('bad day');
         await dialog.newButton.click();
 
-        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['cats', 'bad day']);
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['cats', 'bad day']);
         await expect(dialog.item('bad day')).toBeVisible();
         await expect(dialog.newInput).toHaveValue('');
     });
@@ -112,21 +112,21 @@ test.describe('settings: manage restrictions', () => {
     });
 
     test('ST-MR-10 closing the dialog shows the new count on the card', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['a', 'b', 'c']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['a', 'b', 'c']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await dialog.remove('b');
         await dialog.closeButton.click();
 
         await expect(manageDialog(page).root).toHaveCount(0);
-        await expect(blackListCard(page, 'keywords').count).toContainText('2');
+        await expect(blackListCard(page, 'keywordsAndPhrases').count).toContainText('2');
     });
 
     test('ST-MR-E03 removing the last search match clears the search', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['apple', 'banana']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['apple', 'banana']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(page, 'keywords');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
 
         await dialog.search.fill('banana');
         await dialog.remove('banana');

@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, hideList, KEYS, keywordsOn } from '../../support/storage-data';
+import { channelsOn, hideList, KEYS, keywordsAndPhrasesOn } from '../../support/storage-data';
 import {
     addViaCard, blackListCard, enterPassword, gotoSettings, hideListOption, manageDialog, snackBar,
 } from '../../support/settings-page';
@@ -15,16 +15,16 @@ test.describe('settings: password lock', () => {
     const stored = async (storage: { get(): Promise<Record<string, unknown>> }, key: string) => (await storage.get())[key];
 
     test('ST-LK-01 turning a black-list toggle off is blocked', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...keywordsOn(['cats']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const card = blackListCard(page, 'keywords');
+        const card = blackListCard(page, 'keywordsAndPhrases');
 
         await card.toggle.switch.click();
 
         await expect(snackBar(page).root).toBeVisible();
         await expect(snackBar(page).actionButton).toBeVisible();
         await expect(card.toggle.input).toBeChecked();
-        expect(await stored(storage, KEYS.keywordsOn)).toBe(true);
+        expect(await stored(storage, KEYS.keywordsAndPhrasesOn)).toBe(true);
     });
 
     test('ST-LK-01 turning a hide-list option off is blocked', async ({ page, extension, storage }) => {
@@ -40,31 +40,31 @@ test.describe('settings: password lock', () => {
     });
 
     test('ST-LK-02 "Enter password" + the right password unlocks and applies the change', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...keywordsOn(['cats']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const card = blackListCard(page, 'keywords');
+        const card = blackListCard(page, 'keywordsAndPhrases');
 
         await card.toggle.switch.click();
         await snackBar(page).actionButton.click();
         await enterPassword(page, PASSWORD);
 
         await expect(card.toggle.input).not.toBeChecked();
-        await expect.poll(() => stored(storage, KEYS.keywordsOn)).toBe(false);
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrasesOn)).toBe(false);
         // unlocked: the next weakening change needs no password
         await expect(card.toggle.lockIcon).toHaveCount(0);
     });
 
     test('ST-LK-02 a wrong password keeps it locked', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...keywordsOn(['cats']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        const card = blackListCard(page, 'keywords');
+        const card = blackListCard(page, 'keywordsAndPhrases');
 
         await card.toggle.switch.click();
         await snackBar(page).actionButton.click();
         await enterPassword(page, 'wrong');
 
         await expect(card.toggle.input).toBeChecked();
-        expect(await stored(storage, KEYS.keywordsOn)).toBe(true);
+        expect(await stored(storage, KEYS.keywordsAndPhrasesOn)).toBe(true);
     });
 
     test('ST-LK-03 turning a toggle on needs no password', async ({ page, extension, storage }) => {
@@ -81,10 +81,10 @@ test.describe('settings: password lock', () => {
     });
 
     test('ST-LK-04 "Manage restrictions" is blocked until the password is entered', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...keywordsOn(['cats']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await blackListCard(page, 'keywords').manageButton.click();
+        await blackListCard(page, 'keywordsAndPhrases').manageButton.click();
 
         await expect(snackBar(page).root).toBeVisible();
         await expect(manageDialog(page).root).toHaveCount(0);
@@ -96,34 +96,34 @@ test.describe('settings: password lock', () => {
     });
 
     test('ST-LK-05 adding a keyword or phrase needs no password', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...keywordsOn(['cats']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await addViaCard(page, 'keywords', 'bad day');
+        await addViaCard(page, 'keywordsAndPhrases', 'bad day');
 
-        await expect.poll(() => stored(storage, KEYS.keywords)).toEqual(['cats', 'bad day']);
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['cats', 'bad day']);
         await expect(snackBar(page).root).toHaveCount(0);
     });
 
     test('ST-LK-07 locked toggles show a lock icon, unlocked ones don\'t', async ({ page, extension, storage }) => {
-        await storage.reset({ ...keywordsOn(['cats']) });
+        await storage.reset({ ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        await expect(blackListCard(page, 'keywords').toggle.lockIcon).toHaveCount(0);
+        await expect(blackListCard(page, 'keywordsAndPhrases').toggle.lockIcon).toHaveCount(0);
 
-        await storage.reset({ ...locked, ...keywordsOn(['cats']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        await expect(blackListCard(page, 'keywords').toggle.lockIcon).toBeVisible();
+        await expect(blackListCard(page, 'keywordsAndPhrases').toggle.lockIcon).toBeVisible();
     });
 
     test('ST-LK-06 the unlock ends after the chosen period', async ({ page, extension, storage }) => {
         test.slow();
-        await storage.reset({ ...locked, ...keywordsOn(['cats']), ...channelsOn(['Cat Channel']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']), ...channelsOn(['Cat Channel']) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
-        await blackListCard(page, 'keywords').toggle.switch.click();
+        await blackListCard(page, 'keywordsAndPhrases').toggle.switch.click();
         await snackBar(page).actionButton.click();
         await enterPassword(page, PASSWORD);
-        await expect.poll(() => stored(storage, KEYS.keywordsOn)).toBe(false);
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrasesOn)).toBe(false);
 
         // period is 30 seconds
         await expect(blackListCard(page, 'channels').toggle.lockIcon).toBeVisible({ timeout: 40_000 });
@@ -134,12 +134,12 @@ test.describe('settings: password lock', () => {
     });
 
     test('ST-PW-E02 the unlock is not shared with another settings tab', async ({ page, extension, storage }) => {
-        await storage.reset({ ...locked, ...keywordsOn(['cats']), ...channelsOn(['Cat Channel']) });
+        await storage.reset({ ...locked, ...keywordsAndPhrasesOn(['cats']), ...channelsOn(['Cat Channel']) });
         await gotoSettings(page, extension.origin, 'blacklist');
-        await blackListCard(page, 'keywords').toggle.switch.click();
+        await blackListCard(page, 'keywordsAndPhrases').toggle.switch.click();
         await snackBar(page).actionButton.click();
         await enterPassword(page, PASSWORD);
-        await expect(blackListCard(page, 'keywords').toggle.lockIcon).toHaveCount(0);
+        await expect(blackListCard(page, 'keywordsAndPhrases').toggle.lockIcon).toHaveCount(0);
 
         const other = await extension.context.newPage();
         await gotoSettings(other, extension.origin, 'blacklist');

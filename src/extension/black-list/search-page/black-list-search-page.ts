@@ -5,7 +5,7 @@ import { getBlackListData } from "../common/common-functionality";
 
 let data: BlackListData = {
     blackListChannels: [],
-    blackListWords: []
+    blackListKeywordsAndPhrases: []
 }
 
 // counter is 1 because it's needed run code immediately

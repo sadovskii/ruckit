@@ -26,7 +26,7 @@ export class VideoPageRedirect {
                 }
             }
             
-            if (this.data.keywordsIsTurnedOn && this.data.matchesKeyword(videoName)) {
+            if (this.data.keywordsAndPhrasesIsTurnedOn && this.data.matchesKeywordOrPhrase(videoName)) {
                 this.replace();
                 return;
             }

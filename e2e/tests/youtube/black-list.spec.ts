@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, hideList, KEYS, keywordsOn } from '../../support/storage-data';
+import { channelsOn, hideList, KEYS, keywordsAndPhrasesOn } from '../../support/storage-data';
 import { skipUntilMergedListIsPublished } from '../../support/settings-page';
 import {
     countMatching, countVideos, expectSignedIn, firstSearchResult, HOME_FEED, openYouTube, pickKeyword, pickPhrase,
@@ -12,13 +12,13 @@ import {
  */
 test.describe('black list on real YouTube', () => {
     test('search: hides results matching a keyword', async ({ page, storage }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn([]) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn([]) });
         await openYouTube(page, realUrl.search());
         await waitForVideos(page, SEARCH_RESULTS);
 
         const keyword = pickKeyword(await readTitles(page, SEARCH_RESULTS));
         test.info().annotations.push({ type: 'keyword', description: keyword });
-        await storage.set({ [KEYS.keywords]: [keyword] });
+        await storage.set({ [KEYS.keywordsAndPhrases]: [keyword] });
 
         await expect.poll(() => countMatching(page, SEARCH_RESULTS, keyword)).toBe(0);
         expect(await countVideos(page, SEARCH_RESULTS), 'videos without the keyword must stay').toBeGreaterThan(0);
@@ -27,13 +27,13 @@ test.describe('black list on real YouTube', () => {
     test('search: hides results containing a phrase from the keywords list', async ({ page, storage, extension }) => {
         // older store versions match only single words in the keywords list
         await skipUntilMergedListIsPublished(page, extension);
-        await storage.reset({ ...channelsOn(), ...keywordsOn([]) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn([]) });
         await openYouTube(page, realUrl.search());
         await waitForVideos(page, SEARCH_RESULTS);
 
         const phrase = pickPhrase(await readTitles(page, SEARCH_RESULTS));
         test.info().annotations.push({ type: 'phrase', description: phrase });
-        await storage.set({ [KEYS.keywords]: [phrase.toLocaleUpperCase()] });
+        await storage.set({ [KEYS.keywordsAndPhrases]: [phrase.toLocaleUpperCase()] });
 
         await expect.poll(() => countMatching(page, SEARCH_RESULTS, phrase)).toBe(0);
         expect(await countVideos(page, SEARCH_RESULTS), 'videos without the phrase must stay').toBeGreaterThan(0);
@@ -57,21 +57,21 @@ test.describe('black list on real YouTube', () => {
 
     test('home feed: hides videos matching a keyword', async ({ page, storage }) => {
         // the feed is only filtered while the channels restriction is on
-        await storage.reset({ ...channelsOn(), ...keywordsOn([]) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn([]) });
         await openYouTube(page, realUrl.home);
         await expectSignedIn(page);
         await waitForVideos(page, HOME_FEED);
 
         const keyword = pickKeyword(await readTitles(page, HOME_FEED));
         test.info().annotations.push({ type: 'keyword', description: keyword });
-        await storage.set({ [KEYS.keywords]: [keyword] });
+        await storage.set({ [KEYS.keywordsAndPhrases]: [keyword] });
 
         await expect.poll(() => countMatching(page, HOME_FEED, keyword)).toBe(0);
         expect(await countVideos(page, HOME_FEED), 'videos without the keyword must stay').toBeGreaterThan(0);
     });
 
     test('watch page: hides "up next" videos matching a keyword', async ({ page, storage }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn([]) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn([]) });
         const result = await firstSearchResult(page);
         await openYouTube(page, result.href);
         await waitForVideos(page, UP_NEXT);
@@ -80,7 +80,7 @@ test.describe('black list on real YouTube', () => {
         const openedTitle = await page.locator('ytd-watch-metadata #title').first().textContent().catch(() => '') ?? '';
         const keyword = pickKeyword(await readTitles(page, UP_NEXT), `${result.title} ${openedTitle}`);
         test.info().annotations.push({ type: 'keyword', description: keyword });
-        await storage.set({ [KEYS.keywords]: [keyword] });
+        await storage.set({ [KEYS.keywordsAndPhrases]: [keyword] });
 
         await expect.poll(() => countMatching(page, UP_NEXT, keyword)).toBe(0);
         expect(await countVideos(page, UP_NEXT), 'videos without the keyword must stay').toBeGreaterThan(0);
@@ -91,7 +91,7 @@ test.describe('black list on real YouTube', () => {
         const result = await firstSearchResult(page);
         const keyword = pickKeyword([result.title, '']);
         test.info().annotations.push({ type: 'keyword', description: keyword });
-        await storage.set(keywordsOn([keyword]));
+        await storage.set(keywordsAndPhrasesOn([keyword]));
 
         await openYouTube(page, result.href);
 

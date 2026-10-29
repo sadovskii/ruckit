@@ -117,10 +117,10 @@ export class FeedPage {
                 }
             }
 
-            if (this.blackListStorage.keywordsIsTurnedOn) {
+            if (this.blackListStorage.keywordsAndPhrasesIsTurnedOn) {
                 const videoName = htmlItemElement?.querySelector('.ytLockupMetadataViewModelHeadingReset, .yt-lockup-metadata-view-model__heading-reset')?.textContent?.trim();
 
-                if (this.blackListStorage.matchesKeyword(videoName)) {
+                if (this.blackListStorage.matchesKeywordOrPhrase(videoName)) {
                     htmlItemElement.remove();
                     return;
                 }

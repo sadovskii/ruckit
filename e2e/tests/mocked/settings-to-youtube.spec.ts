@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, hideList, keywordsOn } from '../../support/storage-data';
+import { channelsOn, hideList, keywordsAndPhrasesOn } from '../../support/storage-data';
 import { searchResultsPage, youtubeUrl } from '../../support/youtube-mock';
 import { video, waitForContentScript } from '../../support/page-helpers';
 import { blackListCard, gotoSettings, hideListOption, openManageDialog, snackBar } from '../../support/settings-page';
@@ -19,14 +19,14 @@ const SHORTS_SHELF = '[data-e2e="shorts-shelf"]';
 
 test.describe('settings → youtube page', () => {
     test('YT-KW-09 removing a keyword reloads YouTube tabs and the video comes back', async ({ page, storage, youtube, extension }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn(['cats']) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['cats']) });
         await page.goto(youtube.serve(youtubeUrl.search('pets'), searchResultsPage([{ title: 'Funny cats' }, { title: 'Dogs' }])));
         await expect(video(page, 'Funny cats')).toHaveCount(0);
         await markPage(page);
 
         const settings = await extension.context.newPage();
         await gotoSettings(settings, extension.origin, 'blacklist');
-        const dialog = await openManageDialog(settings, 'keywords');
+        const dialog = await openManageDialog(settings, 'keywordsAndPhrases');
         await dialog.remove('cats');
 
         await expect.poll(() => isMarked(page)).toBe(false);
@@ -34,29 +34,29 @@ test.describe('settings → youtube page', () => {
     });
 
     test('ST-BL-03 / YT-KW-09 turning keywords off reloads YouTube tabs and the video comes back', async ({ page, storage, youtube, extension }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn(['cats']) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['cats']) });
         await page.goto(youtube.serve(youtubeUrl.search('pets'), searchResultsPage([{ title: 'Funny cats' }, { title: 'Dogs' }])));
         await expect(video(page, 'Funny cats')).toHaveCount(0);
         await markPage(page);
 
         const settings = await extension.context.newPage();
         await gotoSettings(settings, extension.origin, 'blacklist');
-        await blackListCard(settings, 'keywords').toggle.switch.click();
+        await blackListCard(settings, 'keywordsAndPhrases').toggle.switch.click();
 
         await expect.poll(() => isMarked(page)).toBe(false);
         await expect(video(page, 'Funny cats')).toBeVisible();
     });
 
     test('ST-BL-02 adding a keyword hides matching videos without a reload', async ({ page, storage, youtube, extension }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsOn([]) });
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn([]) });
         await page.goto(youtube.serve(youtubeUrl.search('pets'), searchResultsPage([{ title: 'Funny cats' }, { title: 'Dogs' }])));
         await waitForContentScript(page);
         await markPage(page);
 
         const settings = await extension.context.newPage();
         await gotoSettings(settings, extension.origin, 'blacklist');
-        await blackListCard(settings, 'keywords').input.fill('cats');
-        await blackListCard(settings, 'keywords').addButton.click();
+        await blackListCard(settings, 'keywordsAndPhrases').input.fill('cats');
+        await blackListCard(settings, 'keywordsAndPhrases').addButton.click();
 
         await expect(video(page, 'Funny cats')).toHaveCount(0);
         expect(await isMarked(page)).toBe(true);

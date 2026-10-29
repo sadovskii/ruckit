@@ -25,8 +25,8 @@ export class ChannelPageRedirect {
                 return;
             }
 
-        // keywords are checked regardless of their toggle here (pre-existing behavior)
-        if (this.data.matchesKeyword(channelName)) {
+        // keywords and phrases are checked regardless of their toggle here (pre-existing behavior)
+        if (this.data.matchesKeywordOrPhrase(channelName)) {
             this.replace(browse);
             return;
         }

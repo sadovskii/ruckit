@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON } from "src/app/shared/constants";
+import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
 import { BlackListStorage } from "src/extension/black-list/black-list-storage";
 import { BlackListRestrictionType } from "./black-list.models";
 import { Observable, Subject } from "rxjs";
@@ -29,9 +29,9 @@ export class BlackListStorageService extends BlackListStorage {
             this.blackListTurningOn[BlackListRestrictionType.Channels] = t;
             this.handler$.next(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON);
         })) return;
-        if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes, t => {
-            this.blackListTurningOn[BlackListRestrictionType.Keywords] = t;
-            this.handler$.next(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON);
+        if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON, changes, t => {
+            this.blackListTurningOn[BlackListRestrictionType.KeywordsAndPhrases] = t;
+            this.handler$.next(STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON);
         })) return;
 
         if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS, changes, t =>
@@ -41,9 +41,9 @@ export class BlackListStorageService extends BlackListStorage {
                 
                 this.handler$.next(STORAGE_BLACKLIST_CHANNELS);
             })) return;
-        if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS, changes, t => {
-            this.blackListData[BlackListRestrictionType.Keywords] = t;
-            this.handler$.next(STORAGE_BLACKLIST_KEYWORDS);
+        if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES, changes, t => {
+            this.blackListData[BlackListRestrictionType.KeywordsAndPhrases] = t;
+            this.handler$.next(STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES);
         })) return;
     }
 }

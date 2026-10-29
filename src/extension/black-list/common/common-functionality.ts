@@ -1,13 +1,13 @@
-import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, LEGACY_STORAGE_BLACKLIST_PHRASES, LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
+import { STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON, LEGACY_STORAGE_BLACKLIST_PHRASES, LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
 import { BlackListData } from "../black-list-models";
-import { mergeUniqueKeywords } from "./keyword-matching";
+import { mergeUniqueKeywordsAndPhrases } from "./keywords-and-phrases-matching";
 
 export async function getBlackListData(): Promise<BlackListData> {
     const storageKeysData = []
 
     const storageKeysTurnedOn = [
         STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON,
-        STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON,
+        STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON,
         LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON
     ]
 
@@ -18,11 +18,11 @@ export async function getBlackListData(): Promise<BlackListData> {
         storageKeysData.push(STORAGE_BLACKLIST_CHANNELS)
     }
 
-    if (storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON]) {
-        storageKeysData.push(STORAGE_BLACKLIST_KEYWORDS)
+    if (storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON]) {
+        storageKeysData.push(STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES)
     }
 
-    // phrases were merged into keywords; read the legacy list in case it hasn't been migrated yet
+    // the legacy phrases list may not be migrated yet, so it's merged here too
     if (storageTurningOn[LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON]) {
         storageKeysData.push(LEGACY_STORAGE_BLACKLIST_PHRASES)
     }
@@ -30,7 +30,7 @@ export async function getBlackListData(): Promise<BlackListData> {
     const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
     const data: BlackListData = {
         blackListChannels: storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [],
-        blackListWords: mergeUniqueKeywords(storageBlackLists[STORAGE_BLACKLIST_KEYWORDS], storageBlackLists[LEGACY_STORAGE_BLACKLIST_PHRASES])
+        blackListKeywordsAndPhrases: mergeUniqueKeywordsAndPhrases(storageBlackLists[STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES], storageBlackLists[LEGACY_STORAGE_BLACKLIST_PHRASES])
     }
 
     return data;

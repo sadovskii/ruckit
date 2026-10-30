@@ -1,6 +1,6 @@
 import { test, expect } from '../../support/fixtures';
 import { channelsOn, hideList, KEYS, keywordsAndPhrasesOn } from '../../support/storage-data';
-import { skipUntilMergedListIsPublished } from '../../support/settings-page';
+import { skipUntilNextReleaseIsPublished } from '../../support/settings-page';
 import {
     countMatching, countVideos, expectSignedIn, firstSearchResult, HOME_FEED, openYouTube, pickKeyword, pickPhrase,
     readTitles, realUrl, SEARCH_RESULTS, UP_NEXT, waitForVideos,
@@ -26,7 +26,7 @@ test.describe('black list on real YouTube', () => {
 
     test('search: hides results containing a phrase from the keywords list', async ({ page, storage, extension }) => {
         // older store versions match only single words in the keywords list
-        await skipUntilMergedListIsPublished(page, extension);
+        await skipUntilNextReleaseIsPublished(page, extension);
         await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn([]) });
         await openYouTube(page, realUrl.search());
         await waitForVideos(page, SEARCH_RESULTS);

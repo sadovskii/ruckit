@@ -100,6 +100,33 @@ describe('BlackListStorage: keywords and phrases', () => {
 
             expect(fakeChrome.setCalls).toEqual([]);
         });
+
+        for (const symbolsOnly of [' ', '   ', '.', ':', '...', ' : ', '!?', '-', '\u00a0']) {
+            it(`ignores an item without letters, digits or emoji: "${symbolsOnly}"`, async () => {
+                const storage = await createStorage({ [KEYWORDS_AND_PHRASES]: ['cats'], [KEYWORDS_AND_PHRASES_ON]: true });
+
+                storage.addBlackListItem(symbolsOnly, BlackListRestrictionType.KeywordsAndPhrases);
+
+                expect(storage.keywordsAndPhrases).toEqual(['cats']);
+                expect(fakeChrome.setCalls).toEqual([]);
+            });
+        }
+
+        it('saves the item without spaces around it', async () => {
+            const storage = await createStorage({ [KEYWORDS_AND_PHRASES]: [], [KEYWORDS_AND_PHRASES_ON]: true });
+
+            storage.addBlackListItem('  How to cook  ', BlackListRestrictionType.KeywordsAndPhrases);
+
+            expect(fakeChrome.store[KEYWORDS_AND_PHRASES]).toEqual(['How to cook']);
+        });
+
+        it('treats an item with spaces around it as a duplicate of the same item', async () => {
+            const storage = await createStorage({ [KEYWORDS_AND_PHRASES]: ['cats'], [KEYWORDS_AND_PHRASES_ON]: true });
+
+            storage.addBlackListItem(' cats ', BlackListRestrictionType.KeywordsAndPhrases);
+
+            expect(fakeChrome.setCalls).toEqual([]);
+        });
     });
 
     describe('removing', () => {

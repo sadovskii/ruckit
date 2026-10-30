@@ -150,12 +150,17 @@ test.describe('youtube page: keywords and phrases', () => {
         await expect(page).toHaveURL(youtubeUrl.restricted());
     });
 
-    test('YT-KW-E03 a keyword also matches inside longer words', async ({ page, storage, youtube }) => {
-        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['hate']) });
-        await page.goto(youtube.serve(youtubeUrl.search('words'), searchResultsPage([{ title: 'Whatever happens' }, { title: 'Good news' }])));
+    test('YT-KW-E03 a keyword hides only whole words, not parts of longer words', async ({ page, storage, youtube }) => {
+        await storage.reset({ ...channelsOn(), ...keywordsAndPhrasesOn(['wo']) });
+        await page.goto(youtube.serve(youtubeUrl.search('words'), searchResultsPage([
+            { title: 'wo I use this for connect with my gf' },
+            { title: 'world is good' },
+            { title: 'Two cats' },
+        ])));
 
-        await expect(video(page, 'Whatever happens')).toHaveCount(0);
-        await expect(video(page, 'Good news')).toBeVisible();
+        await expect(video(page, 'wo I use this for connect with my gf')).toHaveCount(0);
+        await expect(video(page, 'world is good')).toBeVisible();
+        await expect(video(page, 'Two cats')).toBeVisible();
     });
 
     test('YT-KW-E05 a phrase matches regardless of letter case', async ({ page, storage, youtube }) => {

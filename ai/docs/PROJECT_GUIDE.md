@@ -51,7 +51,7 @@ Keys in [src/app/shared/constants.ts](../../src/app/shared/constants.ts):
 | `theme` | STORAGE_THEME_ID | Nebular theme name |
 
 Short keys exist to save sync quota (`background.ts` logs quota usage on start).
-Mapping enum→key: `blackListRestrictionTypeToStoreMap` / `...TurnOnMap` in [black-list.models.ts](../../src/app/settings/layout-content/black-list/black-list.models.ts). `BlackListRestrictionType` = `'channel'|'keyword'`. `MAX_LENGTH_RESTRICTION = 30` (UI input limit).
+Mapping enum→key: `blackListRestrictionTypeToStoreMap` / `...TurnOnMap` in [black-list.models.ts](../../src/app/settings/layout-content/black-list/black-list.models.ts). `BlackListRestrictionType` = `'channel'|'keyword'`. `MAX_LENGTH_RESTRICTION = 30` (UI input limit). An item must contain a letter, digit or emoji and is trimmed before saving ([black-list-item-rules.ts](../../src/extension/black-list/common/black-list-item-rules.ts); UI validators in [black-list-item.validator.ts](../../src/app/settings/layout-content/black-list/black-list-item.validator.ts); `BlackListStorage.addBlackListItem` enforces it too).
 
 Phrases used to be a separate list; they were merged into keywords. `migrateLegacyPhrasesIntoKeywordsAndPhrases()` (in `black-list-storage.ts`, called on every background start, idempotent) moves `blph` into `blk` (deduplicated), sets `blkito = blkito || (blphito && blph not empty)`, then removes the legacy keys. `BlackListStorage.init()` also merges them in memory in case it runs before the migration.
 
@@ -92,7 +92,7 @@ Communication UI ↔ content scripts is **only through storage** (`chrome.storag
 ### Page handlers (`black-list/pages/*`)
 Common pattern in each:
 - **Button inject**: `TEMPLATE` (from `button/black-list-button-templates.ts`, root class `.blb-conainer` — typo is the real selector, keep it) inserted next to channel name; click → `setBlackListChannel(name)` (trim, cut to 60). Removed when channels toggle off.
-- **Removal**: for each item: channel in `channelMap` → `remove()`; keyword (word or phrase): case-insensitive `title.includes(keyword)` via `matchesKeywordOrPhrase` ([keywords-and-phrases-matching.ts](../../src/extension/black-list/common/keywords-and-phrases-matching.ts)).
+- **Removal**: for each item: channel in `channelMap` → `remove()`; keyword (word or phrase): the title contains it as whole words, ignoring case, via `matchesKeywordOrPhrase` ([keywords-and-phrases-matching.ts](../../src/extension/black-list/common/keywords-and-phrases-matching.ts)); `"wo"` hides `"wo I use this"` but not `"world is good"`.
 - **Redirect** pages (video/channel/shorts) send `{restrictedPage:true}`.
 - Feed/Search button inject capped at 16 per tick (`maxInsertionsPerRun`), iterates reversed.
 
@@ -155,7 +155,7 @@ Key YouTube selectors (fragile, change here when YT breaks):
 - `BlackListStorage.handler` and `BlackListStorageService._handlerListener` **return after first matched key** → if several keys change in one `set`, only one is applied.
 - `FeedPage.blackListRemoveElements` returns early when channels toggle is off → keywords not applied on home feed in that case.
 - `ChannelPageRedirect` checks keywords **ignoring their toggle**, and only runs if channels toggle on.
-- Keyword match is a plain substring (`"hate"` matches `"whatever"`).
+- Keyword match is whole-word only, so a singular doesn't hide its plural (`"cat"` doesn't hide `"cats"`).
 - Heartbeat creates new handler instances every second; no MutationObserver; 16-insert cap per tick.
 - `runHideListCssScripts` checks `keys.length` instead of `keysNotNullabe.length` (insertCSS with empty files possible).
 - Password stored plaintext; `PasswordComponent` subscribes to `getHasPassword$` without adding to subscriptions.

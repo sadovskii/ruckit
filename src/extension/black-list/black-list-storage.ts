@@ -1,6 +1,7 @@
 import { BlackListDictionary, BlackListRestrictionType, blackListRestrictionTypeToStoreMap, blackListRestrictionTypeToStoreTurnOnMap } from "src/app/settings/layout-content/black-list/black-list.models";
 import { STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES, LEGACY_STORAGE_BLACKLIST_PHRASES, LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
 import { matchesKeywordOrPhrase, mergeUniqueKeywordsAndPhrases } from "./common/keywords-and-phrases-matching";
+import { containsLetterDigitOrEmoji, normalizeBlackListItem } from "./common/black-list-item-rules";
 
 interface MergedKeywordsAndPhrases {
     keywordsAndPhrases: string[];
@@ -113,9 +114,13 @@ export class BlackListStorage {
 
     public addBlackListItem(item: string | undefined, type: BlackListRestrictionType): void {
         if (!item) return;
-        if (this.blackListData[type].includes(item)) return;
 
-        this.blackListData[type].push(item);
+        const normalizedItem = normalizeBlackListItem(item);
+
+        if (!containsLetterDigitOrEmoji(normalizedItem)) return;
+        if (this.blackListData[type].includes(normalizedItem)) return;
+
+        this.blackListData[type].push(normalizedItem);
 
         const storeType = blackListRestrictionTypeToStoreMap[type];
 

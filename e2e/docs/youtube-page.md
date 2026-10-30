@@ -94,7 +94,9 @@ Content scripts follow storage changes live (`chrome.storage.onChanged`).
 | YT-KW-10 | Words and phrases in the same list | each item hides the titles that contain it | mocked, UNIT |
 
 **Matching rules (today)**
-- One list, one rule for words and phrases (`matchesKeywordOrPhrase`): the title contains the item, ignoring case. Substring match, so `hate` matches `whatever` and `cat video` matches `Best cat video ever` but not `A video about my cat`.
+- One list, one rule for words and phrases (`matchesKeywordOrPhrase` in `keywords-and-phrases-matching.ts`): the title contains the item **as whole words**, ignoring case. `wo` hides `wo I use this` but not `world is good` or `Two cats`; `cat video` hides `Best cat video!` but not `Best cat videos` or `A video about my cat`.
+- A word boundary is anything that isn't a letter, digit or combining mark: space, punctuation, emoji, the start or end of the title. Boundaries are only required at an item's letter/digit edges, so `C++`, `#news` and `😺` work as items.
+- ⚠ Since this change a singular no longer hides its plural (`cat` doesn't hide `cats`); users add both forms.
 
 **Phrases saved before the merge (migration)**
 
@@ -114,14 +116,14 @@ Content scripts follow storage changes live (`chrome.storage.onChanged`).
 |---|---|---|---|
 | YT-KW-E01 ⚠ | Home feed while the **channels list is off** | keywords and phrases are **not applied** on the home feed (`FeedPage` returns early) | UNIT (pins it), mocked/youtube-page (fixme – needs a decision) |
 | YT-KW-E02 ⚠ | Channel page with the keywords list **turned off** | still redirects when the channel name matches (toggle ignored); and nothing redirects at all while the channels list is off | UNIT (pins it) |
-| YT-KW-E03 | Keyword is part of a longer word (`hate` in `whatever`) | matched (substring). False positives | UNIT, mocked/youtube-page |
+| YT-KW-E03 | Keyword is part of a longer word (`wo` in `world`, `hate` in `whatever`, `cat` in `cats`) | **not** matched: only whole words hide a video | UNIT, mocked/youtube-page |
 | YT-KW-E04 | Keyword with different case (`CATS` vs `cats`) / Cyrillic case | matched | UNIT |
 | YT-KW-E05 | Phrase with different case (`How to` vs `how to`) | matched (case-insensitive since the merge) | mocked/youtube-page, mocked, E2E:youtube/black-list, UNIT |
-| YT-KW-E06 | Phrase spanning word parts (`king new` in `breaking news`) | matched | UNIT |
+| YT-KW-E06 | Phrase spanning word parts (`king new` in `breaking news`) | **not** matched | UNIT |
 | YT-KW-E07 | Item containing a space (`cat video`) | matches the whole phrase, not its separate words | mocked/youtube-page, UNIT |
-| YT-KW-E08 | Punctuation and emoji next to the word (`cats!`, `cats😂`) | matched (substring of the word) | UNIT (punctuation) |
+| YT-KW-E08 | Punctuation and emoji next to the word (`cats!`, `"cats"`, `cats😂`, `#cats`) | matched (they are word boundaries); a digit glued to the word (`cats2`) is not | UNIT |
 | YT-KW-E09 | Non-breaking spaces or multiple spaces in titles | a phrase typed with a normal space doesn't match a title with NBSP or double spaces | — |
-| YT-KW-E10 | Very short keyword (`a`) | hides almost everything; no minimum length | — |
+| YT-KW-E10 | Very short keyword (`a`) | hides titles with the word "a" (whole word only); no minimum length | — |
 | YT-KW-E11 | Same item saved twice (e.g. in keywords and in the old phrases list) | stored once after the migration, hidden once, no errors | UNIT |
 | YT-KW-E12 | Title truncated by YouTube with "…" in the UI | the extension reads `textContent`, so the full title is used | — |
 | YT-KW-E13 | Titles in other languages or auto-translated titles | matching uses the shown text, which depends on the account language | — |

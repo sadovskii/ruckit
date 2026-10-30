@@ -78,6 +78,7 @@ Two cards: **Channels** and **Keywords and phrases** (one list for single words 
 | ST-BL-05 | Channels card has no input | channels can only be added with the ✕ button on YouTube | E2E:settings/black-list |
 | ST-BL-06 | Input and Add are disabled while the list is off | can't add to a turned-off list | E2E:settings/black-list |
 | ST-BL-07 | Validation: empty input → Add | red input, nothing stored | E2E:settings/black-list |
+| ST-BL-07a | Validation: input without a letter, digit or emoji (`" "`, `"."`, `":"`, `"..."`, `"!?"`, `"-"`) → Add | red input, nothing stored. Rule in `black-list-item-rules.ts`, also enforced by the storage | E2E:settings/black-list (ST-BL-E01), UNIT |
 | ST-BL-08 | Validation: longer than 30 characters | red input, nothing stored (max length 30) | E2E:settings/black-list |
 | ST-BL-09 | Duplicate item | ignored (not stored twice) | E2E:settings/black-list, UNIT |
 | ST-BL-10 | Count updates live when a channel is hidden on YouTube | count on the open settings page changes without reload | E2E:settings/black-list |
@@ -89,8 +90,8 @@ Two cards: **Channels** and **Keywords and phrases** (one list for single words 
 
 | ID | Edge case | Current behaviour / question | Covered by |
 |---|---|---|---|
-| ST-BL-E01 ⚠ | Input of only spaces (`"   "`) | passes "required", **is stored** and then matches almost every title | E2E:settings/black-list (fixme – needs a decision) |
-| ST-BL-E02 ⚠ | Leading/trailing spaces (`" cats "`) | stored as typed (not trimmed); the item then only matches titles that have those spaces around the word | E2E:settings/black-list (fixme – needs a decision) |
+| ST-BL-E01 | Input of only spaces or symbols (`"   "`, `"."`, `"..."`) | rejected (red input, nothing stored): it would match almost every title. Text with a letter, digit or emoji is accepted (`"Mr. Bean"`, `"1:0"`, `"😺"`) | E2E:settings/black-list, UNIT |
+| ST-BL-E02 | Leading/trailing spaces (`" cats "`) | trimmed: stored as `"cats"`, and counts as a duplicate of an existing `"cats"` | E2E:settings/black-list, UNIT |
 | ST-BL-E03 | Same word with different case (`Cats`, `cats`) | stored as two items | — |
 | ST-BL-E04 | Exactly 30 characters / emoji / Cyrillic / RTL | accepted and shown correctly | E2E:settings/black-list |
 | ST-BL-E05 | Press Enter in the input | submits like "Add new"? (it's a `<form>`) | E2E:settings/black-list |
@@ -111,6 +112,8 @@ Two cards: **Channels** and **Keywords and phrases** (one list for single words 
 | ST-MR-08 | Channels dialog | no add form; adding from search disabled | E2E:settings/manage-restrictions |
 | ST-MR-09 | Channel hidden on YouTube while the channels dialog is open | list updates live | E2E:settings/manage-restrictions |
 | ST-MR-10 | Close the dialog (✕ / backdrop) | closes; card shows the new count | E2E:settings/manage-restrictions |
+| ST-MR-11 | Dialog form: only spaces or symbols / spaces around the text | rejected (red input) / trimmed, same rule as the card | E2E:settings/manage-restrictions |
+| ST-MR-12 | "Add new restriction" from the search: only symbols / spaces around the text | rejected (red search box) / trimmed | E2E:settings/manage-restrictions |
 
 **Edge cases**
 
@@ -200,4 +203,3 @@ Still open:
 4. ST-PW-E03 removing in an open dialog after the unlock ended, ST-PW-E04 long or unusual passwords, ST-PW-E06 period changed while unlocked.
 5. ST-HL-E01 no YouTube tab open, ST-HL-E03 change in another settings tab, ST-AP-E01 theme in another tab.
 6. ST-BL-E03 case-variant duplicates, ST-BL-E06 sync quota, ST-BL-E07 two settings tabs.
-7. Decisions behind the `fixme` tests: ST-BL-E01, ST-BL-E02. Then remove `.fixme`.

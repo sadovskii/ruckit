@@ -1,13 +1,13 @@
 import { test, expect, restartExtension, type ExtensionHandle, type ExtensionStorage } from '../../support/fixtures';
 import { channelsOn, KEYS, keywordsAndPhrasesOn, legacyPhrasesOn, type StoredData } from '../../support/storage-data';
-import { addViaCard, blackListCard, expectInvalid, gotoSettings, openSection, skipUntilMergedListIsPublished } from '../../support/settings-page';
+import { addViaCard, blackListCard, expectInvalid, gotoSettings, openSection, skipUntilNextReleaseIsPublished } from '../../support/settings-page';
 
 /* ST-BL-*: the black-list cards: Channels, and Keywords and phrases (one list since the merge). See e2e/docs/settings-page.md */
 test.describe('settings: black list', () => {
     const stored = async (storage: { get(): Promise<Record<string, unknown>> }, key: string) => (await storage.get())[key];
 
     test('ST-BL-01 two cards show the stored on/off state and counts', async ({ page, extension, storage }) => {
-        await skipUntilMergedListIsPublished(page, extension);
+        await skipUntilNextReleaseIsPublished(page, extension);
         await storage.reset({
             ...channelsOn(['A', 'B']),
             [KEYS.keywordsAndPhrases]: ['one', 'two words', 'three'], [KEYS.keywordsAndPhrasesOn]: false,
@@ -70,7 +70,7 @@ test.describe('settings: black list', () => {
         };
 
         test.beforeEach(async ({ page, extension }) => {
-            await skipUntilMergedListIsPublished(page, extension);
+            await skipUntilNextReleaseIsPublished(page, extension);
         });
 
         test('ST-BL-12 are moved into the keywords card', async ({ page, extension, storage }) => {
@@ -213,17 +213,24 @@ test.describe('settings: black list', () => {
         await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['кошки😺']);
     });
 
-    // ⚠ needs a decision (see e2e/docs/settings-page.md): today such input is stored as typed
-    test.fixme('ST-BL-E01 an input of only spaces is not added', async ({ page, extension, storage }) => {
+    test('ST-BL-E01 an input of only spaces or symbols is not added and is marked invalid', async ({ page, extension, storage }) => {
+        await skipUntilNextReleaseIsPublished(page, extension);
         await storage.reset({ ...keywordsAndPhrasesOn([]) });
         await gotoSettings(page, extension.origin, 'blacklist');
+        const card = blackListCard(page, 'keywordsAndPhrases');
 
-        await addViaCard(page, 'keywordsAndPhrases', '   ');
-
+        for (const symbolsOnly of [' ', '   ', '.', ':', '...', ' : ', '!?', '-']) {
+            await addViaCard(page, 'keywordsAndPhrases', symbolsOnly);
+            await expectInvalid(card.input);
+        }
         expect(await stored(storage, KEYS.keywordsAndPhrases)).toEqual([]);
+
+        await addViaCard(page, 'keywordsAndPhrases', 'Mr. Bean');
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['Mr. Bean']);
     });
 
-    test.fixme('ST-BL-E02 leading and trailing spaces are trimmed', async ({ page, extension, storage }) => {
+    test('ST-BL-E02 leading and trailing spaces are trimmed', async ({ page, extension, storage }) => {
+        await skipUntilNextReleaseIsPublished(page, extension);
         await storage.reset({ ...keywordsAndPhrasesOn([]) });
         await gotoSettings(page, extension.origin, 'blacklist');
 
@@ -233,7 +240,7 @@ test.describe('settings: black list', () => {
     });
 
     test('opens the black list from the sidebar', async ({ page, extension }) => {
-        await skipUntilMergedListIsPublished(page, extension);
+        await skipUntilNextReleaseIsPublished(page, extension);
         await gotoSettings(page, extension.origin);
         await openSection(page, 'blacklist');
 

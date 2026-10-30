@@ -9,7 +9,7 @@ import { YouTubeDom } from '../testing/youtube-dom-fixtures';
 
 /*
  * Behaviour of the "keywords and phrases" restriction as users experience it. Since the merge, words and
- * phrases are items of one list (blk/blkito), matched as a case-insensitive substring of the title.
+ * phrases are items of one list (blk/blkito). An item hides a title that contains it as whole words, ignoring case.
  * Data saved before the merge (the old phrases list blph/blphito) must keep working for existing users.
  *
  * Every test starts from data as it is persisted in chrome.storage.sync, runs the real page handlers
@@ -85,7 +85,9 @@ const SCENARIOS: Scenario[] = [
     { description: 'keyword is case-insensitive for cyrillic', stored: keywordsAndPhrasesOn(['кошки']), title: 'Смешные КОШКИ', hidden: true },
     { description: 'keyword matches the first word', stored: keywordsAndPhrasesOn(['funny']), title: 'Funny cats', hidden: true },
     { description: 'keyword matches a word with punctuation', stored: keywordsAndPhrasesOn(['cats']), title: 'I love cats!', hidden: true },
-    { description: 'keyword matches part of a word', stored: keywordsAndPhrasesOn(['hate']), title: 'Whatever happens', hidden: true },
+    { description: 'keyword does not match part of a longer word', stored: keywordsAndPhrasesOn(['hate']), title: 'Whatever happens', hidden: false },
+    { description: 'keyword does not match the start of a longer word', stored: keywordsAndPhrasesOn(['wo']), title: 'world is good', hidden: false },
+    { description: 'short keyword matches as a whole word', stored: keywordsAndPhrasesOn(['wo']), title: 'wo I use this for connect with my gf', hidden: true },
     { description: 'any of several keywords matches', stored: keywordsAndPhrasesOn(['dogs', 'cats']), title: 'Funny cats', hidden: true },
     { description: 'keyword not in the title', stored: keywordsAndPhrasesOn(['dogs']), title: 'Funny cats compilation', hidden: false },
     { description: 'empty keywords list', stored: keywordsAndPhrasesOn([]), title: 'Funny cats compilation', hidden: false },
@@ -94,7 +96,7 @@ const SCENARIOS: Scenario[] = [
     { description: 'phrase matches the beginning of the title', stored: keywordsAndPhrasesOn(['How to']), title: 'How to cook pasta', hidden: true },
     { description: 'phrase matches the middle of the title', stored: keywordsAndPhrasesOn(['breaking news']), title: 'Today breaking news live', hidden: true },
     { description: 'phrase matches the whole title', stored: keywordsAndPhrasesOn(['cook pasta']), title: 'cook pasta', hidden: true },
-    { description: 'phrase matches across parts of words', stored: keywordsAndPhrasesOn(['king new']), title: 'breaking news', hidden: true },
+    { description: 'phrase does not match across parts of words', stored: keywordsAndPhrasesOn(['king new']), title: 'breaking news', hidden: false },
     { description: 'phrase matches cyrillic', stored: keywordsAndPhrasesOn(['как приготовить']), title: 'Рецепт: как приготовить пасту', hidden: true },
     { description: 'phrase is case-insensitive', stored: keywordsAndPhrasesOn(['How To Cook']), title: 'how to cook pasta', hidden: true },
     { description: 'phrase is case-insensitive for cyrillic', stored: keywordsAndPhrasesOn(['КАК ПРИГОТОВИТЬ']), title: 'как приготовить пасту', hidden: true },

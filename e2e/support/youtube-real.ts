@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { expect, test } from './fixtures';
+import { matchesKeywordOrPhrase } from '../../src/extension/black-list/common/keywords-and-phrases-matching';
 
 /*
  * Helpers for tests on the real youtube.com. Content changes every day, so tests read the titles that are
@@ -77,13 +78,11 @@ export function countVideos(page: Page, list: VideoList): Promise<number> {
     return page.locator(list.item).count();
 }
 
-/** Counts videos whose title contains a black-list item (a word or a phrase) like the extension does: ignoring case. */
-export function countMatching(page: Page, list: VideoList, item: string): Promise<number> {
-    return page.locator(list.item).evaluateAll((items, { titleSelector, item }) => items.filter(element => {
-        const title = element.querySelector(titleSelector)?.textContent?.trim() ?? '';
+/** Counts videos whose title the extension's own rule matches (whole words, ignoring case). */
+export async function countMatching(page: Page, list: VideoList, item: string): Promise<number> {
+    const titles = await readTitles(page, list);
 
-        return title.toLocaleLowerCase().includes(item.toLocaleLowerCase());
-    }).length, { titleSelector: list.title, item });
+    return titles.filter(title => matchesKeywordOrPhrase(title, [item])).length;
 }
 
 /**
@@ -91,11 +90,10 @@ export function countMatching(page: Page, list: VideoList, item: string): Promis
  * Words of `avoid` are skipped (e.g. the title of the opened video, which would otherwise be redirected away).
  */
 export function pickKeyword(titles: string[], avoid = ''): string {
-    const lowerTitles = titles.map(title => title.toLocaleLowerCase());
-    const lowerAvoid = avoid.toLocaleLowerCase();
-    const words = new Set(lowerTitles.flatMap(title => title.match(/\p{L}{5,}/gu) ?? []).filter(word => !lowerAvoid.includes(word)));
+    const words = new Set(titles.flatMap(title => title.toLocaleLowerCase().match(/\p{L}{5,}/gu) ?? [])
+        .filter(word => !matchesKeywordOrPhrase(avoid, [word])));
 
-    return pickMostCommon([...words], word => lowerTitles.filter(title => title.includes(word)).length, titles.length, 'keyword');
+    return pickMostCommon([...words], word => titles.filter(title => matchesKeywordOrPhrase(title, [word])).length, titles.length, 'keyword');
 }
 
 /** Two consecutive words of a title that appear in some (but not all) titles. */
@@ -107,7 +105,7 @@ export function pickPhrase(titles: string[]): string {
             .filter(phrase => /\p{L}{3,}.*\s.*\p{L}{3,}/u.test(phrase));
     }));
 
-    return pickMostCommon([...phrases], phrase => titles.filter(title => title.toLocaleLowerCase().includes(phrase.toLocaleLowerCase())).length, titles.length, 'phrase');
+    return pickMostCommon([...phrases], phrase => titles.filter(title => matchesKeywordOrPhrase(title, [phrase])).length, titles.length, 'phrase');
 }
 
 function pickMostCommon(candidates: string[], count: (candidate: string) => number, total: number, kind: string): string {

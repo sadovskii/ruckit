@@ -1,6 +1,6 @@
 import { test, expect } from '../../support/fixtures';
 import { channelsOn, KEYS, keywordsAndPhrasesOn } from '../../support/storage-data';
-import { blackListCard, gotoSettings, manageDialog, openManageDialog } from '../../support/settings-page';
+import { blackListCard, expectInvalid, gotoSettings, manageDialog, openManageDialog, skipUntilNextReleaseIsPublished } from '../../support/settings-page';
 
 /* ST-MR-*: "Manage restrictions" dialog. See e2e/docs/settings-page.md */
 test.describe('settings: manage restrictions', () => {
@@ -121,6 +121,40 @@ test.describe('settings: manage restrictions', () => {
 
         await expect(manageDialog(page).root).toHaveCount(0);
         await expect(blackListCard(page, 'keywordsAndPhrases').count).toContainText('2');
+    });
+
+    test('ST-MR-11 the dialog form rejects only spaces or symbols and trims the item', async ({ page, extension, storage }) => {
+        await skipUntilNextReleaseIsPublished(page, extension);
+        await storage.reset({ ...keywordsAndPhrasesOn(['cats']) });
+        await gotoSettings(page, extension.origin, 'blacklist');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
+
+        for (const symbolsOnly of ['   ', '.', ':', '...']) {
+            await dialog.newInput.fill(symbolsOnly);
+            await dialog.newButton.click();
+            await expectInvalid(dialog.newInput);
+        }
+        expect(await stored(storage, KEYS.keywordsAndPhrases)).toEqual(['cats']);
+
+        await dialog.newInput.fill('  bad day  ');
+        await dialog.newButton.click();
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['cats', 'bad day']);
+    });
+
+    test('ST-MR-12 "Add new restriction" from the search rejects only symbols and trims the item', async ({ page, extension, storage }) => {
+        await skipUntilNextReleaseIsPublished(page, extension);
+        await storage.reset({ ...keywordsAndPhrasesOn(['cats']) });
+        await gotoSettings(page, extension.origin, 'blacklist');
+        const dialog = await openManageDialog(page, 'keywordsAndPhrases');
+
+        await dialog.search.fill('...');
+        await dialog.notFoundAddButton.click();
+        await expectInvalid(dialog.search);
+        expect(await stored(storage, KEYS.keywordsAndPhrases)).toEqual(['cats']);
+
+        await dialog.search.fill(' parrots ');
+        await dialog.notFoundAddButton.click();
+        await expect.poll(() => stored(storage, KEYS.keywordsAndPhrases)).toEqual(['cats', 'parrots']);
     });
 
     test('ST-MR-E03 removing the last search match clears the search', async ({ page, extension, storage }) => {

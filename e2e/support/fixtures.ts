@@ -30,6 +30,7 @@ export class ExtensionStorage {
     }
 
     async set(data: StoredData): Promise<void> {
+        await waitForTestWriteBudget(this.extension, 1);
         await withQuotaRetry(() => this.extension.worker.evaluate(items => chrome.storage.sync.set(items), data));
     }
 
@@ -41,13 +42,40 @@ export class ExtensionStorage {
         const current = await this.get();
         const removedKeys = Object.keys(current).filter(key => !(key in data));
         const changed = Object.fromEntries(Object.entries(data).filter(([key, value]) => JSON.stringify(current[key]) !== JSON.stringify(value)));
+        const writes = (removedKeys.length ? 1 : 0) + (Object.keys(changed).length ? 1 : 0);
 
-        if (removedKeys.length === 0 && Object.keys(changed).length === 0) return;
+        if (writes === 0) return;
 
+        await waitForTestWriteBudget(this.extension, writes);
         await withQuotaRetry(() => this.extension.worker.evaluate(async ({ removedKeys, changed }) => {
             if (removedKeys.length) await chrome.storage.sync.remove(removedKeys);
             if (Object.keys(changed).length) await chrome.storage.sync.set(changed);
         }, { removedKeys, changed }));
+    }
+}
+
+/*
+ * chrome.storage.sync allows 120 writes per minute for the whole extension, shared by the tests and the extension.
+ * The extension doesn't retry a refused write: the settings page shows the new item but it is never saved.
+ * So the tests' own writes are capped below the quota, leaving the rest for the writes the tests check.
+ */
+const TEST_WRITES_PER_MINUTE = 80;
+const testWriteTimes = new WeakMap<ExtensionHandle, number[]>();
+
+async function waitForTestWriteBudget(extension: ExtensionHandle, writes: number): Promise<void> {
+    const times = testWriteTimes.get(extension) ?? [];
+    testWriteTimes.set(extension, times);
+
+    for (;;) {
+        const now = Date.now();
+        while (times.length && now - times[0] >= 60_000) times.shift();
+
+        if (times.length + writes <= TEST_WRITES_PER_MINUTE) {
+            for (let i = 0; i < writes; i++) times.push(now);
+            return;
+        }
+
+        await new Promise(resolve => setTimeout(resolve, times[0] + 60_000 - now + 100));
     }
 }
 
@@ -122,10 +150,18 @@ export const test = base.extend<TestFixtures, WorkerFixtures>({
     page: async ({ extension }, use, testInfo) => {
         const before = new Set(extension.context.pages());
         const page = await extension.context.newPage();
+        // errors the extension doesn't show to the user (e.g. a refused storage write) only appear in the console
+        const consoleErrors: string[] = [];
+        page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text()); });
+        page.on('pageerror', error => consoleErrors.push(String(error)));
         // a background tab isn't rendered, and YouTube only loads content it renders
         await page.bringToFront();
 
         await use(page);
+
+        if (testInfo.status !== testInfo.expectedStatus && consoleErrors.length) {
+            await testInfo.attach('console errors', { body: consoleErrors.join('\n'), contentType: 'text/plain' });
+        }
 
         for (const openedPage of extension.context.pages()) {
             if (before.has(openedPage)) continue;

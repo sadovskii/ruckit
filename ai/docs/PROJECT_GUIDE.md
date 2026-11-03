@@ -25,7 +25,7 @@ Two code worlds share one TS build:
 - `topLevelAwait: true` (heartbeat uses top-level `await`).
 - `BROWSER` env (chrome|edge|firefox|opera) → `DefinePlugin BROWSER_TARGET` + copies `manifests/<browser>.json` → `manifest.json`.
 - Copies `assets/` and `styles/` (root folders, not `src/assets`).
-- Scripts: `npm run build:chrome|edge|firefox|opera|all` → `dist/<browser>`; `npm run build` → chrome into `dist/df-youtube-angular`; `npm test` = Karma.
+- Scripts: `npm run build:chrome|edge|firefox|opera|all` → `dist/<browser>`; `npm run build` → chrome into `dist/df-youtube-angular`; `npm test` = Karma. Store packages: `npm run build:<browser>:zip` (or `build:all:zip`) builds and also writes `dist/zip-<browser>/<browser>-<manifest version>.zip` (older versions stay; same version is overwritten); `npm run zip:<browser>` zips an existing build.
 - `src/manifest.json` is **stale/unused** (v1.1.9). Real manifests: `manifests/*.json` (chrome v1.1.11).
 - Imports use `src/...` absolute paths (tsconfig baseUrl).
 

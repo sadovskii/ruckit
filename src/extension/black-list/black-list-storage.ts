@@ -1,5 +1,55 @@
 import { BlackListDictionary, BlackListRestrictionType, blackListRestrictionTypeToStoreMap, blackListRestrictionTypeToStoreTurnOnMap } from "src/app/settings/layout-content/black-list/black-list.models";
-import { STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS, STORAGE_BLACKLIST_PHRASES } from "src/app/shared/constants";
+import { STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON, STORAGE_BLACKLIST_CHANNELS, STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES, LEGACY_STORAGE_BLACKLIST_PHRASES, LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON } from "src/app/shared/constants";
+import { matchesKeywordOrPhrase, mergeUniqueKeywordsAndPhrases } from "./common/keywords-and-phrases-matching";
+import { containsLetterDigitOrEmoji, normalizeBlackListItem } from "./common/black-list-item-rules";
+
+interface MergedKeywordsAndPhrases {
+    keywordsAndPhrases: string[];
+    isTurnedOn: boolean;
+}
+
+/**
+ * Merges the legacy phrases list into the keywords and phrases list.
+ * The merged list is on when it was on, or when the legacy phrases list was on and actually contained items,
+ * so every item that was hiding content before keeps hiding it.
+ */
+function mergeLegacyPhrasesIntoKeywordsAndPhrases(stored: Record<string, any>): MergedKeywordsAndPhrases {
+    const legacyPhrases: string[] = Array.isArray(stored[LEGACY_STORAGE_BLACKLIST_PHRASES]) ? stored[LEGACY_STORAGE_BLACKLIST_PHRASES] : [];
+    const keywordsAndPhrases = mergeUniqueKeywordsAndPhrases(stored[STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES], legacyPhrases);
+    const isTurnedOn = !!stored[STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON]
+        || (!!stored[LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON] && legacyPhrases.length > 0);
+
+    return { keywordsAndPhrases, isTurnedOn };
+}
+
+/**
+ * One-time, idempotent migration of the legacy phrases list into the keywords and phrases list in sync storage.
+ * Legacy keys are removed only after the merged data was saved successfully.
+ */
+export async function migrateLegacyPhrasesIntoKeywordsAndPhrases(): Promise<void> {
+    try {
+        const stored = await chrome.storage.sync.get([
+            STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES,
+            STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON,
+            LEGACY_STORAGE_BLACKLIST_PHRASES,
+            LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON
+        ]);
+
+        if (!(LEGACY_STORAGE_BLACKLIST_PHRASES in stored) && !(LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON in stored)) {
+            return;
+        }
+
+        const merged = mergeLegacyPhrasesIntoKeywordsAndPhrases(stored);
+
+        // separate set calls: storage change handlers process only one key per change event
+        await chrome.storage.sync.set({ [STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES]: merged.keywordsAndPhrases });
+        await chrome.storage.sync.set({ [STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON]: merged.isTurnedOn });
+        await chrome.storage.sync.remove([LEGACY_STORAGE_BLACKLIST_PHRASES, LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON]);
+    }
+    catch (error) {
+        console.error('black-list: failed to migrate legacy phrases into keywords and phrases', error);
+    }
+}
 
 export class BlackListStorage {
 
@@ -7,50 +57,49 @@ export class BlackListStorage {
     public get channels(): string[] { return this.blackListData[BlackListRestrictionType.Channels]; }
     public channelMap: Map<string, boolean> = new Map(); // name, nickname
 
-    public get keywordsIsTurnedOn(): boolean { return this.blackListTurningOn[BlackListRestrictionType.Keywords]; }
-    public get keywords(): string[] { return this.blackListData[BlackListRestrictionType.Keywords]; }
-
-    public get phrasesIsTurnedOn(): boolean { return this.blackListTurningOn[BlackListRestrictionType.Phrases]; }
-    public get phrases(): string[] { return this.blackListData[BlackListRestrictionType.Phrases]; }
+    public get keywordsAndPhrasesIsTurnedOn(): boolean { return this.blackListTurningOn[BlackListRestrictionType.KeywordsAndPhrases]; }
+    public get keywordsAndPhrases(): string[] { return this.blackListData[BlackListRestrictionType.KeywordsAndPhrases]; }
 
     protected blackListData: BlackListDictionary<string[]> = {
-        channel: [],
-        phrase: [],
-        keyword: []
+        [BlackListRestrictionType.Channels]: [],
+        [BlackListRestrictionType.KeywordsAndPhrases]: []
     }
     
     protected blackListTurningOn: BlackListDictionary<boolean> = {
-        channel: false,
-        phrase: true,
-        keyword: false
+        [BlackListRestrictionType.Channels]: false,
+        [BlackListRestrictionType.KeywordsAndPhrases]: false
     }
 
     async init(): Promise<void> {
         const storageKeysData = [
             STORAGE_BLACKLIST_CHANNELS,
-            STORAGE_BLACKLIST_KEYWORDS,
-            STORAGE_BLACKLIST_PHRASES
+            STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES,
+            LEGACY_STORAGE_BLACKLIST_PHRASES
         ]
     
         const storageKeysTurnedOn = [
             STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON,
-            STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON,
-            STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON
+            STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON,
+            LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON
         ]
     
         var storageTurningOn = await chrome.storage.sync.get(storageKeysTurnedOn);
-    
-        this.blackListTurningOn[BlackListRestrictionType.Channels] = storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
-        this.blackListTurningOn[BlackListRestrictionType.Keywords] = storageTurningOn[STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON];
-        this.blackListTurningOn[BlackListRestrictionType.Phrases] = storageTurningOn[STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON];
-        
         const storageBlackLists = await chrome.storage.sync.get(storageKeysData);
 
+        // merging in memory too, in case the storage migration hasn't finished yet
+        const mergedKeywordsAndPhrases = mergeLegacyPhrasesIntoKeywordsAndPhrases({ ...storageTurningOn, ...storageBlackLists });
+
+        this.blackListTurningOn[BlackListRestrictionType.Channels] = storageTurningOn[STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON];
+        this.blackListTurningOn[BlackListRestrictionType.KeywordsAndPhrases] = mergedKeywordsAndPhrases.isTurnedOn;
+
         this.blackListData[BlackListRestrictionType.Channels] = storageBlackLists[STORAGE_BLACKLIST_CHANNELS] ?? [];
-        this.blackListData[BlackListRestrictionType.Keywords] = storageBlackLists[STORAGE_BLACKLIST_KEYWORDS] ?? [];
-        this.blackListData[BlackListRestrictionType.Phrases] = storageBlackLists[STORAGE_BLACKLIST_PHRASES] ?? [];
+        this.blackListData[BlackListRestrictionType.KeywordsAndPhrases] = mergedKeywordsAndPhrases.keywordsAndPhrases;
 
         this.channelMap = new Map(this.blackListData[BlackListRestrictionType.Channels].map(item => [item, true]));
+    }
+
+    public matchesKeywordOrPhrase(text: string | null | undefined): boolean {
+        return matchesKeywordOrPhrase(text, this.keywordsAndPhrases);
     }
 
 
@@ -65,9 +114,13 @@ export class BlackListStorage {
 
     public addBlackListItem(item: string | undefined, type: BlackListRestrictionType): void {
         if (!item) return;
-        if (this.blackListData[type].includes(item)) return;
 
-        this.blackListData[type].push(item);
+        const normalizedItem = normalizeBlackListItem(item);
+
+        if (!containsLetterDigitOrEmoji(normalizedItem)) return;
+        if (this.blackListData[type].includes(normalizedItem)) return;
+
+        this.blackListData[type].push(normalizedItem);
 
         const storeType = blackListRestrictionTypeToStoreMap[type];
 
@@ -99,11 +152,8 @@ export class BlackListStorage {
             if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON, changes,t => {
                 this.blackListTurningOn[BlackListRestrictionType.Channels] = t;
             })) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_IS_TURNED_ON, changes, t => {
-                this.blackListTurningOn[BlackListRestrictionType.Keywords] = t
-            })) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON, changes, t => {
-                this.blackListTurningOn[BlackListRestrictionType.Phrases] = t
+            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON, changes, t => {
+                this.blackListTurningOn[BlackListRestrictionType.KeywordsAndPhrases] = t
             })) return;
 
             if (this.updateProperty(STORAGE_BLACKLIST_CHANNELS, changes, t => 
@@ -111,11 +161,8 @@ export class BlackListStorage {
                     this.blackListData[BlackListRestrictionType.Channels] = t;
                     this.channelMap = new Map(this.blackListData[BlackListRestrictionType.Channels].map(item => [item, true]));
                 })) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS, changes, t => {
-                this.blackListData[BlackListRestrictionType.Keywords] = t
-            })) return;
-            if (this.updateProperty(STORAGE_BLACKLIST_PHRASES, changes, t => {
-                this.blackListData[BlackListRestrictionType.Phrases] = t
+            if (this.updateProperty(STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES, changes, t => {
+                this.blackListData[BlackListRestrictionType.KeywordsAndPhrases] = t
             })) return;
         });
     }

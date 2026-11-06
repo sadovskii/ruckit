@@ -1,5 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
-import { expect } from './fixtures';
+import { expect, test, type ExtensionHandle } from './fixtures';
 
 /*
  * Page helpers for the extension's settings page (index.html in a tab). The UI may be English or Russian
@@ -58,8 +58,28 @@ export function toggle(scope: Locator) {
 
 // ---------- black list ----------
 
-export type ListName = 'channels' | 'keywords' | 'phrases';
-const LIST_INDEX: Record<ListName, number> = { channels: 0, keywords: 1, phrases: 2 };
+export type ListName = 'channels' | 'keywordsAndPhrases';
+/** Cards on the black-list page: Channels, then Keywords and phrases (one list since the merge). */
+const LIST_INDEX: Record<ListName, number> = { channels: 0, keywordsAndPhrases: 1 };
+
+let storeVersionIsNextRelease: boolean | undefined;
+
+/**
+ * Skips the test on the store versions (prod-*) until the next release is published. That release merges phrases
+ * into the keywords and phrases list and rejects items without letters, digits or emoji. It is recognised by the
+ * merged list: older store versions still have a separate Phrases card. Local builds and mocked always run the test.
+ */
+export async function skipUntilNextReleaseIsPublished(page: Page, extension: ExtensionHandle): Promise<void> {
+    if (!extension.target.startsWith('prod')) return;
+
+    if (storeVersionIsNextRelease === undefined) {
+        await gotoSettings(page, extension.origin, 'blacklist');
+        await expect(page.locator('app-black-list-simple-item').first()).toBeVisible();
+        storeVersionIsNextRelease = await page.locator('app-black-list-simple-item').count() === 2;
+    }
+
+    test.skip(!storeVersionIsNextRelease, `store version ${extension.version} is older than the next release (it still has the separate Phrases list)`);
+}
 
 export function blackListCard(page: Page, list: ListName) {
     const root = page.locator('app-black-list-simple-item').nth(LIST_INDEX[list]);

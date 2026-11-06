@@ -1,6 +1,8 @@
 import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION, blackListRestrictionTypeToMessageKeys } from '../black-list.models';
+import { FormControl } from '@angular/forms';
+import { BlackListRestrictionType, blackListRestrictionTypeToMessageKeys } from '../black-list.models';
+import { BLACK_LIST_ITEM_VALIDATORS } from '../black-list-item.validator';
+import { normalizeBlackListItem } from 'src/extension/black-list/common/black-list-item-rules';
 import { ViewVersions } from 'src/app/shared/types';
 import { NbComponentSize } from '@nebular/theme';
 import { Subscription } from 'rxjs';
@@ -63,7 +65,7 @@ export class BlackListSimpleItemComponent implements OnInit, OnChanges, OnDestro
     this.toggleControl = new FormControl(this.checked);
     this.addItemControl = new FormControl<string>(
       { value: '', disabled: this.disabled},
-      [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]
+      BLACK_LIST_ITEM_VALIDATORS
     )
 
     const sub = this.toggleControl.valueChanges.subscribe(value => {
@@ -85,7 +87,7 @@ export class BlackListSimpleItemComponent implements OnInit, OnChanges, OnDestro
       return;
     }
     
-    this.addItem.emit(this.addItemControl.value!);
+    this.addItem.emit(normalizeBlackListItem(this.addItemControl.value!));
 
     this.addItemControl.setValue('');
     this.addItemControl.reset();

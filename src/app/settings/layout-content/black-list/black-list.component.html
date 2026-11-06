@@ -12,24 +12,13 @@
 	</app-black-list-simple-item>
 	<app-black-list-simple-item
 		class="black-list__item"
-		[hidenCountItems]="blackListData[BlackListRestrictionType.Keywords].length"
-		[checked]="blackListTurningOn[BlackListRestrictionType.Keywords]"
+		[hidenCountItems]="blackListData[BlackListRestrictionType.KeywordsAndPhrases].length"
+		[checked]="blackListTurningOn[BlackListRestrictionType.KeywordsAndPhrases]"
 		[isRestricted]="isRestricted"
-		[type]="BlackListRestrictionType.Keywords"
+		[type]="BlackListRestrictionType.KeywordsAndPhrases"
 		[viewVersion]="viewVersion"
-		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Keywords)"
-		(addItem)="onAddItem($event, BlackListRestrictionType.Keywords)"
-		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Keywords)">
-	</app-black-list-simple-item>
-	<app-black-list-simple-item
-		class="black-list__item"
-		[hidenCountItems]="blackListData[BlackListRestrictionType.Phrases].length"
-		[checked]="blackListTurningOn[BlackListRestrictionType.Phrases]"
-		[isRestricted]="isRestricted"
-		[type]="BlackListRestrictionType.Phrases"
-		[viewVersion]="viewVersion"
-		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.Phrases)"
-		(addItem)="onAddItem($event, BlackListRestrictionType.Phrases)"
-		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.Phrases)">
+		(manageResctrictionClick)="onManageRestrictionClick(BlackListRestrictionType.KeywordsAndPhrases)"
+		(addItem)="onAddItem($event, BlackListRestrictionType.KeywordsAndPhrases)"
+		(changeToggle)="onChangeTurningOn($event, BlackListRestrictionType.KeywordsAndPhrases)">
 	</app-black-list-simple-item>
 </app-layout>

@@ -1,5 +1,5 @@
 import { test, expect } from '../../support/fixtures';
-import { channelsOn, KEYS, keywordsOn } from '../../support/storage-data';
+import { channelsOn, KEYS, keywordsAndPhrasesOn } from '../../support/storage-data';
 import { channelPage, searchResultsPage, youtubeUrl } from '../../support/youtube-mock';
 import { blackListButtons, video, waitForContentScript } from '../../support/page-helpers';
 
@@ -44,7 +44,7 @@ test.describe('black list: channels', () => {
         await storage.reset({
             [KEYS.channels]: ['Cat Channel'], [KEYS.channelsOn]: false,
             // a removed keyword match proves the content script has processed the page
-            ...keywordsOn(['e2e-marker']),
+            ...keywordsAndPhrasesOn(['e2e-marker']),
         });
 
         await page.goto(youtube.serve(youtubeUrl.search('pets'), searchResultsPage([

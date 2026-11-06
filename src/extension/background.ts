@@ -1,10 +1,13 @@
 import { HideListItemType } from "src/app/settings/layout-content/hide-list/hide-list.models";
 import { runBlackListScriptsByUrl, runHideListCssScripts } from "./background-functionality";
 import { HideListStorage } from "./hide-list/hide-list-storage";
-import { BlackListStorage } from "./black-list/black-list-storage";
+import { BlackListStorage, migrateLegacyPhrasesIntoKeywordsAndPhrases } from "./black-list/black-list-storage";
 import { BlackListRestrictionType } from "src/app/settings/layout-content/black-list/black-list.models";
 
 const restrictedPage = 'https://www.youtube.com/-rp'
+
+// idempotent: moves existing users' legacy phrases list into the keywords and phrases list, no-op afterwards
+migrateLegacyPhrasesIntoKeywordsAndPhrases();
 
 
 chrome.runtime.onInstalled.addListener(async (details) => {

@@ -6,10 +6,11 @@
 export const KEYS = {
     channels: 'blch',
     channelsOn: 'blchito',
-    keywords: 'blk',
-    keywordsOn: 'blkito',
-    phrases: 'blph',
-    phrasesOn: 'blphito',
+    keywordsAndPhrases: 'blk',
+    keywordsAndPhrasesOn: 'blkito',
+    /** Old separate phrases list, merged into `keywordsAndPhrases` on startup. Only for tests of data saved before the merge. */
+    legacyPhrases: 'blph',
+    legacyPhrasesOn: 'blphito',
     hideList: 'hide-list',
 } as const;
 
@@ -25,8 +26,9 @@ export const HIDE_LIST_ITEM = {
 
 export type StoredData = Record<string, unknown>;
 
-export const keywordsOn = (keywords: string[]): StoredData => ({ [KEYS.keywords]: keywords, [KEYS.keywordsOn]: true });
-export const phrasesOn = (phrases: string[]): StoredData => ({ [KEYS.phrases]: phrases, [KEYS.phrasesOn]: true });
+export const keywordsAndPhrasesOn = (keywordsAndPhrases: string[]): StoredData => ({ [KEYS.keywordsAndPhrases]: keywordsAndPhrases, [KEYS.keywordsAndPhrasesOn]: true });
+/** The old phrases list as users saved it before the merge. */
+export const legacyPhrasesOn = (phrases: string[]): StoredData => ({ [KEYS.legacyPhrases]: phrases, [KEYS.legacyPhrasesOn]: true });
 export const channelsOn = (channels: string[] = []): StoredData => ({ [KEYS.channels]: channels, [KEYS.channelsOn]: true });
 
 /** hide-list is stored as a serialized Map: [[HideListItemType, enabled], ...] */

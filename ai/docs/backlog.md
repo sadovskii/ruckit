@@ -8,7 +8,7 @@
 | 2 | **Hardcoded YouTube selectors** — `#owner`, `ytd-video-renderer`, `yt-content-metadata-view-model` | All page handlers | Single YouTube redesign breaks the extension | 🔴 Critical |
 | 3 | **Polling instead of MutationObserver** — 1s cycle misses fast DOM changes, wastes CPU | `src/extension/black-list/black-list-heartbeat.ts` | UX flicker; blocked content visible briefly | 🔴 Critical |
 | 4 | **16-insertion limit** breaks infinite scroll | Feed/Search page handlers | Users see unfiltered items past the cap | 🟠 High |
-| 5 | **Naive keyword matching** — `"hate"` also matches `"whatever"` | Video/Search page handlers | High false-positive rate | 🟠 High |
+| 5 | ~~**Naive keyword matching** — `"hate"` also matches `"whatever"`~~ ✅ Fixed: whole-word matching in `keywords-and-phrases-matching.ts` | Video/Search page handlers | High false-positive rate | ✅ Done |
 | 6 | **No error handling** on Chrome API calls | Throughout extension layer | Silent failures with no user feedback | 🟠 High |
 | 7 | **Race condition** — storage init vs. `onChanged` listener registration | `src/extension/black-list/black-list-storage.ts` | Could miss updates during startup | 🟠 High |
 

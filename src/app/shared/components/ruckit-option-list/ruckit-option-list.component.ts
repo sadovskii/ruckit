@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { MAX_LENGTH_RESTRICTION } from 'src/app/settings/layout-content/black-list/black-list.models';
+import { BLACK_LIST_ITEM_VALIDATORS } from 'src/app/settings/layout-content/black-list/black-list-item.validator';
 import { RuckitFilteredOption } from './ruckit-option-list.models';
 
 @Component({
@@ -47,7 +47,8 @@ export class RuckitOptionListComponent implements OnInit, OnDestroy {
   @Output()
   public removeItem = new EventEmitter<number>;
 
-  protected searchFormControl = new FormControl<string>('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]);
+  // the search text can be added as a new item ("Add new restriction"), so it is validated like one
+  protected searchFormControl = new FormControl<string>('', BLACK_LIST_ITEM_VALIDATORS);
   protected filteredOptionList: RuckitFilteredOption[];
   protected invalidAfterClick = false;
 

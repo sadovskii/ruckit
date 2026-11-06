@@ -55,11 +55,12 @@ The tests are split into two groups, which the dashboard can run separately:
 
 - **YouTube page tests** ([tests/youtube/](tests/youtube)) check what the extension does on youtube.com:
   - [youtube-layout.spec.ts](tests/youtube/youtube-layout.spec.ts): every selector the extension relies on still matches YouTube's HTML on the search, home, watch and channel pages. A failure names the selector and the extension file that uses it.
-  - [black-list.spec.ts](tests/youtube/black-list.spec.ts): keywords, phrases, the "hide channel" button and redirects. YouTube's content changes daily, so tests pick a keyword or phrase from the titles currently shown, turn it on, and expect those videos to disappear.
+  - [black-list.spec.ts](tests/youtube/black-list.spec.ts): the keywords and phrases list (single words and phrases), the "hide channel" button and redirects. YouTube's content changes daily, so tests pick a keyword or phrase from the titles currently shown, turn it on, and expect those videos to disappear.
   - [hide-list.spec.ts](tests/youtube/hide-list.spec.ts): first checks that the element is visible with the option off. This proves the selector still matches. Then it checks the element is hidden with the option on.
 - **Settings page tests** ([tests/settings/](tests/settings)) check the extension's own settings page: navigation and deep links, black-list cards, the manage dialog, hide-list options, password and password lock, theme. They find elements by structure, not by text, so they work in English and Russian. Page helpers are in [support/settings-page.ts](support/settings-page.ts). Put new settings page tests in this folder.
 - **Offline tests** ([tests/mocked/](tests/mocked)) check the YouTube behaviours against fake pages ([support/youtube-mock.ts](support/youtube-mock.ts)). [settings-to-youtube.spec.ts](tests/mocked/settings-to-youtube.spec.ts) checks how settings changes reach an open YouTube tab. The offline project also runs the settings page tests. They're fast, deterministic and work offline.
 - **`test.fixme`** marks tests for ⚠ behaviour that needs a decision (listed in the feature lists). They show as skipped until `.fixme` is removed.
+- **Features of the next release.** Tests that need the next release (two black-list cards, phrases in the keywords and phrases list, the update from the old separate Phrases list, rejecting items without letters, digits or emoji) are skipped in the store-version windows while the published version still has the Phrases card (`skipUntilNextReleaseIsPublished` in [support/settings-page.ts](support/settings-page.ts)). They run there automatically once the release is published. Local and offline runs always include them. The update tests restart the extension (`restartExtension` in [support/fixtures.ts](support/fixtures.ts)) so its startup migration runs, which closes any open settings tabs of the extension.
 
 The home feed, the notifications bell and the home-page layout check need a signed-in window. Without one they fail with "Not signed in to YouTube in the … window".
 
@@ -68,6 +69,7 @@ The home feed, the notifications bell and the home-page layout check need a sign
 ### Test data
 
 - **Extension settings:** tests change `chrome.storage.sync` through the extension's service worker and restore the previous content after each test. In store-version windows this is the test account's extension data.
+- **Storage write limit:** Chrome allows the extension 120 storage writes per minute, and the extension doesn't retry a refused write (the item shows on the settings page but isn't saved). The tests' own writes are therefore capped at 80 per minute (`TEST_WRITES_PER_MINUTE` in [support/fixtures.ts](support/fixtures.ts)), so fast settings tests may pause briefly. Failed tests get the page's console errors attached, where a refused write shows as `MAX_WRITE_OPERATIONS_PER_MINUTE`.
 - **Other extensions:** every other extension in a test window is turned off, because ad blockers or other YouTube tools would change the pages under test.
 - **Storage keys:** the keys in [support/storage-data.ts](support/storage-data.ts) are literal values on purpose. They are user data, and a renamed key must break the tests.
 

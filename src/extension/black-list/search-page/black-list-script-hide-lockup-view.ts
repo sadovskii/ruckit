@@ -1,4 +1,5 @@
 import { BlackListData } from "../black-list-models";
+import { matchesKeywordOrPhrase } from "../common/keywords-and-phrases-matching";
 
 const LOCKUP_VIEW_LOCAL_NAME = 'yt-lockup-view-model';
 
@@ -6,8 +7,7 @@ const LOCKUP_VIEW_LOCAL_NAME = 'yt-lockup-view-model';
 export function hideLocupView(htmlElement: HTMLElement, data: BlackListData) {
     if (htmlElement.localName === LOCKUP_VIEW_LOCAL_NAME) {
         hideElementsFromBlackListByChannelName(htmlElement, data.blackListChannels);
-        hideElementsFromBlackListByName(htmlElement, data.blackListWords);
-        hideElementsFromBlackListByPhrase(htmlElement, data.blackListPhrases);
+        hideElementsFromBlackListByName(htmlElement, data.blackListKeywordsAndPhrases);
     }
 }
 
@@ -24,34 +24,11 @@ function hideElementsFromBlackListByChannelName(ytdVideoRenderer: HTMLElement, b
     }
 }
 
-function hideElementsFromBlackListByName(ytdVideoRenderer: HTMLElement, blackListWords: string[]) {
+function hideElementsFromBlackListByName(ytdVideoRenderer: HTMLElement, blackListKeywordsAndPhrases: string[]) {
     var element = ytdVideoRenderer?.querySelector('yt-lockup-metadata-view-model .yt-lockup-metadata-view-model-wiz__title span') as HTMLElement;
     var name = element?.textContent;
 
-    if (name) {
-        const splited = name?.toLocaleLowerCase().split(' ');
-        for (let i = 0; i < blackListWords.length; i++) {
-            var result = splited?.some((w) => {
-                return w.includes(blackListWords[i]?.toLocaleLowerCase())
-            })
-
-            if (result) {
-                ytdVideoRenderer.remove();
-                break;
-            }
-        }
-    }
-}
-
-function hideElementsFromBlackListByPhrase(ytdVideoRenderer: HTMLElement, blackListPhrases: string[]) {
-    var element = ytdVideoRenderer?.querySelector('yt-lockup-metadata-view-model .yt-lockup-metadata-view-model-wiz__title span') as HTMLElement;
-    var name = element?.textContent;
-
-    for (let i = 0; i < blackListPhrases.length; i++) {
-        var result = name?.includes(blackListPhrases[i])
-
-        if (result) {
-            ytdVideoRenderer.remove();
-        }
+    if (matchesKeywordOrPhrase(name, blackListKeywordsAndPhrases)) {
+        ytdVideoRenderer.remove();
     }
 }

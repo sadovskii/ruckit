@@ -6,7 +6,7 @@ Last full analysis: 2026-10-16.
 ## 1. What it is
 Browser extension (MV3; Chrome/Edge/Firefox/Opera) that removes distractions on `www.youtube.com`.
 Two features:
-- **Blacklist** — hide content by **channel name**, **keyword**, **phrase** (JS DOM removal + redirect to a "restricted" page).
+- **Blacklist** — hide content by **channel name** and **keyword/phrase** (one merged list) (JS DOM removal + redirect to a "restricted" page).
 - **Hidelist** — hide YouTube UI sections (Shorts, comments, sidebar, etc.) via **injected CSS files**.
 - Extra: optional **password** that locks settings from being weakened; **theme** select; donate/feedback links.
 
@@ -25,7 +25,7 @@ Two code worlds share one TS build:
 - `topLevelAwait: true` (heartbeat uses top-level `await`).
 - `BROWSER` env (chrome|edge|firefox|opera) → `DefinePlugin BROWSER_TARGET` + copies `manifests/<browser>.json` → `manifest.json`.
 - Copies `assets/` and `styles/` (root folders, not `src/assets`).
-- Scripts: `npm run build:chrome|edge|firefox|opera|all` → `dist/<browser>`; `npm run build` → chrome into `dist/df-youtube-angular`; `npm test` = Karma.
+- Scripts: `npm run build:chrome|edge|firefox|opera|all` → `dist/<browser>`; `npm run build` → chrome into `dist/df-youtube-angular`; `npm test` = Karma. Store packages: `npm run build:<browser>:zip` (or `build:all:zip`) builds and also writes `dist/zip-<browser>/<browser>-<manifest version>.zip` (older versions stay; same version is overwritten); `npm run zip:<browser>` zips an existing build.
 - `src/manifest.json` is **stale/unused** (v1.1.9). Real manifests: `manifests/*.json` (chrome v1.1.11).
 - Imports use `src/...` absolute paths (tsconfig baseUrl).
 
@@ -41,17 +41,19 @@ Keys in [src/app/shared/constants.ts](../../src/app/shared/constants.ts):
 |---|---|---|
 | `blch` | STORAGE_BLACKLIST_CHANNELS | `string[]` channel names (≤60 chars, exact match) |
 | `blchito` | ..._CHANNELS_IS_TURNED_ON | boolean |
-| `blk` | STORAGE_BLACKLIST_KEYWORDS | `string[]` |
+| `blk` | STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES | `string[]` words **and phrases** (merged list) |
 | `blkito` | ..._KEYWORDS_IS_TURNED_ON | boolean |
-| `blph` | STORAGE_BLACKLIST_PHRASES | `string[]` |
-| `blphito` | ..._PHRASES_IS_TURNED_ON | boolean |
+| `blph` | LEGACY_STORAGE_BLACKLIST_PHRASES | legacy `string[]`, migrated into `blk` and removed |
+| `blphito` | LEGACY_..._PHRASES_IS_TURNED_ON | legacy boolean, migrated into `blkito` and removed |
 | `hide-list` | HIDE_LIST_ID | `[HideListItemType, boolean][]` (serialized Map) |
 | `password` | STORAGE_PASSWORD_ID | **plaintext** string |
 | `free-password-period` | STORAGE_FREE_PASSWORD_PERIOD_ID | seconds (default 30) |
 | `theme` | STORAGE_THEME_ID | Nebular theme name |
 
 Short keys exist to save sync quota (`background.ts` logs quota usage on start).
-Mapping enum→key: `blackListRestrictionTypeToStoreMap` / `...TurnOnMap` in [black-list.models.ts](../../src/app/settings/layout-content/black-list/black-list.models.ts). `BlackListRestrictionType` = `'channel'|'keyword'|'phrase'`. `MAX_LENGTH_RESTRICTION = 30` (UI input limit).
+Mapping enum→key: `blackListRestrictionTypeToStoreMap` / `...TurnOnMap` in [black-list.models.ts](../../src/app/settings/layout-content/black-list/black-list.models.ts). `BlackListRestrictionType` = `'channel'|'keyword'`. `MAX_LENGTH_RESTRICTION = 30` (UI input limit). An item must contain a letter, digit or emoji and is trimmed before saving ([black-list-item-rules.ts](../../src/extension/black-list/common/black-list-item-rules.ts); UI validators in [black-list-item.validator.ts](../../src/app/settings/layout-content/black-list/black-list-item.validator.ts); `BlackListStorage.addBlackListItem` enforces it too).
+
+Phrases used to be a separate list; they were merged into keywords. `migrateLegacyPhrasesIntoKeywordsAndPhrases()` (in `black-list-storage.ts`, called on every background start, idempotent) moves `blph` into `blk` (deduplicated), sets `blkito = blkito || (blphito && blph not empty)`, then removes the legacy keys. `BlackListStorage.init()` also merges them in memory in case it runs before the migration.
 
 Communication UI ↔ content scripts is **only through storage** (`chrome.storage.onChanged`) plus 2 runtime messages (below).
 
@@ -84,13 +86,13 @@ Communication UI ↔ content scripts is **only through storage** (`chrome.storag
 `YouTubePageType` enum + `detectYouTubePageType(href)` (pure function, path/query based). Good unit-test target.
 
 ### Storage classes
-- [black-list-storage.ts](../../src/extension/black-list/black-list-storage.ts) `BlackListStorage`: getters `channels/keywords/phrases`, `*IsTurnedOn`, `channelMap` (Map for O(1) lookup); `init()`, `setBlackListChannel()`, `addBlackListItem()`, `removeBlackListItem(index)`, `setBlackListTutnedOn()` (sic), `initHandler()`. Fields are `protected` because Angular's `BlackListStorageService` **extends** it.
+- [black-list-storage.ts](../../src/extension/black-list/black-list-storage.ts) `BlackListStorage`: getters `channels/keywords`, `*IsTurnedOn`, `channelMap` (Map for O(1) lookup); `init()`, `matchesKeywordOrPhrase(text)`, `setBlackListChannel()`, `addBlackListItem()`, `removeBlackListItem(index)`, `setBlackListTutnedOn()` (sic), `initHandler()`. Fields are `protected` because Angular's `BlackListStorageService` **extends** it.
 - [hide-list-storage.ts](../../src/extension/hide-list/hide-list-storage.ts) `HideListStorage`: `hideListMap`, `generalShorts`, `addHideListItem()`.
 
 ### Page handlers (`black-list/pages/*`)
 Common pattern in each:
 - **Button inject**: `TEMPLATE` (from `button/black-list-button-templates.ts`, root class `.blb-conainer` — typo is the real selector, keep it) inserted next to channel name; click → `setBlackListChannel(name)` (trim, cut to 60). Removed when channels toggle off.
-- **Removal**: for each item: channel in `channelMap` → `remove()`; keyword: title lowercased, split by space, `word.includes(keyword)`; phrase: case-sensitive `title.includes(phrase)`.
+- **Removal**: for each item: channel in `channelMap` → `remove()`; keyword (word or phrase): the title contains it as whole words, ignoring case, via `matchesKeywordOrPhrase` ([keywords-and-phrases-matching.ts](../../src/extension/black-list/common/keywords-and-phrases-matching.ts)); `"wo"` hides `"wo I use this"` but not `"world is good"`.
 - **Redirect** pages (video/channel/shorts) send `{restrictedPage:true}`.
 - Feed/Search button inject capped at 16 per tick (`maxInsertionsPerRun`), iterates reversed.
 
@@ -151,10 +153,9 @@ Key YouTube selectors (fragile, change here when YT breaks):
 
 ## 9. Known bugs / quirks (found in analysis, not yet fixed)
 - `BlackListStorage.handler` and `BlackListStorageService._handlerListener` **return after first matched key** → if several keys change in one `set`, only one is applied.
-- `FeedPage.blackListRemoveElements` returns early when channels toggle is off → keywords/phrases not applied on home feed in that case.
-- `ChannelPageRedirect` checks keywords/phrases **ignoring their toggles**, and only runs if channels toggle on.
-- Phrase match is case-sensitive; keyword match is substring-of-word (`"hate"` matches `"whatever"`).
-- `BlackListStorage` default `phrase: true` before init.
+- `FeedPage.blackListRemoveElements` returns early when channels toggle is off → keywords not applied on home feed in that case.
+- `ChannelPageRedirect` checks keywords **ignoring their toggle**, and only runs if channels toggle on.
+- Keyword match is whole-word only, so a singular doesn't hide its plural (`"cat"` doesn't hide `"cats"`).
 - Heartbeat creates new handler instances every second; no MutationObserver; 16-insert cap per tick.
 - `runHideListCssScripts` checks `keys.length` instead of `keysNotNullabe.length` (insertCSS with empty files possible).
 - Password stored plaintext; `PasswordComponent` subscribes to `getHasPassword$` without adding to subscriptions.

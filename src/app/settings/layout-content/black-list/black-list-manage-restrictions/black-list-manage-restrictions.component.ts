@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { TagType } from 'src/app/shared/components/tag/tag.types';
-import { BlackListRestrictionType, MAX_LENGTH_RESTRICTION, blackListRestrictionTypeToMessageKeys } from '../black-list.models';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BlackListRestrictionType, blackListRestrictionTypeToMessageKeys } from '../black-list.models';
+import { FormControl } from '@angular/forms';
+import { BLACK_LIST_ITEM_VALIDATORS } from '../black-list-item.validator';
+import { normalizeBlackListItem } from 'src/extension/black-list/common/black-list-item-rules';
 
 @Component({
   selector: 'app-black-list-manage-restrictions',
@@ -27,7 +29,7 @@ export class BlackListManageRestrictionsComponent {
   @Output()
   public removeItem = new EventEmitter<number>;
 
-  protected addItemFormControl = new FormControl<string>('', [Validators.required, Validators.maxLength(MAX_LENGTH_RESTRICTION)]);
+  protected addItemFormControl = new FormControl<string>('', BLACK_LIST_ITEM_VALIDATORS);
 
   constructor(private _dialogRef: NbDialogRef<BlackListManageRestrictionsComponent>) {}
 
@@ -39,13 +41,13 @@ export class BlackListManageRestrictionsComponent {
     this.invalidAfterClick = true;
     if (this.addItemFormControl.valid) {
       this.invalidAfterClick = false;
-      this.addItem.emit(this.addItemFormControl.value!);
+      this.addItem.emit(normalizeBlackListItem(this.addItemFormControl.value!));
       this.addItemFormControl.reset();
     }
   }
 
   protected notFoundAddItem(value: string) {
-    this.addItem.emit(value);
+    this.addItem.emit(normalizeBlackListItem(value));
   }
 
   protected onRemoveItem(index: number) {

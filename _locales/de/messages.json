@@ -1,0 +1,119 @@
+{
+  "ext_name": { "message": "Ruckit – YouTube Shorts & Ablenkungen ausblenden" },
+  "ext_description": { "message": "Blenden Sie Shorts, Empfehlungen, Kommentare und ablenkende Kanäle aus – für ein aufgeräumtes, fokussiertes YouTube." },
+  "brand_name": { "message": "Ruckit" },
+
+  "common_add_new": { "message": "Hinzufügen" },
+  "common_manage_restrictions": { "message": "Liste öffnen" },
+  "common_select_placeholder": { "message": "Option auswählen" },
+
+  "popup_extended_settings": { "message": "Alle Einstellungen" },
+
+  "sidebar_support": { "message": "Ruckit unterstützen" },
+  "sidebar_feedback": { "message": "Feedback geben" },
+
+  "about_title": { "message": "Über die Erweiterung" },
+  "about_paragraph_1": {
+    "message": "In der heutigen Welt voller Internetlärm wird unsere Aufmerksamkeit von unzähligen Ablenkungen zerstreut. Klassische Berufe weichen E-Commerce-Tätigkeiten, und die Zeit versickert in den Weiten sozialer Netzwerke und Streamingdienste. YouTube, eine der meistgenutzten Plattformen, wird mit seinem endlosen Strom an Shorts und Empfehlungen zu einem regelrechten Strudel, der Nutzer von ihren eigentlichen Zielen wegzieht."
+  },
+  "about_paragraph_2": {
+    "message": "Ruckit macht auf das Problem der Internetsucht aufmerksam und bietet eine Lösung: Menschen jeden Alters und jeder Lebenslage dabei zu helfen, die Informationen, die sie erhalten, zu ordnen und einen bewussten Umgang damit zu ihrem Vorteil zu nutzen."
+  },
+  "about_paragraph_3": { "message": "Unsere Werte: Empathie, Hilfsbereitschaft, Disziplin, Fokus." },
+  "about_paragraph_4": {
+    "message": "Unsere Mission: Nutzern zu helfen, ihre zerstreute Aufmerksamkeit auf ihre wichtigsten Ziele zu richten und Ordnung in ihren Online-Raum zu bringen."
+  },
+
+  "quote_1": {
+    "message": "Wofür entscheiden Sie sich: für die langfristigen Aussichten Ihrer schwindenden Freiheit oder für den zwanghaften Drang, eine vertraute Seite zu durchstöbern?"
+  },
+
+  "blacklist_title": { "message": "Sperrliste" },
+  "blacklist_channels_title": { "message": "Kanäle" },
+  "blacklist_channels_description": { "message": "Sperren Sie die Kanäle, die in Ihrem Feed nicht erscheinen sollen" },
+  "blacklist_channels_placeholder": { "message": "Kanalnamen eingeben" },
+  "blacklist_channels_hidden_count": {
+    "message": "Ausgeblendete Kanäle: $COUNT$",
+    "placeholders": { "count": { "content": "$1", "example": "4" } }
+  },
+  "blacklist_channels_manage_title": { "message": "Gesperrte Kanäle" },
+  "blacklist_channels_new_restriction": { "message": "Neuer Kanal" },
+  "blacklist_keywords_and_phrases_title": { "message": "Wörter und Phrasen" },
+  "blacklist_keywords_and_phrases_description": {
+    "message": "Sperren Sie die Wörter und Phrasen, die in Ihrem Feed nicht erscheinen sollen"
+  },
+  "blacklist_keywords_and_phrases_placeholder": { "message": "Wort oder Phrase eingeben" },
+  "blacklist_keywords_and_phrases_hidden_count": {
+    "message": "Ausgeblendete Wörter und Phrasen: $COUNT$",
+    "placeholders": { "count": { "content": "$1", "example": "4" } }
+  },
+  "blacklist_keywords_and_phrases_manage_title": { "message": "Gesperrte Wörter und Phrasen" },
+  "blacklist_keywords_and_phrases_new_restriction": { "message": "Neues Wort oder neue Phrase" },
+  "blacklist_manage_tag": { "message": "Sperrliste" },
+  "blacklist_find_existing": { "message": "Bestehende Einschränkung suchen" },
+  "blacklist_button_tooltip": { "message": "Kanalinhalte ausblenden" },
+  "option_list_not_found": { "message": "Die Einschränkung wurde nicht gefunden" },
+  "option_list_add_new": { "message": "Neue Einschränkung hinzufügen" },
+  "option_list_empty": { "message": "Die Liste der Einschränkungen ist leer" },
+
+  "restricted_page_title": { "message": "gesperrter Inhalt – YouTube" },
+  "restricted_page_go_home": { "message": "Zur Startseite" },
+
+  "hidelist_title": { "message": "Ausblendliste" },
+  "hidelist_group_general": { "message": "Allgemein" },
+  "hidelist_group_home_feed": { "message": "Startseiten-Feed" },
+  "hidelist_group_header": { "message": "Kopfzeile" },
+  "hidelist_group_watch_page": { "message": "Wiedergabeseite" },
+  "hidelist_group_search_results": { "message": "Suchergebnisse" },
+  "hidelist_group_video_thumbnails": { "message": "Video-Vorschaubilder" },
+  "hidelist_item_hide_shorts": { "message": "Shorts ausblenden" },
+  "hidelist_item_suggested_videos_grid": { "message": "Raster mit empfohlenen Videos" },
+  "hidelist_item_notifications_bell": { "message": "Benachrichtigungsglocke" },
+  "hidelist_item_pre_end_suggestions": { "message": "Vorschläge vor Videoende" },
+  "hidelist_item_end_screen_suggestions": { "message": "Vorschläge im Abspann" },
+  "hidelist_item_up_next_sidebar": { "message": "Seitenleiste „Als Nächstes“" },
+  "hidelist_item_comments_section": { "message": "Kommentarbereich" },
+  "hidelist_item_topic_chips": { "message": "Themen-Chips" },
+  "hidelist_item_latest_posts": { "message": "Neueste Beiträge" },
+  "hidelist_item_suggestions_sections": { "message": "Vorschlagsbereiche" },
+  "hidelist_item_thumbnail_blackout": { "message": "Vorschaubilder abdunkeln" },
+  "hidelist_item_disable_hover_playback": { "message": "Keine Wiedergabe beim Darüberfahren" },
+  "hidelist_item_disable_hover_image": { "message": "Kein Bildwechsel beim Darüberfahren" },
+
+  "password_title": { "message": "Passwort" },
+  "password_request_title": { "message": "Passwortabfrage" },
+  "password_request_description": {
+    "message": "Legen Sie das Passwort fest, das zum Ändern Ihrer Einschränkungen erforderlich ist"
+  },
+  "password_inquire_title": { "message": "Zugriffsdauer" },
+  "password_inquire_description": {
+    "message": "Wählen Sie, wie lange eine Sitzung zum Bearbeiten der Einschränkungen dauern soll"
+  },
+  "password_period_30_seconds": { "message": "30 Sekunden" },
+  "password_period_1_minute": { "message": "1 Minute" },
+  "password_change_title": { "message": "Passwort ändern" },
+  "password_current_placeholder": { "message": "Aktuelles Passwort eingeben" },
+  "password_new_placeholder": { "message": "Neues Passwort eingeben" },
+  "password_confirm_new_placeholder": { "message": "Neues Passwort bestätigen" },
+  "password_enter_title": { "message": "Passwort eingeben" },
+  "password_enter_tag": { "message": "Zugriff eingeschränkt" },
+  "password_enter_placeholder": { "message": "Passwort eingeben" },
+  "password_enter_submit": { "message": "Passwort bestätigen" },
+  "password_set_title": { "message": "Passwort festlegen" },
+  "password_set_tag": { "message": "Passwort-Einstellungen" },
+  "password_set_hint": { "message": "*Achten Sie darauf, Ihr Passwort nicht zu verlieren" },
+  "password_set_submit": { "message": "Passwort festlegen" },
+  "password_show": { "message": "Passwort anzeigen" },
+  "password_hide": { "message": "Passwort verbergen" },
+
+  "settings_title": { "message": "Einstellungen" },
+  "settings_appearance_title": { "message": "Erscheinungsbild" },
+  "settings_appearance_description": { "message": "Passen Sie an, wie Ruckit auf Ihrem Gerät aussieht" },
+  "settings_theme_light": { "message": "Hell" },
+  "settings_theme_dark": { "message": "Dunkel" },
+
+  "snackbar_setting_edited": { "message": "Einstellung wurde erfolgreich geändert" },
+  "snackbar_editing_restricted": { "message": "Bearbeiten ist eingeschränkt" },
+  "snackbar_action_enter_password": { "message": "Passwort eingeben" },
+  "snackbar_action_undo": { "message": "Rückgängig" }
+}

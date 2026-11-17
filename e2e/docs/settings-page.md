@@ -46,7 +46,7 @@ Testing hint: the e2e tests open `chrome-extension://<id>/index.html` in a tab, 
 | ST-NAV-06 | About page | mission/values texts | — |
 | ST-NAV-07 | "Support Ruckit" | opens the Stripe donation page in a new tab | E2E:settings/navigation |
 | ST-NAV-08 | "Give feedback" | opens the store review page **of the build's browser** (Chrome/Edge/Firefox/Opera) in a new tab | E2E:settings/navigation |
-| ST-NAV-09 | Page language | UI follows the browser language (en, ru); missing keys would show the raw key | — |
+| ST-NAV-09 | Page language | UI follows the browser language (en, ru, de); missing keys would show the raw key | — |
 | ST-NAV-E01 | Reload the settings page on a section | always starts on the start page again (section not kept) | — |
 | ST-NAV-E02 ⚠ | "Open full settings" from the popup while a settings tab is already open | existing settings tabs are closed and one new tab opened. ⚠ The tab search uses the **Chrome store ID**, so in Edge or Opera, or any build with another ID, old tabs aren't found and duplicates pile up | — |
 

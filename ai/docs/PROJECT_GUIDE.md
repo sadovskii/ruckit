@@ -26,7 +26,7 @@ Two code worlds share one TS build:
 - `BROWSER` env (chrome|edge|firefox|opera) → `DefinePlugin BROWSER_TARGET` + copies `manifests/<browser>.json` → `manifest.json`.
 - Copies `assets/` and `styles/` (root folders, not `src/assets`).
 - Scripts: `npm run build:chrome|edge|firefox|opera|all` → `dist/<browser>`; `npm run build` → chrome into `dist/df-youtube-angular`; `npm test` = Karma. Store packages: `npm run build:<browser>:zip` (or `build:all:zip`) builds and also writes `dist/zip-<browser>/<browser>-<manifest version>.zip` (older versions stay; same version is overwritten); `npm run zip:<browser>` zips an existing build.
-- `src/manifest.json` is **stale/unused** (v1.1.9). Real manifests: `manifests/*.json` (chrome v1.1.11).
+- `src/manifest.json` is **stale/unused** (v1.1.9). Real manifests: `manifests/*.json` (chrome v1.1.14).
 - Imports use `src/...` absolute paths (tsconfig baseUrl).
 
 ## 3. Manifest essentials
@@ -175,4 +175,5 @@ See also [backlog.md](backlog.md) and [plan.md](plan.md).
 - Templates: `{{ 'key' | i18n }}`, `[input]="'key' | i18n"`, with substitution `{{ key | i18n: n }}` (`I18nPipe` in `src/app/shared/i18n/i18n.pipe.ts`).
 - TS / content scripts: `t(key, subs?)` from `src/app/shared/i18n/i18n.ts` (falls back to key outside the extension).
 - Per-restriction-type keys: `blackListRestrictionTypeToMessageKeys` in `black-list.models.ts`. Hidelist config stores `nameKey`. Snackbar action labels: `snackbarActionTypeToMessageKey`.
+- Languages: `en` (default), `ru`, `de`.
 - Add a language = add `_locales/<code>/messages.json` with the same keys. Not localized: `src/index.html` `<title>`, unused `.html` reference copies in `src/extension`, stale `src/manifest.json`.

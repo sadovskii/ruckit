@@ -1,7 +1,12 @@
 import { blackListProhibitiveElement } from "./black-list-prohibitive-element";
 import { t } from "src/app/shared/i18n/i18n";
+import { applyBlockedPageTheme } from "./blocked-page-theme";
+import { readRecordedYouTubeTheme } from "./youtube-theme";
 
 document.title = t('restricted_page_title');
+
+// the theme YouTube was last seen with (recorded by the heartbeat script on regular YouTube pages)
+const themeLoaded = readRecordedYouTubeTheme().catch(() => null);
 
 let timeout = setTimeout(function prohibitedContent() {
     const iframe = document.querySelector("iframe");
@@ -34,5 +39,7 @@ let timeout = setTimeout(function prohibitedContent() {
     
         picture.replaceWith(template.content);
     }
+
+    themeLoaded.then(theme => applyBlockedPageTheme(document, iframe.contentDocument!, theme));
 });
 

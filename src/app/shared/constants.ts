@@ -16,6 +16,8 @@ export const HIDE_LIST_ID = "hide-list";
 export const STORAGE_PASSWORD_ID = "password";
 export const STORAGE_FREE_PASSWORD_PERIOD_ID = "free-password-period";
 export const STORAGE_THEME_ID = "theme";
+// theme YouTube itself is showing ('dark' | 'light'); kept in chrome.storage.local because it belongs to this browser, not the account
+export const STORAGE_YOUTUBE_THEME_ID = "youtube-theme";
 export const STORAGE_BLACKLIST_CHANNELS = "blch";
 export const STORAGE_BLACKLIST_CHANNELS_IS_TURNED_ON = "blchito";
 // values are users' saved data: "blk" is from before phrases were merged in; never rename the values

@@ -93,6 +93,17 @@
   "password_enter_tag": { "message": "Доступ ограничен" },
   "password_enter_placeholder": { "message": "Пароль" },
   "password_enter_submit": { "message": "Подтвердить" },
+  "password_enter_forgot": { "message": "Забыли пароль?" },
+  "password_enter_cancel_reset": { "message": "Отменить сброс" },
+  "password_enter_reset_tag": { "message": "Восстановление доступа" },
+  "password_reset_in_progress_title": { "message": "Идёт сброс пароля" },
+  "password_reset_in_progress_remaining": {
+    "message": "Пароль будет удалён через $TIME$",
+    "placeholders": {
+      "time": { "content": "$1", "example": "03:12:45" }
+    }
+  },
+  "password_reset_in_progress_hint": { "message": "Введите пароль, чтобы остановить сброс" },
   "password_set_title": { "message": "Создание пароля" },
   "password_set_tag": { "message": "Защита паролем" },
   "password_set_hint": { "message": "*Запомните пароль: без него изменить ограничения не получится" },

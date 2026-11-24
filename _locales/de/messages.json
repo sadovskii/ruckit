@@ -99,6 +99,17 @@
   "password_enter_tag": { "message": "Zugriff eingeschränkt" },
   "password_enter_placeholder": { "message": "Passwort eingeben" },
   "password_enter_submit": { "message": "Passwort bestätigen" },
+  "password_enter_forgot": { "message": "Passwort vergessen?" },
+  "password_enter_cancel_reset": { "message": "Zurücksetzen abbrechen" },
+  "password_enter_reset_tag": { "message": "Zugriffswiederherstellung" },
+  "password_reset_in_progress_title": { "message": "Zurücksetzen läuft" },
+  "password_reset_in_progress_remaining": {
+    "message": "Das Passwort wird in $TIME$ entfernt",
+    "placeholders": {
+      "time": { "content": "$1", "example": "03:12:45" }
+    }
+  },
+  "password_reset_in_progress_hint": { "message": "Geben Sie Ihr Passwort ein, um das Zurücksetzen zu beenden" },
   "password_set_title": { "message": "Passwort festlegen" },
   "password_set_tag": { "message": "Passwort-Einstellungen" },
   "password_set_hint": { "message": "*Achten Sie darauf, Ihr Passwort nicht zu verlieren" },

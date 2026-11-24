@@ -186,6 +186,17 @@
   "password_enter_tag": { "message": "Access is restricted" },
   "password_enter_placeholder": { "message": "Enter your password" },
   "password_enter_submit": { "message": "Confirm password" },
+  "password_enter_forgot": { "message": "Forgot password?" },
+  "password_enter_cancel_reset": { "message": "Cancel reset" },
+  "password_enter_reset_tag": { "message": "Access recovery" },
+  "password_reset_in_progress_title": { "message": "Reset in progress" },
+  "password_reset_in_progress_remaining": {
+    "message": "The password will be removed in $TIME$",
+    "placeholders": {
+      "time": { "content": "$1", "example": "03:12:45" }
+    }
+  },
+  "password_reset_in_progress_hint": { "message": "Enter your password to stop the reset" },
   "password_set_title": { "message": "Setting a password" },
   "password_set_tag": { "message": "Password settings" },
   "password_set_hint": { "message": "*be very careful not to lose your password" },

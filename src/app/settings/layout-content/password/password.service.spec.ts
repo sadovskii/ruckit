@@ -15,6 +15,10 @@ describe('PasswordService', () => {
 
     const chromeService = {
       storageSyncGetItem: (key: string) => of(storage[key]),
+      storageSyncSetItems: (items: Record<string, unknown>) => {
+        Object.assign(storage, items);
+        return of(undefined);
+      },
       storageSyncRemoveItems: (keys: string[]) => {
         keys.forEach(key => delete storage[key]);
         return of(undefined);
@@ -36,6 +40,13 @@ describe('PasswordService', () => {
   it('a wrong password leaves a pending reset alone', async () => {
     expect(await firstValueFrom(service.submitEnterPassword('wrong'))).toBeFalse();
     expect(cancelReset).not.toHaveBeenCalled();
+  });
+
+  it('setPassword saves the password with its reset delay', async () => {
+    await firstValueFrom(service.setPassword({ password: 'new', resetDelayMinutes: 60 }));
+
+    expect(storage['password']).toBe('new');
+    expect(storage['password-reset-delay']).toBe(60);
   });
 
   it('removePassword removes the password and its reset data', async () => {

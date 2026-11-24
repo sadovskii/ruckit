@@ -4,7 +4,7 @@ import { NbDialogService, NbGlobalLogicalPosition, NbGlobalPhysicalPosition } fr
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
-import { BACKDROP_CLASS, STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID } from 'src/app/shared/constants';
+import { BACKDROP_CLASS, STORAGE_FREE_PASSWORD_PERIOD_ID } from 'src/app/shared/constants';
 import { map, of, Subscription, switchMap } from 'rxjs';
 import { EnterPasswordComponent } from './enter-password/enter-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -114,7 +114,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
     );
 
     let sub = ref.componentRef.instance.submit.pipe(
-      switchMap(password => this._chromeService.storageSyncSet<string>(STORAGE_PASSWORD_ID, password))
+      switchMap(newPassword => this._passwordService.setPassword(newPassword))
       ).subscribe(_ => {
         ref.close();
         this._globalService.setHasPassword$(true);

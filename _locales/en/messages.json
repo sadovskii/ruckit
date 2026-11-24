@@ -219,6 +219,10 @@
   "password_set_tag": { "message": "Password settings" },
   "password_set_hint": { "message": "*be very careful not to lose your password" },
   "password_set_submit": { "message": "Set a password" },
+  "password_set_delay_label": { "message": "If you forget the password, a reset takes:" },
+  "password_set_delay_info_title": { "message": "Resetting a forgotten password" },
+  "password_set_delay_info_wait": { "message": "A reset waits for the time you choose before the password is removed." },
+  "password_set_delay_info_cancel": { "message": "You can cancel a started reset at any time." },
   "password_show": {
     "message": "Show password",
     "description": "Accessibility label of the eye icon in password inputs."

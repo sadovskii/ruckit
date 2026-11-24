@@ -132,6 +132,10 @@
   "password_set_tag": { "message": "Passwort-Einstellungen" },
   "password_set_hint": { "message": "*Achten Sie darauf, Ihr Passwort nicht zu verlieren" },
   "password_set_submit": { "message": "Passwort festlegen" },
+  "password_set_delay_label": { "message": "Wenn Sie das Passwort vergessen, dauert das Zurücksetzen:" },
+  "password_set_delay_info_title": { "message": "Vergessenes Passwort zurücksetzen" },
+  "password_set_delay_info_wait": { "message": "Das Zurücksetzen wartet die gewählte Zeit, bevor das Passwort entfernt wird." },
+  "password_set_delay_info_cancel": { "message": "Ein gestartetes Zurücksetzen können Sie jederzeit abbrechen." },
   "password_show": { "message": "Passwort anzeigen" },
   "password_hide": { "message": "Passwort verbergen" },
 

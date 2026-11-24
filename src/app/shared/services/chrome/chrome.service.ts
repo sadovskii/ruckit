@@ -113,6 +113,10 @@ export class ChromeService {
     return from(chrome.storage.sync.set(data))
   }
 
+  storageSyncSetItems(items: { [key: string]: unknown }): Observable<void> {
+    return from(chrome.storage.sync.set(items));
+  }
+
   storageSyncSetMap(key: string, map: Map<any, any>): Observable<void> {
     let data: { [key: string]: any } = {};
     data[key] = Array.from(map);

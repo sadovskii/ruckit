@@ -7,6 +7,7 @@ import {
 } from 'src/app/shared/constants';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
 import { PasswordResetService } from './password-reset.service';
+import { NewPassword } from './password.models';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordService {
@@ -26,6 +27,13 @@ export class PasswordService {
         }
       })
     )
+  }
+
+  setPassword(newPassword: NewPassword): Observable<void> {
+    return this._chromeService.storageSyncSetItems({
+      [STORAGE_PASSWORD_ID]: newPassword.password,
+      [STORAGE_PASSWORD_RESET_DELAY_ID]: newPassword.resetDelayMinutes
+    });
   }
 
   // knowing the password makes a pending reset pointless, so a correct password cancels it

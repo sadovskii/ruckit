@@ -8,3 +8,14 @@ export function formatRemainingTime(remainingMs: number): string {
 
   return [hours, minutes, seconds].map(part => String(part).padStart(2, '0')).join(':');
 }
+
+const DELAY_LABEL_KEYS: Record<number, string> = {
+  60: 'password_reset_delay_1_hour',
+  240: 'password_reset_delay_4_hours',
+  1440: 'password_reset_delay_1_day'
+};
+
+// message key of "1 hour" / "4 hours" / "1 day" for a delay the user can choose; null for any other value
+export function getResetDelayLabelKey(delayMinutes: number): string | null {
+  return DELAY_LABEL_KEYS[delayMinutes] ?? null;
+}

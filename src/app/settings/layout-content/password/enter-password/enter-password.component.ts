@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TagType } from 'src/app/shared/components/tag/tag.types';
 import { PasswordService } from '../password.service';
 import { NbDialogRef } from '@nebular/theme';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { PasswordResetService, PasswordResetState } from '../password-reset.service';
 import { formatRemainingTime } from '../password-reset-time';
 
@@ -25,6 +25,8 @@ export class EnterPasswordComponent implements OnInit, OnDestroy {
   public invalidAfterClick = false;
   public resetState: PasswordResetState = { status: 'none' };
   public remainingTime = '';
+  public view: 'enter' | 'confirmReset' = 'enter';
+  public delayMinutes = 0;
 
   private _subscription = new Subscription();
 
@@ -42,6 +44,26 @@ export class EnterPasswordComponent implements OnInit, OnDestroy {
     return this.resetState.status === 'pending';
   }
 
+  get headerMessageKey(): string {
+    return this.view === 'confirmReset' ? 'password_reset_confirm_title' : 'password_enter_title';
+  }
+
+  get tagMessageKey(): string {
+    if (this.view === 'confirmReset') {
+      return 'password_reset_confirm_tag';
+    }
+
+    return this.isResetPending ? 'password_enter_reset_tag' : 'password_enter_tag';
+  }
+
+  get tagIcon(): string | undefined {
+    if (this.view === 'confirmReset') {
+      return 'closed-lock-16';
+    }
+
+    return this.isResetPending ? 'key-16' : undefined;
+  }
+
   ngOnInit(): void {
     const sub = this._passwordResetService.watchState().subscribe(state => this._onResetStateChanged(state));
     this._subscription.add(sub);
@@ -49,6 +71,32 @@ export class EnterPasswordComponent implements OnInit, OnDestroy {
 
   onClose() {
     this._dialogRef.close();
+  }
+
+  onForgotPassword() {
+    const sub = this._passwordResetService.getDelayMinutes().subscribe(delayMinutes => {
+      this.delayMinutes = delayMinutes;
+      this.view = 'confirmReset';
+      this._chr.detectChanges();
+    });
+
+    this._subscription.add(sub);
+  }
+
+  onStartReset() {
+    const sub = this._passwordResetService.start().pipe(
+      switchMap(() => this._passwordResetService.getState())
+    ).subscribe(state => {
+      this.view = 'enter';
+      this._onResetStateChanged(state);
+    });
+
+    this._subscription.add(sub);
+  }
+
+  onGoBack() {
+    this.view = 'enter';
+    this._chr.detectChanges();
   }
 
   onCancelReset() {

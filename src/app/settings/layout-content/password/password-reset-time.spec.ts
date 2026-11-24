@@ -1,4 +1,17 @@
-import { formatRemainingTime } from './password-reset-time';
+import { PASSWORD_RESET_DELAY_OPTIONS_MINUTES } from 'src/app/shared/constants';
+import { formatRemainingTime, getResetDelayLabelKey } from './password-reset-time';
+
+describe('getResetDelayLabelKey', () => {
+  it('has a label for every delay the user can choose', () => {
+    PASSWORD_RESET_DELAY_OPTIONS_MINUTES.forEach(delayMinutes => {
+      expect(getResetDelayLabelKey(delayMinutes)).not.toBeNull();
+    });
+  });
+
+  it('has no label for another delay', () => {
+    expect(getResetDelayLabelKey(5)).toBeNull();
+  });
+});
 
 describe('formatRemainingTime', () => {
   it('formats hours, minutes and seconds with two digits', () => {

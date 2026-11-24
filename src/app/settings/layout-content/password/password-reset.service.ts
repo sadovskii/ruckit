@@ -42,12 +42,17 @@ export class PasswordResetService {
     );
   }
 
-  start(): Observable<void> {
+  // the delay saved with the password; passwords saved before the reset feature have none
+  getDelayMinutes(): Observable<number> {
     return this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_RESET_DELAY_ID).pipe(
-      switchMap(delayMinutes => {
-        const delay = delayMinutes ?? DEFAULT_PASSWORD_RESET_DELAY_MINUTES;
-        return this._chromeService.storageSyncSet<number>(STORAGE_PASSWORD_RESET_ENDS_AT_ID, Date.now() + delay * MS_IN_MINUTE);
-      })
+      map(delayMinutes => delayMinutes ?? DEFAULT_PASSWORD_RESET_DELAY_MINUTES)
+    );
+  }
+
+  start(): Observable<void> {
+    return this.getDelayMinutes().pipe(
+      switchMap(delayMinutes =>
+        this._chromeService.storageSyncSet<number>(STORAGE_PASSWORD_RESET_ENDS_AT_ID, Date.now() + delayMinutes * MS_IN_MINUTE))
     );
   }
 

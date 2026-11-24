@@ -197,6 +197,24 @@
     }
   },
   "password_reset_in_progress_hint": { "message": "Enter your password to stop the reset" },
+  "password_reset_confirm_tag": { "message": "Password reset" },
+  "password_reset_confirm_title": { "message": "Reset password?" },
+  "password_reset_confirm_intro": {
+    "message": "If you forgot the password, you can start a reset. The password is not removed right away: it is removed only after the waiting time."
+  },
+  "password_reset_confirm_info_title": {
+    "message": "The reset takes $DELAY$",
+    "placeholders": {
+      "delay": { "content": "$1", "example": "4 hours" }
+    }
+  },
+  "password_reset_confirm_info_locked": { "message": "Until then the restrictions stay locked." },
+  "password_reset_confirm_info_cancel": { "message": "Entering the right password or pressing Cancel reset stops it." },
+  "password_reset_start": { "message": "Start reset" },
+  "password_reset_back": { "message": "Go back" },
+  "password_reset_delay_1_hour": { "message": "1 hour" },
+  "password_reset_delay_4_hours": { "message": "4 hours" },
+  "password_reset_delay_1_day": { "message": "1 day" },
   "password_set_title": { "message": "Setting a password" },
   "password_set_tag": { "message": "Password settings" },
   "password_set_hint": { "message": "*be very careful not to lose your password" },

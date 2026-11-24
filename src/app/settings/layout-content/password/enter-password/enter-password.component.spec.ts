@@ -9,17 +9,25 @@ describe('EnterPasswordComponent', () => {
   let component: EnterPasswordComponent;
   let resetStates: Subject<PasswordResetState>;
   let cancelReset: jasmine.Spy;
+  let startReset: jasmine.Spy;
   let dialogRef: jasmine.SpyObj<NbDialogRef<EnterPasswordComponent>>;
 
   beforeEach(() => {
     resetStates = new Subject<PasswordResetState>();
     cancelReset = jasmine.createSpy('cancel').and.returnValue(of(undefined));
+    startReset = jasmine.createSpy('start').and.returnValue(of(undefined));
     dialogRef = jasmine.createSpyObj('NbDialogRef', ['close']);
 
     component = new EnterPasswordComponent(
       { detectChanges: () => {} } as ChangeDetectorRef,
       {} as PasswordService,
-      { watchState: () => resetStates, cancel: cancelReset } as unknown as PasswordResetService,
+      {
+        watchState: () => resetStates,
+        cancel: cancelReset,
+        start: startReset,
+        getDelayMinutes: () => of(240),
+        getState: () => of<PasswordResetState>({ status: 'pending', endsAt: 0, remainingMs: 240 * 60 * 1000 })
+      } as unknown as PasswordResetService,
       dialogRef
     );
     component.ngOnInit();
@@ -49,6 +57,34 @@ describe('EnterPasswordComponent', () => {
 
     expect(cancelReset).toHaveBeenCalled();
     expect(component.isResetPending).toBeFalse();
+  });
+
+  it('"Forgot password?" opens the confirmation with the saved delay', () => {
+    component.onForgotPassword();
+
+    expect(component.view).toBe('confirmReset');
+    expect(component.delayMinutes).toBe(240);
+    expect(component.tagIcon).toBe('closed-lock-16');
+  });
+
+  it('"Go back" returns to entering the password and starts no reset', () => {
+    component.onForgotPassword();
+
+    component.onGoBack();
+
+    expect(component.view).toBe('enter');
+    expect(startReset).not.toHaveBeenCalled();
+  });
+
+  it('"Start reset" starts the reset and shows it in progress', () => {
+    component.onForgotPassword();
+
+    component.onStartReset();
+
+    expect(startReset).toHaveBeenCalled();
+    expect(component.view).toBe('enter');
+    expect(component.isResetPending).toBeTrue();
+    expect(component.remainingTime).toBe('04:00:00');
   });
 
   it('closes and unlocks when the reset ends while the dialog is open', () => {

@@ -5,6 +5,7 @@ import { ChromeService } from './shared/services/chrome/chrome.service';
 import { IconRegisterService } from './shared/services/nbIcon-library-register.service';
 import { STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID, STORAGE_THEME_ID } from './shared/constants';
 import { NbThemeService } from '@nebular/theme';
+import { PasswordResetService } from './settings/layout-content/password/password-reset.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
     private _chromeService: ChromeService,
     private _registerIconService: IconRegisterService,
     private _globalService: GlobalService,
-    private _themeService: NbThemeService
+    private _themeService: NbThemeService,
+    private _passwordResetService: PasswordResetService
   ) {}
 
   ngOnInit() {
@@ -32,7 +34,9 @@ export class AppComponent implements OnInit {
   }
 
   initIsRestricted() {
-    this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID).pipe(
+    // a reset that ended while the extension was closed removes the password before it is read
+    this._passwordResetService.finalizeIfExpired().pipe(
+      switchMap(() => this._chromeService.storageSyncGetItem(STORAGE_PASSWORD_ID))
     ).subscribe(password => {
       if (password) {
         this._globalService.setHasPassword$(true);

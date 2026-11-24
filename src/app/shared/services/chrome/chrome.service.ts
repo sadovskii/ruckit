@@ -128,4 +128,8 @@ export class ChromeService {
   storageSyncRemove(key: string): Observable<void> {
     return from(chrome.storage.sync.remove(key))
   }
+
+  storageSyncRemoveItems(keys: string[]): Observable<void> {
+    return from(chrome.storage.sync.remove(keys))
+  }
 }

@@ -8,6 +8,7 @@ import { BACKDROP_CLASS, STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID } 
 import { map, of, Subscription, switchMap } from 'rxjs';
 import { EnterPasswordComponent } from './enter-password/enter-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PasswordService } from './password.service';
 import { RuckitSnackBarService, SnackbarActionType } from 'src/app/shared/components/ruckit-snack-bar/ruckit-snack-bar.service';
 
 @Component({
@@ -27,7 +28,8 @@ export class PasswordComponent implements OnInit, OnDestroy {
     public _globalService: GlobalService,
     private _chromeService: ChromeService,
     private _cdr: ChangeDetectorRef,
-    private _snackbarService: RuckitSnackBarService
+    private _snackbarService: RuckitSnackBarService,
+    private _passwordService: PasswordService
   ) {}
 
   ngOnInit(): void {
@@ -91,7 +93,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
 
     let sub = ref.componentRef.instance.submit.pipe(
       switchMap(_ => {
-        return this._chromeService.storageSyncRemove(STORAGE_PASSWORD_ID)
+        return this._passwordService.removePassword()
       })
     ).subscribe(_ => {
       this._globalService.setHasPassword$(false);

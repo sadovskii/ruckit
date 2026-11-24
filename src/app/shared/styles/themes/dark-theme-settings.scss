@@ -63,6 +63,9 @@ $dark-theme-settings: map-merge(
     tag-red-color: $color-primary-red,
     tag-green-background-color: $color-secondary-success,
     tag-green-color: $color-primary-success,
+    tag-neutral-background-color: $color-base-gray-2,
+    tag-neutral-color: $color-base-white,
+    tag-neutral-icon-color: $color-primary-red,
 
     //dialog
     dialog-layout-border-color: $color-base-gray-2,

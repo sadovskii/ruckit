@@ -126,10 +126,11 @@
   "password_set_tag": { "message": "Защита паролем" },
   "password_set_hint": { "message": "*Запомните пароль: без него изменить ограничения не получится" },
   "password_set_submit": { "message": "Сохранить" },
-  "password_set_delay_label": { "message": "Если вы забудете пароль, сброс займёт:" },
-  "password_set_delay_info_title": { "message": "Сброс забытого пароля" },
-  "password_set_delay_info_wait": { "message": "Перед удалением пароля сброс ждёт выбранное вами время." },
-  "password_set_delay_info_cancel": { "message": "Начатый сброс можно отменить в любой момент." },
+  "password_set_delay_label": { "message": "Если я забуду пароль, сбросить через:" },
+  "password_set_delay_info_title": { "message": "Время ожидания" },
+  "password_set_delay_info_text": {
+    "message": "Чем дольше ожидание, тем сложнее импульсивно отключить ограничения. Пока вы ждёте, ограничения остаются включёнными."
+  },
   "password_show": { "message": "Показать пароль" },
   "password_hide": { "message": "Скрыть пароль" },
 

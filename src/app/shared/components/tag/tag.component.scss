@@ -26,6 +26,16 @@
         height: 1rem;
     }
 
+    // grey pill whose text follows the theme while the icon stays red, as in the password settings design
+    &_neutral {
+        background-color: var(--tag-neutral-background-color);
+        color: var(--tag-neutral-color);
+
+        .tag__icon {
+            color: var(--tag-neutral-icon-color);
+        }
+    }
+
     &_green {
         background-color: var(--tag-green-background-color);
         color: var(--tag-green-color);

@@ -215,14 +215,15 @@
   "password_reset_delay_1_hour": { "message": "1 hour" },
   "password_reset_delay_4_hours": { "message": "4 hours" },
   "password_reset_delay_1_day": { "message": "1 day" },
-  "password_set_title": { "message": "Setting a password" },
-  "password_set_tag": { "message": "Password settings" },
+  "password_set_title": { "message": "Setting up a password" },
+  "password_set_tag": { "message": "Password Settings" },
   "password_set_hint": { "message": "*be very careful not to lose your password" },
   "password_set_submit": { "message": "Set a password" },
-  "password_set_delay_label": { "message": "If you forget the password, a reset takes:" },
-  "password_set_delay_info_title": { "message": "Resetting a forgotten password" },
-  "password_set_delay_info_wait": { "message": "A reset waits for the time you choose before the password is removed." },
-  "password_set_delay_info_cancel": { "message": "You can cancel a started reset at any time." },
+  "password_set_delay_label": { "message": "If I forget it, reset after:" },
+  "password_set_delay_info_title": { "message": "Set a waiting period" },
+  "password_set_delay_info_text": {
+    "message": "Longer waiting periods make it harder to switch off restrictions on impulse. Restrictions stay on while you wait."
+  },
   "password_show": {
     "message": "Show password",
     "description": "Accessibility label of the eye icon in password inputs."

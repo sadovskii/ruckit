@@ -1,0 +1,63 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+:host {
+    display: block;
+}
+
+.pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem; // 32px
+    padding: 0 0.875rem 0 0.625rem;
+    border: none;
+    border-radius: var(--corner-radius-100);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--text-button-small-font-size);
+    font-weight: 500;
+    color: var(--pill-text-color);
+    background-color: var(--pill-background-color);
+
+    &:hover:not(:disabled):not(.pill_selected) {
+        background-color: var(--pill-hover-background-color);
+    }
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.5;
+    }
+
+    &__radio {
+        position: relative;
+        box-sizing: border-box;
+        width: 1rem;
+        height: 1rem;
+        border: 1.5px solid var(--pill-radio-color);
+        border-radius: 50%;
+    }
+
+    &_selected {
+        color: var(--pill-selected-text-color);
+        background-color: var(--pill-selected-background-color);
+
+        .pill__radio {
+            border-color: var(--pill-selected-text-color);
+
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 2px;
+                border-radius: 50%;
+                background-color: var(--pill-selected-text-color);
+            }
+        }
+    }
+}

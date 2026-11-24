@@ -42,6 +42,9 @@ import { PopupNavbarComponent } from './popup/popup-navbar/popup-navbar.componen
 import { PopupNavbarItemComponent } from './popup/popup-navbar/popup-navbar-item/popup-navbar-item.component';
 import { RestrictedButtonDirective } from './shared/directive/restricted-button/restricted-button.directive';
 import { I18nPipe } from './shared/i18n/i18n.pipe';
+import { RuckitInfoBlockComponent } from './shared/components/ruckit-info-block/ruckit-info-block.component';
+import { RuckitLinkButtonComponent } from './shared/components/ruckit-link-button/ruckit-link-button.component';
+import { RuckitPillGroupComponent } from './shared/components/ruckit-pill-group/ruckit-pill-group.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +81,9 @@ import { I18nPipe } from './shared/i18n/i18n.pipe';
     BlackListSimpleItemComponent,
     BlackListManageRestrictionsComponent,
     RuckitOptionListComponent,
+    RuckitInfoBlockComponent,
+    RuckitLinkButtonComponent,
+    RuckitPillGroupComponent,
     RestrictedToggleDirective,
     RestrictedButtonDirective
   ],

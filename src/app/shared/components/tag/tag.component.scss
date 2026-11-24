@@ -15,6 +15,17 @@
         color: var(--tag-red-color);
     }
 
+    &_with-icon {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+
+    &__icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
     &_green {
         background-color: var(--tag-green-background-color);
         color: var(--tag-green-color);

@@ -1,0 +1,7 @@
+<div class="info-block">
+  <nb-icon class="info-block__icon" [icon]="icon" [pack]="iconPack"></nb-icon>
+  <div class="info-block__text">
+    <h6 class="info-block__header">{{ header }}</h6>
+    <p class="info-block__line" *ngFor="let line of lines">{{ line }}</p>
+  </div>
+</div>

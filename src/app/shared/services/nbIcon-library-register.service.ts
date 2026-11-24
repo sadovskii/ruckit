@@ -35,6 +35,8 @@ export class IconRegisterService {
         this.iconLibraries.registerSvgPack('ruckit-16',
             {
                 [icons.ruckitClosedLock16.name]: icons.ruckitClosedLock16.data,
+                [icons.RuckitKey16.name]: icons.RuckitKey16.data,
+                [icons.RuckitPasswordDots16.name]: icons.RuckitPasswordDots16.data,
             }
         );
 
@@ -42,6 +44,13 @@ export class IconRegisterService {
             {
                 [icons.ruckitEye15.name]: icons.ruckitEye15.data,
                 [icons.RuckitEyeOff15.name]: icons.RuckitEyeOff15.data
+            }
+        );
+
+        this.iconLibraries.registerSvgPack('ruckit-20',
+            {
+                [icons.RuckitClock20.name]: icons.RuckitClock20.data,
+                [icons.RuckitShieldAlert20.name]: icons.RuckitShieldAlert20.data
             }
         );
 

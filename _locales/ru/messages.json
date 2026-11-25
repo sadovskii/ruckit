@@ -1,6 +1,6 @@
 {
-  "ext_name": { "message": "Ruckit — скрыть Shorts и всё лишнее на YouTube" },
-  "ext_description": { "message": "Уберите Shorts, рекомендации, комментарии и ненужные каналы — смотрите YouTube без отвлечений." },
+  "ext_name": { "message": "Ruckit – блокировщик YouTube Shorts и рекомендаций" },
+  "ext_description": { "message": "Скрывайте Shorts и рекомендации YouTube, блокируйте каналы, фильтруйте видео по ключевым словам и защищайте настройки паролем" },
   "brand_name": { "message": "Ruckit" },
 
   "common_add_new": { "message": "Добавить" },

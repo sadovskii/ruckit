@@ -1,10 +1,10 @@
 {
   "ext_name": {
-    "message": "Ruckit – Hide YouTube Shorts & Distractions",
+    "message": "Ruckit – Shorts & Distraction Blocker for YouTube",
     "description": "Extension name shown in the browser and the store. Max 75 characters."
   },
   "ext_description": {
-    "message": "Hide Shorts, recommendations, comments and distracting channels for a cleaner, focused YouTube experience.",
+    "message": "Block Shorts and YouTube recommendations, filter videos by keywords, hide channels, and protect settings with a password",
     "description": "Extension description shown in the browser and the store. Max 132 characters."
   },
   "brand_name": {

@@ -2,6 +2,7 @@ import { NbThemeService } from '@nebular/theme';
 import { AppComponent } from './app.component';
 import { ChromeService } from './shared/services/chrome/chrome.service';
 import { GlobalService } from './shared/services/global/global.service';
+import { PasswordResetService } from './settings/layout-content/password/password-reset.service';
 import { IconRegisterService } from './shared/services/nbIcon-library-register.service';
 
 describe('AppComponent', () => {
@@ -12,7 +13,8 @@ describe('AppComponent', () => {
       {} as ChromeService,
       {} as IconRegisterService,
       {} as GlobalService,
-      {} as NbThemeService
+      {} as NbThemeService,
+      {} as PasswordResetService
     );
   });
 

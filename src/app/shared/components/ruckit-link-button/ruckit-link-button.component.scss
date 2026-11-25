@@ -1,0 +1,27 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+:host {
+    display: block;
+    text-align: center;
+}
+
+.link-button {
+    padding: 0.25rem 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--text-button-small-font-size);
+    font-weight: 500;
+    color: var(--link-button-color);
+
+    &:hover:not(:disabled) {
+        color: var(--link-button-hover-color);
+    }
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.5;
+    }
+}

@@ -63,11 +63,32 @@ $dark-theme-settings: map-merge(
     tag-red-color: $color-primary-red,
     tag-green-background-color: $color-secondary-success,
     tag-green-color: $color-primary-success,
+    tag-neutral-background-color: $color-base-gray-2,
+    tag-neutral-color: $color-base-white,
+    tag-neutral-icon-color: $color-primary-red,
 
     //dialog
     dialog-layout-border-color: $color-base-gray-2,
     dialog-header-border-color: $color-base-gray-3,
     dialog-closer-color: $color-base-white,
+
+    // info block
+    info-block-background-color: $color-base-gray-1,
+    info-block-icon-color: $color-primary-red,
+    info-block-header-color: $color-base-white,
+    info-block-line-color: $color-base-gray-4,
+
+    // pill group
+    pill-background-color: $color-base-gray-2,
+    pill-hover-background-color: $color-base-gray-3,
+    pill-text-color: $color-base-white,
+    pill-radio-color: $color-base-gray-4,
+    pill-selected-background-color: $color-primary-red,
+    pill-selected-text-color: $color-base-white,
+
+    // link button
+    link-button-color: $color-base-gray-4,
+    link-button-hover-color: $color-base-white,
 
     // input
     input-basic-background-color: $color-base-gray-1,

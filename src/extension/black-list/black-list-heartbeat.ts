@@ -9,9 +9,11 @@ import { SearchPage } from "./pages/search-page/search-page";
 import { ShortPageRedirect } from "./pages/short-page/short-page-redirect";
 import { VideoPage } from "./pages/video-page/video-page";
 import { VideoPageRedirect } from "./pages/video-page/video-page-redirect";
+import { YouTubeThemeRecorder } from "./common/youtube-theme";
 
 const blacklistStorage = new BlackListStorage();
 const hidelistStorage = new HideListStorage();
+const themeRecorder = new YouTubeThemeRecorder(document);
 await blacklistStorage.init();
 await blacklistStorage.initHandler();
 await hidelistStorage.init();
@@ -23,6 +25,9 @@ console.log('black-list-heartbeat: heartbeat script is loaded');
 
 function runHeartbeat() {
     let timeout = setTimeout(function heartbBeat() {
+        // before the page handlers: a handler may redirect to the blocked page, which reads the recorded theme
+        themeRecorder.sync().catch(() => { /* extension was reloaded: this content script is orphaned */ });
+
         const type = detectYouTubePageType(window.location.href);
         runFunctionOnPageType(type);
         timeout = setTimeout(heartbBeat, 1000);

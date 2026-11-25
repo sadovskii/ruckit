@@ -1,0 +1,14 @@
+<div class="pill-group" role="radiogroup" [attr.aria-label]="ariaLabel || null">
+  <button
+    *ngFor="let option of options"
+    class="pill"
+    type="button"
+    role="radio"
+    [class.pill_selected]="option.value === value"
+    [attr.aria-checked]="option.value === value"
+    [disabled]="isDisabled"
+    (click)="select(option)">
+    <span class="pill__radio"></span>
+    <span class="pill__label">{{ option.label }}</span>
+  </button>
+</div>

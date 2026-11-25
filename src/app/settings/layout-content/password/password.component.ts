@@ -4,10 +4,11 @@ import { NbDialogService, NbGlobalLogicalPosition, NbGlobalPhysicalPosition } fr
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
-import { BACKDROP_CLASS, STORAGE_FREE_PASSWORD_PERIOD_ID, STORAGE_PASSWORD_ID } from 'src/app/shared/constants';
+import { BACKDROP_CLASS, STORAGE_FREE_PASSWORD_PERIOD_ID } from 'src/app/shared/constants';
 import { map, of, Subscription, switchMap } from 'rxjs';
 import { EnterPasswordComponent } from './enter-password/enter-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PasswordService } from './password.service';
 import { RuckitSnackBarService, SnackbarActionType } from 'src/app/shared/components/ruckit-snack-bar/ruckit-snack-bar.service';
 
 @Component({
@@ -27,7 +28,8 @@ export class PasswordComponent implements OnInit, OnDestroy {
     public _globalService: GlobalService,
     private _chromeService: ChromeService,
     private _cdr: ChangeDetectorRef,
-    private _snackbarService: RuckitSnackBarService
+    private _snackbarService: RuckitSnackBarService,
+    private _passwordService: PasswordService
   ) {}
 
   ngOnInit(): void {
@@ -91,7 +93,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
 
     let sub = ref.componentRef.instance.submit.pipe(
       switchMap(_ => {
-        return this._chromeService.storageSyncRemove(STORAGE_PASSWORD_ID)
+        return this._passwordService.removePassword()
       })
     ).subscribe(_ => {
       this._globalService.setHasPassword$(false);
@@ -112,7 +114,7 @@ export class PasswordComponent implements OnInit, OnDestroy {
     );
 
     let sub = ref.componentRef.instance.submit.pipe(
-      switchMap(password => this._chromeService.storageSyncSet<string>(STORAGE_PASSWORD_ID, password))
+      switchMap(newPassword => this._passwordService.setPassword(newPassword))
       ).subscribe(_ => {
         ref.close();
         this._globalService.setHasPassword$(true);

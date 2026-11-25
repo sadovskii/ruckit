@@ -25,6 +25,8 @@ Ruckit's own UI, the **settings page** (`index.html` opened in a tab) and the **
 | `hide-list` | hide-list options |
 | `password` | password, stored as **plain text** |
 | `free-password-period` | how long one unlock lasts |
+| `password-reset-delay` | how long a reset waits (minutes: 60, 240 or 1440), saved with the password |
+| `password-reset-ends-at` | when a started reset removes the password (ms since epoch); exists only while a reset is pending |
 | `theme` | light or dark theme |
 
 - **Password lock.** While a password is set, any change that **weakens** a restriction needs the password: turning a list or option off, or opening "Manage restrictions" (which allows removing items). Changes that make restrictions **stronger** are always allowed: turning on, adding items.
@@ -152,6 +154,21 @@ Groups and options: **General** (Hide Shorts), **Home Feed** (Suggested Videos G
 | ST-PW-07 | Change-password form while no password is set | disabled | E2E:settings/password |
 | ST-PW-08 | "Inquire password" period: 30 seconds / 1 minute | stored; default 30 s | E2E:settings/password |
 
+### Password reset
+
+| ID | Scenario | Expected | Covered by |
+|---|---|---|---|
+| ST-RS-01 | Set a password | "1 hour / 4 hours / 1 day" pills, 4 hours selected; `password-reset-delay` = 240 | E2E:settings/password-reset |
+| ST-RS-02 | Pick another pill when setting a password | chosen delay saved | E2E:settings/password-reset |
+| ST-RS-03 | "Forgot password?" then "Go back" | back to the enter view; no reset started | E2E:settings/password-reset |
+| ST-RS-04 | "Forgot password?" then "Start reset" | `password-reset-ends-at` = now + delay; dialog shows the countdown and "Cancel reset" | E2E:settings/password-reset |
+| ST-RS-05 | Start a reset for a password saved before the feature (no delay) | waits 1 day | E2E:settings/password-reset |
+| ST-RS-06 | Open the dialog during a pending reset, then "Cancel reset" | countdown shown; cancel removes the end time, password stays | E2E:settings/password-reset |
+| ST-RS-07 | Right password during a pending reset | end time removed, password stays | E2E:settings/password-reset |
+| ST-RS-08 | A reset ended while the page was closed | password removed when the page opens | E2E:settings/password-reset |
+| ST-RS-09 | The reset ends while the dialog is open | dialog closes, password removed | E2E:settings/password-reset |
+| ST-RS-10 | Turn "Password request" off during a pending reset | password, delay and end time all removed | E2E:settings/password-reset |
+
 ### Password lock (restrictions)
 
 | ID | Scenario | Expected | Covered by |
@@ -172,7 +189,7 @@ Groups and options: **General** (Hide Shorts), **Home Feed** (Suggested Videos G
 | ST-PW-E02 ⚠ | Unlock lasts only for **that** settings page or popup | opening another settings tab or the popup needs the password again; closing the page ends the unlock | E2E:settings/password-lock |
 | ST-PW-E03 | Manage dialog already open when the unlock period ends | items can still be removed in the open dialog | — |
 | ST-PW-E04 | Password with spaces, emoji, very long (set dialog has no max length; change form max 30) | can a password longer than 30 be set but never changed? | — |
-| ST-PW-E05 | Forgotten password | no recovery in the UI; only clearing extension storage ("be very careful not to lose your password") | — |
+| ST-PW-E05 | Forgotten password | "Forgot password?" starts a delayed reset (1 hour, 4 hours or 1 day, chosen when the password was set); see ST-RS-* | E2E:settings/password-reset |
 | ST-PW-E06 | Change the period while unlocked | applies to the next unlock | — |
 | ST-PW-E07 | Hide-list toggle blocked by the lock | the lock runs before the toggle changes, so nothing should change on YouTube. Worth a test | mocked/settings-to-youtube |
 

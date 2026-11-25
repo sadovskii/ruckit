@@ -1,7 +1,7 @@
 <div class="ruckit-dialog" [style.width]="width">
 	<div class="ruckit-dialog__header header">
 		<div class="header__first-level first-level">
-			<app-tag [type]="tagType" [value]="tagValue"></app-tag>
+			<app-tag [type]="tagType" [value]="tagValue" [icon]="tagIcon"></app-tag>
 			<div class="icon-container" (click)="close()">
 				<nb-icon
 					*ngIf="isCloserClicked; else inactiveIcon"

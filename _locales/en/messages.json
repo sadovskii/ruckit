@@ -1,10 +1,10 @@
 {
   "ext_name": {
-    "message": "Ruckit – Hide YouTube Shorts & Distractions",
+    "message": "Ruckit – Shorts & Distraction Blocker for YouTube",
     "description": "Extension name shown in the browser and the store. Max 75 characters."
   },
   "ext_description": {
-    "message": "Hide Shorts, recommendations, comments and distracting channels for a cleaner, focused YouTube experience.",
+    "message": "Block Shorts and YouTube recommendations, filter videos by keywords, hide channels, and protect settings with a password",
     "description": "Extension description shown in the browser and the store. Max 132 characters."
   },
   "brand_name": {
@@ -186,10 +186,46 @@
   "password_enter_tag": { "message": "Access is restricted" },
   "password_enter_placeholder": { "message": "Enter your password" },
   "password_enter_submit": { "message": "Confirm password" },
-  "password_set_title": { "message": "Setting a password" },
-  "password_set_tag": { "message": "Password settings" },
+  "password_enter_forgot": { "message": "Forgot password?" },
+  "password_enter_cancel_reset": { "message": "Cancel reset" },
+  "password_reset_in_progress_title": { "message": "Reset in progress" },
+  "password_reset_in_progress_remaining": {
+    "message": "$TIME$ left",
+    "placeholders": {
+      "time": { "content": "$1", "example": "2d 5h 44m" }
+    }
+  },
+  "password_reset_unit_day": { "message": "d" },
+  "password_reset_unit_hour": { "message": "h" },
+  "password_reset_unit_minute": { "message": "m" },
+  "password_reset_unit_second": { "message": "s" },
+  "password_reset_confirm_tag": { "message": "Password reset" },
+  "password_reset_confirm_title": { "message": "Reset your password?" },
+  "password_reset_confirm_intro": { "message": "Your password will be removed" },
+  "password_reset_confirm_intro_delay": {
+    "message": "in $DELAY$.",
+    "placeholders": {
+      "delay": { "content": "$1", "example": "4 hours" }
+    }
+  },
+  "password_reset_confirm_info_title": { "message": "Take your time" },
+  "password_reset_confirm_info_text": {
+    "message": "You chose this waiting period when setting your password. Restrictions stay on until it ends."
+  },
+  "password_reset_start": { "message": "Start reset" },
+  "password_reset_back": { "message": "Go back" },
+  "password_reset_delay_1_hour": { "message": "1 hour" },
+  "password_reset_delay_4_hours": { "message": "4 hours" },
+  "password_reset_delay_1_day": { "message": "1 day" },
+  "password_set_title": { "message": "Setting up a password" },
+  "password_set_tag": { "message": "Password Settings" },
   "password_set_hint": { "message": "*be very careful not to lose your password" },
   "password_set_submit": { "message": "Set a password" },
+  "password_set_delay_label": { "message": "If I forget it, reset after:" },
+  "password_set_delay_info_title": { "message": "Set a waiting period" },
+  "password_set_delay_info_text": {
+    "message": "Longer waiting periods make it harder to switch off restrictions on impulse. Restrictions stay on while you wait."
+  },
   "password_show": {
     "message": "Show password",
     "description": "Accessibility label of the eye icon in password inputs."

@@ -4,6 +4,7 @@ import { RuckitSnackBarService } from 'src/app/shared/components/ruckit-snack-ba
 import { ChromeService } from 'src/app/shared/services/chrome/chrome.service';
 import { GlobalService } from 'src/app/shared/services/global/global.service';
 import { PasswordComponent } from './password.component';
+import { PasswordService } from './password.service';
 
 describe('PasswordComponent', () => {
   let component: PasswordComponent;
@@ -14,7 +15,8 @@ describe('PasswordComponent', () => {
       {} as GlobalService,
       {} as ChromeService,
       {} as ChangeDetectorRef,
-      {} as RuckitSnackBarService
+      {} as RuckitSnackBarService,
+      {} as PasswordService
     );
   });
 

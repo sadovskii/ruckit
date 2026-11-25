@@ -1,6 +1,6 @@
 {
-  "ext_name": { "message": "Ruckit — скрыть Shorts и всё лишнее на YouTube" },
-  "ext_description": { "message": "Уберите Shorts, рекомендации, комментарии и ненужные каналы — смотрите YouTube без отвлечений." },
+  "ext_name": { "message": "Ruckit – блокировщик YouTube Shorts и рекомендаций" },
+  "ext_description": { "message": "Скрывайте Shorts и рекомендации YouTube, блокируйте каналы, фильтруйте видео по ключевым словам и защищайте настройки паролем" },
   "brand_name": { "message": "Ruckit" },
 
   "common_add_new": { "message": "Добавить" },
@@ -93,10 +93,46 @@
   "password_enter_tag": { "message": "Доступ ограничен" },
   "password_enter_placeholder": { "message": "Пароль" },
   "password_enter_submit": { "message": "Подтвердить" },
+  "password_enter_forgot": { "message": "Забыли пароль?" },
+  "password_enter_cancel_reset": { "message": "Отменить сброс" },
+  "password_reset_in_progress_title": { "message": "Идёт сброс пароля" },
+  "password_reset_in_progress_remaining": {
+    "message": "Осталось $TIME$",
+    "placeholders": {
+      "time": { "content": "$1", "example": "2д 5ч 44м" }
+    }
+  },
+  "password_reset_unit_day": { "message": "д" },
+  "password_reset_unit_hour": { "message": "ч" },
+  "password_reset_unit_minute": { "message": "м" },
+  "password_reset_unit_second": { "message": "с" },
+  "password_reset_confirm_tag": { "message": "Сброс пароля" },
+  "password_reset_confirm_title": { "message": "Сбросить пароль?" },
+  "password_reset_confirm_intro": { "message": "Ваш пароль будет удалён" },
+  "password_reset_confirm_intro_delay": {
+    "message": "через $DELAY$.",
+    "placeholders": {
+      "delay": { "content": "$1", "example": "4 часа" }
+    }
+  },
+  "password_reset_confirm_info_title": { "message": "Не торопитесь" },
+  "password_reset_confirm_info_text": {
+    "message": "Это время ожидания вы выбрали при создании пароля. Пока оно не закончится, ограничения остаются включёнными."
+  },
+  "password_reset_start": { "message": "Начать сброс" },
+  "password_reset_back": { "message": "Назад" },
+  "password_reset_delay_1_hour": { "message": "1 час" },
+  "password_reset_delay_4_hours": { "message": "4 часа" },
+  "password_reset_delay_1_day": { "message": "1 день" },
   "password_set_title": { "message": "Создание пароля" },
   "password_set_tag": { "message": "Защита паролем" },
   "password_set_hint": { "message": "*Запомните пароль: без него изменить ограничения не получится" },
   "password_set_submit": { "message": "Сохранить" },
+  "password_set_delay_label": { "message": "Если я забуду пароль, сбросить через:" },
+  "password_set_delay_info_title": { "message": "Время ожидания" },
+  "password_set_delay_info_text": {
+    "message": "Чем дольше ожидание, тем сложнее импульсивно отключить ограничения. Пока вы ждёте, ограничения остаются включёнными."
+  },
   "password_show": { "message": "Показать пароль" },
   "password_hide": { "message": "Скрыть пароль" },
 

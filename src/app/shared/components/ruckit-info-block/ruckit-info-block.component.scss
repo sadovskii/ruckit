@@ -1,0 +1,49 @@
+@use '@nebular/theme/styles/themes/default';
+@use '@nebular/theme/styles/themes/dark';
+
+:host {
+    display: block;
+}
+
+// icon and header share a row; the explanation below starts at the left edge of the block, as in the design
+.info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0.75rem;
+    background-color: var(--info-block-background-color);
+    border-radius: var(--corner-radius-12);
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        color: var(--info-block-icon-color);
+    }
+
+    &__header {
+        margin: 0;
+        font-size: var(--text-heading-6-font-size);
+        font-weight: var(--text-heading-6-font-weight);
+        line-height: var(--text-heading-6-line-height);
+        color: var(--info-block-header-color);
+    }
+
+    &__lines:empty {
+        display: none;
+    }
+
+    &__line {
+        margin: 0;
+        font-size: var(--text-paragraph-font-size);
+        font-weight: var(--text-paragraph-font-weight);
+        line-height: var(--text-paragraph-line-height);
+        color: var(--info-block-line-color);
+    }
+}

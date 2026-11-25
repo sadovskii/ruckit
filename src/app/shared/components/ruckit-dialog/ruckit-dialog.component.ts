@@ -22,6 +22,9 @@ export class RuckitDialogComponent {
   public tagValue: string;
 
   @Input()
+  public tagIcon?: string;
+
+  @Input()
   public width = '550px';
 
   public isCloserClicked: boolean = false

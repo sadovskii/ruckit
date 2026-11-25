@@ -15,12 +15,21 @@ export class TagComponent {
   @Input()
   public type: TagType;
 
+  // optional icon before the text; takes the colour of the tag
+  @Input()
+  public icon?: string;
+
+  @Input()
+  public iconPack = 'ruckit-16';
+
   public setTypeStyle(): string {
-    if (this.type === TagType.Red) {
-      return "tag_red";
-    }
-    else {
-      return "tag_green";
+    switch (this.type) {
+      case TagType.Red:
+        return "tag_red";
+      case TagType.Neutral:
+        return "tag_neutral";
+      default:
+        return "tag_green";
     }
   }
 }

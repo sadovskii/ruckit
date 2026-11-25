@@ -1,6 +1,6 @@
 {
-  "ext_name": { "message": "Ruckit – YouTube Shorts & Ablenkungen ausblenden" },
-  "ext_description": { "message": "Blenden Sie Shorts, Empfehlungen, Kommentare und ablenkende Kanäle aus – für ein aufgeräumtes, fokussiertes YouTube." },
+  "ext_name": { "message": "Ruckit – YouTube Shorts Blockieren & Ablenkungen Reduzieren" },
+  "ext_description": { "message": "Shorts und Empfehlungen ausblenden, Videos nach Stichwörtern filtern, Kanäle blockieren und Einstellungen per Passwort schützen" },
   "brand_name": { "message": "Ruckit" },
 
   "common_add_new": { "message": "Hinzufügen" },
@@ -99,10 +99,46 @@
   "password_enter_tag": { "message": "Zugriff eingeschränkt" },
   "password_enter_placeholder": { "message": "Passwort eingeben" },
   "password_enter_submit": { "message": "Passwort bestätigen" },
+  "password_enter_forgot": { "message": "Passwort vergessen?" },
+  "password_enter_cancel_reset": { "message": "Zurücksetzen abbrechen" },
+  "password_reset_in_progress_title": { "message": "Zurücksetzen läuft" },
+  "password_reset_in_progress_remaining": {
+    "message": "Noch $TIME$",
+    "placeholders": {
+      "time": { "content": "$1", "example": "2T 5Std 44Min" }
+    }
+  },
+  "password_reset_unit_day": { "message": "T" },
+  "password_reset_unit_hour": { "message": "Std" },
+  "password_reset_unit_minute": { "message": "Min" },
+  "password_reset_unit_second": { "message": "Sek" },
+  "password_reset_confirm_tag": { "message": "Passwort zurücksetzen" },
+  "password_reset_confirm_title": { "message": "Passwort zurücksetzen?" },
+  "password_reset_confirm_intro": { "message": "Ihr Passwort wird entfernt" },
+  "password_reset_confirm_intro_delay": {
+    "message": "in $DELAY$.",
+    "placeholders": {
+      "delay": { "content": "$1", "example": "4 Stunden" }
+    }
+  },
+  "password_reset_confirm_info_title": { "message": "Lassen Sie sich Zeit" },
+  "password_reset_confirm_info_text": {
+    "message": "Diese Wartezeit haben Sie beim Festlegen des Passworts gewählt. Bis sie vorbei ist, bleiben die Einschränkungen aktiv."
+  },
+  "password_reset_start": { "message": "Zurücksetzen starten" },
+  "password_reset_back": { "message": "Zurück" },
+  "password_reset_delay_1_hour": { "message": "1 Stunde" },
+  "password_reset_delay_4_hours": { "message": "4 Stunden" },
+  "password_reset_delay_1_day": { "message": "1 Tag" },
   "password_set_title": { "message": "Passwort festlegen" },
   "password_set_tag": { "message": "Passwort-Einstellungen" },
   "password_set_hint": { "message": "*Achten Sie darauf, Ihr Passwort nicht zu verlieren" },
   "password_set_submit": { "message": "Passwort festlegen" },
+  "password_set_delay_label": { "message": "Wenn ich es vergesse, zurücksetzen nach:" },
+  "password_set_delay_info_title": { "message": "Wartezeit festlegen" },
+  "password_set_delay_info_text": {
+    "message": "Eine längere Wartezeit erschwert es, Einschränkungen impulsiv aufzuheben. Während Sie warten, bleiben die Einschränkungen aktiv."
+  },
   "password_show": { "message": "Passwort anzeigen" },
   "password_hide": { "message": "Passwort verbergen" },
 

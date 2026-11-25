@@ -181,14 +181,34 @@ export function passwordSection(page: Page) {
 export function setPasswordDialog(page: Page) {
     const root = page.locator('app-set-new-password');
 
-    return { root, inputs: root.locator('input.password-input'), submit: root.locator('form > button'), closeButton: root.locator('ruckit-dialog .icon-container') };
+    return {
+        root,
+        inputs: root.locator('input.password-input'),
+        /** The 1 hour / 4 hours / 1 day choice, in that order. */
+        delayPills: root.locator('ruckit-pill-group button.pill'),
+        submit: root.locator('form > button'),
+        closeButton: root.locator('ruckit-dialog .icon-container'),
+    };
 }
 
 /** "Enter your password" dialog. */
 export function enterPasswordDialog(page: Page) {
     const root = page.locator('app-enter-password');
 
-    return { root, input: root.locator('input.password-input'), submit: root.locator('form > button'), closeButton: root.locator('ruckit-dialog .icon-container') };
+    const confirm = root.locator('app-reset-password-confirm');
+
+    return {
+        root,
+        input: root.locator('input.password-input'),
+        submit: root.locator('form > button'),
+        closeButton: root.locator('ruckit-dialog .icon-container'),
+        /** Under the button: "Forgot password?", or "Cancel reset" while a reset is pending. */
+        link: root.locator('ruckit-link-button button'),
+        /** Shown only while a reset is pending (clock and countdown). */
+        resetInfo: root.locator('form ruckit-info-block'),
+        /** The "Reset password?" view that "Forgot password?" opens. */
+        confirm: { root: confirm, startButton: confirm.locator('button').nth(0), backButton: confirm.locator('button').nth(1) },
+    };
 }
 
 export async function enterPassword(page: Page, password: string): Promise<void> {

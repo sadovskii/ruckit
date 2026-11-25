@@ -198,19 +198,20 @@
   "password_reset_unit_day": { "message": "d" },
   "password_reset_unit_hour": { "message": "h" },
   "password_reset_unit_minute": { "message": "m" },
+  "password_reset_unit_second": { "message": "s" },
   "password_reset_confirm_tag": { "message": "Password reset" },
-  "password_reset_confirm_title": { "message": "Reset password?" },
-  "password_reset_confirm_intro": {
-    "message": "If you forgot the password, you can start a reset. The password is not removed right away: it is removed only after the waiting time."
-  },
-  "password_reset_confirm_info_title": {
-    "message": "The reset takes $DELAY$",
+  "password_reset_confirm_title": { "message": "Reset your password?" },
+  "password_reset_confirm_intro": { "message": "Your password will be removed" },
+  "password_reset_confirm_intro_delay": {
+    "message": "in $DELAY$.",
     "placeholders": {
       "delay": { "content": "$1", "example": "4 hours" }
     }
   },
-  "password_reset_confirm_info_locked": { "message": "Until then the restrictions stay locked." },
-  "password_reset_confirm_info_cancel": { "message": "Entering the right password or pressing Cancel reset stops it." },
+  "password_reset_confirm_info_title": { "message": "Take your time" },
+  "password_reset_confirm_info_text": {
+    "message": "You chose this waiting period when setting your password. Restrictions stay on until it ends."
+  },
   "password_reset_start": { "message": "Start reset" },
   "password_reset_back": { "message": "Go back" },
   "password_reset_delay_1_hour": { "message": "1 hour" },

@@ -1,3 +1,4 @@
+import { fakeAsync, tick } from '@angular/core/testing';
 import { firstValueFrom, lastValueFrom, of, take, toArray } from 'rxjs';
 import {
   DEFAULT_PASSWORD_RESET_DELAY_MINUTES,
@@ -104,6 +105,37 @@ describe('PasswordResetService', () => {
 
     expect(states).toEqual([{ status: 'completed' }]);
   });
+
+  // fakeAsync has its own clock (Date.now follows tick), so these tests use times relative to it
+  it('watchExpiry removes the password at the end time without anyone asking', fakeAsync(() => {
+    storage[STORAGE_PASSWORD_RESET_ENDS_AT_ID] = Date.now() + 10_000;
+    let removedCount = 0;
+
+    const subscription = service.watchExpiry().subscribe(() => removedCount++);
+    tick(5_000);
+    expect(storage[STORAGE_PASSWORD_ID]).toBe('s3cret');
+    expect(removedCount).toBe(0);
+
+    tick(5_100);
+
+    expect(removedCount).toBe(1);
+    expect(storage).toEqual({});
+    expect(globalService.getIsRestrictedValue()).toBeFalse();
+    subscription.unsubscribe();
+  }));
+
+  it('watchExpiry picks up a reset that was started after it began to watch', fakeAsync(() => {
+    let removedCount = 0;
+    const subscription = service.watchExpiry().subscribe(() => removedCount++);
+    tick(0);
+
+    storage[STORAGE_PASSWORD_RESET_ENDS_AT_ID] = Date.now() + 40_000;
+    tick(40_100);
+
+    expect(removedCount).toBe(1);
+    expect(storage[STORAGE_PASSWORD_ID]).toBeUndefined();
+    subscription.unsubscribe();
+  }));
 
   it('watchState emits the remaining time of a pending reset', async () => {
     storage[STORAGE_PASSWORD_RESET_ENDS_AT_ID] = NOW + 90 * 1000;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, of, switchMap, takeWhile, timer } from 'rxjs';
+import { expand, filter, map, Observable, of, switchMap, takeWhile, timer } from 'rxjs';
 import {
   DEFAULT_PASSWORD_RESET_DELAY_MINUTES,
   STORAGE_PASSWORD_ID,
@@ -11,6 +11,10 @@ import { GlobalService } from 'src/app/shared/services/global/global.service';
 
 const MS_IN_MINUTE = 60 * 1000;
 const WATCH_INTERVAL_MS = 1000;
+// how often to look for a reset started in another window when none is pending here
+const IDLE_CHECK_INTERVAL_MS = 30 * 1000;
+// wake up just after the end time, not just before it
+const AFTER_END_MARGIN_MS = 50;
 
 export type PasswordResetState =
   | { status: 'none' }
@@ -19,7 +23,8 @@ export type PasswordResetState =
   | { status: 'completed' };
 
 // A reset is a delayed, cancellable removal of the password: "start" saves the end time,
-// and the password is removed the first time the UI looks at it after that time.
+// and the password is removed the first time the UI looks at it after that time (an open page looks at it
+// through watchExpiry, so it does not have to wait for a click).
 @Injectable({ providedIn: 'root' })
 export class PasswordResetService {
   constructor(
@@ -39,6 +44,18 @@ export class PasswordResetService {
       switchMap(() => this.finalizeIfExpired()),
       switchMap(isCompleted => isCompleted ? of<PasswordResetState>({ status: 'completed' }) : this.getState()),
       takeWhile(state => state.status !== 'completed', true)
+    );
+  }
+
+  // Removes the password at the moment a started reset ends while the page stays open, so nobody has to click
+  // "Enter password" to find out. Emits every time it removed the password; never ends.
+  // It sleeps until the end time. With no reset pending it wakes up every 30 seconds, so a reset started in
+  // another window is picked up too.
+  watchExpiry(): Observable<void> {
+    return this._checkExpiry().pipe(
+      expand(check => timer(check.nextCheckInMs).pipe(switchMap(() => this._checkExpiry()))),
+      filter(check => check.completed),
+      map(() => undefined)
     );
   }
 
@@ -79,6 +96,19 @@ export class PasswordResetService {
           })
         );
       })
+    );
+  }
+
+  private _checkExpiry(): Observable<{ completed: boolean, nextCheckInMs: number }> {
+    return this.finalizeIfExpired().pipe(
+      switchMap(completed => this.getState().pipe(
+        map(state => ({
+          completed,
+          nextCheckInMs: state.status === 'pending'
+            ? Math.min(IDLE_CHECK_INTERVAL_MS, state.remainingMs + AFTER_END_MARGIN_MS)
+            : IDLE_CHECK_INTERVAL_MS
+        }))
+      ))
     );
   }
 

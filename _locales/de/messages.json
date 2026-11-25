@@ -111,19 +111,20 @@
   "password_reset_unit_day": { "message": "T" },
   "password_reset_unit_hour": { "message": "Std" },
   "password_reset_unit_minute": { "message": "Min" },
+  "password_reset_unit_second": { "message": "Sek" },
   "password_reset_confirm_tag": { "message": "Passwort zurücksetzen" },
   "password_reset_confirm_title": { "message": "Passwort zurücksetzen?" },
-  "password_reset_confirm_intro": {
-    "message": "Wenn Sie das Passwort vergessen haben, können Sie das Zurücksetzen starten. Das Passwort wird nicht sofort entfernt, sondern erst nach der Wartezeit."
-  },
-  "password_reset_confirm_info_title": {
-    "message": "Das Zurücksetzen dauert $DELAY$",
+  "password_reset_confirm_intro": { "message": "Ihr Passwort wird entfernt" },
+  "password_reset_confirm_intro_delay": {
+    "message": "in $DELAY$.",
     "placeholders": {
       "delay": { "content": "$1", "example": "4 Stunden" }
     }
   },
-  "password_reset_confirm_info_locked": { "message": "Bis dahin bleiben die Einschränkungen gesperrt." },
-  "password_reset_confirm_info_cancel": { "message": "Das richtige Passwort oder „Zurücksetzen abbrechen“ stoppt es." },
+  "password_reset_confirm_info_title": { "message": "Lassen Sie sich Zeit" },
+  "password_reset_confirm_info_text": {
+    "message": "Diese Wartezeit haben Sie beim Festlegen des Passworts gewählt. Bis sie vorbei ist, bleiben die Einschränkungen aktiv."
+  },
   "password_reset_start": { "message": "Zurücksetzen starten" },
   "password_reset_back": { "message": "Zurück" },
   "password_reset_delay_1_hour": { "message": "1 Stunde" },

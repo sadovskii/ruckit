@@ -105,19 +105,20 @@
   "password_reset_unit_day": { "message": "д" },
   "password_reset_unit_hour": { "message": "ч" },
   "password_reset_unit_minute": { "message": "м" },
+  "password_reset_unit_second": { "message": "с" },
   "password_reset_confirm_tag": { "message": "Сброс пароля" },
   "password_reset_confirm_title": { "message": "Сбросить пароль?" },
-  "password_reset_confirm_intro": {
-    "message": "Если вы забыли пароль, можно запустить сброс. Пароль удалится не сразу, а только после времени ожидания."
-  },
-  "password_reset_confirm_info_title": {
-    "message": "Сброс займёт: $DELAY$",
+  "password_reset_confirm_intro": { "message": "Ваш пароль будет удалён" },
+  "password_reset_confirm_intro_delay": {
+    "message": "через $DELAY$.",
     "placeholders": {
       "delay": { "content": "$1", "example": "4 часа" }
     }
   },
-  "password_reset_confirm_info_locked": { "message": "До этого ограничения остаются заблокированными." },
-  "password_reset_confirm_info_cancel": { "message": "Правильный пароль или кнопка «Отменить сброс» остановят его." },
+  "password_reset_confirm_info_title": { "message": "Не торопитесь" },
+  "password_reset_confirm_info_text": {
+    "message": "Это время ожидания вы выбрали при создании пароля. Пока оно не закончится, ограничения остаются включёнными."
+  },
   "password_reset_start": { "message": "Начать сброс" },
   "password_reset_back": { "message": "Назад" },
   "password_reset_delay_1_hour": { "message": "1 час" },

@@ -75,11 +75,10 @@ $default-theme-settings: map-merge(
     dialog-closer-color: $color-base-black,
 
     // info block
-    info-block-background-color: $color-base-gray-8,
-    info-block-border-color: $color-base-gray-7,
+    info-block-background-color: $color-base-gray-7,
     info-block-icon-color: $color-primary-red,
     info-block-header-color: $color-base-black,
-    info-block-line-color: $color-base-gray-5,
+    info-block-line-color: $color-base-gray-text-light,
 
     // pill group
     pill-background-color: $color-base-gray-7,
@@ -90,7 +89,7 @@ $default-theme-settings: map-merge(
     pill-selected-text-color: $color-base-white,
 
     // link button
-    link-button-color: $color-base-gray-5,
+    link-button-color: $color-base-gray-text-light,
     link-button-hover-color: $color-base-black,
 
     //input

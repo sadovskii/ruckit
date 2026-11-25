@@ -1,8 +1,9 @@
-import { RuckitClock20, RuckitKey16, RuckitPasswordDots16, RuckitShieldAlert20 } from './ruckit-icons';
+import { RuckitBan16, RuckitClock20, RuckitKey16, RuckitPasswordDots16, RuckitShieldAlert20 } from './ruckit-icons';
 
 describe('icons for the password reset screens', () => {
   const icons = [
     { icon: RuckitKey16, size: 16 },
+    { icon: RuckitBan16, size: 16 },
     { icon: RuckitPasswordDots16, size: 16 },
     { icon: RuckitClock20, size: 20 },
     { icon: RuckitShieldAlert20, size: 20 }

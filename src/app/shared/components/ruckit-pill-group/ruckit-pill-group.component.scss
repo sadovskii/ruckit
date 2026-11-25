@@ -15,11 +15,11 @@
     align-items: center;
     flex: 1 1 0; // equal thirds that fill the dialog width, as in the design
     justify-content: center;
-    gap: 0.5rem;
-    height: 2.25rem; // 36px
+    gap: 0.625rem;
+    height: 2rem; // 32px
     padding: 0 0.75rem;
     border: none;
-    border-radius: var(--corner-radius-100);
+    border-radius: var(--corner-radius-8);
     cursor: pointer;
     font-family: inherit;
     font-size: var(--text-button-small-font-size);
@@ -41,7 +41,7 @@
         box-sizing: border-box;
         width: 1rem;
         height: 1rem;
-        border: 1.5px solid var(--pill-radio-color);
+        border: 0.5px solid var(--pill-radio-color);
         border-radius: 50%;
     }
 
@@ -55,7 +55,7 @@
             &::after {
                 content: '';
                 position: absolute;
-                inset: 2px;
+                inset: 3px; // 16px ring with a 0.5px border leaves 15px inside, so this is the design's 9px dot
                 border-radius: 50%;
                 background-color: var(--pill-selected-text-color);
             }

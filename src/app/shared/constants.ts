@@ -31,7 +31,7 @@ export const STORAGE_BLACKLIST_KEYWORDS_AND_PHRASES_IS_TURNED_ON = "blkito";
 export const LEGACY_STORAGE_BLACKLIST_PHRASES = "blph";
 export const LEGACY_STORAGE_BLACKLIST_PHRASES_IS_TURNED_ON = "blphito";
 
-export const PASSWORD_RESET_DELAY_OPTIONS_MINUTES = [60, 240, 1440];
+export const PASSWORD_RESET_DELAY_OPTIONS_MINUTES = [1, 240, 1440];
 // passwords saved before the reset feature have no delay saved; the longest delay is the safest
 export const DEFAULT_PASSWORD_RESET_DELAY_MINUTES = 1440;
 

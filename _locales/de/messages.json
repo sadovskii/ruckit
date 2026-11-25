@@ -101,15 +101,16 @@
   "password_enter_submit": { "message": "Passwort bestätigen" },
   "password_enter_forgot": { "message": "Passwort vergessen?" },
   "password_enter_cancel_reset": { "message": "Zurücksetzen abbrechen" },
-  "password_enter_reset_tag": { "message": "Zugriffswiederherstellung" },
   "password_reset_in_progress_title": { "message": "Zurücksetzen läuft" },
   "password_reset_in_progress_remaining": {
-    "message": "Das Passwort wird in $TIME$ entfernt",
+    "message": "Noch $TIME$",
     "placeholders": {
-      "time": { "content": "$1", "example": "03:12:45" }
+      "time": { "content": "$1", "example": "2T 5Std 44Min" }
     }
   },
-  "password_reset_in_progress_hint": { "message": "Geben Sie Ihr Passwort ein, um das Zurücksetzen zu beenden" },
+  "password_reset_unit_day": { "message": "T" },
+  "password_reset_unit_hour": { "message": "Std" },
+  "password_reset_unit_minute": { "message": "Min" },
   "password_reset_confirm_tag": { "message": "Passwort zurücksetzen" },
   "password_reset_confirm_title": { "message": "Passwort zurücksetzen?" },
   "password_reset_confirm_intro": {

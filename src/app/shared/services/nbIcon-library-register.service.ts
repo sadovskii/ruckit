@@ -36,6 +36,7 @@ export class IconRegisterService {
             {
                 [icons.ruckitClosedLock16.name]: icons.ruckitClosedLock16.data,
                 [icons.RuckitKey16.name]: icons.RuckitKey16.data,
+                [icons.RuckitBan16.name]: icons.RuckitBan16.data,
                 [icons.RuckitPasswordDots16.name]: icons.RuckitPasswordDots16.data,
             }
         );

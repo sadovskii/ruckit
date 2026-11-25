@@ -95,15 +95,16 @@
   "password_enter_submit": { "message": "Подтвердить" },
   "password_enter_forgot": { "message": "Забыли пароль?" },
   "password_enter_cancel_reset": { "message": "Отменить сброс" },
-  "password_enter_reset_tag": { "message": "Восстановление доступа" },
   "password_reset_in_progress_title": { "message": "Идёт сброс пароля" },
   "password_reset_in_progress_remaining": {
-    "message": "Пароль будет удалён через $TIME$",
+    "message": "Осталось $TIME$",
     "placeholders": {
-      "time": { "content": "$1", "example": "03:12:45" }
+      "time": { "content": "$1", "example": "2д 5ч 44м" }
     }
   },
-  "password_reset_in_progress_hint": { "message": "Введите пароль, чтобы остановить сброс" },
+  "password_reset_unit_day": { "message": "д" },
+  "password_reset_unit_hour": { "message": "ч" },
+  "password_reset_unit_minute": { "message": "м" },
   "password_reset_confirm_tag": { "message": "Сброс пароля" },
   "password_reset_confirm_title": { "message": "Сбросить пароль?" },
   "password_reset_confirm_intro": {

@@ -1,16 +1,40 @@
-// "03:12:45". Counts up to the hour even past 24 hours, so a one day delay starts at "24:00:00".
-// Rounds up, so the countdown never shows "00:00:00" while time is still left.
-export function formatRemainingTime(remainingMs: number): string {
-  const totalSeconds = Math.max(0, Math.ceil(remainingMs / 1000));
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+import { t } from 'src/app/shared/i18n/i18n';
 
-  return [hours, minutes, seconds].map(part => String(part).padStart(2, '0')).join(':');
+// short, localized unit labels, e.g. "d", "h", "m"
+export interface RemainingTimeUnits {
+  day: string;
+  hour: string;
+  minute: string;
+}
+
+export function getLocalizedRemainingTimeUnits(): RemainingTimeUnits {
+  return { day: t('password_reset_unit_day'), hour: t('password_reset_unit_hour'), minute: t('password_reset_unit_minute') };
+}
+
+// "2d 5h 44m": the units that are zero are left out, as in the design ("5h" for 5 hours exactly).
+// Rounds up to a whole minute, so the text never shows "0m" while time is still left.
+export function formatRemainingTime(remainingMs: number, units: RemainingTimeUnits): string {
+  const totalMinutes = Math.max(0, Math.ceil(remainingMs / 60_000));
+  const days = Math.floor(totalMinutes / (24 * 60));
+  const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
+  const minutes = totalMinutes % 60;
+
+  const parts: string[] = [];
+  if (days > 0) {
+    parts.push(`${days}${units.day}`);
+  }
+  if (hours > 0) {
+    parts.push(`${hours}${units.hour}`);
+  }
+  if (minutes > 0 || parts.length === 0) {
+    parts.push(`${minutes}${units.minute}`);
+  }
+
+  return parts.join(' ');
 }
 
 const DELAY_LABEL_KEYS: Record<number, string> = {
-  60: 'password_reset_delay_1_hour',
+  1: 'password_reset_delay_1_hour',
   240: 'password_reset_delay_4_hours',
   1440: 'password_reset_delay_1_day'
 };

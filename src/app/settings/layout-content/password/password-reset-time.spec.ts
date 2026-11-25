@@ -14,21 +14,31 @@ describe('getResetDelayLabelKey', () => {
 });
 
 describe('formatRemainingTime', () => {
-  it('formats hours, minutes and seconds with two digits', () => {
-    expect(formatRemainingTime((3 * 3600 + 12 * 60 + 45) * 1000)).toBe('03:12:45');
+  const units = { day: 'd', hour: 'h', minute: 'm' };
+  const minutes = (count: number) => count * 60_000;
+
+  it('shows days, hours and minutes', () => {
+    expect(formatRemainingTime(minutes(2 * 24 * 60 + 5 * 60 + 44), units)).toBe('2d 5h 44m');
   });
 
-  it('counts past 24 hours', () => {
-    expect(formatRemainingTime(24 * 3600 * 1000)).toBe('24:00:00');
+  it('leaves out the units that are zero', () => {
+    expect(formatRemainingTime(minutes(24 * 60), units)).toBe('1d');
+    expect(formatRemainingTime(minutes(5 * 60), units)).toBe('5h');
+    expect(formatRemainingTime(minutes(2 * 24 * 60 + 10), units)).toBe('2d 10m');
+    expect(formatRemainingTime(minutes(44), units)).toBe('44m');
   });
 
-  it('rounds a started second up', () => {
-    expect(formatRemainingTime(1)).toBe('00:00:01');
-    expect(formatRemainingTime(59_001)).toBe('00:01:00');
+  it('uses the given unit labels', () => {
+    expect(formatRemainingTime(minutes(65), { day: 'д', hour: 'ч', minute: 'м' })).toBe('1ч 5м');
   });
 
-  it('shows zero for no time left', () => {
-    expect(formatRemainingTime(0)).toBe('00:00:00');
-    expect(formatRemainingTime(-500)).toBe('00:00:00');
+  it('rounds a started minute up', () => {
+    expect(formatRemainingTime(1, units)).toBe('1m');
+    expect(formatRemainingTime(minutes(1) + 1, units)).toBe('2m');
+  });
+
+  it('shows zero minutes for no time left', () => {
+    expect(formatRemainingTime(0, units)).toBe('0m');
+    expect(formatRemainingTime(-500, units)).toBe('0m');
   });
 });

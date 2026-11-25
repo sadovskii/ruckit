@@ -464,6 +464,22 @@ export const RuckitSettingsDonationSolid28: {
 }
 
 
+// "Access is restricted" header pill: a filled circle with a diagonal cut-out
+export const RuckitBan16: {
+    name: 'ban-16';
+    data: string;
+} = {
+    name: 'ban-16',
+    data:
+    `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="ruckit-ban-16-cut">
+    <rect width="16" height="16" fill="white"/>
+    <path d="M1 1L15 15" stroke="black" stroke-width="2"/>
+    </mask>
+    <circle cx="8" cy="8" r="7" fill="currentColor" mask="url(#ruckit-ban-16-cut)"/>
+    </svg>`
+}
+
 //35
 export const RuckitKey16: {
     name: 'key-16';

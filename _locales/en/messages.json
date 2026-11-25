@@ -188,15 +188,16 @@
   "password_enter_submit": { "message": "Confirm password" },
   "password_enter_forgot": { "message": "Forgot password?" },
   "password_enter_cancel_reset": { "message": "Cancel reset" },
-  "password_enter_reset_tag": { "message": "Access recovery" },
   "password_reset_in_progress_title": { "message": "Reset in progress" },
   "password_reset_in_progress_remaining": {
-    "message": "The password will be removed in $TIME$",
+    "message": "$TIME$ left",
     "placeholders": {
-      "time": { "content": "$1", "example": "03:12:45" }
+      "time": { "content": "$1", "example": "2d 5h 44m" }
     }
   },
-  "password_reset_in_progress_hint": { "message": "Enter your password to stop the reset" },
+  "password_reset_unit_day": { "message": "d" },
+  "password_reset_unit_hour": { "message": "h" },
+  "password_reset_unit_minute": { "message": "m" },
   "password_reset_confirm_tag": { "message": "Password reset" },
   "password_reset_confirm_title": { "message": "Reset password?" },
   "password_reset_confirm_intro": {

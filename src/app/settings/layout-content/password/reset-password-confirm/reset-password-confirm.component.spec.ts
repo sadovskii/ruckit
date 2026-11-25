@@ -1,3 +1,4 @@
+import { formatRemainingTime, getLocalizedRemainingTimeUnits } from '../password-reset-time';
 import { ResetPasswordConfirmComponent } from './reset-password-confirm.component';
 
 describe('ResetPasswordConfirmComponent', () => {
@@ -14,7 +15,7 @@ describe('ResetPasswordConfirmComponent', () => {
   it('shows a delay without a label as a time', () => {
     component.delayMinutes = 5;
 
-    expect(component.delayLabel).toBe('00:05:00');
+    expect(component.delayLabel).toBe(formatRemainingTime(5 * 60_000, getLocalizedRemainingTimeUnits()));
   });
 
   it('shows a delay the user can choose with its label message key when messages are unavailable', () => {

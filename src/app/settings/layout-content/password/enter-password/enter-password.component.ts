@@ -5,7 +5,7 @@ import { PasswordService } from '../password.service';
 import { NbDialogRef } from '@nebular/theme';
 import { Subscription, switchMap } from 'rxjs';
 import { PasswordResetService, PasswordResetState } from '../password-reset.service';
-import { formatRemainingTime } from '../password-reset-time';
+import { formatRemainingTime, getLocalizedRemainingTimeUnits } from '../password-reset-time';
 
 @Component({
   selector: 'app-enter-password',
@@ -53,7 +53,7 @@ export class EnterPasswordComponent implements OnInit, OnDestroy {
       return 'password_reset_confirm_tag';
     }
 
-    return this.isResetPending ? 'password_enter_reset_tag' : 'password_enter_tag';
+    return 'password_enter_tag';
   }
 
   get tagIcon(): string | undefined {
@@ -61,7 +61,7 @@ export class EnterPasswordComponent implements OnInit, OnDestroy {
       return 'closed-lock-16';
     }
 
-    return this.isResetPending ? 'key-16' : undefined;
+    return 'ban-16';
   }
 
   ngOnInit(): void {
@@ -143,7 +143,7 @@ export class EnterPasswordComponent implements OnInit, OnDestroy {
     this.resetState = state;
 
     if (state.status === 'pending') {
-      this.remainingTime = formatRemainingTime(state.remainingMs);
+      this.remainingTime = formatRemainingTime(state.remainingMs, getLocalizedRemainingTimeUnits());
     }
 
     // the reset is over and the password is gone, so there is nothing left to enter: unlock like a correct password

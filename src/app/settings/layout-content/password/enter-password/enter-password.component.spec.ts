@@ -1,6 +1,7 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { of, Subject } from 'rxjs';
+import { formatRemainingTime, getLocalizedRemainingTimeUnits } from '../password-reset-time';
 import { PasswordResetService, PasswordResetState } from '../password-reset.service';
 import { PasswordService } from '../password.service';
 import { EnterPasswordComponent } from './enter-password.component';
@@ -39,6 +40,10 @@ describe('EnterPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // outside an extension page the unit labels are the message keys, so build the expected text the same way
+  const expectedRemainingTime = (seconds: number) =>
+    formatRemainingTime(seconds * 1000, getLocalizedRemainingTimeUnits());
+
   it('has no reset in progress by default', () => {
     expect(component.isResetPending).toBeFalse();
   });
@@ -47,7 +52,7 @@ describe('EnterPasswordComponent', () => {
     resetStates.next({ status: 'pending', endsAt: 0, remainingMs: (2 * 3600 + 5 * 60 + 9) * 1000 });
 
     expect(component.isResetPending).toBeTrue();
-    expect(component.remainingTime).toBe('02:05:09');
+    expect(component.remainingTime).toBe(expectedRemainingTime(2 * 3600 + 5 * 60 + 9));
   });
 
   it('cancelling the reset stops showing it', () => {
@@ -84,7 +89,7 @@ describe('EnterPasswordComponent', () => {
     expect(startReset).toHaveBeenCalled();
     expect(component.view).toBe('enter');
     expect(component.isResetPending).toBeTrue();
-    expect(component.remainingTime).toBe('04:00:00');
+    expect(component.remainingTime).toBe(expectedRemainingTime(4 * 3600));
   });
 
   it('closes and unlocks when the reset ends while the dialog is open', () => {
